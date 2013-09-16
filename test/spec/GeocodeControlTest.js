@@ -1,20 +1,20 @@
 /* global define, describe, it */
 define([
 	'chai',
-	'LocationView'
+	'GeocodeControl'
 ], function (
 	chai,
-	LocationView
+	GeocodeControl
 ) {
 	'use strict';
 	var expect = chai.expect;
 
-	describe('LocationView test suite', function () {
+	describe('GeocodeControl test suite', function () {
 
 		describe('Class Definition', function () {
 			it('Can be required', function () {
 				/* jshint -W030 */
-				expect(LocationView).to.not.be.null;
+				expect(GeocodeControl).to.not.be.null;
 				/* jshint +W030 */
 			});
 		});

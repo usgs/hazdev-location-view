@@ -1,20 +1,20 @@
 /* global define, describe, it */
 define([
 	'chai',
-	'LocationView'
+	'CoordinateControl'
 ], function (
 	chai,
-	LocationView
+	CoordinateControl
 ) {
 	'use strict';
 	var expect = chai.expect;
 
-	describe('LocationView test suite', function () {
+	describe('CoordinateControl test suite', function () {
 
 		describe('Class Definition', function () {
 			it('Can be required', function () {
 				/* jshint -W030 */
-				expect(LocationView).to.not.be.null;
+				expect(CoordinateControl).to.not.be.null;
 				/* jshint +W030 */
 			});
 		});

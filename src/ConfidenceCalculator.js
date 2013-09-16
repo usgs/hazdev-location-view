@@ -4,8 +4,8 @@ define([
 ) {
 	'use strict';
 
-	var LocationView = function () {
+	var ConfidenceCalculator = function () {
 	};
 
-	return LocationView;
+	return ConfidenceCalculator;
 });

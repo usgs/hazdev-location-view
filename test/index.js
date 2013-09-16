@@ -28,9 +28,14 @@ require([
 
 	// Add each test class here as they are implemented
 	require([
-		'spec/LocationViewTest'
+		'spec/LocationViewTest',
+		'spec/LocationControlTest',
+		'spec/GeocodeControlTest',
+		'spec/PointControlTest',
+		'spec/CoordinateControlTest',
+		'spec/ConfidenceCalculatorTest',
+		'spec/GeocoderTest'
 	], function (
-		LocationViewTest
 	) {
 		if (window.mochaPhantomJS) {
 			window.mochaPhantomJS.run();

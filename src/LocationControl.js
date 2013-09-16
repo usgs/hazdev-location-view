@@ -4,8 +4,8 @@ define([
 ) {
 	'use strict';
 
-	var LocationView = function () {
+	var LocationControl = function () {
 	};
 
-	return LocationView;
+	return LocationControl;
 });

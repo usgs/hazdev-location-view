@@ -4,8 +4,8 @@ define([
 ) {
 	'use strict';
 
-	var LocationView = function () {
+	var Geocoder = function () {
 	};
 
-	return LocationView;
+	return Geocoder;
 });

@@ -1,20 +1,20 @@
 /* global define, describe, it */
 define([
 	'chai',
-	'LocationView'
+	'ConfidenceCalculator'
 ], function (
 	chai,
-	LocationView
+	ConfidenceCalculator
 ) {
 	'use strict';
 	var expect = chai.expect;
 
-	describe('LocationView test suite', function () {
+	describe('ConfidenceCalculator test suite', function () {
 
 		describe('Class Definition', function () {
 			it('Can be required', function () {
 				/* jshint -W030 */
-				expect(LocationView).to.not.be.null;
+				expect(ConfidenceCalculator).to.not.be.null;
 				/* jshint +W030 */
 			});
 		});
