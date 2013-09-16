@@ -3,11 +3,11 @@ Location View Library
 
 Web library for getting location information from a user.
 
-h2. Getting Started
+## Getting Started
 
 TODO
 
-h2. License
+## License
 
 Unless otherwise noted, This software is in the public domain because it
 contains materials that originally came from the United States Geological
@@ -19,5 +19,5 @@ Dependent libraries found are distributed under the open source (or open
 source-like) licenses/agreements. Appropriate license aggrements for each
 library can be found with the library content.
 
-h3. Libraries used at runtime
+### Libraries used at runtime
  - Requirejs (http://requirejs.org/)
