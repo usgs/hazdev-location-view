@@ -1,6 +1,8 @@
 Location View Library
 =====================
 
+[![Build Status](https://travis-ci.org/usgs/hazdev-location-view.png)](https://travis-ci.org/usgs/hazdev-location-view)
+
 Web library for getting location information from a user.
 
 ## Getting Started
