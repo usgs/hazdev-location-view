@@ -105,7 +105,7 @@ define([
 				/* jshint -W030 */
 				expect(Number(location.latitude)).to.equal(40);
 				expect(Number(location.longitude)).to.equal(-105.3);
-				console.log(location);				/* jshint +W030 */
+				/* jshint +W030 */
 			});
 
 			it('can get static METHOD value', function () {
