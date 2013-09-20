@@ -35,7 +35,7 @@ define([
 
 			this._map = map;
 
-			var control = L.DomUtil.create('div', 'leaflet-coordinate-control');
+			var control = this._control = L.DomUtil.create('div', 'leaflet-coordinate-control');
 			control.title = 'Location Using Latitude/ Longitude';
 			control.innerHTML = [
 					'<form>',
@@ -49,16 +49,22 @@ define([
 
 			this._latitude = control.querySelector('#latitude');
 			this._longitude = control.querySelector('#longitude');
+			this._submit = control.querySelector('#coordinate-submit');
 
 			// Bind to a submit button click
-			this._submit = control.querySelector('#coordinate-submit');
-			L.DomEvent.addListener(this._submit , 'click', this._onSubmit, this);
+			L.DomEvent.addListener(this._submit, 'click', this._onSubmit, this);
+			// TODO, bind to a keyboard onKeyUp event for the "enter" key
+			L.DomEvent.addListener(this._submit, 'keyPress', this._onKeyPress, this);
 
 			return control;
 		},
 
 		onRemove: function () {
 			this._map = null;
+			this._control = null;
+
+			L.DomEvent.removeListener(this._submit, 'click', this._onSubmit, this);
+			L.DomEvent.removeListener(document, 'keypress', this._onKeyPress, this);
 		},
 
 		setLocation: function (location, options) {
@@ -82,6 +88,12 @@ define([
 							this._longitude.value
 					)
 			);
+		},
+
+		_onKeyPress: function (keyPress) {
+			if(keyPress.keyCode === 13) {
+				this._onSubmit();
+			}
 		},
 
 		_getCoordinateLocation: function(latitude, longitude) {
