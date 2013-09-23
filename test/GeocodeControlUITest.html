@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<title>UI Test for Geocode Control</title>
+
+	<link rel="stylesheet" href="/leaflet/dist/leaflet.css"/>
+	<link rel="stylesheet" href="GeocodeControl.css"/>
+	<style>
+	html, body, .map {
+		display:block;
+		width:100%;
+		height:100%;
+		margin:0;
+		padding:0;
+	}
+	</style>
+</head>
+<body>
+	<div class="map"></div>
+
+	<script src="requirejs/require.js"></script>
+	<script>
+		require.config({
+			baseUrl: '.',
+			paths: {
+				leaflet: '/leaflet/dist/leaflet-src'
+			},
+			shim: {
+				leaflet: {
+					exports: 'L'
+				}
+			}
+		});
+
+		require([
+			'leaflet',
+			'GeocodeControl'
+		], function (
+			L,
+			GeocodeControl
+		) {
+			var map = new L.Map(document.querySelector('.map'), {
+				center: new L.LatLng(40.0, -105.0),
+				zoom: 3
+			});
+			map.addLayer(new L.TileLayer('http://earthquake.usgs.gov/basemap/tiles/natgeo_hires/{z}/{y}/{x}.jpg'));
+			map.addControl(new GeocodeControl());
+		});
+	</script>
+</body>
+</html>
