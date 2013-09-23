@@ -43,8 +43,25 @@
 				center: new L.LatLng(40.0, -105.0),
 				zoom: 3
 			});
-			map.addLayer(new L.TileLayer('http://earthquake.usgs.gov/basemap/tiles/natgeo_hires/{z}/{y}/{x}.jpg'));
-			map.addControl(new PointControl());
+			var pc = new PointControl();
+			var natgeo = new L.TileLayer('http://earthquake.usgs.gov/basemap/tiles/natgeo_hires/{z}/{y}/{x}.jpg');
+			var marker = new L.Marker(new L.LatLng(0, 0), {draggable:true});
+
+			map.addLayer(natgeo);
+			map.addControl(pc);
+
+			marker.on('dragend', function () {
+				pc.setLocation(pc._createPointLocation(marker.getLatLng()));
+			});
+
+			pc.on('location', function (loc) {
+				console.log(loc.place);
+				marker.setLatLng(new L.LatLng(loc.latitude, loc.longitude));
+
+				if (!marker._map) {
+					map.addLayer(marker);
+				}
+			});
 		});
 	</script>
 </body>
