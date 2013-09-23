@@ -59,27 +59,26 @@ define([
 			// Bind to a submit button click
 			L.DomEvent.addListener(this._submit, 'click', this._onSubmit, this);
 			// TODO, bind to a keyboard onKeyUp event for the "enter" key
-			L.DomEvent.addListener(this._submit, 'keyPress', this._onKeyPress, this);
+			L.DomEvent.addListener(this._control, 'keypress', this._onKeyPress, this);
 
 			return control;
 		},
 
 		onRemove: function () {
+			L.DomEvent.removeListener(this._submit, 'click', this._onSubmit);
+			L.DomEvent.removeListener(this._control, 'keypress', this._onKeyPress);
+
 			this._map = null;
 			this._control = null;
-
-			L.DomEvent.removeListener(this._submit, 'click', this._onSubmit, this);
-			L.DomEvent.removeListener(document, 'keypress', this._onKeyPress, this);
 		},
 
 		setLocation: function (location, options) {
 
+			//TODO, capture invalid or blank inputs from lat/lon
+
 			this._location = location;
 
-			console.log(location.latitude + ' ' + location.longitude);
-
-			if (options && options.hasOwnProperty('silent') &&
-					options.silent !== true) {
+			if (!(options && options.silent)) {
 				this.fire('location', this._location);
 			}
 		},
@@ -106,8 +105,8 @@ define([
 		_getCoordinateLocation: function(latitude, longitude) {
 			return {
 				'place': null,
-				'longitude': longitude,
-				'latitude': latitude,
+				'longitude': Number(longitude),
+				'latitude': Number(latitude),
 				'method': getCoordinateControlMethod(),
 				'confidence':this._getConfidenceLevel(), // TODO
 				'accuracy': null // TODO

@@ -95,16 +95,16 @@ define([
 
 				control.setLocation(boulderCO);
 				/* jshint -W030 */
-				expect(Number(control._location.latitude)).to.equal(40);
-				expect(Number(control._location.longitude)).to.equal(-105.3);
+				expect(control._location.latitude).to.equal(40);
+				expect(control._location.longitude).to.equal(-105.3);
 				/* jshint +W030 */
 			});
 
 			it('Can get', function () {
 				var location = control.getLocation();
 				/* jshint -W030 */
-				expect(Number(location.latitude)).to.equal(40);
-				expect(Number(location.longitude)).to.equal(-105.3);
+				expect(location.latitude).to.equal(40);
+				expect(location.longitude).to.equal(-105.3);
 				/* jshint +W030 */
 			});
 
@@ -140,8 +140,8 @@ define([
 
 				var location = control.getLocation();
 				/* jshint -W030 */
-				expect(Number(location.latitude)).to.equal(55);
-				expect(Number(location.longitude)).to.equal(44);
+				expect(location.latitude).to.equal(55);
+				expect(location.longitude).to.equal(44);
 				/* jshint +W030 */
 			});
 
