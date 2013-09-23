@@ -38,13 +38,11 @@ define([
 			var control = this._control = L.DomUtil.create('div', 'leaflet-coordinate-control');
 			control.title = 'Location Using Latitude/ Longitude';
 			control.innerHTML = [
-					'<form>',
 						'<label for="latitude">Latitude</label>',
-						'<input type="number" name="latitude" id="latitude" min="-90" max="90" />',
+						'<input type="number" name="latitude" id="latitude" min="-90" max="90" step="any" />',
 						'<label for="latitude">Longitude</label>',
-						'<input type="number" name="longitude" id="longitude" min="-360" max="360" />',
-						'<button type="submit" id="coordinate-submit">',
-					'</form>'
+						'<input type="number" name="longitude" id="longitude" min="-360" max="360" step="any" />',
+						'<button id="coordinate-submit">Submit</button>'
 			].join('');
 
 			this._latitude = control.querySelector('#latitude');
