@@ -61,8 +61,6 @@ define([
 				expect(p._loc).to.be.null;
 				expect(p._isEnabled).to.be.false;
 				/* jshint +W030 */
-				expect(p._marker.getLatLng().lat).to.equal(0.0);
-				expect(p._marker.getLatLng().lng).to.equal(0.0);
 			});
 		});
 
