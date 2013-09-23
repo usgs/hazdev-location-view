@@ -4,7 +4,9 @@ require.config({
 		mocha: 'mocha/mocha',
 		chai: 'chai/chai',
 		mvc: '/hazdev-webutils/src/mvc',
-		util: '/hazdev-webutils/src/util'
+		util: '/hazdev-webutils/src/util',
+		leaflet: '/leaflet/dist/leaflet-src',
+		sinon: '/sinon/pkg/sinon'
 	},
 	shim: {
 		mocha: {
@@ -13,6 +15,12 @@ require.config({
 		chai: {
 			deps: ['mocha'],
 			exports: 'chai'
+		},
+		leaflet: {
+			exports: 'L'
+		},
+		sinon: {
+			exports: 'sinon'
 		}
 	}
 });
