@@ -2,14 +2,16 @@
 	"name": "hazdev-location-view",
 	"version": "0.0.0",
 	"homepage": "http://earthquake.usgs.gov/",
-	"repository": {"type":"git","url":"https://github.com/usgs/hazdev-location-view.git"},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/usgs/hazdev-location-view.git"
+	},
 	"description": "Web library for getting location information from a user.",
 	"author": {
 		"name": "Eric Martinez",
 		"email": "emartinez@usgs.gov"
 	},
-	"contributors": [
-	],
+	"contributors": [],
 	"keywords": [
 		"usgs",
 		"ehp",
@@ -31,7 +33,9 @@
 		"grunt-contrib-watch": "~0.4.4",
 		"grunt-mocha-phantomjs": "~0.2.8",
 		"matchdep": "~0.1.2",
-		"mocha": "~1.9.0"
+		"mocha": "~1.9.0",
+		"leaflet": "~0.6.4",
+		"sinon": "~1.7.3"
 	},
 	"engines": {
 		"node": ">=0.8.0"
