@@ -7,6 +7,12 @@ define([
 	'use strict';
 
 	var POINT_CONTROL_INPUT_METHOD = 'PointControl';
+
+	var CLASS_NAME = 'leaflet-point-control';
+	var CLASS_ENABLED = CLASS_NAME + '-enabled';
+	var CLASS_LOCATION = CLASS_NAME + '-location';
+	var CLASS_NO_LOCATION = CLASS_NAME + '-nolocation';
+
 	var DEFAULT_OPTIONS = {
 		position: 'topleft',
 		defaultLocation: null,
@@ -20,13 +26,6 @@ define([
 			L.Util.setOptions(this, L.Util.extend({}, DEFAULT_OPTIONS, options));
 			this._loc = this.options.defaultLocation || null;
 
-			if (this._loc !== null) {
-				this._marker = new L.Marker([this._loc.latitude, this._loc.longitude],
-					{draggable:true});
-			} else {
-				this._marker = new L.Marker([0, 0], {draggable: true});
-			}
-
 			this._isEnabled = this.options.defaultEnabled;
 		},
 
@@ -34,13 +33,15 @@ define([
 			// Save internal reference
 			this._loc = loc;
 
-			// Update marker position
-			if (this._isEnabled) {
-				if (!this._marker._map) {
-					this._marker.addTo(this._map);
+			if (this._isEnabled && this._map !== null) {
+				if (this._loc === null) {
+					// Anchor "marker" image to cursor
+					L.DomUtil.addClass(this._map.getContainer(),
+							CLASS_NO_LOCATION);
+				} else {
+					L.DomUtil.removeClass(this._map.getContainer(),
+							CLASS_NO_LOCATION);
 				}
-
-				this._marker.setLatLng(new L.LatLng(loc.latitude, loc.longitude));
 			}
 
 			if (!(options && options.hasOwnProperty('silent') && options.silent)) {
@@ -54,7 +55,7 @@ define([
 
 		onAdd: function (map) {
 			var container = this._container = L.DomUtil.create('a',
-					'leaflet-point-control');
+					CLASS_NAME);
 
 			this._map = map;
 
@@ -66,18 +67,12 @@ define([
 			// Enable/disable control if user clicks on it
 			L.DomEvent.addListener(container, 'click', this._toggleEnabled, this);
 
-			if (this._loc !== null) {
-				this._marker.addTo(map);
-			}
-
 			return container;
 		},
 
-		onRemove: function (map) {
-
+		onRemove: function () {
 			if (this._isEnabled) {
-				this._unbindMapEventHandlers(map);
-				this._isEnabled = false;
+				this._disableControl();
 			}
 
 			L.DomEvent.removeListener(this._container, 'click', this._toggleEnabled);
@@ -94,6 +89,13 @@ define([
 			map.off('click', this._onClick, this);
 		},
 
+		/**
+		 * Map event listener. This listener is only active when this control is
+		 * enabled. The _{un}bindMapEventHandlers methods will add and remove the
+		 * listener that activates this method call.
+		 *
+		 * @param mouseEvent {MouseEvent}
+		 */
 		_onClick: function (mouseEvent) {
 			this.setLocation(this._createPointLocation(mouseEvent.latlng));
 		},
@@ -125,13 +127,29 @@ define([
 		},
 
 		_enableControl: function () {
-				L.DomUtil.addClass(this._container, 'leaflet-point-control-enabled');
-				this._bindMapEventHandlers(this._map);
-				this._isEnabled = true;
+			var mapContainer = this._map.getContainer();
+
+			L.DomUtil.addClass(this._container, CLASS_ENABLED);
+			L.DomUtil.addClass(mapContainer, CLASS_LOCATION);
+
+			if (this._loc === null) {
+				L.DomUtil.addClass(mapContainer, CLASS_NO_LOCATION);
+			}
+
+			this._bindMapEventHandlers(this._map);
+			this._isEnabled = true;
 		},
 
 		_disableControl: function () {
-			L.DomUtil.removeClass(this._container, 'leaflet-point-control-enabled');
+			var mapContainer = this._map ? this._map.getContainer() : null;
+
+			L.DomUtil.removeClass(this._container, CLASS_ENABLED);
+			L.DomUtil.removeClass(mapContainer, CLASS_LOCATION);
+
+			if (L.DomUtil.hasClass(mapContainer, CLASS_NO_LOCATION)) {
+				L.DomUtil.removeClass(mapContainer, CLASS_NO_LOCATION);
+			}
+
 			this._unbindMapEventHandlers(this._map);
 			this._isEnabled = false;
 		},
