@@ -128,10 +128,10 @@ define([
 
 			it('Updates the location', function () {
 
+				map.addControl(control);
+
 				// submit button on form, submits lat/lon values
 				var button = control._submit;
-
-				map.addControl(control);
 
 				control._latitude.value = 55;
 				control._longitude.value = 44;
