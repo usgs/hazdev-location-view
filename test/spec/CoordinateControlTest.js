@@ -1,4 +1,4 @@
-/* global define, describe, it */
+/* global define, describe, it, beforeEach */
 define([
 	'chai',
 	'CoordinateControl',
@@ -13,15 +13,6 @@ define([
 	'use strict';
 	var expect = chai.expect;
 
-	var kingfieldME = {
-		'place': 'test',
-		'longitude': -70.1,
-		'latitude': 45,
-		'method': CoordinateControl.METHOD,
-		'confidence': 'high',
-		'accuracy': 12
-	};
-
 	var boulderCO = {
 		'place': 'test',
 		'longitude': -105.3,
@@ -31,16 +22,15 @@ define([
 		'accuracy': 12
 	};
 
-	var control = new CoordinateControl({
-		'location': kingfieldME,
-		'position': 'topleft'
+	var control = null;
+
+	var map = new L.Map(L.DomUtil.create('div', 'map'), {
+		center: new L.LatLng(40.0, -105.0),
+		zoom: 3
 	});
+	var natgeo = new L.TileLayer('http://earthquake.usgs.gov/basemap/tiles/natgeo_hires/{z}/{y}/{x}.jpg');
 
-	var mapDiv = L.DomUtil.create('div', 'map'),
-			baseURL = 'http://{s}.tiles.mapbox.com/v3/bozdoz.map-z05i4vdt/{z}/{x}/{y}.png',
-			base = L.tileLayer(baseURL),
-			map = L.map(mapDiv, {layers: [base]}).setView([54.9682, -112.675], 5);
-
+	map.addLayer(natgeo);
 
 	var getClickEvent = function () {
 		var clickEvent = document.createEvent('MouseEvents');
@@ -49,6 +39,26 @@ define([
 	};
 
 	describe('CoordinateControl test suite', function () {
+
+		beforeEach(function(){
+
+			var kingfieldME = {
+				'place': 'test',
+				'longitude': -70.1,
+				'latitude': 45,
+				'method': CoordinateControl.METHOD,
+				'confidence': 'high',
+				'accuracy': 12
+			};
+
+			control = new CoordinateControl({
+				'location': kingfieldME,
+				'position': 'topleft'
+			});
+
+			map.addControl(control);
+
+		});
 
 		describe('Class Definition', function () {
 			it('Can be required', function () {
@@ -74,14 +84,14 @@ define([
 		describe('Coordinate Control', function () {
 
 			it('Can be added', function () {
-				map.addControl(control);
 				/* jshint -W030 */
 				expect(control._map).to.not.be.null;
 				/* jshint +W030 */
 			});
 
 			it('Can be removed', function () {
-				map.removeControl(control);
+				//map.removeControl(control);
+				control.onRemove();
 				/* jshint -W030 */
 				expect(control._map).to.be.null;
 				/* jshint +W030 */
@@ -95,12 +105,16 @@ define([
 
 				control.setLocation(boulderCO);
 				/* jshint -W030 */
-				expect(control._location.latitude).to.equal(40);
-				expect(control._location.longitude).to.equal(-105.3);
+				expect(control._location.latitude).to.equal(boulderCO.latitude);
+				expect(control._location.longitude).to.equal(boulderCO.longitude);
 				/* jshint +W030 */
 			});
 
 			it('Can get', function () {
+
+				control._location.latitude = 40;
+				control._location.longitude = -105.3;
+
 				var location = control.getLocation();
 				/* jshint -W030 */
 				expect(location.latitude).to.equal(40);
@@ -109,11 +123,13 @@ define([
 			});
 
 			it('can get static METHOD value', function () {
+
 				expect(CoordinateControl.METHOD).to.equal(control._location.method);
+
 			});
 
 			it('suppresses notifications with silent option', function () {
-				
+
 				var onSetLocation = sinon.spy();
 
 				control.on('location', onSetLocation);
@@ -127,8 +143,6 @@ define([
 		describe('Submit button click', function () {
 
 			it('Updates the location', function () {
-
-				map.addControl(control);
 
 				// submit button on form, submits lat/lon values
 				var button = control._submit;
@@ -144,9 +158,7 @@ define([
 				expect(location.longitude).to.equal(44);
 				/* jshint +W030 */
 			});
-
 		});
-
 
 	});
 
