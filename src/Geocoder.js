@@ -1,6 +1,8 @@
 /* global define */
 define([
+	'ConfidenceCalculator'
 ], function (
+	ConfidenceCalculator
 ) {
 	'use strict';
 
@@ -119,23 +121,25 @@ define([
 
 		// JSONP callback method (attached to global window)
 		window[callbackName] = function (response) {
-			response = response[0]; // Use first response?
 
 			if (response.info.statuscode !== 0) {
 				// API error
 				errorCallback(response.info.statuscode, 'Request failed.');
-			} else if (response.location.length === 0) {
+			} else if (response.results.length === 0 ||
+					response.results[0].locations.length === 0) {
 				// No results error
 				errorCallback(404, 'No location found.');
 			} else {
 				// Success I guess...
-				successCallback(_buildLocationResult(response.locations, params));
+				successCallback(_buildLocationResult(response.results[0].locations[0],
+						params));
 				cleanup();
 			}
+
 		};
 
 		// fire off the JSONP request
-		script.src = request.join('');
+		script.src = request.join('&');
 		script.onLoad = cleanup;
 		script.onError = cleanup;
 		insertAt.parentNode.insertBefore(script, insertAt);
@@ -210,13 +214,12 @@ define([
 	 * @param geocodeResponse {Object}
 	 *      The geocode response for which to compute the confidence.
 	 *
-	 * @return {String}
+	 * @return {Number}
 	 *      The qualitative confidence value to be placed on the given response.
 	 */
-	var _computeLocationConfidence = function ( /*geocodeResponse*/ ) {
-		// TODO :: Use a confidence calculator
-		//CALCULATOR.computeFromGeocode(geocodeResponse);
-		return 'FooConfidence';
+	var _computeLocationConfidence = function (geocodeResponse) {
+		// Use a confidence calculator
+		return ConfidenceCalculator.computeFromGeocode(geocodeResponse);
 	};
 
 	/**
