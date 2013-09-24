@@ -49,13 +49,18 @@
 			});
 			var cc = new CoordinateControl();
 			var natgeo = new L.TileLayer('http://earthquake.usgs.gov/basemap/tiles/natgeo_hires/{z}/{y}/{x}.jpg');
-			var marker = new L.Marker(new L.LatLng(0, 0), {draggable:true});
+			var marker = new L.Marker(new L.LatLng(0, 0), {draggable:false});
 
 			map.addLayer(natgeo);
 			map.addControl(cc);
 
 			cc.on('location', function (loc) {
 				console.log(loc.latitude + ', ' + loc.longitude);
+
+				if (!marker._map) {
+					map.addLayer(marker);
+				}
+				marker.setLatLng(new L.LatLng(loc.latitude, loc.longitude));
 			});
 
 		});

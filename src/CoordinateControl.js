@@ -4,7 +4,6 @@ define([
 ], function (
 	L
 ) {
-
 	'use strict';
 
 	var getCoordinateControlMethod = function () {
@@ -28,14 +27,16 @@ define([
 
 		initialize: function (options) {
 			L.Util.setOptions(this, L.Util.extend({}, DEFAULTS, options));
-			this._location = this.options.location || null;
+			this._location = this.options.location;
 		},
 
 		onAdd: function (map) {
 
 			this._map = map;
 
-			var control = this._control = L.DomUtil.create('div', 'leaflet-coordinate-control');
+			var control = this._control = L.DomUtil.create('div', 'leaflet-coordinate-control'),
+			    stop = L.DomEvent.stopPropagation;
+
 			control.title = 'Location Using Latitude/ Longitude';
 			control.innerHTML = [
 				'<ul>',
@@ -57,16 +58,28 @@ define([
 			this._submit = control.querySelector('#coordinate-submit');
 
 			// Bind to a submit button click
-			L.DomEvent.addListener(this._submit, 'click', this._onSubmit, this);
-			// TODO, bind to a keyboard onKeyUp event for the "enter" key
-			L.DomEvent.addListener(this._control, 'keypress', this._onKeyPress, this);
+			L.DomEvent.on(this._submit, 'click', this._onSubmit, this);
+			// Bind event for the "enter" key
+			L.DomEvent.on(this._control, 'keypress', this._onKeyPress, this);
+
+			L.DomEvent.on(this._control, 'dblclick', stop);
+			L.DomEvent.on(this._control, 'mouseup', stop);
+			L.DomEvent.on(this._control, 'mousedown', stop);
+			L.DomEvent.on(this._control, 'mousemove', stop);
 
 			return control;
 		},
 
 		onRemove: function () {
+			var stop = L.DomEvent.stopPropagation;
+
 			L.DomEvent.removeListener(this._submit, 'click', this._onSubmit);
 			L.DomEvent.removeListener(this._control, 'keypress', this._onKeyPress);
+
+			L.DomEvent.off(this._control, 'dblclick', stop);
+			L.DomEvent.off(this._control, 'mouseup', stop);
+			L.DomEvent.off(this._control, 'mousedown', stop);
+			L.DomEvent.off(this._control, 'mousemove', stop);
 
 			this._map = null;
 			this._control = null;
@@ -102,7 +115,7 @@ define([
 			}
 		},
 
-		_getCoordinateLocation: function(latitude, longitude) {
+		_getCoordinateLocation: function (latitude, longitude) {
 			return {
 				'place': null,
 				'longitude': Number(longitude),

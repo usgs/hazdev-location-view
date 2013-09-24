@@ -40,7 +40,7 @@ define([
 
 	describe('CoordinateControl test suite', function () {
 
-		beforeEach(function(){
+		beforeEach(function () {
 
 			var kingfieldME = {
 				'place': 'test',
@@ -104,10 +104,8 @@ define([
 			it('Can be set', function () {
 
 				control.setLocation(boulderCO);
-				/* jshint -W030 */
 				expect(control._location.latitude).to.equal(boulderCO.latitude);
 				expect(control._location.longitude).to.equal(boulderCO.longitude);
-				/* jshint +W030 */
 			});
 
 			it('Can get', function () {
@@ -116,10 +114,8 @@ define([
 				control._location.longitude = -105.3;
 
 				var location = control.getLocation();
-				/* jshint -W030 */
 				expect(location.latitude).to.equal(40);
 				expect(location.longitude).to.equal(-105.3);
-				/* jshint +W030 */
 			});
 
 			it('can get static METHOD value', function () {
@@ -153,10 +149,8 @@ define([
 				button.dispatchEvent(getClickEvent());
 
 				var location = control.getLocation();
-				/* jshint -W030 */
 				expect(location.latitude).to.equal(55);
 				expect(location.longitude).to.equal(44);
-				/* jshint +W030 */
 			});
 		});
 
