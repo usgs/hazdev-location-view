@@ -11,15 +11,18 @@ define([
 	var ConfidenceCalculator = {
 
 		/**
-		 * Compute Confidence given latitude and longitude.
-		 * @params latititude {string}
-		 * @params longitude {string}
-		 * latitude and longitude must be strings to keep accuracy.
+		 * Compute Confidence given latitude and longitude. Latitude and longitude
+		 * must be strings to keep accuracy.
+		 *
+		 * @params latititude {String}
+		 * @params longitude {String}
+		 *
 		 */
 		computeFromCoordinates: function (latitude, longitude) {
-			if( typeof latitude !== 'string' || typeof longitude !== 'string') {
+			if (typeof latitude !== 'string' || typeof longitude !== 'string') {
 				return ConfidenceCalculator.NOT_COMPUTED;
 			}
+
 			var latitudePieces = latitude.split('.');
 			var longitudePieces = longitude.split('.');
 			var minDecimals = Math.min(latitudePieces[1].length,
@@ -40,6 +43,7 @@ define([
 			}
 
 		},
+
 		/**
 		 * Compute Confidence given a zoom level.
 		 * @params zoom {number} indicates the zoom level of the map.
@@ -57,40 +61,25 @@ define([
 				return ConfidenceCalculator.LOW_CONFIDENCE;
 			}
 		},
-		/**
-		 * Compute confidence given granularity value and confidence.
-		 * @params originalvalue {Number} 1-5
-		 * @params confidence {char} A,B,C,X
-		 */
-		_calculateMapQuestConfidence: function(originalvalue, confidence) {
-			//if X return NOT_COMPUTED.
-			if (confidence === 'X') {
-				return ConfidenceCalculator.NOT_COMPUTED;
-			// if a grade, subtract 0,1,2 never return less then a 1
-			} else if (confidence === 'A') {
-				return originalvalue;
-			} else if (confidence === 'B') {
-				return ((originalvalue - 1)) > 1 ? (originalvalue - 1) : 1;
-			} else if (confidence === 'C') {
-				return ((originalvalue - 2) > 1) ? (originalvalue -2) : 1;
-			}
-		},
+
 		/**
 		 * Compute Confidence given a geocode result.
+		 *
 		 * @params result {object}
-		 * result is a standard mapquest 'Geocode Response'.
-		 * www.mapquestapi.com/geocoding
-		 * www.mapquestapi.com/geocoding/geocodequality.html#granularity
+		 *      result is a standard mapquest 'Geocode Response'.
+		 *
+		 * @see www.mapquestapi.com/geocoding
+		 * @see www.mapquestapi.com/geocoding/geocodequality.html#granularity
 		 */
 		computeFromGeocode: function (result) {
-			var geocodeQualityCode = result.results[0].locations[0].geocodeQualityCode;
+			var geocodeQualityCode = result.geocodeQualityCode;
 			var granularity = geocodeQualityCode.substr(0,2);
 			var fullStreetConfidence = geocodeQualityCode.substr(2,1);
 			var adminConfidence = geocodeQualityCode.substr(3,1);
 			var postalConfidence = geocodeQualityCode.substr(4,1);
 
 			if (granularity === 'P1' || granularity === 'L1' ||
-				  granularity === 'I1' || granularity === 'B1') {
+					granularity === 'I1' || granularity === 'B1') {
 				return this._calculateMapQuestConfidence(
 					ConfidenceCalculator.HIGH_CONFIDENCE, fullStreetConfidence);
 			} else if (granularity === 'B2' || granularity === 'B3') {
@@ -111,6 +100,34 @@ define([
 			}
 		},
 
+		/**
+		 * Compute confidence given granularity value and confidence.
+		 *
+		 * @params originalValue {Number}
+		 *      One of: 1, 2, 3, 4, 5
+		 * @params confidence {String}
+		 *      One of: 'A', 'B', 'C', 'X'
+		 */
+		_calculateMapQuestConfidence: function (originalValue, confidence) {
+			var newValue = originalValue;
+
+			//if X return NOT_COMPUTED.
+			if (confidence === 'X') {
+				newValue = ConfidenceCalculator.NOT_COMPUTED;
+			} else {
+				// Decrease value based on confidence
+				if (confidence === 'B') {
+					newValue -= 1;
+				} else if (confidence === 'C') {
+					newValue -= 2;
+				}
+
+				// Never return less then a 1
+				newValue = Math.max(newValue, 1);
+			}
+
+			return newValue;
+		}
 	};
 
 	// ----------------------------------------------------------------------

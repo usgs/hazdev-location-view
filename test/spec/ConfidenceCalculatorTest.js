@@ -151,28 +151,34 @@ define([
 
 		describe('computeFromGeocode', function () {
 			it('Mapquest Example', function () {
-				expect(ConfidenceCalculator.computeFromGeocode(GeocodeObjectFull)
-					).to.equal(ConfidenceCalculator.AVERAGE_CONFIDENCE);
+				expect(ConfidenceCalculator.computeFromGeocode(
+						GeocodeObjectFull.results[0].locations[0])).to.equal(
+						ConfidenceCalculator.AVERAGE_CONFIDENCE);
 			});
-			it('Street', function () {
-				expect(ConfidenceCalculator.computeFromGeocode(GeocodeObjectStreet)
-					).to.equal(ConfidenceCalculator.ABOVE_AVERAGE_CONFIDENCE);
+			it('Street (above average)', function () {
+				expect(ConfidenceCalculator.computeFromGeocode(
+						GeocodeObjectStreet.results[0].locations[0])).to.equal(
+						ConfidenceCalculator.ABOVE_AVERAGE_CONFIDENCE);
 			});
-			it('Street', function () {
-				expect(ConfidenceCalculator.computeFromGeocode(GeocodeObjectPoint)
-					).to.equal(ConfidenceCalculator.HIGH_CONFIDENCE);
+			it('Street (high)', function () {
+				expect(ConfidenceCalculator.computeFromGeocode(
+						GeocodeObjectPoint.results[0].locations[0])).to.equal(
+						ConfidenceCalculator.HIGH_CONFIDENCE);
 			});
-			it('Street', function () {
-				expect(ConfidenceCalculator.computeFromGeocode(GeocodeObjectPointBad)
-					).to.equal(ConfidenceCalculator.NOT_COMPUTED);
+			it('Street (not computed)', function () {
+				expect(ConfidenceCalculator.computeFromGeocode(
+						GeocodeObjectPointBad.results[0].locations[0])).to.equal(
+						ConfidenceCalculator.NOT_COMPUTED);
 			});
-			it('Street', function () {
-				expect(ConfidenceCalculator.computeFromGeocode(GeocodeObjectPointPoor)
-					).to.equal(ConfidenceCalculator.AVERAGE_CONFIDENCE);
+			it('Street (average)', function () {
+				expect(ConfidenceCalculator.computeFromGeocode(
+						GeocodeObjectPointPoor.results[0].locations[0])).to.equal(
+						ConfidenceCalculator.AVERAGE_CONFIDENCE);
 			});
-			it('Street', function () {
-				expect(ConfidenceCalculator.computeFromGeocode(GeocodeObjectCityPoor)
-					).to.equal(ConfidenceCalculator.LOW_CONFIDENCE);
+			it('Street (low)', function () {
+				expect(ConfidenceCalculator.computeFromGeocode(
+						GeocodeObjectCityPoor.results[0].locations[0])).to.equal(
+						ConfidenceCalculator.LOW_CONFIDENCE);
 			});
 		});
 
