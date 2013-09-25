@@ -62,72 +62,51 @@ define([
 			}
 		},
 
-		/**
-		 * Compute Confidence given a geocode result.
-		 *
-		 * @params result {object}
-		 *      result is a standard mapquest 'Geocode Response'.
-		 *
-		 * @see www.mapquestapi.com/geocoding
-		 * @see www.mapquestapi.com/geocoding/geocodequality.html#granularity
-		 */
-		computeFromGeocode: function (result) {
-			var geocodeQualityCode = result.geocodeQualityCode;
-			var granularity = geocodeQualityCode.substr(0,2);
-			var fullStreetConfidence = geocodeQualityCode.substr(2,1);
-			var adminConfidence = geocodeQualityCode.substr(3,1);
-			var postalConfidence = geocodeQualityCode.substr(4,1);
+		computeZoomFromGeocode: function (result) {
+			var confidence = this.computeFromGeocode(result);
 
-			if (granularity === 'P1' || granularity === 'L1' ||
-					granularity === 'I1' || granularity === 'B1') {
-				return this._calculateMapQuestConfidence(
-					ConfidenceCalculator.HIGH_CONFIDENCE, fullStreetConfidence);
-			} else if (granularity === 'B2' || granularity === 'B3') {
-				return this._calculateMapQuestConfidence(
-					ConfidenceCalculator.ABOVE_AVERAGE_CONFIDENCE, fullStreetConfidence);
-			} else if (granularity === 'A5') {
-				return this._calculateMapQuestConfidence(
-					ConfidenceCalculator.AVERAGE_CONFIDENCE, adminConfidence);
-			} else if (granularity === 'Z1' || granularity === 'Z2' ||
-					 granularity === 'Z3' || granularity === 'Z4') {
-				return this._calculateMapQuestConfidence(
-					ConfidenceCalculator.AVERAGE_CONFIDENCE, postalConfidence);
-			} else if (granularity === 'A4' || granularity === 'A3') {
-				return this._calculateMapQuestConfidence(
-					ConfidenceCalculator.BELOW_AVERAGE_CONFIDENCE, adminConfidence);
+			if (confidence === ConfidenceCalculator.HIGH_CONFIDENCE) {
+				return 17;
+			} else if( confidence === ConfidenceCalculator.ABOVE_AVERAGE_CONFIDENCE) {
+				return 15;
+			} else if( confidence === ConfidenceCalculator.AVERAGE_CONFIDENCE) {
+				return 13;
+			} else if( confidence === ConfidenceCalculator.BELOW_AVERAGE_CONFIDENCE) {
+				return 10;
+			} else if( confidence === ConfidenceCalculator.LOW_CONFIDENCE) {
+				return 8;
 			} else {
-				return ConfidenceCalculator.LOW_CONFIDENCE;
+				return 6;
 			}
 		},
 
 		/**
-		 * Compute confidence given granularity value and confidence.
+		 * Compute Confidence given a geocode result.
 		 *
-		 * @params originalValue {Number}
-		 *      One of: 1, 2, 3, 4, 5
-		 * @params confidence {String}
-		 *      One of: 'A', 'B', 'C', 'X'
+		 * @params result {object}
+		 *      result is a mapquest response via the nominatim api.
+		 *
+		 * @see http://open.mapquestapi.com/nominatim/
 		 */
-		_calculateMapQuestConfidence: function (originalValue, confidence) {
-			var newValue = originalValue;
+		computeFromGeocode: function (result) {
 
-			//if X return NOT_COMPUTED.
-			if (confidence === 'X') {
-				newValue = ConfidenceCalculator.NOT_COMPUTED;
-			} else {
-				// Decrease value based on confidence
-				if (confidence === 'B') {
-					newValue -= 1;
-				} else if (confidence === 'C') {
-					newValue -= 2;
-				}
-
-				// Never return less then a 1
-				newValue = Math.max(newValue, 1);
+			if (result[0].type === 'house') {
+				return ConfidenceCalculator.HIGH_CONFIDENCE;
 			}
-
-			return newValue;
+			if (result[0].type === 'city') {
+				return ConfidenceCalculator.AVERAGE_CONFIDENCE;
+			}
+			if (result[0].type === 'postcode') {
+				return ConfidenceCalculator.AVERAGE_CONFIDENCE;
+			}
+			if (result[0].type === 'administrative') {
+				return ConfidenceCalculator.LOW_CONFIDENCE;
+			}
+			else {
+				return ConfidenceCalculator.NOT_COMPUTED;
+			}
 		}
+
 	};
 
 	// ----------------------------------------------------------------------

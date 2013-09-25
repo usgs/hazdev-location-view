@@ -9,7 +9,7 @@ define([
 	'use strict';
 	var expect = chai.expect;
 
-	var GeocodeObjectFull = {
+/*	var GeocodeObjectFullOld = {
 	'results':[
 	{'locations':
 	[
@@ -39,29 +39,47 @@ define([
 							'imageUrl':'http://api.mqcdn.com/res/mqlogo.gif',
 							'imageAltText':'© 2013 MapQuest, Inc.'},
 					'statuscode':0,'messages':[]}
-	};
+	};*/
 
-	var GeocodeObjectStreet = {
-	'results':[
-	{'locations':[{'geocodeQuality':'STREET','geocodeQualityCode':'B2AAA'}]}]
-	};
+	var GeocodeObjectFull = [
+    {
+        'place_id': '36099528',
+        'licence': 'Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright',
+        'osm_type': 'way',
+        'osm_id': '23580556',
+        'boundingbox': [
+            '51.4828405',
+            '51.4847466',
+            '-0.6083938',
+            '-0.5999973'
+        ],
+        'lat': '51.48379355',
+        'lon': '-0.60416529240868',
+        'display_name': 'Windsor Castle, Moat Path, Clewer New Town, Eton, Windsor and Maidenhead, South East England, England, SL4 1PB, United Kingdom, European Union',
+        'class': 'historic',
+        'type': 'castle',
+        'importance': 0.60105687743994,
+        'icon': 'http://open.mapquestapi.com/nominatim/v1/images/mapicons/tourist_castle.p.20.png',
+        'address': {
+            'castle': 'Windsor Castle',
+            'path': 'Moat Path',
+            'suburb': 'Clewer New Town',
+            'town': 'Eton',
+            'county': 'Windsor and Maidenhead',
+            'state_district': 'South East England',
+            'state': 'England',
+            'postcode': 'SL4 1PB',
+            'country': 'United Kingdom',
+            'country_code': 'gb',
+            'continent': 'European Union'
+        }
+    }
+];
 
-	var GeocodeObjectPoint = {
-	'results':[
-	{'locations':[{'geocodeQuality':'Point','geocodeQualityCode':'P1AAA'}]}]
-	};
-	var GeocodeObjectPointPoor = {
-	'results':[
-	{'locations':[{'geocodeQuality':'Point','geocodeQualityCode':'P1CAA'}]}]
-	};
-	var GeocodeObjectPointBad = {
-	'results':[
-	{'locations':[{'geocodeQuality':'Point','geocodeQualityCode':'P1XAA'}]}]
-	};
-	var GeocodeObjectCityPoor = {
-	'results':[
-	{'locations':[{'geocodeQuality':'City','geocodeQualityCode':'A5XCX'}]}]
-	};
+	var GeocodeObjectHouse = [{'type':'house'}];
+	var GeocodeObjectCity = [{'type':'city'}];
+	var GeocodeObjectAdministrative = [{'type':'administrative'}];
+	var GeocodeObjectPostCode = [{'type':'postcode'}];
 
 
 	describe('ConfidenceCalculator test suite', function () {
@@ -152,33 +170,56 @@ define([
 		describe('computeFromGeocode', function () {
 			it('Mapquest Example', function () {
 				expect(ConfidenceCalculator.computeFromGeocode(
-						GeocodeObjectFull.results[0].locations[0])).to.equal(
-						ConfidenceCalculator.AVERAGE_CONFIDENCE);
-			});
-			it('Street (above average)', function () {
-				expect(ConfidenceCalculator.computeFromGeocode(
-						GeocodeObjectStreet.results[0].locations[0])).to.equal(
-						ConfidenceCalculator.ABOVE_AVERAGE_CONFIDENCE);
-			});
-			it('Street (high)', function () {
-				expect(ConfidenceCalculator.computeFromGeocode(
-						GeocodeObjectPoint.results[0].locations[0])).to.equal(
-						ConfidenceCalculator.HIGH_CONFIDENCE);
-			});
-			it('Street (not computed)', function () {
-				expect(ConfidenceCalculator.computeFromGeocode(
-						GeocodeObjectPointBad.results[0].locations[0])).to.equal(
+						GeocodeObjectFull)).to.equal(
 						ConfidenceCalculator.NOT_COMPUTED);
 			});
-			it('Street (average)', function () {
+			it('house (High Confidence)', function () {
 				expect(ConfidenceCalculator.computeFromGeocode(
-						GeocodeObjectPointPoor.results[0].locations[0])).to.equal(
+						GeocodeObjectHouse)).to.equal(
+						ConfidenceCalculator.HIGH_CONFIDENCE);
+			});
+			it('city (Average Confidence)', function () {
+				expect(ConfidenceCalculator.computeFromGeocode(
+						GeocodeObjectCity)).to.equal(
 						ConfidenceCalculator.AVERAGE_CONFIDENCE);
 			});
-			it('Street (low)', function () {
+			it('postcode (Average Confidence)', function () {
 				expect(ConfidenceCalculator.computeFromGeocode(
-						GeocodeObjectCityPoor.results[0].locations[0])).to.equal(
+						GeocodeObjectPostCode)).to.equal(
+						ConfidenceCalculator.AVERAGE_CONFIDENCE);
+			});
+			it('administrative (Low Confidence)', function () {
+				expect(ConfidenceCalculator.computeFromGeocode(
+						GeocodeObjectAdministrative)).to.equal(
 						ConfidenceCalculator.LOW_CONFIDENCE);
+			});
+		});
+
+		describe('computeZoomFromGeocode', function () {
+			it('Mapquest Example', function () {
+				expect(ConfidenceCalculator.computeZoomFromGeocode(
+						GeocodeObjectFull)).to.equal(
+						6);
+			});
+			it('house (High Confidence)', function () {
+				expect(ConfidenceCalculator.computeZoomFromGeocode(
+						GeocodeObjectHouse)).to.equal(
+						17);
+			});
+			it('city (Average Confidence)', function () {
+				expect(ConfidenceCalculator.computeZoomFromGeocode(
+						GeocodeObjectCity)).to.equal(
+						13);
+			});
+			it('postcode (Average Confidence)', function () {
+				expect(ConfidenceCalculator.computeZoomFromGeocode(
+						GeocodeObjectPostCode)).to.equal(
+						13);
+			});
+			it('administrative (Low Confidence)', function () {
+				expect(ConfidenceCalculator.computeZoomFromGeocode(
+						GeocodeObjectAdministrative)).to.equal(
+						8);
 			});
 		});
 
