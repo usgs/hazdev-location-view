@@ -51,11 +51,11 @@ define([
 		computeFromPoint: function (zoom) {
 			if (zoom > 16) {
 				return ConfidenceCalculator.HIGH_CONFIDENCE;
-			} else if (zoom > 14) {
-				return ConfidenceCalculator.ABOVE_AVERAGE_CONFIDENCE;
 			} else if (zoom > 12) {
+				return ConfidenceCalculator.ABOVE_AVERAGE_CONFIDENCE;
+			} else if (zoom > 8) {
 				return ConfidenceCalculator.AVERAGE_CONFIDENCE;
-			} else if (zoom > 9) {
+			} else if (zoom > 4) {
 				return ConfidenceCalculator.BELOW_AVERAGE_CONFIDENCE;
 			} else {
 				return ConfidenceCalculator.LOW_CONFIDENCE;
@@ -68,15 +68,15 @@ define([
 			if (confidence === ConfidenceCalculator.HIGH_CONFIDENCE) {
 				return 17;
 			} else if( confidence === ConfidenceCalculator.ABOVE_AVERAGE_CONFIDENCE) {
-				return 15;
-			} else if( confidence === ConfidenceCalculator.AVERAGE_CONFIDENCE) {
 				return 13;
+			} else if( confidence === ConfidenceCalculator.AVERAGE_CONFIDENCE) {
+				return 9;
 			} else if( confidence === ConfidenceCalculator.BELOW_AVERAGE_CONFIDENCE) {
-				return 10;
+				return 5;
 			} else if( confidence === ConfidenceCalculator.LOW_CONFIDENCE) {
-				return 8;
+				return 1;
 			} else {
-				return 6;
+				return 1;
 			}
 		},
 
@@ -90,16 +90,16 @@ define([
 		 */
 		computeFromGeocode: function (result) {
 
-			if (result[0].type === 'house') {
+			if (result.type === 'house') {
 				return ConfidenceCalculator.HIGH_CONFIDENCE;
 			}
-			if (result[0].type === 'city') {
+			if (result.type === 'city') {
 				return ConfidenceCalculator.AVERAGE_CONFIDENCE;
 			}
-			if (result[0].type === 'postcode') {
+			if (result.type === 'postcode') {
 				return ConfidenceCalculator.AVERAGE_CONFIDENCE;
 			}
-			if (result[0].type === 'administrative') {
+			if (result.type === 'administrative') {
 				return ConfidenceCalculator.LOW_CONFIDENCE;
 			}
 			else {

@@ -9,7 +9,7 @@ define([
 	'use strict';
 	var expect = chai.expect;
 
-	var GeocodeObjectFull = [{
+	var GeocodeObjectFull = {
 		'place_id': '36099528',
 		'licence': 'Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright',
 		'osm_type': 'way',
@@ -40,12 +40,12 @@ define([
 			'country_code': 'gb',
 			'continent': 'European Union'
 			}
-		}];
+		};
 
-	var GeocodeObjectHouse = [{'type':'house'}];
-	var GeocodeObjectCity = [{'type':'city'}];
-	var GeocodeObjectAdministrative = [{'type':'administrative'}];
-	var GeocodeObjectPostCode = [{'type':'postcode'}];
+	var GeocodeObjectHouse = {'type':'house'};
+	var GeocodeObjectCity = {'type':'city'};
+	var GeocodeObjectAdministrative = {'type':'administrative'};
+	var GeocodeObjectPostCode = {'type':'postcode'};
 
 
 	describe('ConfidenceCalculator test suite', function () {
@@ -115,20 +115,20 @@ define([
 				expect(ConfidenceCalculator.computeFromPoint(17)
 					).to.equal(ConfidenceCalculator.HIGH_CONFIDENCE);
 			});
-			it('Zoom > 14', function () {
-				expect(ConfidenceCalculator.computeFromPoint(15)
-					).to.equal(ConfidenceCalculator.ABOVE_AVERAGE_CONFIDENCE);
-			});
 			it('Zoom > 12', function () {
 				expect(ConfidenceCalculator.computeFromPoint(13)
+					).to.equal(ConfidenceCalculator.ABOVE_AVERAGE_CONFIDENCE);
+			});
+			it('Zoom > 8', function () {
+				expect(ConfidenceCalculator.computeFromPoint(9)
 					).to.equal(ConfidenceCalculator.AVERAGE_CONFIDENCE);
 			});
-			it('Zoom > 9', function () {
-				expect(ConfidenceCalculator.computeFromPoint(10)
+			it('Zoom > 4', function () {
+				expect(ConfidenceCalculator.computeFromPoint(5)
 					).to.equal(ConfidenceCalculator.BELOW_AVERAGE_CONFIDENCE);
 			});
-			it('Zoom <= 9', function () {
-				expect(ConfidenceCalculator.computeFromPoint(9)
+			it('Zoom <= 4', function () {
+				expect(ConfidenceCalculator.computeFromPoint(1)
 					).to.equal(ConfidenceCalculator.LOW_CONFIDENCE);
 			});
 		});
@@ -165,7 +165,7 @@ define([
 			it('Mapquest Example', function () {
 				expect(ConfidenceCalculator.computeZoomFromGeocode(
 						GeocodeObjectFull)).to.equal(
-						6);
+						1);
 			});
 			it('house (High Confidence)', function () {
 				expect(ConfidenceCalculator.computeZoomFromGeocode(
@@ -175,17 +175,17 @@ define([
 			it('city (Average Confidence)', function () {
 				expect(ConfidenceCalculator.computeZoomFromGeocode(
 						GeocodeObjectCity)).to.equal(
-						13);
+						9);
 			});
 			it('postcode (Average Confidence)', function () {
 				expect(ConfidenceCalculator.computeZoomFromGeocode(
 						GeocodeObjectPostCode)).to.equal(
-						13);
+						9);
 			});
 			it('administrative (Low Confidence)', function () {
 				expect(ConfidenceCalculator.computeZoomFromGeocode(
 						GeocodeObjectAdministrative)).to.equal(
-						8);
+						1);
 			});
 		});
 
