@@ -9,9 +9,9 @@ define([
 	// Static incrementor for uniqueness
 	var GEOCODE_REQUEST_ID = 0;
 	// Webservice URL for forward geocode requests
-	var FORWARD_URL = 'http://www.mapquestapi.com/geocoding/v1/address';
+	var FORWARD_URL = 'http://open.mapquestapi.com/nominatim/v1/search.php';
 	// Webservice URL for reverse geocode requests
-	var REVERSE_URL = 'http://open.mapquestapi.com/geocoding/v1/reverse';
+	var REVERSE_URL = 'http://open.mapquestapi.com/nominatim/v1/reverse.php';
 
 	/**
 	 * Creates a new geocoder object.
@@ -21,7 +21,7 @@ define([
 	 *      {forwardUrl} and/or {reverseUrl}.
 	 */
 	var Geocoder = function (options) {
-		this._apiKey = options.apiKey;
+		options = options || {};
 		this._forwardUrl = options.forwardUrl || FORWARD_URL;
 		this._reverseUrl = options.reverseUrl || REVERSE_URL;
 	};
@@ -41,7 +41,7 @@ define([
 	Geocoder.prototype.forward = function (addressString, successCallback,
 			errorCallback) {
 		var request = {
-			location: addressString
+			q: addressString
 		};
 
 		this._submitRequest(request, this._forwardUrl, successCallback,
@@ -51,9 +51,9 @@ define([
 		/**
 	 * Performs asynchronous reverse geocode requests.
 	 *
-	 * @param latitude {Number}
+	 * @param latitude {String}
 	 *      The latitude of the coordinate to reverse geocode.
-	 * @param longitude {Number}
+	 * @param longitude {String}
 	 *      The longitude of the coordinate to reverse geocode.
 	 * @param successCallback {Function}
 	 *      The callback method to execute on success. This callback should expect
@@ -66,7 +66,7 @@ define([
 			errorCallback) {
 		var request = {
 			lat: latitude,
-			lng: longitude
+			lon: longitude
 		};
 
 		this._submitRequest(request, this._reverseUrl, successCallback,
@@ -95,9 +95,12 @@ define([
 
 		var script = document.createElement('script'),
 		    insertAt = document.querySelector('script'),
-		    request = [url, '?key=', this._apiKey],
+		    request = ['format=json', 'addressdetails=1'],
 		    callbackName = _getCallbackName(),
 		    key = null, cleanup = null, cleanedUp = false;
+
+
+		request.push('json_callback=' + callbackName);
 
 		// build up the full request URL based on the input parameters
 		for (key in params) {
@@ -122,16 +125,14 @@ define([
 		// JSONP callback method (attached to global window)
 		window[callbackName] = function (response) {
 
-			if (response.info.statuscode !== 0) {
-				// API error
-				errorCallback(response.info.statuscode, 'Request failed.');
-			} else if (response.results.length === 0 ||
-					response.results[0].locations.length === 0) {
-				// No results error
-				errorCallback(404, 'No location found.');
+			if ((params.hasOwnProperty('q') && response.length === 0) ||
+					(response.hasOwnProperty('error'))) {
+				// Failure
+				errorCallback(404, response.error || 'No location found.');
 			} else {
 				// Success I guess...
-				successCallback(_buildLocationResult(response.results[0].locations[0],
+				successCallback(_buildLocationResult(
+						response.length ? response[0] : response,
 						params));
 				cleanup();
 			}
@@ -139,7 +140,7 @@ define([
 		};
 
 		// fire off the JSONP request
-		script.src = request.join('&');
+		script.src = url + '?' + request.join('&');
 		script.onLoad = cleanup;
 		script.onError = cleanup;
 		insertAt.parentNode.insertBefore(script, insertAt);
@@ -162,85 +163,25 @@ define([
 	var _buildLocationResult = function (geocodeResponse, originalRequest) {
 		var location = {};
 
-		if (originalRequest.hasOwnProperty('location')) {
+		if (originalRequest.hasOwnProperty('q')) {
 			// forward lookup
-			location.place = originalRequest.location;
-			location.latitude = geocodeResponse.latLng.lat;
-			location.longitude = geocodeResponse.latLng.lng;
+			location.place = originalRequest.q;
+			location.latitude = Number(geocodeResponse.lat);
+			location.longitude = Number(geocodeResponse.lon);
+			location.confidence = ConfidenceCalculator.computeFromGeocode(
+					geocodeResponse);
 		} else {
 			// reverse lookup
-			location.place = _parseLocationPlace(geocodeResponse);
-			location.latitude = originalRequest.latitude;
-			location.longitude = originalRequest.longitude;
+			location.place = geocodeResponse.display_name;
+			location.latitude = originalRequest.lat;
+			location.longitude = originalRequest.lon;
+			location.confidence = ConfidenceCalculator.computeFromCoordinates(
+					originalRequest.latitude, originalRequest.longitude);
 		}
 
-		location.confidence = _computeLocationConfidence(geocodeResponse);
 		location.accuracy = null; // TODO
 
 		return location;
-	};
-
-	/**
-	 * Private static method.
-	 *
-	 * Parses the canonical administrative region (and street) information out of
-	 * the given geocodeResponse object.
-	 *
-	 * @param geocodeResponse {Object}
-	 *      The response from which to parse place-string information.
-	 *
-	 * @return {String}
-	 *      A canonical "place" for the geocodeResponse.
-	 */
-	var _parseLocationPlace = function (geocodeResponse) {
-		var i = 1, place = [];
-
-		for (i = 0; i < 6; i++) {
-			if (_hasValue(geocodeResponse, 'adminArea'+i)) {
-				place.push(geocodeResponse['adminArea'+i]);
-			}
-		}
-
-		if (_hasValue(geocodeResponse, 'street')) {
-			place.push(geocodeResponse.street);
-		}
-
-		return place.reverse().join(', ');
-	};
-
-	/**
-	 * Private static method.
-	 *
-	 * @param geocodeResponse {Object}
-	 *      The geocode response for which to compute the confidence.
-	 *
-	 * @return {Number}
-	 *      The qualitative confidence value to be placed on the given response.
-	 */
-	var _computeLocationConfidence = function (geocodeResponse) {
-		// Use a confidence calculator
-		return ConfidenceCalculator.computeFromGeocode(geocodeResponse);
-	};
-
-	/**
-	 * Private static method.
-	 *
-	 * Determines if the given {obj} as a non-empty {val} property set.
-	 *
-	 * @param obj {Object}
-	 *      The object for which to check for {val}.
-	 * @param val {String}
-	 *      The property to check on the given {obj}.
-	 *
-	 * @return {Boolean}
-	 *      True if the object has a property named {val} that is non-empty, false
-	 *      otherwise.
-	 */
-	var _hasValue = function (obj, val) {
-		return (
-			obj.hasOwnProperty(val) &&
-			typeof obj[val] !== 'undefined' &&
-			obj[val] !== null);
 	};
 
 	/**

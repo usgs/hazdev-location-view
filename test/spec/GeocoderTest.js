@@ -66,7 +66,7 @@ define([
 				expect(stub.callCount).to.equal(1);
 
 				args = stub.getCall(0).args;
-				expect(args[0]).to.deep.equal({location: 'Lancaster County'});
+				expect(args[0]).to.deep.equal({q: 'Lancaster County'});
 				stub.restore();
 			});
 
@@ -114,7 +114,8 @@ define([
 				expect(stub.callCount).to.equal(1);
 
 				args = stub.getCall(0).args;
-				expect(args[0]).to.deep.equal({lat: 40.0755, lng: -76.329999});
+				expect(args[0]).to.deep.equal({lat: 40.0755, lon: -76.329999});
+				stub.restore();
 			});
 
 		});
