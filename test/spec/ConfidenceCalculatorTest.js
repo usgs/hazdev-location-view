@@ -41,40 +41,38 @@ define([
 					'statuscode':0,'messages':[]}
 	};*/
 
-	var GeocodeObjectFull = [
-    {
-        'place_id': '36099528',
-        'licence': 'Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright',
-        'osm_type': 'way',
-        'osm_id': '23580556',
-        'boundingbox': [
-            '51.4828405',
-            '51.4847466',
-            '-0.6083938',
-            '-0.5999973'
-        ],
-        'lat': '51.48379355',
-        'lon': '-0.60416529240868',
-        'display_name': 'Windsor Castle, Moat Path, Clewer New Town, Eton, Windsor and Maidenhead, South East England, England, SL4 1PB, United Kingdom, European Union',
-        'class': 'historic',
-        'type': 'castle',
-        'importance': 0.60105687743994,
-        'icon': 'http://open.mapquestapi.com/nominatim/v1/images/mapicons/tourist_castle.p.20.png',
-        'address': {
-            'castle': 'Windsor Castle',
-            'path': 'Moat Path',
-            'suburb': 'Clewer New Town',
-            'town': 'Eton',
-            'county': 'Windsor and Maidenhead',
-            'state_district': 'South East England',
-            'state': 'England',
-            'postcode': 'SL4 1PB',
-            'country': 'United Kingdom',
-            'country_code': 'gb',
-            'continent': 'European Union'
-        }
-    }
-];
+	var GeocodeObjectFull = [{
+		'place_id': '36099528',
+		'licence': 'Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright',
+		'osm_type': 'way',
+		'osm_id': '23580556',
+		'boundingbox': [
+			'51.4828405',
+			'51.4847466',
+			'-0.6083938',
+			'-0.5999973'
+		],
+		'lat': '51.48379355',
+		'lon': '-0.60416529240868',
+		'display_name': 'Windsor Castle, Moat Path, Clewer New Town, Eton, Windsor and Maidenhead, South East England, England, SL4 1PB, United Kingdom, European Union',
+		'class': 'historic',
+		'type': 'castle',
+		'importance': 0.60105687743994,
+		'icon': 'http://open.mapquestapi.com/nominatim/v1/images/mapicons/tourist_castle.p.20.png',
+		'address': {
+			'castle': 'Windsor Castle',
+			'path': 'Moat Path',
+			'suburb': 'Clewer New Town',
+			'town': 'Eton',
+			'county': 'Windsor and Maidenhead',
+			'state_district': 'South East England',
+			'state': 'England',
+			'postcode': 'SL4 1PB',
+			'country': 'United Kingdom',
+			'country_code': 'gb',
+			'continent': 'European Union'
+			}
+		}];
 
 	var GeocodeObjectHouse = [{'type':'house'}];
 	var GeocodeObjectCity = [{'type':'city'}];
