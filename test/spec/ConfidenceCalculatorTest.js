@@ -9,38 +9,6 @@ define([
 	'use strict';
 	var expect = chai.expect;
 
-/*	var GeocodeObjectFullOld = {
-	'results':[
-	{'locations':
-	[
-	{'latLng':{'lng':-76.30127,'lat':40.03804},
-	'adminArea4':'Lancaster County',
-	'adminArea5Type':'City',
-	'adminArea4Type':'County',
-	'adminArea5':'Lancaster',
-	'street':'',
-	'adminArea1':'US',
-	'adminArea3':'PA',
-	'type':'s',
-	'displayLatLng':{'lng':-76.30127,'lat':40.03804},
-	'linkId':0,
-	'postalCode':'',
-	'sideOfStreet':'N',
-	'dragPoint':false,
-	'adminArea1Type':'Country',
-	'geocodeQuality':'CITY',
-	'geocodeQualityCode':'A5XAX',
-	'mapUrl':'http://www.mapquestapi.com/staticmap/v4/getmap?key=Kmjtd|luua2qu7n9,7a=o5-lzbgq&type=map&size=225,160&pois=purple-1,40.03804,-76.30127,0,0|&center=40.03804,-76.30127&zoom=12&rand=-1780045932',
-		'adminArea3Type':'State'}],
-		'providedLocation':{'location':'Lancaster,PA'}}],
-		'options':{'ignoreLatLngInput':false,'maxResults':-1,'thumbMaps':true},
-		'info':{
-					'copyright':{'text':'© 2013 MapQuest, Inc.',
-							'imageUrl':'http://api.mqcdn.com/res/mqlogo.gif',
-							'imageAltText':'© 2013 MapQuest, Inc.'},
-					'statuscode':0,'messages':[]}
-	};*/
-
 	var GeocodeObjectFull = [{
 		'place_id': '36099528',
 		'licence': 'Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright',
