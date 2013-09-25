@@ -5,6 +5,7 @@
 
 	<link rel="stylesheet" href="/leaflet/dist/leaflet.css"/>
 	<link rel="stylesheet" href="GeocodeControl.css"/>
+
 	<style>
 	html, body, .map {
 		display:block;
@@ -43,8 +44,18 @@
 				center: new L.LatLng(40.0, -105.0),
 				zoom: 3
 			});
+			var marker= new L.Marker(new L.LatLng(0,0));
+			var gc = new GeocodeControl();
+
 			map.addLayer(new L.TileLayer('http://earthquake.usgs.gov/basemap/tiles/natgeo_hires/{z}/{y}/{x}.jpg'));
-			map.addControl(new GeocodeControl());
+			map.addControl(gc);
+
+			gc.on('location', function (loc) {
+				marker.setLatLng(new L.LatLng(loc.latitude, loc.longitude));
+				if (! marker._map) {
+					map.addLayer(marker);
+				}
+			})
 		});
 	</script>
 </body>

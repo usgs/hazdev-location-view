@@ -1,4 +1,4 @@
-/* global define, describe, it */
+/* global define, describe, it*/
 define([
 	'chai',
 	'GeocodeControl',
@@ -50,7 +50,7 @@ define([
 			});
 		});
 
-		describe('getLocation()', function() {
+		describe('getLocation()', function () {
 			it('can get its location', function () {
 				var loc = {};
 				var G = new GeocodeControl();
@@ -69,13 +69,14 @@ define([
 			});
 		});
 
-		describe('doGeocode', function (){
+		describe('_doGeocode', function (){
 
 		});
 
-		describe('onKeyUp', function (){
-			
+		describe('_onKeyUp()', function (){
+			//This will be done with an app at a later date
 		});
+
 	});
 
 });

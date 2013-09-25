@@ -19,7 +19,7 @@ define([
 
 		initialize: function (options) {
 			L.Util.setOptions(this, L.Util.extend({}, DEFAULT_OPTIONS, options));
-			this._geocoder = new Geocoder({apiKey: this.options.apiKey});
+			this._geocoder = new Geocoder();
 		},
 
 		setLocation: function (loc, options) {
@@ -48,6 +48,7 @@ define([
 			L.DomEvent.on(container, 'mousedown', stop);
 			L.DomEvent.on(container, 'mouseup', stop);
 			L.DomEvent.on(container, 'click', stop);
+			L.DomEvent.on(container, 'dblclick', stop);
 
 			return container;
 		},
@@ -62,7 +63,7 @@ define([
 		},
 
 		_onKeyUp: function (keyEvent) {
-			if(keyEvent.keyCode === 13) {
+			if(keyEvent.keyCode === 13 && this._textInput.value !== '') {
 				this._doGeocode(this._textInput.value);
 			}
 		}
