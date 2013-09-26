@@ -25,7 +25,7 @@ define([
 
 		describe('initialize()', function () {
 			var G = new GeocodeControl();
-			
+
 			it('Can be instantiated', function () {
 				expect(G).to.be.an.instanceof(GeocodeControl);
 			});
@@ -67,10 +67,6 @@ define([
 				expect(G._map).to.not.be.null;
 				/* jshint +W030 */
 			});
-		});
-
-		describe('_doGeocode', function (){
-
 		});
 
 		describe('_onKeyUp()', function (){
