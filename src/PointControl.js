@@ -11,7 +11,7 @@ define([
 	var POINT_CONTROL_INPUT_METHOD = 'point';
 
 	var CLASS_NAME = 'leaflet-point-control';
-	var CLASS_ENABLED = CLASS_NAME + '-enabled';
+	//var CLASS_ENABLED = CLASS_NAME + ' enabled';
 	var CLASS_LOCATION = CLASS_NAME + '-location';
 
 	var DEFAULT_OPTIONS = {
@@ -150,7 +150,7 @@ define([
 		enable: function () {
 			var mapContainer = this._map.getContainer();
 
-			L.DomUtil.addClass(this._container, CLASS_ENABLED);
+			//L.DomUtil.addClass(this._container, CLASS_ENABLED);
 			L.DomUtil.addClass(mapContainer, CLASS_LOCATION);
 
 			this._bindMapEventHandlers();
@@ -160,7 +160,7 @@ define([
 		disable: function () {
 			var mapContainer = this._map ? this._map.getContainer() : null;
 
-			L.DomUtil.removeClass(this._container, CLASS_ENABLED);
+			//L.DomUtil.removeClass(this._container, CLASS_ENABLED);
 			L.DomUtil.removeClass(mapContainer, CLASS_LOCATION);
 
 			this._unbindMapEventHandlers();
