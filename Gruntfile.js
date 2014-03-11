@@ -13,6 +13,7 @@ module.exports = function (grunt) {
 	var appConfig = {
 		src: 'src',
 		test: 'test',
+		tmp: '.tmp'
 	};
 
 	// TODO :: Read this from .bowerrc
@@ -27,6 +28,10 @@ module.exports = function (grunt) {
 			scripts: {
 				files: ['<%= app.src %>/**/*.js'],
 				tasks: ['concurrent:scripts']
+			},
+			sass: {
+				files: ['<%= app.src %>/**/*.scss'],
+				tasks: ['compass:dev']
 			},
 			tests: {
 				files: ['<%= app.test %>/*.html', '<%= app.test %>/**/*.js'],
@@ -70,6 +75,15 @@ module.exports = function (grunt) {
 			scripts: ['<%= app.src %>/**/*.js'],
 			tests: ['<%= app.test %>/**/*.js']
 		},
+		compass: {
+			dev: {
+				options: {
+					sassDir: '<%= app.src %>',
+					cssDir: '<%= app.tmp %>',
+					environment: 'development'
+				}
+			}
+		},
 		mocha_phantomjs: {
 			all: {
 				options: {
@@ -93,6 +107,7 @@ module.exports = function (grunt) {
 
 	grunt.registerTask('default', [
 		'connect:dev',
+		'compass:dev',
 		'mocha_phantomjs',
 		'watch'
 	]);
