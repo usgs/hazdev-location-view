@@ -1,0 +1,11 @@
+@import '/LocationView.css';
+
+* {
+	-moz-box-sizing:border-box;
+	box-sizing:border-box;
+}
+
+.location-result {
+	display:block;
+	margin-top:16px;
+}
