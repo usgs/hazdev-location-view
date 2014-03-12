@@ -12,20 +12,6 @@
 	width: 286px;
 }
 
-.geocode-control-input {
-	border: none;
-	position: absolute;
-	top: 0px;
-	left: 26px;
-	bottom: 0px;
-	outline: none;
-	width: 199px;
-	border-left: 1px solid #ccc;
-	padding-left: 10px;
-	margin: 0;
-	padding-right: 10px;
-}
-
 .geocode-control-toggle {
 	height: 26px;
 	width: 26px;
@@ -34,6 +20,20 @@
 	background-image: url(location-view-icon.png);
 	background-position: 0px 0px;
 	background-repeat: no-repeat;
+}
+
+.geocode-control-input {
+	top: 0px;
+	left: 26px;
+	bottom: 0px;
+	width: 199px;
+	border: none;
+	outline:none;
+	position: absolute;
+	border-left: 1px solid #ccc;
+	padding-left: 10px;
+	margin: 0;
+	padding-right: 10px;
 }
 
 .GeocodeControl > .geocode-control-submit {
@@ -50,17 +50,18 @@
 	color: #333;
 	text-decoration: none;
 }
-.geocode-control-submit:hover,
-.geocode-control-submit:focus {
-	text-decoration: underline;
-	outline: none;
+
+.geocode-control-expanded > .geocode-control-input,
+.geocode-control-expanded > .geocode-control-submit {
+	display:block;
 }
 
 .geocode-control-input, .geocode-control-submit {
 	display: none;
 }
 
-.geocode-control-expanded > .geocode-control-input,
-.geocode-control-expanded > .geocode-control-submit {
-	display:block;
+.geocode-control-submit:hover,
+.geocode-control-submit:focus {
+	text-decoration: underline;
+	outline: none;
 }
