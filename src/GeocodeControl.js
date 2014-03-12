@@ -35,27 +35,32 @@ define([
 		},
 
 		onAdd: function (map) {
-			var container = this._container =
-						L.DomUtil.create('div', 'GeocodeControl'),
-			    toggleButton = this._toggleButton =
-							L.DomUtil.create('a', 'geocode-control-toggle', container),
-			    textInput = this._textInput =
-							L.DomUtil.create('input', 'geocode-control-input', container),
-			    searchButton = this._searchButton =
-							L.DomUtil.create('a', 'geocode-control-submit', container),
-			    stop = L.DomEvent.stopPropagation;
+			var container,
+			    toggleButton,
+			    textInput,
+			    searchButton,
+			    stop;
+
+			container = this._container =
+					L.DomUtil.create('div', 'GeocodeControl');
+			toggleButton = this._toggleButton =
+					L.DomUtil.create('a', 'geocode-control-toggle', container);
+			textInput = this._textInput =
+					L.DomUtil.create('input', 'geocode-control-input', container);
+			searchButton = this._searchButton =
+					L.DomUtil.create('a', 'geocode-control-submit', container);
+			stop = L.DomEvent.stopPropagation;
 
 			this._map = map;
 
 			toggleButton.href = '#';
+			textInput.placeholder = 'Address';
 			searchButton.innerHTML = 'Search';
 			searchButton.href = '#';
-			textInput.placeholder = 'Address';
 
 			L.DomEvent.on(textInput, 'keyup', this._onKeyUp, this);
 			L.DomEvent.on(searchButton, 'click', this._onSubmitClick, this);
 			L.DomEvent.on(toggleButton, 'click', this._onToggleClick, this);
-
 			L.DomEvent.on(container, 'keydown', stop);
 			L.DomEvent.on(container, 'keyup', stop);
 			L.DomEvent.on(container, 'keypress', stop);
