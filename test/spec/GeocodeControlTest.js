@@ -1,4 +1,4 @@
-/* global define, describe, it*/
+/* global define, describe, it, before, after*/
 define([
 	'chai',
 	'GeocodeControl',
@@ -7,11 +7,54 @@ define([
 ], function (
 	chai,
 	GeocodeControl,
-	L
-	//sinon
+	L,
+	sinon
 ) {
 	'use strict';
 	var expect = chai.expect;
+
+	function getKeyboardEvent(type, keyCode) {
+		var ev = document.createEvent('KeyboardEvent');
+
+		if (typeof ev.initKeyEvent === 'function') {
+		// https://developer.mozilla.org/en-US/docs/Web/API/event.initKeyEvent
+			ev.initKeyEvent(
+				type,
+				true, // bubble
+				true, // cancelable
+				document.defaultView, // view
+				false, // ctrl
+				false, // alt
+				false, // shift
+				false, // meta
+				keyCode, // keyCode
+				0 // charCode
+			);
+		} else {
+		// http://stackoverflow.com/questions/10455626/keydown-simulation-in-chrome-fires-normally-but-not-the-correct-key
+			Object.defineProperty(ev, 'keyCode', {
+				get: function() {
+					return keyCode;
+				}
+			});
+			Object.defineProperty(ev, 'which', {
+			get: function() {
+				return keyCode;
+				}
+			});
+
+			ev.initKeyboardEvent(
+				type, // type
+				true, // bubble
+				true, // cancelable
+				document.defaultView, // view
+				null, // key identifier
+				null, // location
+				null //modifiers
+			);
+		}
+		return ev;
+	}
 
 	describe('GeocodeControl test suite', function () {
 
@@ -71,6 +114,35 @@ define([
 
 		describe('_onKeyUp()', function (){
 			//This will be done with an app at a later date
+			var G = new GeocodeControl(),
+			    textInput,
+			    spy;
+
+			G.onAdd(null);
+			textInput = G._textInput;
+
+			before(function () {
+				spy = sinon.spy(G, '_doGeocode');
+			});
+
+			after(function () {
+				spy.restore();
+			});
+
+			it('Does not geocode when user presses enter key if there is no value',
+					function () {
+				textInput.value = '';
+				textInput.dispatchEvent(getKeyboardEvent('keyup', 13));
+				expect(spy.called).to.equal(false);
+			});
+
+			it('geocodes when user presses enter key and there is a value',
+					function () {
+				textInput.value = 'test';
+				textInput.dispatchEvent(getKeyboardEvent('keyup', 13));
+				expect(spy.called).to.equal(true);
+			});
+
 		});
 
 	});
