@@ -33,15 +33,29 @@ define([
 		getLocation: function () {
 			return this._loc;
 		},
-	
 
 		onAdd: function (map) {
-			var container = this._container = L.DomUtil.create('div', 'GeocodeControl'),
-			    textInput = this._textInput = L.DomUtil.create('input', 'GeocodeControl-input', container),
+			var container = this._container =
+						L.DomUtil.create('div', 'GeocodeControl'),
+			    toggleButton = this._toggleButton =
+							L.DomUtil.create('a', 'geocode-control-toggle', container),
+			    textInput = this._textInput =
+							L.DomUtil.create('input', 'geocode-control-input', container),
+			    submitButton = this._submitButton =
+							L.DomUtil.create('a', 'geocode-control-submit', container),
 			    stop = L.DomEvent.stopPropagation;
+
 			this._map = map;
 
+			toggleButton.href = '#';
+			submitButton.innerHTML = 'Search';
+			submitButton.href = '#';
+			textInput.placeholder = 'Address';
+
 			L.DomEvent.on(textInput, 'keyup', this._onKeyUp, this);
+			L.DomEvent.on(submitButton, 'click', this._onSubmitClick, this);
+			L.DomEvent.on(toggleButton, 'click', this._onToggleClick, this);
+
 			L.DomEvent.on(container, 'keydown', stop);
 			L.DomEvent.on(container, 'keyup', stop);
 			L.DomEvent.on(container, 'keypress', stop);
@@ -52,7 +66,7 @@ define([
 
 			return container;
 		},
- 
+
 		_doGeocode: function (textAddress) {
 			//ToDo send address out receive lat lng back
 			this._geocoder.forward(textAddress, (function (control) {
@@ -63,8 +77,21 @@ define([
 		},
 
 		_onKeyUp: function (keyEvent) {
-			if(keyEvent.keyCode === 13 && this._textInput.value !== '') {
+			if (keyEvent.keyCode === 13 && this._textInput.value !== '') {
 				this._doGeocode(this._textInput.value);
+			}
+		},
+
+		_onSubmitClick: function (/*clickEvent*/) {
+			this._doGeocode(this._textInput.value);
+		},
+
+		_onToggleClick: function (/*clickEvent*/) {
+			if (L.DomUtil.hasClass(this._container, 'geocode-control-expanded')) {
+				L.DomUtil.removeClass(this._container, 'geocode-control-expanded');
+			} else {
+				L.DomUtil.addClass(this._container, 'geocode-control-expanded');
+				this._textInput.focus();
 			}
 		}
 
