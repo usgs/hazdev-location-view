@@ -32,7 +32,8 @@
 	cursor: pointer;
 	display: block;
 	background-image: url(location-view-icon.png);
-	background-position: 26px;
+	background-position: 0px 0px;
+	background-repeat: no-repeat;
 }
 
 .GeocodeControl > .geocode-control-submit {
