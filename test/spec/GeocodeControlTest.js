@@ -13,7 +13,14 @@ define([
 	'use strict';
 	var expect = chai.expect;
 
-	function getKeyboardEvent(type, keyCode) {
+	var getClickEvent = function () {
+		var clickEvent = document.createEvent('MouseEvents');
+
+		clickEvent.initMouseEvent('click', true, true, window, 1, 0, 0);
+		return clickEvent;
+	};
+
+	var getKeyboardEvent = function (type, keyCode) {
 		var ev = document.createEvent('KeyboardEvent');
 
 		if (typeof ev.initKeyEvent === 'function') {
@@ -31,7 +38,8 @@ define([
 				0 // charCode
 			);
 		} else {
-		// http://stackoverflow.com/questions/10455626/keydown-simulation-in-chrome-fires-normally-but-not-the-correct-key
+		// http://stackoverflow.com/questions/10455626/
+		//		keydown-simulation-in-chrome-fires-normally-but-not-the-correct-key
 			ev.initKeyboardEvent(
 				type, // type
 				true, // bubble
@@ -41,13 +49,11 @@ define([
 				null, // location
 				null //modifiers
 			);
-
 		}
 		return ev;
-	}
+	};
 
 	describe('GeocodeControl test suite', function () {
-
 		describe('Class Definition', function () {
 			it('Can be required', function () {
 				/* jshint -W030 */
@@ -74,8 +80,9 @@ define([
 
 		describe('setLocation()', function () {
 			it('sets its location', function () {
-				var loc = {};
-				var G = new GeocodeControl();
+				var loc = {},
+				    G = new GeocodeControl();
+
 				G.setLocation(loc);
 				expect(G._loc).to.equal(loc);
 			});
@@ -83,8 +90,9 @@ define([
 
 		describe('getLocation()', function () {
 			it('can get its location', function () {
-				var loc = {};
-				var G = new GeocodeControl();
+				var loc = {},
+				    G = new GeocodeControl();
+
 				G._loc = loc;
 				expect(G.getLocation()).to.equal(loc);
 			});
@@ -96,6 +104,64 @@ define([
 			it('Check for map', function () {
 				/* jshint -W030 */
 				expect(G._map).to.not.be.null;
+				/* jshint +W030 */
+			});
+		});
+
+		describe('_onSearchClick()', function () {
+			var G = new GeocodeControl();
+
+			it('Should fire in response to clicks', function () {
+				var clickSpy = sinon.spy(G, '_onSearchClick');
+
+				G.onAdd(null);
+				G._searchButton.dispatchEvent(getClickEvent());
+				expect(clickSpy.callCount).to.equal(1);
+				clickSpy.restore();
+			});
+
+			it('Does not call _doGeocode when value is empty', function () {
+				var geocodeSpy = sinon.spy(G, '_doGeocode');
+
+				G._onSearchClick();
+				expect(geocodeSpy.callCount).to.equal(0);
+				geocodeSpy.restore();
+			});
+
+			it('Does call _doGeocode when value is not empty', function () {
+				var geocodeSpy = sinon.spy(G, '_doGeocode');
+
+				G._textInput.value = 'Colorado';
+				G._onSearchClick();
+				expect(geocodeSpy.callCount).to.equal(1);
+				geocodeSpy.restore();
+			});
+		});
+
+		describe('_onToggleClick()', function () {
+			it('Should fire in response to clicks', function () {
+				var G = new GeocodeControl(),
+				    clickSpy = sinon.spy(G, '_onToggleClick');
+
+				G.onAdd(null);
+				G._toggleButton.dispatchEvent(getClickEvent());
+				expect(clickSpy.callCount).to.equal(1);
+				clickSpy.restore();
+			});
+
+			it('Should change class', function () {
+				var G = new GeocodeControl();
+
+				G.onAdd(null);
+				/* jshint -W030 */
+				expect(G._container.classList.contains('geocode-control-expanded'))
+						.to.be.false;
+				G._onToggleClick();
+				expect(G._container.classList.contains('geocode-control-expanded'))
+						.to.be.true;
+				G._onToggleClick();
+				expect(G._container.classList.contains('geocode-control-expanded'))
+						.to.be.false;
 				/* jshint +W030 */
 			});
 		});
@@ -116,6 +182,7 @@ define([
 
 			it('is called on textInput keyup event', function () {
 				var keyUpSpy = sinon.spy(G, '_onKeyUp');
+
 				// rebind spy version of onKeyUp
 				G.onAdd(null);
 				G._textInput.dispatchEvent(getKeyboardEvent('keyup', 13));
