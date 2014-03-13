@@ -18,10 +18,10 @@ define([
 
 	var DEFAULTS = {
 		autoOpen: false,
-		pointControl: false,       // Manages location via pin on map
-		coordinateControl: false,  // Manages location via lat/lng input boxes
-		geocodeControl: false,     // Manages location via address input box
-		geolocateControl: false,   // Manages location via auto-detect (W3C)
+		includePointControl: false,       // Manages location via pin on map
+		includeCoordinateControl: false,  // Manages location via lat/lng input
+		includeGeocodeControl: false,     // Manages location via address input
+		includeGeolocateControl: false,   // Manages location via auto-detect (W3C)
 		callback: function (/*location*/) {}
 	};
 
@@ -102,7 +102,13 @@ define([
 				__get_arcgisonline_url('World_Imagery')), 'Satellite');
 
 		// TODO :: Use a real location control
-		this._locationControl = new LocationControl(this._options);
+		this._locationControl = new LocationControl({
+			el: this._mapContainer,
+			includePointControl: this._options.includePointControl,
+			includeCoordinateControl: this._options.includeCoordinateControl,
+			includeGeocodeControl: this._options.includeGeocodeControl,
+			includeGeolocateControl: this._options.includeGeolocateControl
+		});
 
 		// TODO :: Remove these faky methods in favor of real class implementation
 		this._locationControl.getLocation = function () {
