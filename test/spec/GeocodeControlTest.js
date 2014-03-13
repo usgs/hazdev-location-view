@@ -63,76 +63,76 @@ define([
 		});
 
 		describe('initialize()', function () {
-			var G = new GeocodeControl();
+			var g = new GeocodeControl();
 
 			it('Can be instantiated', function () {
-				expect(G).to.be.an.instanceof(GeocodeControl);
+				expect(g).to.be.an.instanceof(GeocodeControl);
 			});
 
 			it('Inherits from L.Control', function () {
-				expect(G).to.be.an.instanceof(L.Control);
+				expect(g).to.be.an.instanceof(L.Control);
 			});
 
 			it('sets options on itself', function () {
-				expect(G.options).to.be.an.instanceof(Object);
+				expect(g.options).to.be.an.instanceof(Object);
 			});
 		});
 
 		describe('setLocation()', function () {
 			it('sets its location', function () {
 				var loc = {},
-				    G = new GeocodeControl();
+				    g = new GeocodeControl();
 
-				G.setLocation(loc);
-				expect(G._loc).to.equal(loc);
+				g.setLocation(loc);
+				expect(g._loc).to.equal(loc);
 			});
 		});
 
 		describe('getLocation()', function () {
 			it('can get its location', function () {
 				var loc = {},
-				    G = new GeocodeControl();
+				    g = new GeocodeControl();
 
-				G._loc = loc;
-				expect(G.getLocation()).to.equal(loc);
+				g._loc = loc;
+				expect(g.getLocation()).to.equal(loc);
 			});
 		});
 
 		describe('onAdd()', function () {
-			var G = new GeocodeControl();
+			var g = new GeocodeControl();
 
 			it('Check for map', function () {
 				/* jshint -W030 */
-				expect(G._map).to.not.be.null;
+				expect(g._map).to.not.be.null;
 				/* jshint +W030 */
 			});
 		});
 
 		describe('_onSearchClick()', function () {
-			var G = new GeocodeControl();
+			var g = new GeocodeControl();
 
 			it('Should fire in response to clicks', function () {
-				var clickSpy = sinon.spy(G, '_onSearchClick');
+				var clickSpy = sinon.spy(g, '_onSearchClick');
 
-				G.onAdd(null);
-				G._searchButton.dispatchEvent(getClickEvent());
+				g.onAdd(null);
+				g._searchButton.dispatchEvent(getClickEvent());
 				expect(clickSpy.callCount).to.equal(1);
 				clickSpy.restore();
 			});
 
 			it('Does not call _doGeocode when value is empty', function () {
-				var geocodeSpy = sinon.spy(G, '_doGeocode');
+				var geocodeSpy = sinon.spy(g, '_doGeocode');
 
-				G._onSearchClick();
+				g._onSearchClick();
 				expect(geocodeSpy.callCount).to.equal(0);
 				geocodeSpy.restore();
 			});
 
 			it('Does call _doGeocode when value is not empty', function () {
-				var geocodeSpy = sinon.spy(G, '_doGeocode');
+				var geocodeSpy = sinon.spy(g, '_doGeocode');
 
-				G._textInput.value = 'Colorado';
-				G._onSearchClick();
+				g._textInput.value = 'Colorado';
+				g._onSearchClick();
 				expect(geocodeSpy.callCount).to.equal(1);
 				geocodeSpy.restore();
 			});
@@ -140,40 +140,40 @@ define([
 
 		describe('_onToggleClick()', function () {
 			it('Should fire in response to clicks', function () {
-				var G = new GeocodeControl(),
-				    clickSpy = sinon.spy(G, '_onToggleClick');
+				var g = new GeocodeControl(),
+				    clickSpy = sinon.spy(g, '_onToggleClick');
 
-				G.onAdd(null);
-				G._toggleButton.dispatchEvent(getClickEvent());
+				g.onAdd(null);
+				g._toggleButton.dispatchEvent(getClickEvent());
 				expect(clickSpy.callCount).to.equal(1);
 				clickSpy.restore();
 			});
 
 			it('Should change class', function () {
-				var G = new GeocodeControl();
+				var g = new GeocodeControl();
 
-				G.onAdd(null);
+				g.onAdd(null);
 				/* jshint -W030 */
-				expect(G._container.classList.contains('geocode-control-expanded'))
+				expect(g._container.classList.contains('geocode-control-expanded'))
 						.to.be.false;
-				G._onToggleClick();
-				expect(G._container.classList.contains('geocode-control-expanded'))
+				g._onToggleClick();
+				expect(g._container.classList.contains('geocode-control-expanded'))
 						.to.be.true;
-				G._onToggleClick();
-				expect(G._container.classList.contains('geocode-control-expanded'))
+				g._onToggleClick();
+				expect(g._container.classList.contains('geocode-control-expanded'))
 						.to.be.false;
 				/* jshint +W030 */
 			});
 		});
 
 		describe('_onKeyUp()', function () {
-			var G = new GeocodeControl(),
+			var g = new GeocodeControl(),
 			    doGeocodeSpy;
 
 			before(function () {
-				doGeocodeSpy = sinon.spy(G, '_doGeocode');
+				doGeocodeSpy = sinon.spy(g, '_doGeocode');
 				// make sure text input is defined
-				G.onAdd(null);
+				g.onAdd(null);
 			});
 
 			after(function () {
@@ -181,31 +181,31 @@ define([
 			});
 
 			it('is called on textInput keyup event', function () {
-				var keyUpSpy = sinon.spy(G, '_onKeyUp');
+				var keyUpSpy = sinon.spy(g, '_onKeyUp');
 
 				// rebind spy version of onKeyUp
-				G.onAdd(null);
-				G._textInput.dispatchEvent(getKeyboardEvent('keyup', 13));
+				g.onAdd(null);
+				g._textInput.dispatchEvent(getKeyboardEvent('keyup', 13));
 				expect(keyUpSpy.called).to.equal(true);
 				keyUpSpy.restore();
 			});
 
 			it('Does not call _doGeocode when value is empty', function () {
-				G._textInput.value = '';
-				G._onKeyUp({keyCode:13});
+				g._textInput.value = '';
+				g._onKeyUp({keyCode:13});
 				expect(doGeocodeSpy.called).to.equal(false);
 			});
 
 			it('Does not call _doGeocode when keyCode is not 13', function () {
-				G._textInput.value = 'test';
-				G._onKeyUp({keyCode:14});
+				g._textInput.value = 'test';
+				g._onKeyUp({keyCode:14});
 				expect(doGeocodeSpy.called).to.equal(false);
 			});
 
 			it('Calls _doGeocode when keyCode is 13 and value is not empty',
 					function () {
-				G._textInput.value = 'test';
-				G._onKeyUp({keyCode:14});
+				g._textInput.value = 'test';
+				g._onKeyUp({keyCode:14});
 				expect(doGeocodeSpy.called).to.equal(false);
 			});
 		});
