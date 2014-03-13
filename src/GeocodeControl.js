@@ -72,7 +72,6 @@ define([
 		},
 
 		_doGeocode: function (textAddress) {
-			//ToDo send address out receive lat lng back
 			this._geocoder.forward(textAddress, (function (control) {
 				return function (geocodeResult) {
 					control.setLocation(geocodeResult);
