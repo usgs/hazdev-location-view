@@ -11,15 +11,6 @@ require([
 	    _onLocationCallback,
 	    locationView;
 
-	locationView = new LocationView({
-		onLocationCallback: _onLocationCallback
-	});
-
-	// Open location view when button is clicked
-	_showLocationButton.addEventListener('click', function () {
-		locationView.show();
-	});
-
 	_onLocationCallback = function (loc) {
 		var description = '';
 
@@ -27,13 +18,17 @@ require([
 			description = loc.description;
 		}
 
-		_locationResult.innerHTML = [
-			'Latitude: ', loc.latitude, '<br/>',
-			'Longitude: ', loc.longitude, '<br/>',
-			'Precision: ', loc.precision, '<br/>',
-			description
-		].join('');
+		_locationResult.innerHTML = JSON.stringify(loc, null, 2);
 	};
+
+	locationView = new LocationView({
+		callback: _onLocationCallback
+	});
+
+	// Open location view when button is clicked
+	_showLocationButton.addEventListener('click', function () {
+		locationView.show();
+	});
 
 	locationView.show();
 });
