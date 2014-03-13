@@ -70,9 +70,7 @@ define([
 			it('sets options on itself', function () {
 				expect(G.options).to.be.an.instanceof(Object);
 			});
-
 		});
-
 
 		describe('setLocation()', function () {
 			it('sets its location', function () {
@@ -144,7 +142,5 @@ define([
 				expect(doGeocodeSpy.called).to.equal(false);
 			});
 		});
-
 	});
-
 });
