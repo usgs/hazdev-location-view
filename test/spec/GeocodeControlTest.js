@@ -32,18 +32,6 @@ define([
 			);
 		} else {
 		// http://stackoverflow.com/questions/10455626/keydown-simulation-in-chrome-fires-normally-but-not-the-correct-key
-		/*
-			Object.defineProperty(ev, 'keyCode', {
-				get: function() {
-					return keyCode;
-				}
-			});
-			Object.defineProperty(ev, 'which', {
-			get: function() {
-				return keyCode;
-				}
-			});
-		*/
 			ev.initKeyboardEvent(
 				type, // type
 				true, // bubble
@@ -115,7 +103,6 @@ define([
 		});
 
 		describe('_onKeyUp()', function () {
-			//This will be done with an app at a later date
 			var G = new GeocodeControl(),
 			    doGeocodeSpy;
 
