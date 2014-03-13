@@ -8,13 +8,15 @@
 	max-width:640px;
 	max-height:557px; // 480 + 43 + 34
 
+	> .modal-header {
+		height:43px;
+	}
+
 	> .modal-header, > .modal-footer {
 		position:relative;
 		z-index:10;
 		box-shadow:0 0 7px rgba(0, 0, 0, 0.4);
 		background-color:#FAFAFA;
-		height:43px;
-		overflow-y:hidden;
 	}
 
 	> .modal-content {
@@ -44,4 +46,3 @@
 		padding-right:8px;
 	}
 }
-
