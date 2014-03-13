@@ -17,9 +17,10 @@
 	width: 26px;
 	cursor: pointer;
 	display: block;
-	background-image: url(location-view-icon.png);
-	background-position: 0px 0px;
+	background-image: url(location-view-icons.png);
+	background-position: -26px 0px;
 	background-repeat: no-repeat;
+	background-size: 400% 200%;
 }
 
 .geocode-control-input {
@@ -49,6 +50,10 @@
 	cursor: pointer;
 	color: #333;
 	text-decoration: none;
+}
+
+.geocode-control-expanded > .geocode-control-toggle {
+	background-position: -26px -26px;
 }
 
 .geocode-control-expanded > .geocode-control-input,
