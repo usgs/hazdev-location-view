@@ -32,6 +32,7 @@ define([
 			);
 		} else {
 		// http://stackoverflow.com/questions/10455626/keydown-simulation-in-chrome-fires-normally-but-not-the-correct-key
+		/*
 			Object.defineProperty(ev, 'keyCode', {
 				get: function() {
 					return keyCode;
@@ -42,7 +43,7 @@ define([
 				return keyCode;
 				}
 			});
-
+		*/
 			ev.initKeyboardEvent(
 				type, // type
 				true, // bubble
@@ -52,6 +53,7 @@ define([
 				null, // location
 				null //modifiers
 			);
+
 		}
 		return ev;
 	}
@@ -112,37 +114,48 @@ define([
 			});
 		});
 
-		describe('_onKeyUp()', function (){
+		describe('_onKeyUp()', function () {
 			//This will be done with an app at a later date
 			var G = new GeocodeControl(),
-			    textInput,
-			    spy;
-
-			G.onAdd(null);
-			textInput = G._textInput;
+			    doGeocodeSpy;
 
 			before(function () {
-				spy = sinon.spy(G, '_doGeocode');
+				doGeocodeSpy = sinon.spy(G, '_doGeocode');
+				// make sure text input is defined
+				G.onAdd(null);
 			});
 
 			after(function () {
-				spy.restore();
+				doGeocodeSpy.restore();
 			});
 
-			it('Does not geocode when user presses enter key if there is no value',
+			it('is called on textInput keyup event', function () {
+				var keyUpSpy = sinon.spy(G, '_onKeyUp');
+				// rebind spy version of onKeyUp
+				G.onAdd(null);
+				G._textInput.dispatchEvent(getKeyboardEvent('keyup', 13));
+				expect(keyUpSpy.called).to.equal(true);
+				keyUpSpy.restore();
+			});
+
+			it('Does not call _doGeocode when value is empty', function () {
+				G._textInput.value = '';
+				G._onKeyUp({keyCode:13});
+				expect(doGeocodeSpy.called).to.equal(false);
+			});
+
+			it('Does not call _doGeocode when keyCode is not 13', function () {
+				G._textInput.value = 'test';
+				G._onKeyUp({keyCode:14});
+				expect(doGeocodeSpy.called).to.equal(false);
+			});
+
+			it('Calls _doGeocode when keyCode is 13 and value is not empty',
 					function () {
-				textInput.value = '';
-				textInput.dispatchEvent(getKeyboardEvent('keyup', 13));
-				expect(spy.called).to.equal(false);
+				G._textInput.value = 'test';
+				G._onKeyUp({keyCode:14});
+				expect(doGeocodeSpy.called).to.equal(false);
 			});
-
-			it('geocodes when user presses enter key and there is a value',
-					function () {
-				textInput.value = 'test';
-				textInput.dispatchEvent(getKeyboardEvent('keyup', 13));
-				expect(spy.called).to.equal(true);
-			});
-
 		});
 
 	});
