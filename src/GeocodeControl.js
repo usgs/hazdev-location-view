@@ -58,7 +58,7 @@ define([
 			searchButton.href = '#';
 
 			L.DomEvent.on(textInput, 'keyup', this._onKeyUp, this);
-			L.DomEvent.on(searchButton, 'click', this._onSubmitClick, this);
+			L.DomEvent.on(searchButton, 'click', this._onSearchClick, this);
 			L.DomEvent.on(toggleButton, 'click', this._onToggleClick, this);
 			L.DomEvent.on(container, 'keydown', stop);
 			L.DomEvent.on(container, 'keyup', stop);
@@ -86,8 +86,10 @@ define([
 			}
 		},
 
-		_onSubmitClick: function (/*clickEvent*/) {
-			this._doGeocode(this._textInput.value);
+		_onSearchClick: function (/*clickEvent*/) {
+			if (this._textInput.value !== '') {
+				this._doGeocode(this._textInput.value);
+			}
 		},
 
 		_onToggleClick: function (/*clickEvent*/) {
