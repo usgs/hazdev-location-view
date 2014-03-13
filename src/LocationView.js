@@ -25,6 +25,21 @@ define([
 		callback: function (/*location*/) {}
 	};
 
+
+	// ----------------------------------------------------------------------
+	// Static Methods
+	// ----------------------------------------------------------------------
+
+
+	/**
+	 * Helper method to get URLs for any ArcGIS Online map tiles.
+	 *
+	 * @param serviceName {String}
+	 *        The name of the map tile service for which to return a URL template.
+	 *
+	 * @return {String}
+	 *         The service URL template for use in an L.TileLayer.
+	 */
 	var __get_arcgisonline_url = function (serviceName) {
 		var urlPrefix = 'https://server.arcgisonline.com/ArcGIS/rest/services/',
 		    urlSuffix = '/MapServer/tile/{z}/{y}/{x}';
@@ -32,6 +47,20 @@ define([
 		return urlPrefix + serviceName + urlSuffix;
 	};
 
+
+	// ----------------------------------------------------------------------
+	// Initialization Methods
+	// ----------------------------------------------------------------------
+
+
+	/**
+	 * @constructor
+	 * Creates a new LocationView.
+	 *
+	 * @param options {Object}
+	 *        An object containing configuration options. See DEFAULTS for
+	 *        detailed documentation on what can be specified.
+	 */
 	var LocationView = function (options) {
 		this._options = Util.extend({}, DEFAULTS, options || {});
 
@@ -43,13 +72,16 @@ define([
 		}
 	};
 
-
-	LocationView.prototype.show = function (options) {
-		this._modal.show();
-		this._updateMap(options);
-	};
-
-
+	/**
+	 * @PrivateInitializer
+	 * Called during construction. Creates and initializes the map component.
+	 *
+	 * Defines:
+	 *      this._map {L.Map}
+	 *      this._mapContainer {DomElement}
+	 *      this._locationControl {LocationControl}
+	 *
+	 */
 	LocationView.prototype._createMap = function () {
 		var layerControl = new L.Control.Layers();
 
@@ -61,7 +93,6 @@ define([
 			attributionControl: false
 		});
 
-
 		layerControl.addBaseLayer(new L.TileLayer(
 				__get_arcgisonline_url('NatGeo_World_Map'))
 				.addTo(this._map), 'Topography');
@@ -70,26 +101,35 @@ define([
 		layerControl.addBaseLayer(new L.TileLayer(
 				__get_arcgisonline_url('World_Imagery')), 'Satellite');
 
-
 		// TODO :: Use a real location control
 		this._locationControl = new LocationControl(this._options);
 
 		// TODO :: Remove these faky methods in favor of real class implementation
 		this._locationControl.getLocation = function () {
 			return {
-				latitude: 40.0,
-				longitude: -105.0,
-				precision: 3
+				place: '40&deg;N, 105&deg;W',
+				latitude: 40,
+				longitude: -105,
+				method: 'PointControl',
+				confidence: 3,
+				accuracy: null
 			};
 		};
 		this._locationControl.setLocation = function () {};
 		this._locationControl.addTo = function () { return null; };
 
-
 		this._map.addControl(layerControl);          // Layer switcher
 		this._map.addControl(this._locationControl); // Methods to set locations
 	};
 
+	/**
+	 * @PrivateInitializer
+	 * Called during construction. Creates and initializes the modal component.
+	 *
+	 * Defines:
+	 *      this._modal {ModalView}
+	 *
+	 */
 	LocationView.prototype._createModal = function () {
 		var _this = this;
 
@@ -101,12 +141,60 @@ define([
 					text: 'Use this Location',
 					callback: function () {
 						_this._options.callback(_this._locationControl.getLocation());
+						_this._modal.hide();
 					}
 				}
 			]
 		});
 	};
 
+
+	// ----------------------------------------------------------------------
+	// Public Methods
+	// ----------------------------------------------------------------------
+
+
+	/**
+	 * @APIMethod
+	 * Shows the LocationView. If no options are specified, there is no default
+	 * location displayed and the map will show roughly one instance of the
+	 * entire world.
+	 *
+	 * @param options {Object}
+	 *        Configuration options for default extent and location when the
+	 *        LocationView is shown.
+	 *
+	 *        extent {Array{Array{Number}}}
+	 *             An array defining the map extent. The first element of this
+	 *             array is an array containing numbers representing the
+	 *             latitude and longitude of the top-left corner of the extent.
+	 *             The second element of this array is an array containing
+	 *             numbers representing the latitude and longitude of the bottom
+	 *             right corner of the extent.
+	 *        initialLocation {Object}
+	 *             A location object to use as the starting location. This
+	 *             location will be displayed initially and also returned if the
+	 *             user does not change it. If null, any previously set location
+	 *             is cleared.
+	 */
+	LocationView.prototype.show = function (options) {
+		this._modal.show();
+		this._updateMap(options);
+	};
+
+
+	// ----------------------------------------------------------------------
+	// Private Methods
+	// ----------------------------------------------------------------------
+
+
+	/**
+	 * Sets initial map display when showing the map.
+	 *
+	 * @param options {Object}
+	 *        Options for setting initial map display properties when showing
+	 *        the location view. See LocationView.show for more details.
+	 */
 	LocationView.prototype._updateMap = function (options) {
 		options = options || {};
 
@@ -118,10 +206,18 @@ define([
 			this._map.fitBounds([[70.0, -170.0], [-50.0, 170.0]]);
 		}
 
-		if (options.hasOwnProperty('initialLocation')) {
+		if (options.hasOwnProperty('initialLocation') &&
+				options.initialLocation.hasOwnProperty('latitude') &&
+				options.initialLocation.hasOwnProperty('longitude') &&
+				options.initialLocation.hasOwnProperty('place') &&
+				options.initialLocation.hasOwnProperty('method') &&
+				options.initialLocation.hasOwnProperty('confidence') &&
+				options.initialLocation.hasOwnProperty('accuracy')) {
+			// initialLocation specified and is a location object
 			this._locationControl.setLocation(options.initialLocation);
 		}
 	};
+
 
 	return LocationView;
 });
