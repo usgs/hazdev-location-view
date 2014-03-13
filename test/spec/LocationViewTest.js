@@ -45,6 +45,12 @@ define([
 
 				expect(l).to.have.property('_modal');
 			});
+
+			it('Auto-opens if the option is specified.', function () {
+				var l = new LocationView({autoOpen: true});
+				expect(document.querySelectorAll('.modal').length).to.equal(1);
+				l._modal.hide();
+			});
 		});
 
 		describe('show', function () {
