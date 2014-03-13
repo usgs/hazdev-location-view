@@ -1,43 +1,44 @@
 {
-	"name": "hazdev-location-view",
-	"version": "0.0.0",
-	"homepage": "http://earthquake.usgs.gov/",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/usgs/hazdev-location-view.git"
-	},
-	"description": "Web library for getting location information from a user.",
-	"author": {
-		"name": "Eric Martinez",
-		"email": "emartinez@usgs.gov"
-	},
-	"contributors": [],
-	"keywords": [
-		"usgs",
-		"ehp",
-		"hazdev"
-	],
-	"scripts": {
-		"test": "grunt test"
-	},
-	"license": "Public Domain",
-	"dependencies": {},
-	"devDependencies": {
-		"chai": "~1.7.0",
-		"connect-livereload": "~0.2.0",
-		"gateway": "~0.1.1",
-		"grunt": "~0.4.1",
-		"grunt-concurrent": "~0.3.0",
-		"grunt-contrib-connect": "~0.3.0",
-		"grunt-contrib-jshint": "~0.6.0",
-		"grunt-contrib-watch": "~0.4.4",
-		"grunt-mocha-phantomjs": "~0.2.8",
-		"matchdep": "~0.1.2",
-		"mocha": "~1.9.0",
-		"leaflet": "~0.6.4",
-		"sinon": "~1.7.3"
-	},
-	"engines": {
-		"node": ">=0.8.0"
-	}
+  "name": "hazdev-location-view",
+  "version": "0.0.0",
+  "homepage": "http://earthquake.usgs.gov/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/usgs/hazdev-location-view.git"
+  },
+  "description": "Web library for getting location information from a user.",
+  "author": {
+    "name": "Eric Martinez",
+    "email": "emartinez@usgs.gov"
+  },
+  "contributors": [],
+  "keywords": [
+    "usgs",
+    "ehp",
+    "hazdev"
+  ],
+  "scripts": {
+    "test": "grunt test"
+  },
+  "license": "Public Domain",
+  "dependencies": {},
+  "devDependencies": {
+    "chai": "~1.7.0",
+    "connect-livereload": "~0.2.0",
+    "gateway": "~0.1.1",
+    "grunt": "~0.4.1",
+    "grunt-concurrent": "~0.3.0",
+    "grunt-contrib-connect": "~0.3.0",
+    "grunt-contrib-jshint": "~0.6.0",
+    "grunt-contrib-watch": "~0.4.4",
+    "grunt-mocha-phantomjs": "~0.2.8",
+    "matchdep": "~0.1.2",
+    "mocha": "~1.9.0",
+    "leaflet": "~0.6.4",
+    "sinon": "~1.7.3",
+    "grunt-contrib-compass": "~0.7.2"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  }
 }
