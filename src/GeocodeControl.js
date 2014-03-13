@@ -41,8 +41,7 @@ define([
 			    searchButton,
 			    stop;
 
-			container = this._container =
-					L.DomUtil.create('div', 'GeocodeControl');
+			container = this._container = L.DomUtil.create('div', 'GeocodeControl');
 			toggleButton = this._toggleButton =
 					L.DomUtil.create('a', 'geocode-control-toggle', container);
 			textInput = this._textInput =
@@ -99,7 +98,6 @@ define([
 				this._textInput.focus();
 			}
 		}
-
 	});
 
 	return GeocodeControl;
