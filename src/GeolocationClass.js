@@ -38,6 +38,7 @@ define([
 				location.accuracy = position.coords.accuracy;
 				location.confidence =
 						ConfidenceCalculator.computeFromGeolocate(location.accuracy);
+
 				options.success(location);
 			});
 		} else {

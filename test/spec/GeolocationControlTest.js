@@ -57,7 +57,7 @@ define([
 			var stub;
 			before(function () {
 				stub = sinon.stub(GeolocationClass.prototype, 'getGeolocation',
-					function (options){
+					function (options) {
 						options.success(location);
 					});
 			});
