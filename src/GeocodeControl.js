@@ -20,6 +20,8 @@ define([
 		initialize: function (options) {
 			L.Util.setOptions(this, L.Util.extend({}, DEFAULT_OPTIONS, options));
 			this._geocoder = new Geocoder();
+			this._geocodeSuccess = this._geocodeSuccess.bind(this);
+			this._geocodeError = this._geocodeError.bind(this);
 		},
 
 		setLocation: function (loc, options) {
@@ -72,11 +74,9 @@ define([
 		},
 
 		_doGeocode: function (textAddress) {
-			this._geocoder.forward(textAddress, (function (control) {
-				return function (geocodeResult) {
-					control.setLocation(geocodeResult);
-				};
-			})(this));
+			this._setLoading(true);
+			this._geocoder.forward(textAddress,
+					this._geocodeSuccess, this._geocodeError);
 		},
 
 		_onKeyUp: function (keyEvent) {
@@ -96,6 +96,29 @@ define([
 				L.DomUtil.removeClass(this._container, 'geocode-control-expanded');
 			} else {
 				L.DomUtil.addClass(this._container, 'geocode-control-expanded');
+				this._textInput.focus();
+			}
+		},
+
+		_geocodeSuccess: function (loc) {
+			this._setLoading(false);
+			this.setLocation(loc);
+		},
+
+		_geocodeError: function (statusCode, statusMessage) {
+			this._setLoading(false);
+			this.fire('locationError', statusCode, statusMessage);
+		},
+
+		_setLoading: function (loading) {
+			if (loading) {
+				L.DomUtil.addClass(this._container, 'loading');
+				this._textInput.disabled = true;
+				this._searchButton.disabled = true;
+			} else {
+				L.DomUtil.removeClass(this._container, 'loading');
+				this._textInput.disabled = false;
+				this._searchButton.disabled = false;
 				this._textInput.focus();
 			}
 		}
