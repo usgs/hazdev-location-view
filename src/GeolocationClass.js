@@ -22,12 +22,19 @@ define([
 		}
 	};
 
+
+	/**
+	 *
+	 */
 	var GeolocationClass = function (options) {
 		this._options = Util.extend({}, DEFAULTS, options);
 	};
 
 	GeolocationClass.prototype = Object.create(Model.prototype);
 
+	/**
+	 *
+	 */
 	GeolocationClass.prototype.getGeolocation = function (options) {
 		options = Util.extend({}, this.get(), options);
 
@@ -46,6 +53,9 @@ define([
 		}
 	};
 
+	/**
+	 *
+	 */
 	GeolocationClass.prototype.supportsGeolocate = function () {
 		return navigator.geolocation;
 	};
