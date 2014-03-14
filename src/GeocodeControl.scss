@@ -1,0 +1,77 @@
+.GeocodeControl {
+	background-color: #fff;
+	display: block;
+	height: 26px;
+	border: 4px;
+	box-shadow: 0 1px 1px rgba(0,0,0,1);
+	position: relative;
+	border-radius: 4px;
+}
+
+.geocode-control-toggle {
+	height: 26px;
+	width: 26px;
+	cursor: pointer;
+	display: block;
+	background-image: url(location-view-icons.png);
+	background-position: -26px 0px;
+	background-repeat: no-repeat;
+	background-size: 400% 200%;
+}
+
+.geocode-control-input {
+	top: 0px;
+	left: 26px;
+	bottom: 0px;
+	width: 199px;
+	border: none;
+	outline:none;
+	position: absolute;
+	border-left: 1px solid #ccc;
+	padding-left: 10px;
+	margin: 0;
+	padding-right: 10px;
+}
+
+.geocode-control-submit {
+	background-color: #ddd;
+	width: 60px;
+	text-align: center;
+	position: absolute;
+	right: 1px;
+	top: 1px;
+	bottom: 1px;
+	border-radius: 0 4px 4px 0;
+	line-height: 26px;
+	cursor: pointer;
+	color: #333;
+	text-decoration: none;
+
+	&:hover,
+	&:focus {
+		text-decoration: underline;
+		outline: none;
+	}
+}
+
+.geocode-control-input,
+.geocode-control-submit {
+	display: none;
+}
+
+.geocode-control-expanded {
+	width: 286px;
+
+	> .geocode-control-toggle {
+		background-position: -26px -26px;
+	}
+
+	> .geocode-control-input,
+	> .geocode-control-submit {
+		display: block;
+	}
+}
+
+.loading > .geocode-control-submit {
+	cursor: default;
+}
