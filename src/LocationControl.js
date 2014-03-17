@@ -34,7 +34,8 @@ define([
 			this._location = this.options.location || null;
 
 			this.PointControl = this.options.PointControl || new PointControl();
-			this.CoordinateControl = this.options.CoordinateControl || new CoordinateControl();
+			this.CoordinateControl = this.options.CoordinateControl ||
+					new CoordinateControl();
 			this.GeocodeControl = this.options.GeocodeControl || new GeocodeControl();
 
 		},
@@ -56,7 +57,8 @@ define([
 				this._pointControl.innerHTML = '<span>Drop/ Drag Pin</span>';
 				this.PointControl.on('location', this.setLocation, this);
 
-				L.DomEvent.addListener(this._pointControl, 'click', function () { this._onClick('point-control'); }, this);
+				L.DomEvent.addListener(this._pointControl, 'click',
+						function () { this._onClick('point-control'); }, this);
 			}
 
 			// Add Coordinate Control
@@ -67,9 +69,11 @@ define([
 
 				this._coordinateControlToggle = this._coordinateControl.querySelector(
 						'.leaflet-coordinate-control-toggle');
-				this._coordinateControlToggle.innerHTML = '<span>Enter Coordinates</span>';
+				this._coordinateControlToggle.innerHTML =
+						'<span>Enter Coordinates</span>';
 				
-				L.DomEvent.addListener(this._coordinateControlToggle, 'click', function () { this._onClick('coordinate-control'); }, this);
+				L.DomEvent.addListener(this._coordinateControlToggle, 'click',
+						function () { this._onClick('coordinate-control'); }, this);
 			}
 
 			//TODO, Add Geocode Control
@@ -78,10 +82,13 @@ define([
 				this._geocodeControl = this.GeocodeControl._container;
 				this.GeocodeControl.on('location', this.setLocation, this);
 
-				this._geocodeControlToggle = this._geocodeControl.querySelector('.leaflet-geocode-control-toggle');
-				this._geocodeControl.querySelector('a').innerHTML = '<span>Enter Address</span>';
+				this._geocodeControlToggle = this._geocodeControl.querySelector(
+						'.leaflet-geocode-control-toggle');
+				this._geocodeControl.querySelector('a').innerHTML =
+						'<span>Enter Address</span>';
 
-				L.DomEvent.addListener(this._geocodeControl, 'click', function () { this._onClick('geocode-control'); }, this);
+				L.DomEvent.addListener(this._geocodeControl, 'click',
+						function () { this._onClick('geocode-control'); }, this);
 			}
 
 			//TODO, Add Geolocate Control
@@ -90,10 +97,13 @@ define([
 				this._geolocateControl = this.GeolocateControl._container;
 				this.GeolocateControl.on('location', this.setLocation, this);
 
-				this._geolocateControlToggle = this._geolocateControl.querySelector('.leaflet-geolocate-control-toggle');
-				this._geolocateControl.querySelector('a').innerHTML = '<span>Find Me</span>';
+				this._geolocateControlToggle = this._geolocateControl.querySelector(
+						'.leaflet-geolocate-control-toggle');
+				this._geolocateControl.querySelector('a').innerHTML =
+						'<span>Find Me</span>';
 
-				L.DomEvent.addListener(this._geolocateControl, 'click', function () { this._onClick('geolocate-control'); }, this);
+				L.DomEvent.addListener(this._geolocateControl, 'click',
+						function () { this._onClick('geolocate-control'); }, this);
 			}
 
 			// create overlay with control information
@@ -120,7 +130,8 @@ define([
 			    geolocateControlInfo;
 
 			if (this.options.includePointControl) {
-				pointControlInfo = L.DomUtil.create('li', 'information-list-point-control');
+				pointControlInfo = L.DomUtil.create('li',
+						'information-list-point-control');
 				pointControlInfo.innerHTML = [
 					'<span class="icon"></span>',
 					'<p>Click on the map to specify a location.</p>'
@@ -134,7 +145,8 @@ define([
 			}
 
 			if (this.options.includeCoordinateControl) {
-				coordinateControlInfo = L.DomUtil.create('li', 'information-list-coordinate-control');
+				coordinateControlInfo = L.DomUtil.create('li',
+						'information-list-coordinate-control');
 				coordinateControlInfo.innerHTML = [
 					'<span class="icon"></span>',
 					'<p>Enter latitude and longitude coordinates.</p>'
@@ -148,7 +160,8 @@ define([
 			}
 
 			if (this.options.includeGeocodeControl) {
-				geocodeControlInfo = L.DomUtil.create('li', 'information-list-geocode-control');
+				geocodeControlInfo = L.DomUtil.create('li',
+						'information-list-geocode-control');
 				geocodeControlInfo.innerHTML = [
 					'<span class="icon"></span>',
 					'<p>Search for a location using an address.</p>'
@@ -162,7 +175,8 @@ define([
 			}
 
 			if (this.options.includeGeolocateControlInfo) {
-				geolocateControlInfo = L.DomUtil.create('li', 'information-list-geolocate-control');
+				geolocateControlInfo = L.DomUtil.create('li',
+						'information-list-geolocate-control');
 				geolocateControlInfo.innerHTML = [
 					'<span class="icon"></span>',
 					'<p>Attempt to automatically locate my current location.</p>'
@@ -232,14 +246,18 @@ define([
 
 		_deselectControl: function () {
 			// check for enabled control to disable it
-			if(this._pointControl && L.DomUtil.hasClass(this._pointControl, 'enabled')) {
+			if(this._pointControl &&
+					L.DomUtil.hasClass(this._pointControl, 'enabled')) {
 				this.PointControl.disableControl();
 				L.DomUtil.removeClass(this._pointControl, 'enabled');
-			} else if (this._coordinateControl && L.DomUtil.hasClass(this._coordinateControl, 'enabled')) {
+			} else if (this._coordinateControl &&
+					L.DomUtil.hasClass(this._coordinateControl, 'enabled')) {
 				L.DomUtil.removeClass(this._coordinateControl, 'enabled');
-			} else if (this._geolocateControl && L.DomUtil.hasClass(this._geolocateControl, 'enabled')) {
+			} else if (this._geolocateControl &&
+					L.DomUtil.hasClass(this._geolocateControl, 'enabled')) {
 				L.DomUtil.removeClass(this._geolocateControl, 'enabled');
-			} else if (this._geocodeControl && L.DomUtil.hasClass(this._geocodeControl, 'enabled')) {
+			} else if (this._geocodeControl &&
+					L.DomUtil.hasClass(this._geocodeControl, 'enabled')) {
 				L.DomUtil.removeClass(this._geocodeControl, 'enabled');
 			}
 
@@ -248,13 +266,16 @@ define([
 
 		onRemove: function () {
 			if (this.options.includePointControl) {
-				L.DomEvent.removeListener(this._pointControl, 'click', function () { this._onClick('point-control'); });
+				L.DomEvent.removeListener(this._pointControl, 'click',
+						function () { this._onClick('point-control'); });
 			}
 			if (this.options.includeCoordinateControl) {
-				L.DomEvent.removeListener(this._coordinateControl, 'click', CoordinateControl.onAdd(this._map));
+				L.DomEvent.removeListener(this._coordinateControl, 'click',
+						CoordinateControl.onAdd(this._map));
 			}
 			if (this.options.includeGeocodeControl) {
-				L.DomEvent.removeListener(this._geocodeControl, 'click', GeocodeControl.onAdd(this._map));
+				L.DomEvent.removeListener(this._geocodeControl, 'click',
+						GeocodeControl.onAdd(this._map));
 			}
 			if (this.options.includeGeolocateControl) {
 				// TODO, add GeolocateControl
@@ -269,38 +290,36 @@ define([
 			this._location = location;
 
 			// update all controls
-			if (location.latitude && location.longitude) {
-				if (this.PointControl && this.PointControl.setLocation) {
-					this.PointControl.setLocation(location, {'silent':true});
+			if (this.PointControl && this.PointControl.setLocation) {
+				this.PointControl.setLocation(location, {'silent':true});
+			}
+			if (this.CoordinateControl && this.CoordinateControl.setLocation) {
+				// trim to confidence number for coordinate control inputs
+				if (location.confidence !== null) {
+					location.latitude = location.latitude.toFixed(location.confidence);
+					location.longitude = location.longitude.toFixed(location.confidence);
 				}
-				if (this.CoordinateControl && this.CoordinateControl.setLocation) {
-					// trim to confidence number for coordinate control inputs
-					if (location.confidence !== null) {
-						location.latitude = location.latitude.toFixed(location.confidence);
-						location.longitude = location.longitude.toFixed(location.confidence);
-					}
-					this.CoordinateControl.setLocation(location, {'silent':true});
-				}
-				if (this.GeocodeControl && this.GeocodeControl.setLocation) {
-					this.GeocodeControl.setLocation(location, {'silent':true});
-				}
-
-				zoomLevel = ConfidenceCalculator.computeZoomFromConfidence(location.confidence);
-
-				// do not zoom the user out
-				if (zoomLevel < this._map._zoom) {
-					zoomLevel = this._map._zoom;
-				}
-
-				// TODO, center the map
-				this._map.setView({
-						lon: location.longitude,
-						lat: location.latitude
-					},
-					zoomLevel
-				);
+				this.CoordinateControl.setLocation(location, {'silent':true});
+			}
+			if (this.GeocodeControl && this.GeocodeControl.setLocation) {
+				this.GeocodeControl.setLocation(location, {'silent':true});
 			}
 
+			zoomLevel = ConfidenceCalculator.computeZoomFromConfidence(
+					location.confidence);
+
+			// do not zoom the user out
+			if (zoomLevel < this._map._zoom) {
+				zoomLevel = this._map._zoom;
+			}
+
+			// TODO, center the map
+			this._map.setView({
+					lon: location.longitude,
+					lat: location.latitude
+				},
+				zoomLevel
+			);
 
 			if (!(options && options.silent)){
 				this.fire('location', this._location);
