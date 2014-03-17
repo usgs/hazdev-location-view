@@ -24,7 +24,10 @@ define([
 
 
 	/**
+	 * GeolocationClass
 	 *
+	 * Class to return current geolocation.
+	 * Uses the browsers native api navigator.geolocation
 	 */
 	var GeolocationClass = function (options) {
 		this._options = Util.extend({}, DEFAULTS, options);
@@ -33,7 +36,13 @@ define([
 	GeolocationClass.prototype = Object.create(Model.prototype);
 
 	/**
+	 * getGeolocation
 	 *
+	 * returns a location object via the provided callback function.
+	 *
+	 * @param success {callback function}
+	 *
+	 * @return success(location)
 	 */
 	GeolocationClass.prototype.getGeolocation = function (options) {
 		options = Util.extend({}, this.get(), options);
@@ -54,7 +63,9 @@ define([
 	};
 
 	/**
+	 * supportsGeolocate
 	 *
+	 * @return undefined if not supported, object if supported.
 	 */
 	GeolocationClass.prototype.supportsGeolocate = function () {
 		return navigator.geolocation;
