@@ -31,7 +31,6 @@ define([
 		initialize: function (options) {
 			L.Util.setOptions(this, L.Util.extend({}, DEFAULTS, options));
 			this._location = this.options.location || null;
-			this._enabled = false;
 		},
 
 		onAdd: function (map) {
