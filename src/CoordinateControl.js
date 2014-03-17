@@ -50,16 +50,16 @@ define([
 
 			control.title = 'Location Using Latitude/ Longitude';
 			control.innerHTML = [
-					'<input name="latitude" title="latitude" id="latitude"',
+					'<input name="latitude" title="latitude" class="latitude"',
 							'placeholder="Latitude" />',
-					'<input name="longitude" title="longitude" id="longitude"',
+					'<input name="longitude" title="longitude" class="longitude"',
 							'placeholder="Longitude" />',
-					'<button id="coordinate-submit">Search</button>',
+					'<button class="coordinate-submit">Search</button>',
 			].join('');
 
-			this._latitude = control.querySelector('#latitude');
-			this._longitude = control.querySelector('#longitude');
-			this._submit = control.querySelector('#coordinate-submit');
+			this._latitude = control.querySelector('.latitude');
+			this._longitude = control.querySelector('.longitude');
+			this._submit = control.querySelector('.coordinate-submit');
 
 			if (this.options.defaultEnabled) {
 				this._toggleInput();
