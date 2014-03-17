@@ -64,14 +64,10 @@ define([
 		},
 
 		/**
-		 * Given a distance in meters, compute the zoom level to zoom the map to.
-		 *
-		 * @params distance {number} indicates a distance in meters.
+		 * Compute zoom level given a confidence.
+		 * @params confidence {number} indicates the confidence level
 		 */
-
-		computeZoomFromGeocode: function (distance) {
-			var confidence = this.computeFromGeocode(distance);
-
+		computeZoomFromConfidence: function (confidence) {
 			if (confidence === ConfidenceCalculator.HIGH_CONFIDENCE) {
 				return 17;
 			} else if( confidence === ConfidenceCalculator.ABOVE_AVERAGE_CONFIDENCE) {
@@ -86,6 +82,13 @@ define([
 				return 1;
 			}
 		},
+
+
+		computeZoomFromGeocode: function (result) {
+			var confidence = this.computeFromGeocode(result);
+			return this.computeFromGeocode(confidence);
+		},
+
 
 		/**
 		 * Compute Confidence given a accuracy in meters.
