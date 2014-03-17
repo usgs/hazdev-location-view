@@ -38,9 +38,12 @@ define([
 
 			this._map = map;
 
-			var container = this._container = L.DomUtil.create('div', 'leaflet-coordinate-control-wrapper'),
-			    toggle = this._toggle = L.DomUtil.create('a', 'leaflet-coordinate-control-toggle'),
-			    control = this._control = L.DomUtil.create('div', 'leaflet-coordinate-control-input'),
+			var container = this._container = L.DomUtil.create('div',
+							'leaflet-coordinate-control-wrapper'),
+			    toggle = this._toggle = L.DomUtil.create('a',
+							'leaflet-coordinate-control-toggle'),
+			    control = this._control = L.DomUtil.create('div',
+							'leaflet-coordinate-control-input'),
 			    stop = L.DomEvent.stopPropagation;
 
 			container.appendChild(toggle);
@@ -48,8 +51,10 @@ define([
 
 			control.title = 'Location Using Latitude/ Longitude';
 			control.innerHTML = [
-					'<input name="latitude" title="latitude" id="latitude" placeholder="Latitude" />',
-					'<input name="longitude" title="longitude" id="longitude" placeholder="Longitude" />',
+					'<input name="latitude" title="latitude" id="latitude"',
+							'placeholder="Latitude" />',
+					'<input name="longitude" title="longitude" id="longitude"',
+							'placeholder="Longitude" />',
 					'<button id="coordinate-submit">Search</button>',
 			].join('');
 
