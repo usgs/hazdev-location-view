@@ -4,10 +4,17 @@
 	<title>UI Test for Coordinate Control</title>
 
 	<link rel="stylesheet" href="/leaflet/dist/leaflet.css"/>
+	<link rel="stylesheet" href="LocationView.css"/>
 	<link rel="stylesheet" href="CoordinateControl.css"/>
 	<style>
 		* {
 			box-sizing: border-box;
+			-moz-box-sizing: border-box;
+		}
+
+		.leaflet-control {
+			border-radius:4px;
+			box-shadow: 0 1px 1px rgb(0,0,0);
 		}
 
 		html, body, .map {
