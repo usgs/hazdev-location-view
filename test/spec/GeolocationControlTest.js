@@ -4,20 +4,17 @@ define([
 	'sinon',
 	'leaflet',
 
-	'GeolocationControl',
-	'GeolocationClass'
+	'GeolocationControl'
 ], function (
 	chai,
 	sinon,
 	L,
 
-	GeolocationControl,
-	GeolocationClass
+	GeolocationControl
 ) {
 	'use strict';
 	var expect = chai.expect;
 
-	
 
 	describe('GeolocationControl test suite', function () {
 
@@ -53,12 +50,14 @@ define([
 
 		describe('onAdd()', function () {
 			var glc = new GeolocationControl();
-			var clickHandler = sinon.spy(glc, '_onChange');
+			var clickHandler = sinon.spy(glc, 'getGeolocate');
 			var stub;
+
 			before(function () {
-				stub = sinon.stub(GeolocationClass.prototype, 'getGeolocation',
-					function (options) {
-						options.success(location);
+				stub = sinon.stub(glc, 'callGeolocate',
+						function () {
+							var position = {coords:{longitude:45,latitude:-105,accuracy:10}};
+							glc._geolocateSuccess(position);
 					});
 			});
 			after(function () {
