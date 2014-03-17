@@ -24,9 +24,15 @@ define([
 				return ConfidenceCalculator.NOT_COMPUTED;
 			}
 
-			var latitudePieces = latitude.split('.');
-			var longitudePieces = longitude.split('.');
-			var minDecimals = Math.min(latitudePieces[1].length,
+			var latitudePieces = latitude.split('.'),
+			    longitudePieces = longitude.split('.'),
+			    minDecimals;
+
+			if (latitudePieces.length === 1 || longitudePieces.length === 1) {
+				return ConfidenceCalculator.LOW_CONFIDENCE;
+			}
+
+			minDecimals = Math.min(latitudePieces[1].length,
 					longitudePieces[1].length);
 
 			if (minDecimals >= 5) {
