@@ -313,7 +313,7 @@ define([
 				zoomLevel = this._map._zoom;
 			}
 
-			// TODO, center the map
+			// center the map
 			this._map.setView({
 					lon: location.longitude,
 					lat: location.latitude
