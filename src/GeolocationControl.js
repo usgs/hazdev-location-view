@@ -2,24 +2,24 @@
 define([
 	'leaflet',
 
-	'GeolocationClass'
+	'ConfidenceCalculator'
 ], function (
 	L,
-	GeolocationClass
+
+	ConfidenceCalculator
 ) {
 	'use strict';
 
 	var DEFAULTS = {
 		'location': {
-			'place': null,
 			'longitude': null,
 			'latitude': null,
 			'confidence':null,
 			'accuracy': null
 		},
-		'geolocation': null,
 		'position': 'topleft'
 	};
+	var _this;
 
 	var GeolocationControl = L.Control.extend({
 		includes: L.Mixin.Events,
@@ -27,9 +27,6 @@ define([
 		initialize: function (options) {
 			L.Util.setOptions(this, L.Util.extend({}, DEFAULTS, options));
 			this.location = this.options.location;
-			if (this.options.geolocation === null) {
-				this.options.geolocation = new GeolocationClass();
-			}
 		},
 
 		onAdd: function (map) {
@@ -40,27 +37,53 @@ define([
 
 			container.title = 'Use Current Location';
 
-			L.DomEvent.addListener(container, 'click', this._onChange, this);
+			L.DomEvent.addListener(container, 'click', this.getGeolocate, this);
 
 			return container;
 		},
 
-		_onChange: function () {
-			var _this = this;
-			if( !this.options.geolocation.supportsGeolocate()) {
-				return;
+		getGeolocate: function () {
+			_this = this;
+			if( !this.supportsGeolocate()) {
+				this._geolocateError({'code':0,'message':'Geolocation not supported'});
 			}
-			this.options.geolocation.getGeolocation({success:function(location){
-				_this.options.location.latitude = location.latitude;
-				_this.options.location.longitude = location.longitude;
-				_this.options.location.accuracy = location.accuracy;
-				_this.options.confidence = location.confidence;
-				if (_this.options.location.latitude !== null &&
-						_this.options.location.longitude !==null) {
-					_this.fire('location', _this.options.location);
-				}
-			}});
+			this.callGeolocate();
+		},
+
+		callGeolocate: function () {
+			navigator.geolocation.getCurrentPosition(
+				this._geolocateSuccess, this._geolocateError);
+		},
+
+		supportsGeolocate: function () {
+			if (navigator.geolocation) {
+				return true;
+			}
+			else{
+				return false;
+			}
+		},
+
+		_geolocateSuccess: function (position) {
+			var location = _this.options.location;
+			location.latitude = position.coords.latitude;
+			location.longitude = position.coords.longitude;
+			location.accuracy = position.coords.accuracy;
+			location.confidence =
+					ConfidenceCalculator.computeFromGeolocate(
+						location.accuracy);
+
+			if (location.latitude !== null &&
+					location.longitude !== null) {
+				_this.fire('location', location);
+			}
+		},
+
+		_geolocateError: function (error) {
+			_this.fire('locationError', {'statusCode':error.code,
+				'statusMessage':error.message});
 		}
+
 	});
 
 	return GeolocationControl;
