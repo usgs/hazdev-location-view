@@ -1,3 +1,8 @@
+.leaflet-control {
+	border-radius:4px;
+	box-shadow: 0 1px 1px rgb(0,0,0);
+}
+
 .leaflet-coordinate-control-wrapper {
 	background:#fff;
 	height:26px;

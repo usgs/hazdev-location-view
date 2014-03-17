@@ -40,7 +40,8 @@ define([
 
 			var container = this._container = L.DomUtil.create('div', 'leaflet-coordinate-control-wrapper'),
 			    toggle = this._toggle = L.DomUtil.create('a', 'leaflet-coordinate-control-toggle'),
-			    control = this._control = L.DomUtil.create('div', 'leaflet-coordinate-control-input');
+			    control = this._control = L.DomUtil.create('div', 'leaflet-coordinate-control-input'),
+			    stop = L.DomEvent.stopPropagation;
 
 			container.appendChild(toggle);
 			container.appendChild(control);
@@ -99,15 +100,9 @@ define([
 		},
 
 		setLocation: function (location, options) {
-
-			//TODO, capture invalid or blank inputs from lat/lon
-
 			this._location = location;
-
-			if (location.latitude && location.longitude) {
-				this._latitude.value = location.latitude;
-				this._longitude.value = location.longitude;
-			}
+			this._latitude.value = location.latitude;
+			this._longitude.value = location.longitude;
 
 			if (!(options && options.silent)) {
 				this.fire('location', this._location);
@@ -119,6 +114,7 @@ define([
 		},
 
 		_onSubmit: function () {
+			//TODO, capture invalid or blank inputs from lat/lon
 			return this.setLocation(
 					this._getCoordinateLocation(
 							this._latitude.value,
