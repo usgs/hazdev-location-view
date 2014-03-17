@@ -1,13 +1,15 @@
 /* global define */
 define([
-	'leaflet'
+	'leaflet',
+	'ConfidenceCalculator'
 ], function (
-	L
+	L,
+	ConfidenceCalculator
 ) {
 	'use strict';
 
 	var getCoordinateControlMethod = function () {
-		return 'confidence-control';
+		return 'coordinate-control';
 	};
 
 	var DEFAULTS = {
@@ -19,7 +21,8 @@ define([
 			'confidence':null,
 			'accuracy': null
 		},
-		'position': 'topleft'
+		'position': 'topleft',
+		'defaultEnabled': false
 	};
 
 	var CoordinateControl =  L.Control.extend({
@@ -27,35 +30,37 @@ define([
 
 		initialize: function (options) {
 			L.Util.setOptions(this, L.Util.extend({}, DEFAULTS, options));
-			this._location = this.options.location;
+			this._location = this.options.location || null;
+			this._enabled = false;
 		},
 
 		onAdd: function (map) {
 
 			this._map = map;
 
-			var control = this._control = L.DomUtil.create('div', 'leaflet-coordinate-control'),
-			    stop = L.DomEvent.stopPropagation;
+			var container = this._container = L.DomUtil.create('div', 'leaflet-coordinate-control-wrapper'),
+			    toggle = this._toggle = L.DomUtil.create('a', 'leaflet-coordinate-control-toggle'),
+			    control = this._control = L.DomUtil.create('div', 'leaflet-coordinate-control-input');
+
+			container.appendChild(toggle);
+			container.appendChild(control);
 
 			control.title = 'Location Using Latitude/ Longitude';
 			control.innerHTML = [
-				'<ul>',
-					'<li class="latitude-list-item">',
-						'<label for="latitude">Latitude:</label>',
-						'<input type="number" name="latitude" id="latitude" min="-90" max="90" step="any" />',
-					'</li>',
-					'<li class="longitude-list-item">',
-						'<label for="longitude">Longitude:</label>',
-						'<input type="number" name="longitude" id="longitude" min="-360" max="360" step="any" />',
-					'</li>',
-					'<li>',
-					'<button id="coordinate-submit">Submit</button>',
-					'</li>'
+					'<input name="latitude" title="latitude" id="latitude" placeholder="Latitude" />',
+					'<input name="longitude" title="longitude" id="longitude" placeholder="Longitude" />',
+					'<button id="coordinate-submit">Search</button>',
 			].join('');
 
 			this._latitude = control.querySelector('#latitude');
 			this._longitude = control.querySelector('#longitude');
 			this._submit = control.querySelector('#coordinate-submit');
+
+			if (this.options.defaultEnabled) {
+				this._toggleInput();
+			}
+
+			L.DomEvent.on(this._toggle, 'click', this._toggleInput, this);
 
 			// Bind to a submit button click
 			L.DomEvent.on(this._submit, 'click', this._onSubmit, this);
@@ -67,7 +72,15 @@ define([
 			L.DomEvent.on(this._control, 'mousedown', stop);
 			L.DomEvent.on(this._control, 'mousemove', stop);
 
-			return control;
+			return container;
+		},
+
+		_toggleInput: function () {
+			if (L.DomUtil.hasClass(this._container, 'enabled')) {
+				L.DomUtil.removeClass(this._container, 'enabled');
+			} else {
+				L.DomUtil.addClass(this._container, 'enabled');
+			}
 		},
 
 		onRemove: function () {
@@ -90,6 +103,11 @@ define([
 			//TODO, capture invalid or blank inputs from lat/lon
 
 			this._location = location;
+
+			if (location.latitude && location.longitude) {
+				this._latitude.value = location.latitude;
+				this._longitude.value = location.longitude;
+			}
 
 			if (!(options && options.silent)) {
 				this.fire('location', this._location);
@@ -121,7 +139,8 @@ define([
 				'longitude': Number(longitude),
 				'latitude': Number(latitude),
 				'method': getCoordinateControlMethod(),
-				'confidence':this._getConfidenceLevel(), // TODO
+				'confidence': ConfidenceCalculator.
+						computeFromCoordinates(latitude, longitude),
 				'accuracy': null // TODO
 			};
 		},
