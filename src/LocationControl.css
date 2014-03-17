@@ -1,163 +1,131 @@
-* {
-	box-sizing:border-box;
+.information-panel {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: rgba(255,255,255,0.5);
+	z-index: 1000;
 }
 
-.leaflet-left .leaflet-location-control {
-	margin-left:5px;
-}
-
-
-.leaflet-left a.leaflet-toggle-control {
-	margin-left:5px;
-}
-
-
-
-/* Container div */
-div.leaflet-location-control {
-	background: none;
-	border-radius: 0;
-	box-shadow:none;
-}
-
-html, body {
-	background: #999;
-}
-
-/* inner container div */
-div.leaflet-inner-location-control {
-	margin-top: 10px;
-	display: block;
-	float: left;
-	max-width: 190px;
-	padding-bottom:5px;
-	clear: both;
-	border:1px solid #fff;
-	background: rgba(255, 255, 255, 0.42);
-}
-
-div.leaflet-inner-location-control-disabled{
+.information-panel.hide {
 	display:none;
 }
 
-/* generic styles for controls inside the div */
-.leaflet-control,
-div.leaflet-inner-location-control {
-	border-radius:4px;
-	/*background: #fff;*/
-	box-shadow:0 1px 1px rgba(0,0,0,1);
+.information-panel > ul.information-list {
+	position:absolute;
+	background: #fff;
+	box-shadow:0 1px 2px rgb(0,0,0);
+	width:80%;
+	margin:10%;
+	z-index:1000;
+	list-style: none;
+	padding:0;
+	cursor:pointer;
 }
 
-div.leaflet-inner-location-control .leaflet-control {
-
-	margin-top: 5px;
+.information-panel > ul.information-list > li {
+	padding:10px 15px 10px 75px;
+	border-top:1px solid #ccc;
+	position: relative;
+	min-height: 65px;
 }
 
-.leaflet-location-control .leaflet-toggle-control {
-	float:left;
-	vertical-align: top;
-	margin:0;
-	/* REMOVE */
-	font-size: 40px;
+.information-panel > ul.information-list > li:hover {
+	background: rgba(250, 250, 202, 0.5);
+}
+
+.information-panel > ul.information-list > li:first-child {
+	border-top:none;
+}
+
+.information-panel > ul.information-list > li > p {
+	font-size:13px;
+}
+
+.information-panel > ul.information-list > li > span.icon {
+	position:absolute;
+	display:block;
+	top:13px;
+	left:10px;
+	background-image: url('location-view-icons.png');
+	background-size: 160px 80px;
+	background-repeat: no-repeat;
+	height:40px;
+	width:40px;
+}
+
+.information-panel > ul.information-list >
+		li.information-list-coordinate-control > span.icon {
+	background-position: 0 0;
+}
+
+.information-panel > ul.information-list >
+		li.information-list-geocode-control > span.icon {
+	background-position: -40px 0;
+}
+
+.information-panel > ul.information-list >
+		li.information-list-geolocate-control > span.icon {
+	background-position: -80px 0;
+}
+
+.information-panel > ul.information-list >
+		li.information-list-point-control > span.icon {
+	background-position: -120px 0;
+}
+
+
+
+
+.information-control.leaflet-control {
+	font-family:"Times New Roman", Times, serif;
 	font-weight: bold;
-	padding: 0 5px;
-	line-height: 40px;
-	/* REMOVE */
-	
+	text-align: center;
+	line-height: 26px;
+	font-size: 18px;
+	border-radius:13px;
+}
+
+
+
+/* generic styles for controls inside the div */
+.leaflet-control {
+	border-radius:4px;
+	box-shadow:0 1px 1px rgb(0,0,0);
 }
 
 /* a link/ buttons that enable controls */
-.leaflet-location-control a.leaflet-control {
+a.leaflet-control {
 	cursor: pointer;
 	display: block;
 	background-repeat: no-repeat;
 	background-color: rgb(245,245,245);
-/*	background-position: 3px 3px;
-	background-size: 20px 20px;*/
 	width:26px;
 	height:26px;
 }
 
-.leaflet-inner-location-control a.leaflet-control {
-	margin-left:5px;
-	margin-right:5px;
-}
 
-/* controls inside the expandable section */
-
-.leaflet-location-control a.enabled {
-	/*
-	border: 1px solid #999;
-	background-color: rgb(213, 213, 213);
-	background-position: 2px 3px;
-	box-shadow: inset 0 1px 3px rgba(0,0,0,0.25);
-	*/
-
-	border: 1px solid #fff;
-	background-color: #fff;
-/*	background-position: 2px 3px;*/
-	box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6);
-}
-
-.leaflet-location-control a:hover {
-	background-color:#fff;
-}
-
-.leaflet-location-control .leaflet-control span {
+.leaflet-control span {
 	display: none;
 }
 
-.leaflet-location-control a.enabled span,
-.leaflet-location-control a:hover span {
+.leaflet-left a.enabled span,
+.leaflet-left a:hover span {
 	display: block;
-	border-radius: 4px;
-	background: rgba(255,255,255,0.635);
-	box-shadow: 0 1px 2px rgba(0,0,0,0.65);
-	max-width: 160px;
-	left: 40px;
 	position: absolute;
+	border-radius: 4px;
+	background: rgba(255,255,255,0.65);
+	box-shadow: 0 1px 2px rgba(0,0,0,0.65);
+	left: 36px;
 	width:147px;
 	padding:0px 10px;
 	text-align: center;
 	color:rgb(0, 120, 168);
-	line-height:24px;
-
+	color:#000;
+	line-height:26px;
 }
 
-.leaflet-location-control a.enabled span {
+.leaflet-left a.enabled span {
 	background: #fff;
-}
-
-
-/*.leaflet-location-control .leaflet-point-control {
-	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAQAAACRZI9xAAAACXBIWXMAAAsTAAALEwEAmpwYAAADGGlDQ1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAAHjaY2BgnuDo4uTKJMDAUFBUUuQe5BgZERmlwH6egY2BmYGBgYGBITG5uMAxIMCHgYGBIS8/L5UBFTAyMHy7xsDIwMDAcFnX0cXJlYE0wJpcUFTCwMBwgIGBwSgltTiZgYHhCwMDQ3p5SUEJAwNjDAMDg0hSdkEJAwNjAQMDg0h2SJAzAwNjCwMDE09JakUJAwMDg3N+QWVRZnpGiYKhpaWlgmNKflKqQnBlcUlqbrGCZ15yflFBflFiSWoKAwMD1A4GBgYGXpf8EgX3xMw8BSMDVQYqg4jIKAUICxE+CDEESC4tKoMHJQODAIMCgwGDA0MAQyJDPcMChqMMbxjFGV0YSxlXMN5jEmMKYprAdIFZmDmSeSHzGxZLlg6WW6x6rK2s99gs2aaxfWMPZ9/NocTRxfGFM5HzApcj1xZuTe4FPFI8U3mFeCfxCfNN45fhXyygI7BD0FXwilCq0A/hXhEVkb2i4aJfxCaJG4lfkaiQlJM8JpUvLS19QqZMVl32llyfvIv8H4WtioVKekpvldeqFKiaqP5UO6jepRGqqaT5QeuA9iSdVF0rPUG9V/pHDBYY1hrFGNuayJsym740u2C+02KJ5QSrOutcmzjbQDtXe2sHY0cdJzVnJRcFV3k3BXdlD3VPXS8Tbxsfd99gvwT//ID6wIlBS4N3hVwMfRnOFCEXaRUVEV0RMzN2T9yDBLZE3aSw5IaUNak30zkyLDIzs+ZmX8xlz7PPryjYVPiuWLskq3RV2ZsK/cqSql01jLVedVPrHzbqNdU0n22VaytsP9op3VXUfbpXta+x/+5Em0mzJ/+dGj/t8AyNmf2zvs9JmHt6vvmCpYtEFrcu+bYsc/m9lSGrTq9xWbtvveWGbZtMNm/ZarJt+w6rnft3u+45uy9s/4ODOYd+Hmk/Jn58xUnrU+fOJJ/9dX7SRe1LR68kXv13fc5Nm1t379TfU75/4mHeY7En+59lvhB5efB1/lv5dxc+NH0y/fzq64Lv4T8Ffp360/rP8f9/AA0ADzT6lvFdAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAFASURBVHjabJE/L4NRFIef276NVvwZSmLR0SeQSKy+gEhYbERiMXUx+AZWBBHEQiKiidRk0kg6mJiQGEQsouTVt++/e+8xtENv47ec4TznyTk5SgBYQiFkpvvmvJL5iq91VVnhCACPTqzKbxbLHqAwq41KsMQ33YiQ2xgpQ4wmi0dx1qathXYv03GUBtcMCTkm6CchYWhezTiImsqOJigWWWGZAgnguQgDBk2ecWCMYVIMUnQQ/WYQfqgRUuMdMOhnZ11917ovTGquuCFCyBA14kvHIlFz12LQ+KRo4PfYvroI6Xn4AhbBArEf7Qvu0Vi/eSgYLAZF80yeehAB4pP4EwyQROF22+ZakI/gVKFRBBf2wfYi0vYcpFGW1IZbgv3PYrGPQcUjrEqdrnRZBEj2QqId6Yz0fLpT6/66vcXJ3wCBZqPRdUZiTAAAAABJRU5ErkJggg==);
-}*/
-
-.leaflet-location-control .leaflet-coordinate-control {
-	/*	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAZVJREFUeNrcVotNwzAQTSoG6AipxAKdoGQC6AZlAsoEaSYgTJBskHQCYIIyAFI9QjYI5+oZvZyS2hUoIE46WfHnnu/3nLjrumgKubpk83WyuJHhBZ/phzm+hp6dRRNJHBI68SSR4U50hdFKI/pmR/HMfAsIAJnoxmOnEs3PAY4CCYi9eSk6D4xOK3ovYE1wjgBSKxBroKDvAnNO7N4aZ/1ACFdJUwYVtpZxT/N7zKXY46SEDa9HGXliDSzPlTHWlgQ2h41xINyEE29j3irvcqghsFN+aN9Ge9UrBlncyvDkcoLQXNLQNZX/o5wvesyAjo/QJ1+3p3kzVrq4eUIeO1nJ2rsL78kjmfB1re2R3QjQbignKo/xZBTkSDXF+EAxLqicjYcVXFXeim6p754nLwYNZJN6pLO9p0CVf8UFop4QKwten6mkGYSCu5xpyJFsRpUWYQ+zSaWrdKgYchCkM3ygMh97DA8E3MKGn72JVCNFqoaSXcC4JtH1EIP/7jOBfDUgyyoApAL5Nn/7Kf+/f0E/IZ8CDACtudoEouOoFAAAAABJRU5ErkJggg==);*/
-	background-image: url('location-control-icons.png');
-	background-size: 400% 100%;
-	background-position: -26px 0px;
-}
-
-.leaflet-location-control .leaflet-coordinate-control .enabled{
-	background-position: -28px 0px;
-}
-
-.leaflet-location-control .leaflet-geocode-control {
-	/*	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAPFJREFUeNpi/P//PwM9ABMDnQALNkEVBUUFIKWAJPTgzoP7D6By80E0kJ9IikWM2IIOaFgDkKpHEmoE4glADLIkACq2AYgTgRZ+oGbQ8QPxfiRLGKDs/UBHCVDTogIgNsAibkCsZdRIDDDLDOiR6ghaRs3kLYDPMiYsKc4BSOVTaJkDXouAChKgqUuACj5LwGoRVGI+FYNyPrJlTFBLCqhsCbJlBchF0AUgdoSy44E4gUILFgDxQoyyDliMHEBLDJSCh8hm0rX0HthqAgf4AI1L9BJBgNoWXQCGuyNavgPlOYdBFXSjFg1+ixiHXbsOIMAA6aNBAlgk68QAAAAASUVORK5CYII=);*/
-	background-image: url('location-control-icons.png');
-	background-size: 400% 100%;
-	background-position: 0px 0px;
-}
-
-.leaflet-location-control .leaflet-geocode-control .enabled{
-background-position: 2px 0px;
-}
-
-.leaflet-location-control .leaflet-geolocate-control {
-/*	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAALZJREFUeNpi/P//PwM9AAuxClUUFAWA1HogdoAKHQDiwDsP7n8gRj8TCY5CtoQByl5PrGZSLHLAJgb0qQK1LcIKgEH3gNoWHSBSjGKLAtEMPgAVIw6AkjepWFleQYFUPYz48hEwohOA1HwodwEQL0RT4g/EBVB2IjC+FuAyi5BF94GUApGB8wFokSC5caRAQhwK0DR50yLVjVo0zC1iJLbiA+ap/zgKVcbROBq1aDQf0acBCRBgAE88eogBaM7kAAAAAElFTkSuQmCC);*/
-background-image: url('location-control-icons.png');
-background-size: 400% 100%;
-background-position: -52px 0px;
 }
