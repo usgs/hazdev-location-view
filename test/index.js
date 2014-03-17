@@ -75,7 +75,6 @@ require([
 		'spec/CoordinateControlTest',
 		'spec/ConfidenceCalculatorTest',
 		'spec/GeocoderTest',
-		'spec/GeolocationClassTest',
 		'spec/GeolocationControlTest'
 	], function (
 	) {
