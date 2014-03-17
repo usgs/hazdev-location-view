@@ -38,7 +38,7 @@ define([
 		return clickEvent;
 	};
 
-	describe.only('CoordinateControl test suite', function () {
+	describe('CoordinateControl test suite', function () {
 
 		beforeEach(function () {
 
