@@ -8,21 +8,9 @@ define([
 ) {
 	'use strict';
 
-	// var getCoordinateControlMethod = function () {
-	// 	return 'coordinate-control';
-	// };
-
-	var METHOD = 'coordinate-control';
+	var METHOD = 'coordinate';
 
 	var DEFAULTS = {
-		'location': {
-			'place': null,
-			'longitude': 0,
-			'latitude': 0,
-			'method': null,
-			'confidence':null,
-			'accuracy': null
-		},
 		'position': 'topleft',
 		'defaultEnabled': false
 	};
@@ -32,7 +20,6 @@ define([
 
 		initialize: function (options) {
 			L.Util.setOptions(this, L.Util.extend({}, DEFAULTS, options));
-			this._location = this.options.location || null;
 		},
 
 		onAdd: function (map) {

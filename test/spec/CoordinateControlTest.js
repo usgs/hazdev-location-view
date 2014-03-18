@@ -110,8 +110,7 @@ define([
 
 			it('Can get', function () {
 
-				control._location.latitude = 40;
-				control._location.longitude = -105.3;
+				control.setLocation(boulderCO);
 
 				var location = control.getLocation();
 				expect(location.latitude).to.equal(40);
@@ -119,6 +118,8 @@ define([
 			});
 
 			it('can get static METHOD value', function () {
+
+				control.setLocation(boulderCO);
 
 				expect(CoordinateControl.METHOD).to.equal(control._location.method);
 
