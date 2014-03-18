@@ -88,19 +88,19 @@ define([
 		},
 
 		/**
-		 * Compute Confidence given a distance in meters.
+		 * Compute Confidence given a accuracy in meters.
 		 * used by GeoLocate.
-		 * @params distance {number} indicates the distance in meters at 95%
+		 * @params accuracy {number} indicates the accuracy in meters at 95%
 		 *         confidence.
 		 */
-		computeFromGeolocate: function (distance) {
-			if (distance > 100000) {
+		computeFromGeolocate: function (accuracy) {
+			if (accuracy > 100000) {
 				return ConfidenceCalculator.LOW_CONFIDENCE;
-			} else if (distance > 10000) {
+			} else if (accuracy > 10000) {
 				return ConfidenceCalculator.BELOW_AVERAGE_CONFIDENCE;
-			} else if (distance > 1000) {
+			} else if (accuracy > 1000) {
 				return ConfidenceCalculator.AVERAGE_CONFIDENCE;
-			} else if (distance > 100) {
+			} else if (accuracy > 100) {
 				return ConfidenceCalculator.ABOVE_AVERAGE_CONFIDENCE;
 			} else {
 				return ConfidenceCalculator.HIGH_CONFIDENCE;

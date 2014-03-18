@@ -1,4 +1,4 @@
-/* global define, describe, it, before, after */
+/* global define, describe, it */
 define([
 	'chai',
 	'sinon',
@@ -41,28 +41,24 @@ define([
 				expect(glc.options).to.be.an.instanceof(Object);
 			});
 
-			it('has proper default attributes', function () {
-				/* jshint -W030 */
-				expect(glc.options.location.longitude).to.be.null;
-				/* jshint +W030 */
-			});
 		});
 
 		describe('onAdd()', function () {
-			var glc = new GeolocationControl();
-			var clickHandler = sinon.spy(glc, 'getGeolocate');
-			var stub;
+			var glc = new GeolocationControl({'geolocation':
+				{
+					getCurrentPosition: function (success /*,error */) {
+						success({
+							coords:{
+								longitude: 45,
+								latitude: -105,
+								accuracy: 10
+							}
+						});
+					}
+				}
+			});
+			var clickHandler = sinon.spy(glc, 'doGeolocate');
 
-			before(function () {
-				stub = sinon.stub(glc, 'callGeolocate',
-						function () {
-							var position = {coords:{longitude:45,latitude:-105,accuracy:10}};
-							glc._geolocateSuccess(position);
-					});
-			});
-			after(function () {
-				stub.restore();
-			});
 			var c = glc.onAdd(L.map(document.createElement('div')));
 
 			var getClickEvent = function () {

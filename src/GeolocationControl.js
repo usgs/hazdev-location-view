@@ -1,32 +1,34 @@
 /* global define */
 define([
 	'leaflet',
+	'util/Util',
 
 	'ConfidenceCalculator'
 ], function (
 	L,
+	Util,
 
 	ConfidenceCalculator
 ) {
 	'use strict';
 
 	var DEFAULTS = {
-		'location': {
-			'longitude': null,
-			'latitude': null,
-			'confidence':null,
-			'accuracy': null
-		},
+		'geolocation': navigator.geolocation,
 		'position': 'topleft'
 	};
-	var _this;
 
+
+	/**
+	 * @params geolocation {object} optional api to replace navigator.geolocation
+	 *         should have a getCurrentPosition call.
+	 */
 	var GeolocationControl = L.Control.extend({
 		includes: L.Mixin.Events,
 
 		initialize: function (options) {
 			L.Util.setOptions(this, L.Util.extend({}, DEFAULTS, options));
-			this.location = this.options.location;
+			this._geolocateSuccess = this._geolocateSuccess.bind(this);
+			this._geolocateError = this._geolocateError.bind(this);
 		},
 
 		onAdd: function (map) {
@@ -37,51 +39,31 @@ define([
 
 			container.title = 'Use Current Location';
 
-			L.DomEvent.addListener(container, 'click', this.getGeolocate, this);
+			L.DomEvent.addListener(container, 'click', this.doGeolocate, this);
 
 			return container;
 		},
 
-		getGeolocate: function () {
-			_this = this;
-			if( !this.supportsGeolocate()) {
-				this._geolocateError({'code':0,'message':'Geolocation not supported'});
-			}
-			this.callGeolocate();
-		},
-
-		callGeolocate: function () {
-			navigator.geolocation.getCurrentPosition(
-				this._geolocateSuccess, this._geolocateError);
-		},
-
-		supportsGeolocate: function () {
-			if (navigator.geolocation) {
-				return true;
-			}
-			else{
-				return false;
+		doGeolocate: function () {
+			if (this.options.geolocation) {
+				this.options.geolocation.getCurrentPosition(this._geolocateSuccess,
+					this._geolocateError);
+			} else {
+				this._geolocateError({code:0,message:'Geolocation not supported'});
 			}
 		},
 
 		_geolocateSuccess: function (position) {
-			var location = _this.options.location;
-			location.latitude = position.coords.latitude;
-			location.longitude = position.coords.longitude;
-			location.accuracy = position.coords.accuracy;
-			location.confidence =
-					ConfidenceCalculator.computeFromGeolocate(
-						location.accuracy);
-
-			if (location.latitude !== null &&
-					location.longitude !== null) {
-				_this.fire('location', location);
-			}
+			this.fire('location', {
+					latitude: position.coords.latitude,
+					longitude: position.coords.longitude,
+					confidence: ConfidenceCalculator.computeFromGeolocate(
+						position.coords.accuracy)
+			});
 		},
 
 		_geolocateError: function (error) {
-			_this.fire('locationError', {'statusCode':error.code,
-				'statusMessage':error.message});
+			this.fire('locationError', error);
 		}
 
 	});
