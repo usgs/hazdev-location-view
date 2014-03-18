@@ -64,10 +64,10 @@ define([
 			this._submit = control.querySelector('.coordinate-submit');
 
 			if (this.options.defaultEnabled) {
-				this.toggleInput({'enabled': true});
+				this.toggle({'enabled': true});
 			}
 
-			L.DomEvent.on(this._toggle, 'click', this.toggleInput, this);
+			L.DomEvent.on(this._toggle, 'click', this.toggle, this);
 
 			// Bind to a submit button click
 			L.DomEvent.on(this._submit, 'click', this._onSubmit, this);
@@ -82,7 +82,7 @@ define([
 			return container;
 		},
 
-		toggleInput: function (options) {
+		toggle: function (options) {
 			// allow options to always open or always close coordinate control
 			if (options.hasOwnProperty('enabled')) {
 				if (options.enabled === true) {
