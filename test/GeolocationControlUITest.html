@@ -55,13 +55,16 @@
 			map.addControl(glc);
 
 			glc.on('location', function (loc) {
-				console.log(loc.place);
+				console.log(loc);
 				marker.setLatLng(new L.LatLng(loc.latitude, loc.longitude));
 
 				if (!marker._map) {
 					map.addLayer(marker);
 				}
-			}); 
+			});
+			glc.on('locationError', function (e) {
+				console.log(e);
+			});
 		});
 	</script>
 </body>
