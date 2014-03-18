@@ -130,13 +130,13 @@ define([
 							computeFromCoordinates(latitude, longitude);
 
 			// round values based on confidence
-			this._latitude.value = latitude = Number(latitude).toFixed(confidence);
-			this._longitude.value = longitude = Number(longitude).toFixed(confidence);
+			this._latitude.value = latitude = Number(latitude).toFixed(confidence - 1);
+			this._longitude.value = longitude = Number(longitude).toFixed(confidence - 1);
 
 			return {
 				'placeString': null,
-				'longitude': longitude,
-				'latitude': latitude,
+				'longitude': Number(longitude),
+				'latitude': Number(latitude),
 				'method': METHOD,
 				'confidence': confidence
 			};
