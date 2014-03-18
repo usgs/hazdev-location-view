@@ -13,6 +13,7 @@ define([
 		/**
 		 * Compute Confidence given latitude and longitude. Latitude and longitude
 		 * must be strings to keep accuracy.
+		 * Confidence is based on the number of digits past the decimal.
 		 *
 		 * @params latititude {String}
 		 * @params longitude {String}
@@ -62,8 +63,14 @@ define([
 			}
 		},
 
-		computeZoomFromGeocode: function (result) {
-			var confidence = this.computeFromGeocode(result);
+		/**
+		 * Given a distance in meters, compute the zoom level to zoom the map to.
+		 *
+		 * @params distance {number} indicates a distance in meters.
+		 */
+
+		computeZoomFromGeocode: function (distance) {
+			var confidence = this.computeFromGeocode(distance);
 
 			if (confidence === ConfidenceCalculator.HIGH_CONFIDENCE) {
 				return 17;
@@ -77,6 +84,26 @@ define([
 				return 1;
 			} else {
 				return 1;
+			}
+		},
+
+		/**
+		 * Compute Confidence given a accuracy in meters.
+		 * used by GeoLocate.
+		 * @params accuracy {number} indicates the accuracy in meters at 95%
+		 *         confidence.
+		 */
+		computeFromGeolocate: function (accuracy) {
+			if (accuracy > 100000) {
+				return ConfidenceCalculator.LOW_CONFIDENCE;
+			} else if (accuracy > 10000) {
+				return ConfidenceCalculator.BELOW_AVERAGE_CONFIDENCE;
+			} else if (accuracy > 1000) {
+				return ConfidenceCalculator.AVERAGE_CONFIDENCE;
+			} else if (accuracy > 100) {
+				return ConfidenceCalculator.ABOVE_AVERAGE_CONFIDENCE;
+			} else {
+				return ConfidenceCalculator.HIGH_CONFIDENCE;
 			}
 		},
 

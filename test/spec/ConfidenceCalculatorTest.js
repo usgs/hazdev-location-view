@@ -189,6 +189,28 @@ define([
 			});
 		});
 
+		describe('computeFromGeolocate', function () {
+			it('100001 meters', function () {
+				expect(ConfidenceCalculator.computeFromGeolocate(100001)).to.equal(
+					ConfidenceCalculator.LOW_CONFIDENCE);
+			});
+			it('10001 meters', function () {
+				expect(ConfidenceCalculator.computeFromGeolocate(10001)).to.equal(
+					ConfidenceCalculator.BELOW_AVERAGE_CONFIDENCE);
+			});
+			it('1001 meters', function () {
+				expect(ConfidenceCalculator.computeFromGeolocate(1001)).to.equal(
+					ConfidenceCalculator.AVERAGE_CONFIDENCE);
+			});
+			it('101 meters', function () {
+				expect(ConfidenceCalculator.computeFromGeolocate(101)).to.equal(
+					ConfidenceCalculator.ABOVE_AVERAGE_CONFIDENCE );
+			});
+			it('11 meters', function () {
+				expect(ConfidenceCalculator.computeFromGeolocate(11)).to.equal(
+					ConfidenceCalculator.HIGH_CONFIDENCE);
+			});
+		});
 	});
 
 });

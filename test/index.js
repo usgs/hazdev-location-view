@@ -74,7 +74,8 @@ require([
 		'spec/PointControlTest',
 		'spec/CoordinateControlTest',
 		'spec/ConfidenceCalculatorTest',
-		'spec/GeocoderTest'
+		'spec/GeocoderTest',
+		'spec/GeolocationControlTest'
 	], function (
 	) {
 		if (window.mochaPhantomJS) {
