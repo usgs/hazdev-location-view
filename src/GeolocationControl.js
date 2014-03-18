@@ -17,6 +17,7 @@ define([
 		'position': 'topleft'
 	};
 
+	var METHOD = 'geolocation';
 
 	/**
 	 * @params geolocation {object} optional api to replace navigator.geolocation
@@ -45,8 +46,9 @@ define([
 		},
 
 		doGeolocate: function () {
-			if (this.options.geolocation) {
-				this.options.geolocation.getCurrentPosition(this._geolocateSuccess,
+			var geolocation = this.options.geolocation;
+			if (geolocation) {
+				geolocation.getCurrentPosition(this._geolocateSuccess,
 					this._geolocateError);
 			} else {
 				this._geolocateError({code:0,message:'Geolocation not supported'});
@@ -57,8 +59,10 @@ define([
 			this.fire('location', {
 					latitude: position.coords.latitude,
 					longitude: position.coords.longitude,
+					placestring: null,
 					confidence: ConfidenceCalculator.computeFromGeolocate(
-						position.coords.accuracy)
+						position.coords.accuracy),
+					method: METHOD
 			});
 		},
 
@@ -68,5 +72,6 @@ define([
 
 	});
 
+	GeolocationControl.METHOD = METHOD;
 	return GeolocationControl;
 });
