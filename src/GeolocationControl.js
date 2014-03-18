@@ -19,6 +19,7 @@ define([
 
 	var METHOD = 'geolocation';
 
+
 	/**
 	 * @params geolocation {object} optional api to replace navigator.geolocation
 	 *         should have a getCurrentPosition call.
@@ -51,7 +52,10 @@ define([
 				geolocation.getCurrentPosition(this._geolocateSuccess,
 					this._geolocateError);
 			} else {
-				this._geolocateError({code:0,message:'Geolocation not supported'});
+				this._geolocateError({
+					code: 0,
+					message: 'Geolocation not supported'
+				});
 			}
 		},
 
@@ -59,7 +63,7 @@ define([
 			this.fire('location', {
 					latitude: position.coords.latitude,
 					longitude: position.coords.longitude,
-					placestring: null,
+					placeString: null,
 					confidence: ConfidenceCalculator.computeFromGeolocate(
 						position.coords.accuracy),
 					method: METHOD
@@ -72,6 +76,9 @@ define([
 
 	});
 
+
 	GeolocationControl.METHOD = METHOD;
+
+
 	return GeolocationControl;
 });
