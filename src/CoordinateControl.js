@@ -23,9 +23,6 @@ define([
 		},
 
 		onAdd: function (map) {
-
-			this._map = map;
-
 			var container = this._container = L.DomUtil.create('div',
 							'leaflet-coordinate-control-wrapper'),
 			    toggle = this._toggle = L.DomUtil.create('a',
@@ -34,6 +31,7 @@ define([
 							'leaflet-coordinate-control-input'),
 			    stop = L.DomEvent.stopPropagation;
 
+			this._map = map;
 			container.appendChild(toggle);
 			container.appendChild(control);
 
@@ -105,20 +103,12 @@ define([
 			this._control = null;
 		},
 
-		setLocation: function (location, options) {
-			this._location = location;
-
+		setLocation: function (location) {
 			if (location === null) {
 				// reset location
 				this._location = {};
 			} else {
-				// round based on confidence
-				this._latitude.value = location.latitude.toFixed(location.confidence);
-				this._longitude.value = location.longitude.toFixed(location.confidence);
-			}
-
-			if (!(options && options.silent)) {
-				this.fire('location', this._location);
+				this._location = location;
 			}
 		},
 
@@ -127,35 +117,35 @@ define([
 		},
 
 		_onSubmit: function () {
-			//TODO, capture invalid or blank inputs from lat/lon
-			return this.setLocation(
-					this._getCoordinateLocation(
-							this._latitude.value,
-							this._longitude.value
-					)
-			);
+			var latitude = this._latitude.value,
+			    longitude = this._longitude.value,
+			    location = this._getCoordinateLocation(latitude, longitude);
+
+			// fire a location change
+			this.fire('location', location);
+		},
+
+		_getCoordinateLocation: function (latitude, longitude) {
+			var confidence = ConfidenceCalculator.
+							computeFromCoordinates(latitude, longitude);
+
+			// round values based on confidence
+			this._latitude.value = latitude = Number(latitude).toFixed(confidence);
+			this._longitude.value = longitude = Number(longitude).toFixed(confidence);
+
+			return {
+				'placeString': null,
+				'longitude': longitude,
+				'latitude': latitude,
+				'method': METHOD,
+				'confidence': confidence
+			};
 		},
 
 		_onKeyPress: function (keyPress) {
 			if(keyPress.keyCode === 13) {
 				this._onSubmit();
 			}
-		},
-
-		_getCoordinateLocation: function (latitude, longitude) {
-			return {
-				'place': null,
-				'longitude': Number(longitude),
-				'latitude': Number(latitude),
-				'method': METHOD,
-				'confidence': ConfidenceCalculator.
-						computeFromCoordinates(latitude, longitude),
-				'accuracy': null // TODO
-			};
-		},
-
-		_getConfidenceLevel: function () {
-			return 'confidence';
 		}
 
 	});
