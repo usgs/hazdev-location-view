@@ -142,14 +142,18 @@ define([
 			it('Updates the location', function () {
 
 				// submit button on form, submits lat/lon values
-				var button = control._submit;
+				var button = control._submit,
+				    location;
 
 				control._latitude.value = 55;
 				control._longitude.value = 44;
 
+				control.on('location', function (loc) {
+					location = loc;
+				});
+
 				button.dispatchEvent(getClickEvent());
 
-				var location = control.getLocation();
 				expect(location.latitude).to.equal(55);
 				expect(location.longitude).to.equal(44);
 			});
