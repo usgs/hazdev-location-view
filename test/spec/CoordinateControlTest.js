@@ -129,7 +129,7 @@ define([
 				var onSetLocation = sinon.spy();
 
 				control.on('location', onSetLocation);
-				control.setLocation({}, {silent: true});
+				control.setLocation(boulderCO, {silent: true});
 
 				expect(onSetLocation.callCount).to.equal(0);
 			});
