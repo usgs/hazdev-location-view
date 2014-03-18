@@ -120,8 +120,15 @@ define([
 
 		setLocation: function (location, options) {
 			this._location = location;
-			this._latitude.value = location.latitude;
-			this._longitude.value = location.longitude;
+
+			if (location === null) {
+				// reset location
+				this._location = {};
+			} else {
+				// round based on confidence
+				this._latitude.value = location.latitude.toFixed(location.confidence);
+				this._longitude.value = location.longitude.toFixed(location.confidence);
+			}
 
 			if (!(options && options.silent)) {
 				this.fire('location', this._location);
