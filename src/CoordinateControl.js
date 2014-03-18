@@ -8,16 +8,18 @@ define([
 ) {
 	'use strict';
 
-	var getCoordinateControlMethod = function () {
-		return 'coordinate-control';
-	};
+	// var getCoordinateControlMethod = function () {
+	// 	return 'coordinate-control';
+	// };
+
+	var METHOD = 'coordinate-control';
 
 	var DEFAULTS = {
 		'location': {
 			'place': null,
 			'longitude': 0,
 			'latitude': 0,
-			'method': getCoordinateControlMethod(),
+			'method': null,
 			'confidence':null,
 			'accuracy': null
 		},
@@ -62,10 +64,10 @@ define([
 			this._submit = control.querySelector('.coordinate-submit');
 
 			if (this.options.defaultEnabled) {
-				this._toggleInput();
+				this.toggleInput({'enabled': true});
 			}
 
-			L.DomEvent.on(this._toggle, 'click', this._toggleInput, this);
+			L.DomEvent.on(this._toggle, 'click', this.toggleInput, this);
 
 			// Bind to a submit button click
 			L.DomEvent.on(this._submit, 'click', this._onSubmit, this);
@@ -80,7 +82,22 @@ define([
 			return container;
 		},
 
-		_toggleInput: function () {
+		toggleInput: function (options) {
+			// allow options to always open or always close coordinate control
+			if (options.hasOwnProperty('enabled')) {
+				if (options.enabled === true) {
+					// force an open state
+					L.DomUtil.addClass(this._container, 'enabled');
+				} else {
+					// force a closed state
+					if (L.DomUtil.hasClass(this._container, 'enabled')) {
+						L.DomUtil.removeClass(this._container, 'enabled');
+					}
+				}
+				return;
+			}
+
+			// if options is not defined, then toggle the control
 			if (L.DomUtil.hasClass(this._container, 'enabled')) {
 				L.DomUtil.removeClass(this._container, 'enabled');
 			} else {
@@ -138,7 +155,7 @@ define([
 				'place': null,
 				'longitude': Number(longitude),
 				'latitude': Number(latitude),
-				'method': getCoordinateControlMethod(),
+				'method': METHOD,
 				'confidence': ConfidenceCalculator.
 						computeFromCoordinates(latitude, longitude),
 				'accuracy': null // TODO
@@ -152,7 +169,7 @@ define([
 	});
 
 	// expose the coordinate control method type
-	CoordinateControl.METHOD = getCoordinateControlMethod();
+	CoordinateControl.METHOD = METHOD;
 
 	return CoordinateControl;
 
