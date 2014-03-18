@@ -90,9 +90,7 @@ define([
 					L.DomUtil.addClass(this._container, 'enabled');
 				} else {
 					// force a closed state
-					if (L.DomUtil.hasClass(this._container, 'enabled')) {
-						L.DomUtil.removeClass(this._container, 'enabled');
-					}
+					L.DomUtil.removeClass(this._container, 'enabled');
 				}
 				return;
 			}
