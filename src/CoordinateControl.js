@@ -69,7 +69,7 @@ define([
 
 		toggle: function (options) {
 			// allow options to always open or always close coordinate control
-			if (options.hasOwnProperty('enabled')) {
+			if (options && options.hasOwnProperty('enabled')) {
 				if (options.enabled === true) {
 					// force an open state
 					L.DomUtil.addClass(this._container, 'enabled');
@@ -106,16 +106,13 @@ define([
 		setLocation: function (location) {
 			if (location === null) {
 				// reset location
-				this._location = {};
+				this._latitude.value = '';
+				this._longitude.value = '';
 			} else {
-				this._location = location;
+				// update lat/lon inputs
 				this._latitude.value = location.latitude;
 				this._longitude.value = location.longitude;
 			}
-		},
-
-		getLocation: function () {
-			return this._location;
 		},
 
 		_onSubmit: function () {
