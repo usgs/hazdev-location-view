@@ -29,21 +29,21 @@ define([
 			    minDecimals;
 
 			if (latitudePieces.length === 1 || longitudePieces.length === 1) {
-				minDecimals = 0;
-			} else {
-				minDecimals = Math.min(latitudePieces[1].length,
-						longitudePieces[1].length);
+				return ConfidenceCalculator.ZERO_CONFIDENCE;
 			}
 
-			if (minDecimals >= 4) {
+			minDecimals = Math.min(latitudePieces[1].length,
+					longitudePieces[1].length);
+
+			if (minDecimals >= 5) {
 				return ConfidenceCalculator.HIGH_CONFIDENCE;
-			} else if (minDecimals >= 3) {
+			} else if (minDecimals >= 4) {
 				return ConfidenceCalculator.ABOVE_AVERAGE_CONFIDENCE;
-			} else if (minDecimals >= 2) {
+			} else if (minDecimals >= 3) {
 				return ConfidenceCalculator.AVERAGE_CONFIDENCE;
-			} else if (minDecimals >= 1) {
+			} else if (minDecimals >= 2) {
 				return ConfidenceCalculator.BELOW_AVERAGE_CONFIDENCE;
-			} else if (minDecimals >= 0) {
+			} else if (minDecimals >= 1) {
 				return ConfidenceCalculator.LOW_CONFIDENCE;
 			} else {
 				return ConfidenceCalculator.NOT_COMPUTED;
@@ -172,19 +172,22 @@ define([
 	// ----------------------------------------------------------------------
 
 	/** Constant used to indicate high degree of confidence. */
-	ConfidenceCalculator.HIGH_CONFIDENCE = 4;
+	ConfidenceCalculator.HIGH_CONFIDENCE = 5;
 
 	/** Constant used to indicate above average confidence. */
-	ConfidenceCalculator.ABOVE_AVERAGE_CONFIDENCE = 3;
+	ConfidenceCalculator.ABOVE_AVERAGE_CONFIDENCE = 4;
 
 	/** Constant used to indicate moderate degree of confidence. */
-	ConfidenceCalculator.AVERAGE_CONFIDENCE = 2;
+	ConfidenceCalculator.AVERAGE_CONFIDENCE = 3;
 
 	/** Constant used to indicate below average confidence. */
-	ConfidenceCalculator.BELOW_AVERAGE_CONFIDENCE = 1;
+	ConfidenceCalculator.BELOW_AVERAGE_CONFIDENCE = 2;
 
 	/** Constant used to indicate low degree of confidence. */
-	ConfidenceCalculator.LOW_CONFIDENCE = 0;
+	ConfidenceCalculator.LOW_CONFIDENCE = 1;
+
+	/** Constant used to indicate very low degree of confidence. */
+	ConfidenceCalculator.ZERO_CONFIDENCE = 0;
 
 	/**
 	 * Constant used to indicate confidence was not computed or an error occurred
