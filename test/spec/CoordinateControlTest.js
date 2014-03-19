@@ -104,24 +104,13 @@ define([
 			it('Can be set', function () {
 
 				control.setLocation(boulderCO);
-				expect(control._location.latitude).to.equal(boulderCO.latitude);
-				expect(control._location.longitude).to.equal(boulderCO.longitude);
-			});
-
-			it('Can get', function () {
-
-				control.setLocation(boulderCO);
-
-				var location = control.getLocation();
-				expect(location.latitude).to.equal(40);
-				expect(location.longitude).to.equal(-105.3);
+				expect(Number(control._latitude.value)).to.equal(boulderCO.latitude);
+				expect(Number(control._longitude.value)).to.equal(boulderCO.longitude);
 			});
 
 			it('can get static METHOD value', function () {
 
-				control.setLocation(boulderCO);
-
-				expect(CoordinateControl.METHOD).to.equal(control._location.method);
+				expect(CoordinateControl.METHOD).to.equal('coordinate');
 
 			});
 
