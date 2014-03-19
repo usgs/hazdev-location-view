@@ -56,12 +56,13 @@
 			map.addControl(cc);
 
 			cc.on('location', function (loc) {
-				console.log(loc.latitude + ', ' + loc.longitude);
+				console.log(loc);
 
 				if (!marker._map) {
 					map.addLayer(marker);
 				}
 				marker.setLatLng(new L.LatLng(loc.latitude, loc.longitude));
+				this.setLocation(loc);
 			});
 
 		});

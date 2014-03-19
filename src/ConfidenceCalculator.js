@@ -29,21 +29,21 @@ define([
 			    minDecimals;
 
 			if (latitudePieces.length === 1 || longitudePieces.length === 1) {
-				return ConfidenceCalculator.LOW_CONFIDENCE;
+				minDecimals = 0;
+			} else {
+				minDecimals = Math.min(latitudePieces[1].length,
+						longitudePieces[1].length);
 			}
 
-			minDecimals = Math.min(latitudePieces[1].length,
-					longitudePieces[1].length);
-
-			if (minDecimals >= 5) {
+			if (minDecimals >= 4) {
 				return ConfidenceCalculator.HIGH_CONFIDENCE;
-			} else if (minDecimals >= 4) {
-				return ConfidenceCalculator.ABOVE_AVERAGE_CONFIDENCE;
 			} else if (minDecimals >= 3) {
-				return ConfidenceCalculator.AVERAGE_CONFIDENCE;
+				return ConfidenceCalculator.ABOVE_AVERAGE_CONFIDENCE;
 			} else if (minDecimals >= 2) {
-				return ConfidenceCalculator.BELOW_AVERAGE_CONFIDENCE;
+				return ConfidenceCalculator.AVERAGE_CONFIDENCE;
 			} else if (minDecimals >= 1) {
+				return ConfidenceCalculator.BELOW_AVERAGE_CONFIDENCE;
+			} else if (minDecimals >= 0) {
 				return ConfidenceCalculator.LOW_CONFIDENCE;
 			} else {
 				return ConfidenceCalculator.NOT_COMPUTED;
@@ -67,6 +67,28 @@ define([
 			} else {
 				return ConfidenceCalculator.LOW_CONFIDENCE;
 			}
+		},
+
+/**
+ * returns rounded value based on confidence value.
+ *
+ * @param  {string | number} value
+ *           value to be rounded
+ * @param  {number} confidence
+ *           confidence value
+ * @return {number} rounded value
+ *
+ */
+		roundLocation: function (value, confidence) {
+			var rounded,
+			    decimals = confidence;
+
+			if (confidence === -1) {
+				decimals = 0;
+			}
+
+			rounded = Number(value).toFixed(decimals);
+			return Number(rounded);
 		},
 
 		/**
@@ -150,19 +172,19 @@ define([
 	// ----------------------------------------------------------------------
 
 	/** Constant used to indicate high degree of confidence. */
-	ConfidenceCalculator.HIGH_CONFIDENCE = 5;
+	ConfidenceCalculator.HIGH_CONFIDENCE = 4;
 
 	/** Constant used to indicate above average confidence. */
-	ConfidenceCalculator.ABOVE_AVERAGE_CONFIDENCE = 4;
+	ConfidenceCalculator.ABOVE_AVERAGE_CONFIDENCE = 3;
 
 	/** Constant used to indicate moderate degree of confidence. */
-	ConfidenceCalculator.AVERAGE_CONFIDENCE = 3;
+	ConfidenceCalculator.AVERAGE_CONFIDENCE = 2;
 
 	/** Constant used to indicate below average confidence. */
-	ConfidenceCalculator.BELOW_AVERAGE_CONFIDENCE = 2;
+	ConfidenceCalculator.BELOW_AVERAGE_CONFIDENCE = 1;
 
 	/** Constant used to indicate low degree of confidence. */
-	ConfidenceCalculator.LOW_CONFIDENCE = 1;
+	ConfidenceCalculator.LOW_CONFIDENCE = 0;
 
 	/**
 	 * Constant used to indicate confidence was not computed or an error occurred
