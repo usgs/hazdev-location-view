@@ -14,12 +14,11 @@ define([
 	var expect = chai.expect;
 
 	var boulderCO = {
-		'place': 'test',
+		'placeString': null,
 		'longitude': -105.3,
-		'latitude': 40,
+		'latitude': 40.1,
 		'method': CoordinateControl.METHOD,
-		'confidence': 'high',
-		'accuracy': 12
+		'confidence': 1
 	};
 
 	var control = null;

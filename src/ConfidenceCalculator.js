@@ -90,8 +90,8 @@ define([
 				decimals = 0;
 			}
 
-			rounded = Number(value).toFixed(decimals);
-			return Number(rounded);
+			rounded = parseFloat(value).toFixed(decimals);
+			return parseFloat(rounded);
 		},
 
 		/**

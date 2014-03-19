@@ -110,8 +110,10 @@ define([
 				this._longitude.value = '';
 			} else {
 				// update lat/lon inputs
-				this._latitude.value = location.latitude;
-				this._longitude.value = location.longitude;
+				this._latitude.value = ConfidenceCalculator.
+						roundLocation(location.latitude, location.confidence);
+				this._longitude.value = ConfidenceCalculator.
+						roundLocation(location.longitude, location.confidence);
 			}
 		},
 
@@ -128,14 +130,10 @@ define([
 			var confidence = ConfidenceCalculator.
 							computeFromCoordinates(latitude, longitude);
 
-			// round values based on confidence
-			latitude = ConfidenceCalculator.roundLocation(latitude, confidence);
-			longitude = ConfidenceCalculator.roundLocation(longitude, confidence);
-
 			return {
 				'placeString': null,
-				'longitude': longitude,
-				'latitude': latitude,
+				'longitude': parseFloat(longitude),
+				'latitude': parseFloat(latitude),
 				'method': METHOD,
 				'confidence': confidence
 			};
