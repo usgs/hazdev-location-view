@@ -109,6 +109,8 @@ define([
 				this._location = {};
 			} else {
 				this._location = location;
+				this._latitude.value = location.latitude;
+				this._longitude.value = location.longitude;
 			}
 		},
 
