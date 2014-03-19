@@ -14,12 +14,11 @@ define([
 	var expect = chai.expect;
 
 	var boulderCO = {
-		'place': 'test',
+		'placeString': null,
 		'longitude': -105.3,
-		'latitude': 40,
+		'latitude': 40.1,
 		'method': CoordinateControl.METHOD,
-		'confidence': 'high',
-		'accuracy': 12
+		'confidence': 1
 	};
 
 	var control = null;
@@ -104,23 +103,13 @@ define([
 			it('Can be set', function () {
 
 				control.setLocation(boulderCO);
-				expect(control._location.latitude).to.equal(boulderCO.latitude);
-				expect(control._location.longitude).to.equal(boulderCO.longitude);
-			});
-
-			it('Can get', function () {
-
-				control._location.latitude = 40;
-				control._location.longitude = -105.3;
-
-				var location = control.getLocation();
-				expect(location.latitude).to.equal(40);
-				expect(location.longitude).to.equal(-105.3);
+				expect(Number(control._latitude.value)).to.equal(boulderCO.latitude);
+				expect(Number(control._longitude.value)).to.equal(boulderCO.longitude);
 			});
 
 			it('can get static METHOD value', function () {
 
-				expect(CoordinateControl.METHOD).to.equal(control._location.method);
+				expect(CoordinateControl.METHOD).to.equal('coordinate');
 
 			});
 
@@ -129,7 +118,7 @@ define([
 				var onSetLocation = sinon.spy();
 
 				control.on('location', onSetLocation);
-				control.setLocation({}, {silent: true});
+				control.setLocation(boulderCO, {silent: true});
 
 				expect(onSetLocation.callCount).to.equal(0);
 			});
@@ -141,14 +130,18 @@ define([
 			it('Updates the location', function () {
 
 				// submit button on form, submits lat/lon values
-				var button = control._submit;
+				var button = control._submit,
+				    location;
 
 				control._latitude.value = 55;
 				control._longitude.value = 44;
 
+				control.on('location', function (loc) {
+					location = loc;
+				});
+
 				button.dispatchEvent(getClickEvent());
 
-				var location = control.getLocation();
 				expect(location.latitude).to.equal(55);
 				expect(location.longitude).to.equal(44);
 			});

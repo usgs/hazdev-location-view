@@ -24,10 +24,17 @@ define([
 				return ConfidenceCalculator.NOT_COMPUTED;
 			}
 
-			var latitudePieces = latitude.split('.');
-			var longitudePieces = longitude.split('.');
-			var minDecimals = Math.min(latitudePieces[1].length,
-					longitudePieces[1].length);
+			var latitudePieces = latitude.split('.'),
+			    longitudePieces = longitude.split('.'),
+			    minDecimals;
+
+			if (latitudePieces.length === 1 || longitudePieces.length === 1) {
+				minDecimals = 0;
+			} else {
+				minDecimals = Math.min(latitudePieces[1].length,
+						longitudePieces[1].length);
+			}
+
 
 			if (minDecimals >= 5) {
 				return ConfidenceCalculator.HIGH_CONFIDENCE;
@@ -39,6 +46,8 @@ define([
 				return ConfidenceCalculator.BELOW_AVERAGE_CONFIDENCE;
 			} else if (minDecimals >= 1) {
 				return ConfidenceCalculator.LOW_CONFIDENCE;
+			} else if (minDecimals >= 0) {
+				return ConfidenceCalculator.NO_CONFIDENCE;
 			} else {
 				return ConfidenceCalculator.NOT_COMPUTED;
 			}
@@ -64,14 +73,32 @@ define([
 		},
 
 		/**
-		 * Given a distance in meters, compute the zoom level to zoom the map to.
+		 * returns rounded value based on confidence value.
 		 *
-		 * @params distance {number} indicates a distance in meters.
+		 * @param  {string | number} value
+		 *           value to be rounded
+		 * @param  {number} confidence
+		 *           confidence value
+		 * @return {number} rounded value
+		 *
 		 */
+		roundLocation: function (value, confidence) {
+			var rounded,
+			    decimals = confidence;
 
-		computeZoomFromGeocode: function (distance) {
-			var confidence = this.computeFromGeocode(distance);
+			if (confidence === ConfidenceCalculator.NOT_COMPUTED) {
+				decimals = 0;
+			}
 
+			rounded = parseFloat(value).toFixed(decimals);
+			return parseFloat(rounded);
+		},
+
+		/**
+		 * Compute zoom level given a confidence.
+		 * @params confidence {number} indicates the confidence level
+		 */
+		computeZoomFromConfidence: function (confidence) {
 			if (confidence === ConfidenceCalculator.HIGH_CONFIDENCE) {
 				return 17;
 			} else if( confidence === ConfidenceCalculator.ABOVE_AVERAGE_CONFIDENCE) {
@@ -86,6 +113,13 @@ define([
 				return 1;
 			}
 		},
+
+
+		computeZoomFromGeocode: function (result) {
+			var confidence = this.computeFromGeocode(result);
+			return this.computeZoomFromConfidence(confidence);
+		},
+
 
 		/**
 		 * Compute Confidence given a accuracy in meters.
@@ -154,6 +188,9 @@ define([
 
 	/** Constant used to indicate low degree of confidence. */
 	ConfidenceCalculator.LOW_CONFIDENCE = 1;
+
+	/** Constant used to indicate very low degree of confidence. */
+	ConfidenceCalculator.NO_CONFIDENCE = 0;
 
 	/**
 	 * Constant used to indicate confidence was not computed or an error occurred
