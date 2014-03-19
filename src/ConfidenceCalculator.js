@@ -29,11 +29,12 @@ define([
 			    minDecimals;
 
 			if (latitudePieces.length === 1 || longitudePieces.length === 1) {
-				return ConfidenceCalculator.ZERO_CONFIDENCE;
+				minDecimals = 0;
+			} else {
+				minDecimals = Math.min(latitudePieces[1].length,
+						longitudePieces[1].length);
 			}
 
-			minDecimals = Math.min(latitudePieces[1].length,
-					longitudePieces[1].length);
 
 			if (minDecimals >= 5) {
 				return ConfidenceCalculator.HIGH_CONFIDENCE;
@@ -45,6 +46,8 @@ define([
 				return ConfidenceCalculator.BELOW_AVERAGE_CONFIDENCE;
 			} else if (minDecimals >= 1) {
 				return ConfidenceCalculator.LOW_CONFIDENCE;
+			} else if (minDecimals >= 0) {
+				return ConfidenceCalculator.NO_CONFIDENCE;
 			} else {
 				return ConfidenceCalculator.NOT_COMPUTED;
 			}
@@ -69,21 +72,21 @@ define([
 			}
 		},
 
-/**
- * returns rounded value based on confidence value.
- *
- * @param  {string | number} value
- *           value to be rounded
- * @param  {number} confidence
- *           confidence value
- * @return {number} rounded value
- *
- */
+		/**
+		 * returns rounded value based on confidence value.
+		 *
+		 * @param  {string | number} value
+		 *           value to be rounded
+		 * @param  {number} confidence
+		 *           confidence value
+		 * @return {number} rounded value
+		 *
+		 */
 		roundLocation: function (value, confidence) {
 			var rounded,
 			    decimals = confidence;
 
-			if (confidence === -1) {
+			if (confidence === ConfidenceCalculator.NOT_COMPUTED) {
 				decimals = 0;
 			}
 
@@ -187,7 +190,7 @@ define([
 	ConfidenceCalculator.LOW_CONFIDENCE = 1;
 
 	/** Constant used to indicate very low degree of confidence. */
-	ConfidenceCalculator.ZERO_CONFIDENCE = 0;
+	ConfidenceCalculator.NO_CONFIDENCE = 0;
 
 	/**
 	 * Constant used to indicate confidence was not computed or an error occurred
