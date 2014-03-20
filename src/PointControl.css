@@ -7,7 +7,7 @@
 	cursor:copy;
 }
 a.leaflet-point-control {
-	background-color: #FFF;
+	background-color: #fff;
 	display: block;
 	width: 26px;
 	height: 26px;
@@ -19,11 +19,12 @@ a.leaflet-point-control {
 	text-decoration:none;
 	cursor:pointer;
 	box-shadow:0 1px 7px rgba(0,0,0,0.65);
-	background-position:4px 4px;
 	background-repeat: no-repeat;
-	background-image: url(PointControl.png);
+	background-image: url(location-view-icons.png);
+	background-size: 400% 200%;
+	background-position: -78px 0px;
 }
 a.leaflet-point-control-enabled {
-	background-color:#EEE;
-	background-position:5px 5px;
+	background-color: #eee;
+	background-position: -78px -26px;
 }
