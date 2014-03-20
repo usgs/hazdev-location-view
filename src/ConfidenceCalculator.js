@@ -117,7 +117,7 @@ define([
 
 		computeZoomFromGeocode: function (result) {
 			var confidence = this.computeFromGeocode(result);
-			return this.computeFromGeocode(confidence);
+			return this.computeZoomFromConfidence(confidence);
 		},
 
 
