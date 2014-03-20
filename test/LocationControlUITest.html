@@ -7,6 +7,8 @@
 	<link rel="stylesheet" href="LocationControl.css"/>
 	<link rel="stylesheet" href="PointControl.css"/>
 	<link rel="stylesheet" href="CoordinateControl.css"/>
+	<link rel="stylesheet" href="GeocodeControl.css"/>
+	<link rel="stylesheet" href="GeolocationControl.css"/>
 	<style>
 	* {
 			box-sizing: border-box;
@@ -29,7 +31,9 @@
 		require.config({
 			baseUrl: '.',
 			paths: {
-				leaflet: '/leaflet/dist/leaflet-src'
+				leaflet: '/leaflet/dist/leaflet-src',
+				util: '/hazdev-webutils/src/util',
+				mvc: '/hazdev-webutils/src/mvc'
 			},
 			shim: {
 				leaflet: {
@@ -52,7 +56,8 @@
 			var lc = new LocationControl({
 				includePointControl: true,
 				includeCoordinateControl: true,
-				includeGeocodeControl: false,
+				includeGeocodeControl: true,
+				includeGeolocationControl: true,
 				el: document.querySelector('.map')
 			});
 			var natgeo = new L.TileLayer('http://earthquake.usgs.gov/basemap/tiles/natgeo_hires/{z}/{y}/{x}.jpg');
@@ -60,7 +65,7 @@
 
 			lc.on('location', function(loc) {
 				//console.log('(' + loc.latitude + ', ' + loc.longitude + ')');
-				console.log(loc);
+				console.log(this.getLocation());
 				marker.setLatLng(new L.LatLng(loc.latitude, loc.longitude));
 
 				if (!marker._map) {
