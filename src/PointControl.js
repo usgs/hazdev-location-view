@@ -8,7 +8,7 @@ define([
 ) {
 	'use strict';
 
-	var POINT_CONTROL_INPUT_METHOD = 'PointControl';
+	var POINT_CONTROL_INPUT_METHOD = 'point';
 
 	var CLASS_NAME = 'leaflet-point-control';
 	var CLASS_ENABLED = CLASS_NAME + '-enabled';
@@ -127,12 +127,11 @@ define([
 
 		_createPointLocation: function (latlng) {
 			return {
-				place: this._formatPlaceFromCoordinates(latlng),
+				place: null,
 				latitude: latlng.lat,
 				longitude: latlng.lng,
 				method: POINT_CONTROL_INPUT_METHOD,
-				confidence: this._computeConfidence(),
-				accuracy: null
+				confidence: this._computeConfidence()
 			};
 		},
 
