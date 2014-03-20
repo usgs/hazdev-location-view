@@ -25,34 +25,51 @@ define([
 		includes: L.Mixin.Events,
 
 		initialize: function (options) {
-			L.Util.setOptions(this, L.Util.extend({}, DEFAULT_OPTIONS, options));
-			this._loc = this.options.defaultLocation || null;
+			options = L.Util.extend({}, DEFAULT_OPTIONS, options);
+			L.Util.setOptions(this, options);
 
-			this._isEnabled = this.options.defaultEnabled;
+			this._isEnabled = options.defaultEnabled;
+			this._marker = new L.Marker(new L.LatLng(0, 0), {draggable:true});
+			this._marker.bindPopup();
+			this.setLocation(options.defaultLocation || null);
 		},
 
 		setLocation: function (loc, options) {
-			// Save internal reference
-			this._loc = loc;
+			var map = this._map,
+			    marker = this._marker;
 
-			if (this._isEnabled && this._map !== null) {
-				if (this._loc === null) {
+			if (loc !== null) {
+				// always update marker
+				marker.setLatLng(new L.LatLng(loc.latitude, loc.longitude));
+				marker.setPopupContent(this._formatLocation(loc));
+			}
+
+			if (this._isEnabled && map !== null) {
+				if (loc === null) {
 					// Anchor "marker" image to cursor
-					L.DomUtil.addClass(this._map.getContainer(),
-							CLASS_NO_LOCATION);
+					L.DomUtil.addClass(map.getContainer(), CLASS_NO_LOCATION);
+					if (marker._map) {
+						map.removeLayer(marker);
+					}
 				} else {
-					L.DomUtil.removeClass(this._map.getContainer(),
-							CLASS_NO_LOCATION);
+					L.DomUtil.removeClass(map.getContainer(), CLASS_NO_LOCATION);
+					// make sure marker is on map
+					if (!marker._map) {
+						marker.addTo(map);
+					}
 				}
 			}
 
 			if (!(options && options.hasOwnProperty('silent') && options.silent)) {
-				this.fire('location', this._loc);
+				this.fire('location', loc);
 			}
 		},
 
 		getLocation: function () {
-			return this._loc;
+			if (!this._marker._map) {
+				return null;
+			}
+			return this._createPointLocation(this._marker.getLatLng());
 		},
 
 		onAdd: function (map) {
@@ -67,7 +84,8 @@ define([
 			}
 
 			// Enable/disable control if user clicks on it
-			L.DomEvent.addListener(container, 'click', this._toggleEnabled, this);
+			L.DomEvent.addListener(container, 'click', this.toggle, this);
+			this._marker.on('dragend', this._onDragEnd, this);
 
 			return container;
 		},
@@ -78,6 +96,8 @@ define([
 			}
 
 			L.DomEvent.removeListener(this._container, 'click', this.toggle);
+			this._marker.off('dragend', this._onDragEnd, this);
+			this._map.removeLayer(this._marker);
 			this._map = null;
 			this._container = null;
 		},
@@ -99,6 +119,10 @@ define([
 		 */
 		_onClick: function (mouseEvent) {
 			this.setLocation(this._createPointLocation(mouseEvent.latlng));
+		},
+
+		_onDragEnd: function () {
+			this.setLocation(this._createPointLocation(this._marker.getLatLng()));
 		},
 
 		_createPointLocation: function (latlng) {
@@ -154,14 +178,23 @@ define([
 			this._isEnabled = false;
 		},
 
-		_formatPlaceFromCoordinates: function (latlng) {
-			var lat = latlng.lat,
-			    lng = latlng.lng,
+		_formatLocation: function (loc) {
+			var lat = loc.latitude,
+			    lng = loc.longitude,
+			    confidence = loc.confidence,
+			    place = loc.place,
 			    latStr = (lat < 0.0) ? '&deg;S' : '&deg;N',
-			    lngStr = (lng < 0.0) ? '&deg;W' : '&deg;E';
+			    lngStr = (lng < 0.0) ? '&deg;W' : '&deg;E',
+			    buf = [];
 
-			return '' + Math.abs(lat).toFixed(2) + latStr + ', ' +
-					Math.abs(lng).toFixed(2) + lngStr;
+			lat = ConfidenceCalculator.roundLocation(Math.abs(lat), confidence);
+			lng = ConfidenceCalculator.roundLocation(Math.abs(lng), confidence);
+
+			if (place !== null) {
+				buf.push('<p>', place, '</p>');
+			}
+			buf.push(lat, latStr, ', ', lng, lngStr);
+			return buf.join('');
 		}
 	});
 
