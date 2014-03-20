@@ -63,7 +63,7 @@ define([
 
 			// If enabled, bind map click handlers
 			if (this.options.defaultEnabled) {
-				this._enableControl();
+				this.enable();
 			}
 
 			// Enable/disable control if user clicks on it
@@ -74,11 +74,10 @@ define([
 
 		onRemove: function () {
 			if (this._isEnabled) {
-				this._disableControl();
+				this.disable();
 			}
 
-			L.DomEvent.removeListener(this._container, 'click', this._toggleEnabled);
-
+			L.DomEvent.removeListener(this._container, 'click', this.toggle);
 			this._map = null;
 			this._container = null;
 		},
@@ -117,16 +116,16 @@ define([
 			return ConfidenceCalculator.computeFromPoint(this._map.getZoom());
 		},
 
-		_toggleEnabled: function (clickEvent) {
+		toggle: function (clickEvent) {
 			if (this._isEnabled) {
-				this._disableControl();
+				this.disable();
 			} else {
-				this._enableControl();
+				this.enable();
 			}
 			L.DomEvent.stop(clickEvent);
 		},
 
-		_enableControl: function () {
+		enable: function () {
 			var mapContainer = this._map.getContainer();
 
 			L.DomUtil.addClass(this._container, CLASS_ENABLED);
@@ -134,13 +133,14 @@ define([
 
 			if (this._loc === null) {
 				L.DomUtil.addClass(mapContainer, CLASS_NO_LOCATION);
+				this._map.removeLayer(this._marker);
 			}
 
 			this._bindMapEventHandlers(this._map);
 			this._isEnabled = true;
 		},
 
-		_disableControl: function () {
+		disable: function () {
 			var mapContainer = this._map ? this._map.getContainer() : null;
 
 			L.DomUtil.removeClass(this._container, CLASS_ENABLED);
