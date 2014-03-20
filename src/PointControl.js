@@ -102,12 +102,12 @@ define([
 			this._container = null;
 		},
 
-		_bindMapEventHandlers: function (map) {
-			map.on('click', this._onClick, this);
+		_bindMapEventHandlers: function () {
+			this._map.on('click', this._onClick, this);
 		},
 
-		_unbindMapEventHandlers: function (map) {
-			map.off('click', this._onClick, this);
+		_unbindMapEventHandlers: function () {
+			this._map.off('click', this._onClick, this);
 		},
 
 		/**
