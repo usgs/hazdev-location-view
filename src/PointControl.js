@@ -42,6 +42,8 @@ define([
 				// always update marker
 				marker.setLatLng(new L.LatLng(loc.latitude, loc.longitude));
 				marker.setPopupContent(this._formatLocation(loc));
+			} else {
+				marker.setPopupContent('');
 			}
 
 			if (this._isEnabled && map !== null) {
