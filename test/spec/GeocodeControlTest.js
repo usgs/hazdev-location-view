@@ -138,10 +138,10 @@ define([
 			});
 		});
 
-		describe('_onToggleClick()', function () {
+		describe('toggle()', function () {
 			it('Should fire in response to clicks', function () {
 				var g = new GeocodeControl(),
-				    clickSpy = sinon.spy(g, '_onToggleClick');
+				    clickSpy = sinon.spy(g, 'toggle');
 
 				g.onAdd(null);
 				g._toggleButton.dispatchEvent(getClickEvent());
@@ -156,10 +156,10 @@ define([
 				/* jshint -W030 */
 				expect(g._container.classList.contains('geocode-control-expanded'))
 						.to.be.false;
-				g._onToggleClick();
+				g.toggle();
 				expect(g._container.classList.contains('geocode-control-expanded'))
 						.to.be.true;
-				g._onToggleClick();
+				g.toggle();
 				expect(g._container.classList.contains('geocode-control-expanded'))
 						.to.be.false;
 				/* jshint +W030 */
