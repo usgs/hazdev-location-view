@@ -1,4 +1,4 @@
-/* global define, describe, it */
+/* global define, describe, it, before, after */
 define([
 	'chai',
 	'PointControl',
@@ -14,21 +14,19 @@ define([
 	var expect = chai.expect;
 
 	var testLoc1 = {
-		place: 'world',
+		place: null,
 		latitude: 35.0,
 		longitude: -118.0,
-		method: 'foo',
-		confidence: 'bar',
-		accuracy: -1
+		method: 'point',
+		confidence: 1
 	};
 
 	var testLoc2 = {
-		place: 'hello',
+		place: null,
 		latitude: 40.0,
 		longitude: -105.0,
-		method: 'baz',
-		confidence: 'zap',
-		accuracy: 1
+		method: 'point',
+		confidence: 1
 	};
 
 	describe('PointControl test suite', function () {
@@ -58,7 +56,7 @@ define([
 
 			it('has proper default attributes', function () {
 				/* jshint -W030 */
-				expect(p._loc).to.be.null;
+				expect(p._marker).to.not.be.null;
 				expect(p._isEnabled).to.be.false;
 				/* jshint +W030 */
 			});
@@ -71,7 +69,7 @@ define([
 				var onSetLocation = sinon.spy();
 
 				p.on('location', onSetLocation);
-				p.setLocation({});
+				p.setLocation(testLoc1);
 
 				expect(onSetLocation.callCount).to.equal(1);
 			});
@@ -80,7 +78,7 @@ define([
 				var onSetLocation = sinon.spy();
 
 				p.on('location', onSetLocation);
-				p.setLocation({}, {silent: true});
+				p.setLocation(testLoc1, {silent: true});
 
 				expect(onSetLocation.callCount).to.equal(0);
 			});
@@ -99,6 +97,17 @@ define([
 		});
 
 		describe('getLocation()', function () {
+			var p = new PointControl({defaultLocation: testLoc1});
+
+			before(function () {
+				p._map = {getZoom: function () { return 3; }};
+				p._marker._map = p._map;
+			});
+
+			after(function () {
+				p._map = null;
+				p._marker._map = null;
+			});
 
 			it('returns null by default', function () {
 				var p = new PointControl();
@@ -110,15 +119,12 @@ define([
 			});
 
 			it('returns the default location when specified', function () {
-				var p = new PointControl({defaultLocation: testLoc1});
 				var loc = p.getLocation();
-
-				expect(loc).to.deep.equal(testLoc1);
+				expect(loc.latitude).to.equal(testLoc1.latitude);
+				expect(loc.longitude).to.equal(testLoc1.longitude);
 			});
 
 			it('returns the most recently set location', function () {
-				var p = new PointControl({defaultLocation: testLoc1});
-
 				expect(p.getLocation()).to.deep.equal(testLoc1);
 
 				p.setLocation(testLoc2);
@@ -128,7 +134,7 @@ define([
 
 		describe('onAdd()', function () {
 			var p = new PointControl();
-			var clickHandler = sinon.spy(p, '_toggleEnabled');
+			var clickHandler = sinon.spy(p, 'toggle');
 			var c = p.onAdd(L.map(document.createElement('div')));
 
 			var getClickEvent = function () {
