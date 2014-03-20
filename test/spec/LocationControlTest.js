@@ -81,22 +81,8 @@ define([
 			it('Can update CoordinateControl on PointControl change', function () {
 				lc.PointControl.setLocation(loc);
 				// Check if coordinate control was updated with location.
-				expect(lc.CoordinateControl.getLocation().latitude).to.equal(loc.latitude);
-				expect(lc.CoordinateControl.getLocation().longitude).to.equal(loc.longitude);
-			});
-
-			it.skip('Can update GeocodeControl on PointControl change', function () {
-				lc.PointControl.setLocation(loc);
-				// Check if coordinate control was updated with location.
-				expect(lc.GeocodeControl.getLocation().latitude).to.equal(loc.latitude);
-				expect(lc.GeocodeControl.getLocation().longitude).to.equal(loc.longitude);
-			});
-
-			it.skip('Can update GeolocateControl on PointControl change', function () {
-				lc.PointControl.setLocation(loc);
-				// Check if coordinate control was updated with location.
-				expect(lc.GeolocateControl.getLocation().latitude).to.equal(loc.latitude);
-				expect(lc.GeolocateControl.getLocation().longitude).to.equal(loc.longitude);
+				expect(lc.getLocation().latitude).to.equal(loc.latitude);
+				expect(lc.getLocation().longitude).to.equal(loc.longitude);
 			});
 		});
 
@@ -104,72 +90,17 @@ define([
 			it('Can update PointControl on CoordinateControl change', function () {
 				lc.CoordinateControl.setLocation(loc);
 				// Check if coordinate control was updated with location.
-				expect(lc.CoordinateControl.getLocation().latitude).to.equal(loc.latitude);
-				expect(lc.CoordinateControl.getLocation().longitude).to.equal(loc.longitude);
-			});
-
-			it.skip('Can update GeocodeControl on CoordinateControl change', function () {
-				lc.CoordinateControl.setLocation(loc);
-				// Check if coordinate control was updated with location.
-				expect(lc.GeocodeControl.getLocation().latitude).to.equal(loc.latitude);
-				expect(lc.GeocodeControl.getLocation().longitude).to.equal(loc.longitude);
-			});
-
-			it.skip('Can update GeolocateControl on CoordinateControl change', function () {
-				lc.CoordinateControl.setLocation(loc);
-				// Check if coordinate control was updated with location.
-				expect(lc.GeolocateControl.getLocation().latitude).to.equal(loc.latitude);
-				expect(lc.GeolocateControl.getLocation().longitude).to.equal(loc.longitude);
+				expect(lc.getLocation().latitude).to.equal(loc.latitude);
+				expect(lc.getLocation().longitude).to.equal(loc.longitude);
 			});
 		});
 
-
-
-		describe.skip('Bind to GeocodeControl location Change', function () {
+		describe('Bind to GeocodeControl location Change', function () {
 			it('Can update PointControl on GeocodeControl change', function () {
 				lc.GeocodeControl.setLocation(loc);
 				// Check if coordinate control was updated with location.
-				expect(lc.GeocodeControl.getLocation().latitude).to.equal(loc.latitude);
-				expect(lc.GeocodeControl.getLocation().longitude).to.equal(loc.longitude);
-			});
-
-			it.skip('Can update GeocodeControl on GeocodeControl change', function () {
-				lc.GeocodeControl.setLocation(loc);
-				// Check if coordinate control was updated with location.
-				expect(lc.GeocodeControl.getLocation().latitude).to.equal(loc.latitude);
-				expect(lc.GeocodeControl.getLocation().longitude).to.equal(loc.longitude);
-			});
-
-			it.skip('Can update GeolocateControl on GeocodeControl change', function () {
-				lc.GeocodeControl.setLocation(loc);
-				// Check if coordinate control was updated with location.
-				expect(lc.GeolocateControl.getLocation().latitude).to.equal(loc.latitude);
-				expect(lc.GeolocateControl.getLocation().longitude).to.equal(loc.longitude);
-			});
-		});
-
-
-
-		describe.skip('Bind to GeolocateControl location Change', function () {
-			it('Can update PointControl on GeolocateControl change', function () {
-				lc.GeolocateControl.setLocation(loc);
-				// Check if coordinate control was updated with location.
-				expect(lc.GeolocateControl.getLocation().latitude).to.equal(loc.latitude);
-				expect(lc.GeolocateControl.getLocation().longitude).to.equal(loc.longitude);
-			});
-
-			it.skip('Can update GeocodeControl on GeolocateControl change', function () {
-				lc.GeolocateControl.setLocation(loc);
-				// Check if coordinate control was updated with location.
-				expect(lc.GeocodeControl.getLocation().latitude).to.equal(loc.latitude);
-				expect(lc.GeocodeControl.getLocation().longitude).to.equal(loc.longitude);
-			});
-
-			it.skip('Can update GeolocateControl on GeolocateControl change', function () {
-				lc.GeolocateControl.setLocation(loc);
-				// Check if coordinate control was updated with location.
-				expect(lc.GeolocateControl.getLocation().latitude).to.equal(loc.latitude);
-				expect(lc.GeolocateControl.getLocation().longitude).to.equal(loc.longitude);
+				expect(lc.getLocation().latitude).to.equal(loc.latitude);
+				expect(lc.getLocation().longitude).to.equal(loc.longitude);
 			});
 		});
 
