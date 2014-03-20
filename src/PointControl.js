@@ -154,7 +154,7 @@ define([
 			L.DomUtil.addClass(this._container, CLASS_ENABLED);
 			L.DomUtil.addClass(mapContainer, CLASS_LOCATION);
 
-			this._bindMapEventHandlers(this._map);
+			this._bindMapEventHandlers();
 			this._isEnabled = true;
 		},
 
@@ -164,7 +164,7 @@ define([
 			L.DomUtil.removeClass(this._container, CLASS_ENABLED);
 			L.DomUtil.removeClass(mapContainer, CLASS_LOCATION);
 
-			this._unbindMapEventHandlers(this._map);
+			this._unbindMapEventHandlers();
 			this._isEnabled = false;
 		},
 
