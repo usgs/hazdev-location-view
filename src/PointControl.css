@@ -2,10 +2,6 @@
 	cursor:default;
 	cursor:crosshair;
 }
-.leaflet-point-control-nolocation {
-	/* TODO :: Custom cursor URL. Arrow with "marker" icon attached */
-	cursor:copy;
-}
 a.leaflet-point-control {
 	background-color: #fff;
 	display: block;

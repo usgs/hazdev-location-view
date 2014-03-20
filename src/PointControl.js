@@ -13,7 +13,6 @@ define([
 	var CLASS_NAME = 'leaflet-point-control';
 	var CLASS_ENABLED = CLASS_NAME + '-enabled';
 	var CLASS_LOCATION = CLASS_NAME + '-location';
-	var CLASS_NO_LOCATION = CLASS_NAME + '-nolocation';
 
 	var DEFAULT_OPTIONS = {
 		position: 'topleft',
