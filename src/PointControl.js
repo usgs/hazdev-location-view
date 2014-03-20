@@ -1,8 +1,10 @@
 /* global define */
 define([
-	'leaflet'
+	'leaflet',
+	'ConfidenceCalculator'
 ], function (
-	L
+	L,
+	ConfidenceCalculator
 ) {
 	'use strict';
 
@@ -112,9 +114,7 @@ define([
 		},
 
 		_computeConfidence: function () {
-			// TODO :: Use a confidence calculator
-			//return this._confidenceCalculator.computeFromPoint(this._map.getZoom());
-			return 'FooConfidence';
+			return ConfidenceCalculator.computeFromPoint(this._map.getZoom());
 		},
 
 		_toggleEnabled: function (clickEvent) {
