@@ -53,7 +53,8 @@
 			var marker= new L.Marker(new L.LatLng(0,0));
 			var gc = new GeocodeControl();
 
-			map.addLayer(new L.TileLayer('http://earthquake.usgs.gov/basemap/tiles/natgeo_hires/{z}/{y}/{x}.jpg'));
+			map.addLayer(new L.TileLayer('https://server.arcgisonline.com' +
+					'/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}'));
 			map.addControl(gc);
 
 			gc.on('location', function (loc) {

@@ -27,7 +27,9 @@ define([
 		center: new L.LatLng(40.0, -105.0),
 		zoom: 3
 	});
-	var natgeo = new L.TileLayer('http://earthquake.usgs.gov/basemap/tiles/natgeo_hires/{z}/{y}/{x}.jpg');
+	var natgeo = new L.TileLayer('https://server.arcgisonline.com' +
+			'/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}');
+
 
 	map.addLayer(natgeo);
 

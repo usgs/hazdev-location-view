@@ -44,7 +44,9 @@
 				zoom: 3
 			});
 			var pc = new PointControl();
-			var natgeo = new L.TileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}.jpg');
+			var natgeo = new L.TileLayer('https://server.arcgisonline.com' +
+					'/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}');
+			var marker = new L.Marker(new L.LatLng(0, 0), {draggable:true});
 
 			map.addLayer(natgeo);
 			map.addControl(pc);
