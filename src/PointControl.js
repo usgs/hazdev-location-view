@@ -48,13 +48,11 @@ define([
 
 			if (this._isEnabled && map !== null) {
 				if (loc === null) {
-					// Anchor "marker" image to cursor
-					L.DomUtil.addClass(map.getContainer(), CLASS_NO_LOCATION);
+					// make sure marker is not on map
 					if (marker._map) {
 						map.removeLayer(marker);
 					}
 				} else {
-					L.DomUtil.removeClass(map.getContainer(), CLASS_NO_LOCATION);
 					// make sure marker is on map
 					if (!marker._map) {
 						marker.addTo(map);
@@ -156,11 +154,6 @@ define([
 			L.DomUtil.addClass(this._container, CLASS_ENABLED);
 			L.DomUtil.addClass(mapContainer, CLASS_LOCATION);
 
-			if (this._loc === null) {
-				L.DomUtil.addClass(mapContainer, CLASS_NO_LOCATION);
-				this._map.removeLayer(this._marker);
-			}
-
 			this._bindMapEventHandlers(this._map);
 			this._isEnabled = true;
 		},
@@ -170,10 +163,6 @@ define([
 
 			L.DomUtil.removeClass(this._container, CLASS_ENABLED);
 			L.DomUtil.removeClass(mapContainer, CLASS_LOCATION);
-
-			if (L.DomUtil.hasClass(mapContainer, CLASS_NO_LOCATION)) {
-				L.DomUtil.removeClass(mapContainer, CLASS_NO_LOCATION);
-			}
 
 			this._unbindMapEventHandlers(this._map);
 			this._isEnabled = false;
