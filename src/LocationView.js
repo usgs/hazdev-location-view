@@ -41,7 +41,7 @@ define([
 	 *         The service URL template for use in an L.TileLayer.
 	 */
 	var __get_arcgisonline_url = function (serviceName) {
-		var urlPrefix = 'https://server.arcgisonline.com/ArcGIS/rest/services/',
+		var urlPrefix = '//server.arcgisonline.com/ArcGIS/rest/services/',
 		    urlSuffix = '/MapServer/tile/{z}/{y}/{x}';
 
 		return urlPrefix + serviceName + urlSuffix;
