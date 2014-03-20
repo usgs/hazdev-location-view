@@ -42,14 +42,14 @@
 	top: 1px;
 	bottom: 1px;
 	border-radius: 0 4px 4px 0;
-	line-height: 26px;
 	cursor: pointer;
 	color: #333;
 	text-decoration: none;
+	border: none;
+	margin: 0;
 
 	&:hover,
 	&:focus {
-		text-decoration: underline;
 		outline: none;
 	}
 }
