@@ -49,7 +49,7 @@ define([
 			textInput = this._textInput =
 					L.DomUtil.create('input', 'geocode-control-input', container);
 			searchButton = this._searchButton =
-					L.DomUtil.create('a', 'geocode-control-submit', container);
+					L.DomUtil.create('button', 'geocode-control-submit', container);
 			stop = L.DomEvent.stopPropagation;
 
 			this._map = map;
@@ -57,7 +57,6 @@ define([
 			toggleButton.href = '#';
 			textInput.placeholder = 'Address';
 			searchButton.innerHTML = 'Search';
-			searchButton.href = '#';
 
 			L.DomEvent.on(textInput, 'keyup', this._onKeyUp, this);
 			L.DomEvent.on(searchButton, 'click', this._onSearchClick, this);
