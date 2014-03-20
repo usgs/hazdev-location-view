@@ -29,7 +29,7 @@ define([
 			L.Util.setOptions(this, options);
 
 			this._isEnabled = options.defaultEnabled;
-			this._marker = new L.Marker(new L.LatLng(0, 0), {draggable:true});
+			this._marker = new L.Marker([0, 0], {draggable: true});
 			this._marker.bindPopup();
 			this.setLocation(options.defaultLocation || null);
 		},
