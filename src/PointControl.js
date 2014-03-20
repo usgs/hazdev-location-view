@@ -31,7 +31,7 @@ define([
 			this._isEnabled = options.defaultEnabled;
 			this._marker = new L.Marker([0, 0], {draggable: true});
 			this._marker.bindPopup();
-			this.setLocation(options.defaultLocation || null);
+			this.setLocation(options.defaultLocation);
 		},
 
 		setLocation: function (loc, options) {
