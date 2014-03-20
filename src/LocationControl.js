@@ -256,7 +256,7 @@ define([
 		_selectControl: function (control) {
 			// enable a control
 			if (control === 'point') {
-				this.PointControl.enableControl();
+				this.PointControl.enable();
 			} else if (control === 'coordinate') {
 				this.CoordinateControl.toggle({enabled: true});
 			} else if (control === 'geocode') {
@@ -279,7 +279,7 @@ define([
 
 			// reset all controls
 			if (options && options.hasOwnProperty('all') && options.all === true) {
-				this.PointControl.disableControl();
+				this.PointControl.disable();
 				this.CoordinateControl.toggle({'enabled':false});
 				this.GeocodeControl.disable();
 				this._enabled = null;
@@ -287,7 +287,7 @@ define([
 			}
 
 			if (enabled === 'point') {
-				this.PointControl.disableControl();
+				this.PointControl.disable();
 			} else if (enabled === 'coordinate') {
 				this.CoordinateControl.toggle();
 			} else if (enabled === 'geocode') {
