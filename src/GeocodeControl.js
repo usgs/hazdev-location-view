@@ -60,7 +60,7 @@ define([
 
 			L.DomEvent.on(textInput, 'keyup', this._onKeyUp, this);
 			L.DomEvent.on(searchButton, 'click', this._onSearchClick, this);
-			L.DomEvent.on(toggleButton, 'click', this._onToggleClick, this);
+			L.DomEvent.on(toggleButton, 'click', this.toggle, this);
 			L.DomEvent.on(container, 'keydown', stop);
 			L.DomEvent.on(container, 'keyup', stop);
 			L.DomEvent.on(container, 'keypress', stop);
@@ -90,13 +90,21 @@ define([
 			}
 		},
 
-		_onToggleClick: function (/*clickEvent*/) {
+		toggle: function (/*clickEvent*/) {
 			if (L.DomUtil.hasClass(this._container, 'geocode-control-expanded')) {
-				L.DomUtil.removeClass(this._container, 'geocode-control-expanded');
+				this.disable();
 			} else {
-				L.DomUtil.addClass(this._container, 'geocode-control-expanded');
-				this._textInput.focus();
+				this.enable();
 			}
+		},
+
+		enable: function () {
+			L.DomUtil.addClass(this._container, 'geocode-control-expanded');
+			this._textInput.focus();
+		},
+
+		disable: function () {
+			L.DomUtil.removeClass(this._container, 'geocode-control-expanded');
 		},
 
 		_geocodeSuccess: function (loc) {

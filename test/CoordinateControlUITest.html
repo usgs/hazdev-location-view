@@ -54,7 +54,9 @@
 			var marker = new L.Marker(new L.LatLng(0, 0), {draggable:false});
 
 			map.addLayer(natgeo);
-			map.addControl(cc);
+			//map.addControl(cc);
+
+			cc.onAdd(map);
 
 			cc.on('location', function (loc) {
 				console.log(loc);

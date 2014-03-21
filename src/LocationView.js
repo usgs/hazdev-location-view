@@ -18,8 +18,8 @@ define([
 
 	var DEFAULTS = {
 		autoOpen: false,
-		includePointControl: false,       // Manages location via pin on map
-		includeCoordinateControl: false,  // Manages location via lat/lng input
+		includePointControl: true,       // Manages location via pin on map
+		includeCoordinateControl: true,  // Manages location via lat/lng input
 		includeGeocodeControl: false,     // Manages location via address input
 		includeGeolocateControl: false,   // Manages location via auto-detect (W3C)
 		callback: function (/*location*/) {}
@@ -111,18 +111,18 @@ define([
 		});
 
 		// TODO :: Remove these faky methods in favor of real class implementation
-		this._locationControl.getLocation = function () {
-			return {
-				place: '40&deg;N, 105&deg;W',
-				latitude: 40,
-				longitude: -105,
-				method: 'PointControl',
-				confidence: 3,
-				accuracy: null
-			};
-		};
-		this._locationControl.setLocation = function () {};
-		this._locationControl.addTo = function () { return null; };
+		// this._locationControl.getLocation = function () {
+		// 	return {
+		// 		place: '40&deg;N, 105&deg;W',
+		// 		latitude: 40,
+		// 		longitude: -105,
+		// 		method: 'PointControl',
+		// 		confidence: 3,
+		// 		accuracy: null
+		// 	};
+		// };
+		// this._locationControl.setLocation = function () {};
+		// this._locationControl.addTo = function () { return null; };
 
 		this._map.addControl(layerControl);          // Layer switcher
 		this._map.addControl(this._locationControl); // Methods to set locations
