@@ -67,8 +67,8 @@ define([
 		},
 
 		onAdd: function (map) {
-			var container = this._container = L.DomUtil.create('a',
-					CLASS_NAME);
+			var container = this._container = L.DomUtil.create('a', CLASS_NAME),
+			    stop = L.DomEvent.stopPropagation;
 
 			this._map = map;
 
@@ -80,6 +80,8 @@ define([
 			// Enable/disable control if user clicks on it
 			L.DomEvent.addListener(container, 'click', this.toggle, this);
 			this._marker.on('dragend', this._onDragEnd, this);
+			// stops map from zooming on double click
+			L.DomEvent.on(container, 'dblclick', stop);
 
 			return container;
 		},

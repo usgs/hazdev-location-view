@@ -37,11 +37,14 @@ define([
 			this._map = map;
 
 			var container = this._container =
-					L.DomUtil.create('a', 'leaflet-geolocation-control');
+					L.DomUtil.create('a', 'leaflet-geolocation-control'),
+			    stop = L.DomEvent.stopPropagation;
 
 			container.title = 'Use Current Location';
 
 			L.DomEvent.addListener(container, 'click', this.doGeolocate, this);
+			// stops map from zooming on double click
+			L.DomEvent.on(container, 'dblclick', stop);
 
 			return container;
 		},

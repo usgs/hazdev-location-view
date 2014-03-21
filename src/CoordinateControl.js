@@ -63,6 +63,8 @@ define([
 			L.DomEvent.on(this._control, 'mouseup', stop);
 			L.DomEvent.on(this._control, 'mousedown', stop);
 			L.DomEvent.on(this._control, 'mousemove', stop);
+			// stops map from zooming on double click
+			L.DomEvent.on(container, 'dblclick', stop);
 
 			return container;
 		},
