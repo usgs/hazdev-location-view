@@ -12,6 +12,7 @@ define([
 	var FORWARD_URL = 'http://open.mapquestapi.com/nominatim/v1/search.php';
 	// Webservice URL for reverse geocode requests
 	var REVERSE_URL = 'http://open.mapquestapi.com/nominatim/v1/reverse.php';
+	var METHOD_GEOCODE = 'geocode';
 
 	/**
 	 * Creates a new geocoder object.
@@ -168,6 +169,7 @@ define([
 			location.place = originalRequest.q;
 			location.latitude = Number(geocodeResponse.lat);
 			location.longitude = Number(geocodeResponse.lon);
+			location.method = METHOD_GEOCODE;
 			location.confidence = ConfidenceCalculator.computeFromGeocode(
 					geocodeResponse);
 		} else {
@@ -175,11 +177,10 @@ define([
 			location.place = geocodeResponse.display_name;
 			location.latitude = originalRequest.lat;
 			location.longitude = originalRequest.lon;
+			location.method = METHOD_GEOCODE;
 			location.confidence = ConfidenceCalculator.computeFromCoordinates(
 					originalRequest.latitude, originalRequest.longitude);
 		}
-
-		location.accuracy = null; // TODO
 
 		return location;
 	};
