@@ -27,6 +27,12 @@ define([
 		setLocation: function (loc, options) {
 			this._loc = loc;
 
+			if (!loc || !loc.hasOwnProperty('placeString')) {
+				this._textInput.value = '';
+			} else {
+				this._textInput.value = loc.placeString;
+			}
+
 			if (!(options && options.silent)) {
 				this.fire('location', this._loc);
 			}
