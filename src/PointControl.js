@@ -82,17 +82,22 @@ define([
 			this._marker.on('dragend', this._onDragEnd, this);
 			// stops map from zooming on double click
 			L.DomEvent.on(container, 'dblclick', stop);
+			L.DomEvent.on(this._map, 'mouseup', stop);
 
 			return container;
 		},
 
 		onRemove: function () {
+			var stop = L.DomEvent.stopPropagation;
+
 			if (this._isEnabled) {
 				this.disable();
 			}
 
 			L.DomEvent.removeListener(this._container, 'click', this.toggle);
 			this._marker.off('dragend', this._onDragEnd, this);
+			L.DomEvent.off(this._container, 'dblclick', stop);
+			L.DomEvent.off(this._map, 'mouseup', stop);
 			this._map.removeLayer(this._marker);
 			this._map = null;
 			this._container = null;
