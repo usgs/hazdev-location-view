@@ -61,12 +61,12 @@ define([
 
 		_geolocateSuccess: function (position) {
 			this.fire('location', {
+					place: null,
 					latitude: position.coords.latitude,
 					longitude: position.coords.longitude,
-					placeString: null,
+					method: METHOD,
 					confidence: ConfidenceCalculator.computeFromGeolocate(
-						position.coords.accuracy),
-					method: METHOD
+						position.coords.accuracy)
 			});
 		},
 
