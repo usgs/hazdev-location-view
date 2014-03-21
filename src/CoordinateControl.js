@@ -131,9 +131,9 @@ define([
 							computeFromCoordinates(latitude, longitude);
 
 			return {
-				'placeString': null,
-				'longitude': parseFloat(longitude),
+				'place': null,
 				'latitude': parseFloat(latitude),
+				'longitude': parseFloat(longitude),
 				'method': METHOD,
 				'confidence': confidence
 			};
