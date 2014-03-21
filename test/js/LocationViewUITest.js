@@ -14,10 +14,6 @@ require([
 	_onLocationCallback = function (loc) {
 		var description = '';
 
-		if (loc.hasOwnProperty('description')) {
-			description = loc.description;
-		}
-
 		_locationResult.innerHTML = JSON.stringify(loc, null, 2);
 	};
 
