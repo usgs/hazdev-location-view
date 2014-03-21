@@ -1,6 +1,6 @@
 .leaflet-point-control-location {
-	cursor:default;
 	cursor:crosshair;
+	cursor:url(cursor.cur) 16 32, auto;
 }
 a.leaflet-point-control {
 	background-color: #fff;
