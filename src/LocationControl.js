@@ -1,6 +1,8 @@
 /* global define */
 define([
 	'leaflet',
+	'util/Util',
+
 	'PointControl',
 	'CoordinateControl',
 	'GeocodeControl',
@@ -8,6 +10,8 @@ define([
 	'ConfidenceCalculator'
 ], function (
 	L,
+	Util,
+
 	PointControl,
 	CoordinateControl,
 	GeocodeControl,
@@ -314,7 +318,11 @@ define([
 
 		setLocation: function (location, options) {
 			var zoomLevel;
-			this._location = location;
+			this._location = Util.extend({}, location, {type:null,target:null});
+
+			// TODO :: Is this necessary?
+			delete this._location.type;
+			delete this._location.target;
 
 			// update all controls
 			if (this.PointControl && this.PointControl.setLocation) {
