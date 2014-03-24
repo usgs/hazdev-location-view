@@ -34,11 +34,11 @@ define([
 		},
 
 		onAdd: function (map) {
-			this._map = map;
-
-			var container = this._container =
-					L.DomUtil.create('a', 'leaflet-geolocation-control'),
+			var container = L.DomUtil.create('a', 'leaflet-geolocation-control'),
 			    stop = L.DomEvent.stopPropagation;
+
+			this._container = container;
+			this._map = map;
 
 			container.title = 'Use Current Location';
 
