@@ -61,16 +61,9 @@
 				el: document.querySelector('.map')
 			});
 			var natgeo = new L.TileLayer('http://earthquake.usgs.gov/basemap/tiles/natgeo_hires/{z}/{y}/{x}.jpg');
-			var marker = new L.Marker(new L.LatLng(0, 0), {draggable:true});
 
 			lc.on('location', function(loc) {
-				//console.log('(' + loc.latitude + ', ' + loc.longitude + ')');
 				console.log(this.getLocation());
-				marker.setLatLng(new L.LatLng(loc.latitude, loc.longitude));
-
-				if (!marker._map) {
-					map.addLayer(marker);
-				}
 			});
 
 			map.addLayer(natgeo);
