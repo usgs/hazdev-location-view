@@ -60,7 +60,8 @@
 				includeGeolocationControl: true,
 				el: document.querySelector('.map')
 			});
-			var natgeo = new L.TileLayer('http://earthquake.usgs.gov/basemap/tiles/natgeo_hires/{z}/{y}/{x}.jpg');
+			var natgeo = new L.TileLayer('http://server.arcgisonline.com' +
+					'/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}');
 
 			lc.on('location', function(loc) {
 				console.log(this.getLocation());
