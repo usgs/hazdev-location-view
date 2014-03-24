@@ -131,6 +131,7 @@ define([
 			buttons: [
 				{
 					text: 'Use this Location',
+					classes: ['location-button'],
 					callback: function () {
 						_this._options.callback(_this._locationControl.getLocation());
 						_this._modal.hide();
@@ -138,6 +139,32 @@ define([
 				}
 			]
 		});
+		this._locationControl.on('location', this._toggle, this);
+		/* Called initially to disable the button if you enter the location view
+		 * with no location information, or enable it if location information exists
+		 */
+		this._toggle();
+	};
+
+
+	/**
+	 * @PrivateInitializer
+	 * Toggles the "Use this Location" button in the footer of the modal view to
+	 * to be disabled when the location is null and enabled otherwise.
+	 *
+	 */
+	LocationView.prototype._toggle = function () {
+		var button = this._modal.el.querySelector('.location-button'),
+		    location = this._locationControl.getLocation();
+
+		if (location) {
+			button.disabled = false;
+			button.innerHTML = 'Use this Location';
+		} else {
+			button.disabled = true;
+			button.innerHTML = 'No Location Selected';
+		}
+
 	};
 
 
