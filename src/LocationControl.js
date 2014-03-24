@@ -124,7 +124,8 @@ define([
 			    pointControlInfo,
 			    coordinateControlInfo,
 			    geocodeControlInfo,
-			    geolocationControlInfo;
+			    geolocationControlInfo,
+			    stop = L.DomEvent.stopPropagation;
 
 			if (this.options.includePointControl) {
 				pointControlInfo = L.DomUtil.create('li',
@@ -198,9 +199,9 @@ define([
 			}, this);
 
 			// stop interaction with map when the information menu is visible
-			L.DomEvent.addListener(this._informationPanel, 'mousedown', function (e) {
-				L.DomEvent.stop(e);
-			}, this);
+			L.DomEvent.on(this._informationPanel, 'mousedown', stop);
+			L.DomEvent.on(this._informationPanel, 'dblclick', stop);
+			L.DomEvent.on(this._informationPanel, 'wheel', stop);
 		},
 
 		/**
