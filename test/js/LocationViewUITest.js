@@ -12,8 +12,6 @@ require([
 	    locationView;
 
 	_onLocationCallback = function (loc) {
-		var description = '';
-
 		_locationResult.innerHTML = JSON.stringify(loc, null, 2);
 	};
 
