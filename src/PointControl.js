@@ -38,24 +38,19 @@ define([
 			    marker = this._marker;
 
 			if (loc !== null) {
-				// always update marker
+				// update marker
 				marker.setLatLng(new L.LatLng(loc.latitude, loc.longitude));
 				marker.setPopupContent(this._formatLocation(loc));
+				// add marker
+				if (map && !marker._map) {
+					marker.addTo(map);
+				}
 			} else {
+				// clear popup content
 				marker.setPopupContent('');
-			}
-
-			if (this._isEnabled && map !== null) {
-				if (loc === null) {
-					// make sure marker is not on map
-					if (marker._map) {
-						map.removeLayer(marker);
-					}
-				} else {
-					// make sure marker is on map
-					if (!marker._map) {
-						marker.addTo(map);
-					}
+				// remove marker
+				if (map && marker._map) {
+					map.removeLayer(marker);
 				}
 			}
 
