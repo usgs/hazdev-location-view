@@ -141,8 +141,8 @@ define([
 
 			return {
 				'place': null,
-				'latitude': parseFloat(latitude),
 				'longitude': parseFloat(longitude),
+				'latitude': parseFloat(latitude),
 				'method': METHOD,
 				'confidence': confidence
 			};

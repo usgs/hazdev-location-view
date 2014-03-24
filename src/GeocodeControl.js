@@ -27,10 +27,10 @@ define([
 		setLocation: function (loc, options) {
 			this._loc = loc;
 
-			if (!loc || !loc.hasOwnProperty('placeString')) {
+			if (!loc || !loc.hasOwnProperty('place')) {
 				this._textInput.value = '';
 			} else {
-				this._textInput.value = loc.placeString;
+				this._textInput.value = loc.place;
 			}
 
 			if (!(options && options.silent)) {

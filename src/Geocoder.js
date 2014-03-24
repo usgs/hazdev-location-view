@@ -166,7 +166,7 @@ define([
 
 		if (originalRequest.hasOwnProperty('q')) {
 			// forward lookup
-			location.placeString = originalRequest.q;
+			location.place = originalRequest.q;
 			location.latitude = Number(geocodeResponse.lat);
 			location.longitude = Number(geocodeResponse.lon);
 			location.method = METHOD_GEOCODE;
@@ -174,7 +174,7 @@ define([
 					geocodeResponse);
 		} else {
 			// reverse lookup
-			location.placeString = geocodeResponse.display_name;
+			location.place = geocodeResponse.display_name;
 			location.latitude = originalRequest.lat;
 			location.longitude = originalRequest.lon;
 			location.method = METHOD_GEOCODE;

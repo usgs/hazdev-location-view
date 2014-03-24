@@ -14,7 +14,7 @@ define([
 	var expect = chai.expect;
 
 	var boulderCO = {
-		'placeString': null,
+		'place': null,
 		'longitude': -105.3,
 		'latitude': 40.1,
 		'method': CoordinateControl.METHOD,
