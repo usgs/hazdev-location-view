@@ -63,6 +63,8 @@ define([
 			L.DomEvent.on(this._control, 'mouseup', stop);
 			L.DomEvent.on(this._control, 'mousedown', stop);
 			L.DomEvent.on(this._control, 'mousemove', stop);
+			// stops map from zooming on double click
+			L.DomEvent.on(container, 'dblclick', stop);
 
 			return container;
 		},
@@ -71,21 +73,28 @@ define([
 			// allow options to always open or always close coordinate control
 			if (options && options.hasOwnProperty('enabled')) {
 				if (options.enabled === true) {
-					// force an open state
-					L.DomUtil.addClass(this._container, 'enabled');
+					this.enable();
 				} else {
-					// force a closed state
-					L.DomUtil.removeClass(this._container, 'enabled');
+					this.disable();
 				}
 				return;
 			}
 
 			// if options is not defined, then toggle the control
 			if (L.DomUtil.hasClass(this._container, 'enabled')) {
-				L.DomUtil.removeClass(this._container, 'enabled');
+				this.disable();
 			} else {
-				L.DomUtil.addClass(this._container, 'enabled');
+				this.enable();
 			}
+		},
+
+		enable: function () {
+			L.DomUtil.addClass(this._container, 'enabled');
+			this._latitude.focus();
+		},
+
+		disable: function () {
+			L.DomUtil.removeClass(this._container, 'enabled');
 		},
 
 		onRemove: function () {
@@ -132,8 +141,8 @@ define([
 
 			return {
 				'place': null,
-				'latitude': parseFloat(latitude),
 				'longitude': parseFloat(longitude),
+				'latitude': parseFloat(latitude),
 				'method': METHOD,
 				'confidence': confidence
 			};

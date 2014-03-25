@@ -81,8 +81,10 @@ define([
 		describe('setLocation()', function () {
 			it('sets its location', function () {
 				var loc = {},
-				    g = new GeocodeControl();
+				    g = new GeocodeControl(),
+				    map = new L.Map(L.DomUtil.create('div', 'map'), {});
 
+				map.addControl(g);
 				g.setLocation(loc);
 				expect(g._loc).to.equal(loc);
 			});
