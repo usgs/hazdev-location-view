@@ -26,6 +26,8 @@
 		z-index:1000;
 		list-style: none;
 		cursor:pointer;
+		overflow-y:scroll;
+		max-height:80%;
 
 		> li {
 			padding:0;
@@ -115,7 +117,6 @@ a.information-control {
 .leaflet-left a.enabled span {
 	background: #fff;
 }
-
 
 @media screen and (min-width:768px) {
 
