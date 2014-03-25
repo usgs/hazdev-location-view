@@ -6,10 +6,10 @@
 
 .location-view {
 	position:absolute;
-	top:16px;
-	right:16px;
-	bottom:16px;
-	left:16px;
+	top:8px;
+	right:8px;
+	bottom:8px;
+	left:8px;
 	width:auto;
 	max-width:640px;
 	max-height:557px; // 480 + 43 + 34
@@ -54,5 +54,23 @@
 
 	.leaflet-control {
 		box-shadow:0 1px 1px #000;
+	}
+
+	.leaflet-control-zoom {
+		display:none;
+	}
+}
+
+
+@media screen and (min-width:768px) {
+	.location-view {
+		top:16px;
+		right:16px;
+		bottom:16px;
+		left:16px;
+
+		.leaflet-control-zoom {
+			display:block;
+		}
 	}
 }

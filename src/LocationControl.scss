@@ -20,20 +20,24 @@
 		position:absolute;
 		background: #fff;
 		box-shadow:0 1px 2px rgb(0,0,0);
-		width:80%;
-		margin:10%;
+		width:90%;
+		margin:5%;
 		padding:0;
 		z-index:1000;
 		list-style: none;
 		cursor:pointer;
 
 		> li {
-			padding:10px 15px 10px 75px;
+			padding:0;
+			margin:0;
+			padding-left:60px;
 			border-top:1px solid #ccc;
 			position: relative;
 
 			> p {
-				font-size:13px;
+				font-size:12px;
+				padding:12px 0;
+				margin:0;
 			}
 
 			> span.icon {
@@ -41,8 +45,8 @@
 				display:block;
 				height:40px;
 				width:40px;
-				top:13px;
-				left:15px;
+				top:0px;
+				left:10px;
 				background-image: url('location-view-icons.png');
 				background-size: 160px 80px;
 				background-repeat: no-repeat;
@@ -110,4 +114,27 @@ a.information-control {
 
 .leaflet-left a.enabled span {
 	background: #fff;
+}
+
+
+@media screen and (min-width:768px) {
+
+	.information-panel > ul.information-list {
+		width:80%;
+		margin:10%;
+
+		> li {
+			//padding:10px 15px 10px 75px;
+
+			> p {
+				font-size:13px;
+				padding:23px 0;
+			}
+
+			> span.icon {
+				top: 13px;
+			}
+		}
+	}
+
 }
