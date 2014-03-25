@@ -117,7 +117,7 @@ define([
 			this._submit = null;
 		},
 
-		setLocation: function (location) {
+		setLocation: function (location, options) {
 			if (location === null) {
 				// reset location
 				this._latitude.value = '';
@@ -129,6 +129,9 @@ define([
 				this._longitude.value = ConfidenceCalculator.
 						roundLocation(location.longitude, location.confidence);
 			}
+			if (!(options && options.silent)) {
+				this.fire('location', location);
+			}
 		},
 
 		_onSubmit: function () {
@@ -137,7 +140,7 @@ define([
 			    location = this._getCoordinateLocation(latitude, longitude);
 
 			// fire a location change
-			this.fire('location', location);
+			this.setLocation(location);
 		},
 
 		_getCoordinateLocation: function (latitude, longitude) {
