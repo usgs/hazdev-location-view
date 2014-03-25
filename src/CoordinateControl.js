@@ -8,11 +8,17 @@ define([
 ) {
 	'use strict';
 
+	var CLASS_NAME = 'leaflet-coordinate-control',
+	    CLASS_INPUT = CLASS_NAME + '-input',
+	    CLASS_ENABLED = CLASS_NAME + '-enabled';
+
 	var METHOD = 'coordinate';
 
 	var DEFAULTS = {
 		'position': 'topleft',
-		'defaultEnabled': false
+		'defaultEnabled': false,
+		'iconClass': CLASS_NAME + '-icon',
+		'helpText': 'Enter Coordinates'
 	};
 
 	var CoordinateControl =  L.Control.extend({
@@ -23,65 +29,55 @@ define([
 		},
 
 		onAdd: function (map) {
-			var container = this._container = L.DomUtil.create('div',
-							'leaflet-coordinate-control-wrapper'),
-			    toggle = this._toggle = L.DomUtil.create('a',
-							'leaflet-coordinate-control-toggle'),
-			    control = this._control = L.DomUtil.create('div',
-							'leaflet-coordinate-control-input'),
-			    stop = L.DomEvent.stopPropagation;
+			var options = this.options,
+			    stop = L.DomEvent.stopPropagation,
+			    container,
+			    toggle,
+			    control;
 
-			this._map = map;
-			container.appendChild(toggle);
-			container.appendChild(control);
-
-			control.title = 'Location Using Latitude/ Longitude';
-			control.innerHTML = [
+			container = document.createElement('div');
+			container.classList.add(CLASS_NAME);
+			container.innerHTML = [
+				'<a class="', options.iconClass, '"></a>',
+				'<span class="help">', options.helpText, '</span>',
+				'<div class="', CLASS_INPUT, '">',
 					'<input name="latitude" title="latitude" class="latitude"',
 							'placeholder="Latitude" />',
 					'<input name="longitude" title="longitude" class="longitude"',
 							'placeholder="Longitude" />',
 					'<button class="coordinate-submit">Search</button>',
+				'</div>'
 			].join('');
 
+			toggle = container.querySelector('a');
+			control = container.querySelector('.' + CLASS_INPUT);
+
+			this._container = container;
+			this._toggle = toggle;
+			this._control = control;
 			this._latitude = control.querySelector('.latitude');
 			this._longitude = control.querySelector('.longitude');
 			this._submit = control.querySelector('.coordinate-submit');
+			this._map = map;
 
 			if (this.options.defaultEnabled) {
-				this.toggle({'enabled': true});
+				this.enable();
 			}
 
-			L.DomEvent.on(this._toggle, 'click', this.toggle, this);
-
+			L.DomEvent.on(toggle, 'click', this.toggle, this);
 			// Bind to a submit button click
 			L.DomEvent.on(this._submit, 'click', this._onSubmit, this);
 			// Bind event for the "enter" key
-			L.DomEvent.on(this._control, 'keypress', this._onKeyPress, this);
-
-			L.DomEvent.on(this._control, 'dblclick', stop);
-			L.DomEvent.on(this._control, 'mouseup', stop);
-			L.DomEvent.on(this._control, 'mousedown', stop);
-			L.DomEvent.on(this._control, 'mousemove', stop);
+			L.DomEvent.on(control, 'keypress', this._onKeyPress, this);
 			// stops map from zooming on double click
 			L.DomEvent.on(container, 'dblclick', stop);
 
 			return container;
 		},
 
-		toggle: function (options) {
-			// allow options to always open or always close coordinate control
-			if (options && options.hasOwnProperty('enabled')) {
-				if (options.enabled === true) {
-					this.enable();
-				} else {
-					this.disable();
-				}
-				return;
-			}
-
+		toggle: function () {
 			// if options is not defined, then toggle the control
-			if (L.DomUtil.hasClass(this._container, 'enabled')) {
+			if (L.DomUtil.hasClass(this._container, CLASS_ENABLED)) {
 				this.disable();
 			} else {
 				this.enable();
@@ -89,27 +85,36 @@ define([
 		},
 
 		enable: function () {
-			L.DomUtil.addClass(this._container, 'enabled');
+			L.DomUtil.addClass(this._container, CLASS_ENABLED);
 			this._latitude.focus();
+
+			this.fire('enabled');
 		},
 
 		disable: function () {
-			L.DomUtil.removeClass(this._container, 'enabled');
+			L.DomUtil.removeClass(this._container, CLASS_ENABLED);
+
+			this.fire('disabled');
 		},
 
 		onRemove: function () {
-			var stop = L.DomEvent.stopPropagation;
+			var stop = L.DomEvent.stopPropagation,
+			    container = this._container,
+			    toggle = this._toggle,
+			    control = this._control;
 
+			L.DomEvent.removeListener(toggle, 'click', this.toggle);
 			L.DomEvent.removeListener(this._submit, 'click', this._onSubmit);
-			L.DomEvent.removeListener(this._control, 'keypress', this._onKeyPress);
-
-			L.DomEvent.off(this._control, 'dblclick', stop);
-			L.DomEvent.off(this._control, 'mouseup', stop);
-			L.DomEvent.off(this._control, 'mousedown', stop);
-			L.DomEvent.off(this._control, 'mousemove', stop);
+			L.DomEvent.removeListener(control, 'keypress', this._onKeyPress);
+			L.DomEvent.removeListener(container, 'dblclick', stop);
 
 			this._map = null;
 			this._control = null;
+			this._toggle = null;
+			this._container = null;
+			this._latitude = null;
+			this._longitude = null;
+			this._submit = null;
 		},
 
 		setLocation: function (location) {
