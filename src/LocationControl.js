@@ -68,14 +68,9 @@ define([
 			// Add Geocode Control
 			if (this.options.includeGeocodeControl) {
 				this._map.addControl(this.GeocodeControl);
-				this._geocodeControl = this.GeocodeControl._container.
-						querySelector('.geocode-control-toggle');
 				this.GeocodeControl.on('location', this.setLocation, this);
 				this.GeocodeControl.on('locationError', this._onLocationError, this);
-				this._geocodeControl.innerHTML = '<span>Search for Address</span>';
-
-				L.DomEvent.addListener(this._geocodeControl, 'click',
-						function () { this._onClick('geocode'); }, this);
+				this.GeocodeControl.on('enabled', this._onControlEnabled, this);
 			}
 
 			// Add Coordinate Control
