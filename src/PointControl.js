@@ -18,7 +18,7 @@ define([
 		position: 'topleft',
 		defaultLocation: null,
 		defaultEnabled: false,
-		iconClass: 'location-point-control-icon',
+		iconClass: CLASS_NAME + '-icon',
 		helpText: 'Drop Pin'
 	};
 

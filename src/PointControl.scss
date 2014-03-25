@@ -6,7 +6,7 @@
 
 
 // icon for point control
-.location-point-control-icon {
+.leaflet-point-control-icon {
 	background-color: #fff;
 	display: block;
 	width: 26px;
@@ -24,15 +24,15 @@
 }
 
 // icon for point control, when enabled
-.location-point-control-enabled > .location-point-control-icon {
+.leaflet-point-control-enabled > .leaflet-point-control-icon {
 	background-position: -78px -26px;
 }
 
-.location-point-control-icon + span.help {
+.leaflet-point-control-icon + span.help {
 	display: none;
 }
 
-.location-point-control-icon:hover + span.help {
+.leaflet-point-control-icon:hover + span.help {
 	display: block;
 	position: absolute;
 	border-radius: 4px;
