@@ -24,7 +24,8 @@ define([
 		'includePointControl': false,
 		'includeCoordinateControl': false,
 		'includeGeocodeControl': false,
-		'includeGeolocationControl': false,
+		'includeGeolocationControl':
+				navigator && navigator.hasOwnProperty('geolocation'),
 		'location': null,
 		'position': 'bottomleft',
 		'el': null
@@ -34,20 +35,44 @@ define([
 		includes: L.Mixin.Events,
 
 		initialize: function (options) {
-			L.Util.setOptions(this, L.Util.extend({}, DEFAULTS, options));
+			var controls;
+
+			options = L.Util.extend({}, DEFAULTS, options);
+			L.Util.setOptions(this, options);
 
 			this._el = this.options.el || document.body;
-			this._location = this.options.location || null;
+			this._location = this.options.location;
 
-			this.PointControl = this.options.PointControl || new PointControl();
-			this.CoordinateControl = this.options.CoordinateControl || new CoordinateControl();
-			this.GeocodeControl = this.options.GeocodeControl || new GeocodeControl();
-			this.GeolocationControl = this.options.GeolocationControl || new GeolocationControl();
+			controls = [];
+			if (options.includeGeolocationControl) {
+				controls.push(options.geolocationControl || new GeolocationControl());
+			}
+			if (options.includeGeocodeControl) {
+				controls.push(options.geocodeControl || new GeocodeControl());
+			}
+			if (options.includeCoordinateControl) {
+				controls.push(options.coordinateControl || new CoordinateControl());
+			}
+			if (options.includePointControl) {
+				controls.push(options.pointControl || new PointControl());
+			}
+			this._controls = controls;
+		},
+
+		_eachControl: function (callback) {
+			var controls = this._controls,
+			    control,
+			    i, len;
+
+			for (i = 0, len = controls.length; i < len; i++) {
+				control = controls[i];
+				callback(control, i, controls);
+			}
 		},
 
 		onAdd: function (map) {
-
-			var informationControl;
+			var _this = this,
+			    informationControl;
 
 			this._map = map;
 			this._enabled = null;
@@ -55,37 +80,12 @@ define([
 			// create overlay with control information
 			this._createInformationMenu();
 
-
-			// Add Geolocate Control
-			if (navigator && navigator.hasOwnProperty('geolocation') &&
-						this.options.includeGeolocationControl) {
-				this._map.addControl(this.GeolocationControl);
-				this.GeolocationControl.on('location', this.setLocation, this);
-				this.GeolocationControl.on('locationError', this._onLocationError, this);
-				this.GeolocationControl.on('enabled', this._onControlEnabled, this);
-			}
-
-			// Add Geocode Control
-			if (this.options.includeGeocodeControl) {
-				this._map.addControl(this.GeocodeControl);
-				this.GeocodeControl.on('location', this.setLocation, this);
-				this.GeocodeControl.on('locationError', this._onLocationError, this);
-				this.GeocodeControl.on('enabled', this._onControlEnabled, this);
-			}
-
-			// Add Coordinate Control
-			if (this.options.includeCoordinateControl) {
-				this._map.addControl(this.CoordinateControl);
-				this.CoordinateControl.on('location', this.setLocation, this);
-				this.CoordinateControl.on('enabled', this._onControlEnabled, this);
-			}
-
-			// Add Point Control
-			if (this.options.includePointControl) {
-				this._map.addControl(this.PointControl);
-				this.PointControl.on('location', this.setLocation, this);
-				this.PointControl.on('enabled', this._onControlEnabled, this);
-			}
+			this._eachControl(function (control) {
+				map.addControl(control);
+				control.on('location', _this.setLocation, _this);
+				control.on('locationError', _this._onLocationError, _this);
+				control.on('enabled', _this._onControlEnabled, _this);
+			});
 
 			// Create Information Control (i) button
 			informationControl = L.DomUtil.create('a', 'information-control');
@@ -207,142 +207,63 @@ define([
 		},
 
 		_onControlEnabled: function (e) {
-			var target = e.target;
-			// TODO: disable every control that isn't "target"
-			if (target === null) {
+			var target = null;
+
+			if (e) {
+				target = e.target;
 			}
+
+			this._eachControl(function (control) {
+				if (control !== target) {
+					control.disable();
+				}
+			});
 		},
 
-		/**
-		 * Handle the toggling for the group of controls. There are 3 cases:
-		 *
-		 *   - no active controls,
-		 *     (enable selected control)
-		 *
-		 *   - active control is selected,
-		 *     (disable the selected control)
-		 *
-		 *   - a control is selected that is not the active control,
-		 *     (disable active control, enable selected control)
-		 *
-		 * @param  {string} selected,
-		 *         The control that was just clicked. 
-		 * 
-		 */
-		_onClick: function (selected) {
-			var enabled = this._enabled;
-
-			if (enabled === null) {
-				// no controls are enabled, select new control;
-				this._enabled = selected;
-			} else if (enabled === selected) {
-				// the enabled control was selected, and is now toggled off
-				this._enabled = null;
-			} else {
-				// a different control was selected, deselect and select the new one
-				this._deselectControl();
-				this._enabled = selected;
-			}
-		},
-
-		/**
-		 * Enable the control passed in. This is used by the information menu
-		 * which means that all controls will be disabled calling _selectControl
-		 *
-		 * @param  {string} control,
-		 *         the control to enable.
-		 */
-		_selectControl: function (control) {
-			// enable a control
-			if (control === 'point') {
-				this.PointControl.enable();
-			} else if (control === 'coordinate') {
-				this.CoordinateControl.toggle({enabled: true});
-			} else if (control === 'geocode') {
-				this.GeocodeControl.toggle();
-			} else if (control === 'geolocation') {
-				this.GeolocationControl.doGeolocate();
-			}
-			// keep track of the selected control
-			this._enabled = control;
-		},
-
-		/**
-		 * Disables a control, or disables all controls.
-		 *
-		 * @param  {object} options,
-		 *         if the 'all' attribute is set to true, all controls are disabled.
-		 */
-		_deselectControl: function (options) {
-			var enabled = this._enabled;
-
-			// reset all controls
-			if (options && options.hasOwnProperty('all') && options.all === true) {
-				this.PointControl.disable();
-				this.CoordinateControl.toggle({'enabled':false});
-				this.GeocodeControl.disable();
-				this._enabled = null;
-				return;
-			}
-
-			if (enabled === 'point') {
-				this.PointControl.disable();
-			} else if (enabled === 'coordinate') {
-				this.CoordinateControl.toggle();
-			} else if (enabled === 'geocode') {
-				this.GeocodeControl.toggle();
-			}
-		},
 
 		onRemove: function () {
-			if (this.options.includePointControl) {
-				PointControl.onRemove();
-			}
-			if (this.options.includeCoordinateControl) {
-				CoordinateControl.onRemove();
-			}
-			if (this.options.includeGeocodeControl) {
-				GeocodeControl.onRemove();
-			}
-			if (this.options.includeGeolocateControl) {
-				GeolocationControl.onRemove();
-			}
+			var _this = this;
+
+			this._eachControl(function (control) {
+				_this.map.removeControl(control);
+				control.off('location', _this.setLocation, _this);
+				control.off('locationError', _this._onLocationError, _this);
+				control.off('enabled', _this._onControlEnabled, _this);
+			});
+
+			// TODO: remove information menu
+
 			this._map = null;
 			this._locationControl = null;
 		},
 
+
 		setLocation: function (location, options) {
 			var zoomLevel;
-			location = this._location =
-					Util.extend({}, location, {type:null,target:null});
 
-			// update all controls
-			if (this.PointControl && this.PointControl.setLocation) {
-				this.PointControl.setLocation(location, {'silent':true});
-			}
-			if (this.CoordinateControl && this.CoordinateControl.setLocation) {
-				// trim to confidence number for coordinate control inputs
-				this.CoordinateControl.setLocation(location, {'silent':true});
-			}
-			if (this.GeocodeControl && this.GeocodeControl.setLocation) {
-				this.GeocodeControl.setLocation(location, {'silent':true});
-			}
+			this._location = location;
 
-			zoomLevel = ConfidenceCalculator.computeZoomFromConfidence(
-					location.confidence);
+			this._eachControl(function (control) {
+				control.setLocation(location, {'silent': true});
+			});
 
-			// do not zoom the user out
-			if (zoomLevel < this._map._zoom) {
-				zoomLevel = this._map._zoom;
+			if (location) {
+				zoomLevel = ConfidenceCalculator.computeZoomFromConfidence(
+						location.confidence);
+				// do not zoom the user out
+				if (zoomLevel < this._map._zoom) {
+					zoomLevel = this._map._zoom;
+				}
+				//center the map
+				this._map.setView({
+						lon: location.longitude,
+						lat: location.latitude
+					},
+					zoomLevel
+				);
+			} else {
+				// TODO: zoom to world?
 			}
-
-			//center the map
-			this._map.setView({
-					lon: location.longitude,
-					lat: location.latitude
-				},
-				zoomLevel
-			);
 
 			if (!(options && options.silent)){
 				this.fire('location', location);

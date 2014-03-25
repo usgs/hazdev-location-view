@@ -60,7 +60,7 @@ define([
 				/* jshint +W030 */
 			});
 
-			it.skip('Can add the GeocodeControl', function () {
+			it('Can add the GeocodeControl', function () {
 				var geocodeControl = controls.querySelector(
 						'.leaflet-geocode-control');
 				/* jshint -W030 */
@@ -77,30 +77,17 @@ define([
 			});
 		});
 
-		describe('Bind to PointControl location Change', function () {
-			it('Can update CoordinateControl on PointControl change', function () {
-				lc.PointControl.setLocation(loc);
-				// Check if coordinate control was updated with location.
-				expect(lc.getLocation().latitude).to.equal(loc.latitude);
-				expect(lc.getLocation().longitude).to.equal(loc.longitude);
-			});
-		});
+		describe('Bind to control location change', function () {
+			it('Updates location when control location changes', function () {
+				lc._eachControl(function (control) {
+					// clear location
+					lc.setLocation(null);
+					control.setLocation(loc);
 
-		describe('Bind to CoordinateControl location Change', function () {
-			it('Can update PointControl on CoordinateControl change', function () {
-				lc.CoordinateControl.setLocation(loc);
-				// Check if coordinate control was updated with location.
-				expect(lc.getLocation().latitude).to.equal(loc.latitude);
-				expect(lc.getLocation().longitude).to.equal(loc.longitude);
-			});
-		});
-
-		describe('Bind to GeocodeControl location Change', function () {
-			it('Can update PointControl on GeocodeControl change', function () {
-				lc.GeocodeControl.setLocation(loc);
-				// Check if coordinate control was updated with location.
-				expect(lc.getLocation().latitude).to.equal(loc.latitude);
-				expect(lc.getLocation().longitude).to.equal(loc.longitude);
+					// Check if location control was updated with location.
+					expect(lc.getLocation().latitude).to.equal(loc.latitude);
+					expect(lc.getLocation().longitude).to.equal(loc.longitude);
+				});
 			});
 		});
 
