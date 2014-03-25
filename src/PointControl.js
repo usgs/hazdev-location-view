@@ -103,10 +103,12 @@ define([
 
 		_bindMapEventHandlers: function () {
 			this._map.on('click', this._onClick, this);
+			this._map.on('boxzoomstart', this._onBoxZoomStart, this);
 		},
 
 		_unbindMapEventHandlers: function () {
 			this._map.off('click', this._onClick, this);
+			this._map.off('boxzoomstart', this._onBoxZoomStart, this);
 		},
 
 		/**
@@ -117,11 +119,19 @@ define([
 		 * @param mouseEvent {MouseEvent}
 		 */
 		_onClick: function (mouseEvent) {
+			if (this._boxZoomStarted === true) {
+				this._boxZoomStarted = false;
+				return;
+			}
 			this.setLocation(this._createPointLocation(mouseEvent.latlng));
 		},
 
 		_onDragEnd: function () {
 			this.setLocation(this._createPointLocation(this._marker.getLatLng()));
+		},
+
+		_onBoxZoomStart: function () {
+			this._boxZoomStarted = true;
 		},
 
 		_createPointLocation: function (latlng) {
@@ -148,22 +158,19 @@ define([
 		},
 
 		enable: function () {
-			var mapContainer = this._map.getContainer(),
-			    stop = L.DomEvent.stopPropagation;
+			var mapContainer = this._map.getContainer();
 
-			L.DomEvent.on(this._map, 'mouseup', stop);
 			L.DomUtil.addClass(this._container, CLASS_ENABLED);
 			L.DomUtil.addClass(mapContainer, CLASS_LOCATION);
 
 			this._bindMapEventHandlers();
 			this._isEnabled = true;
+			this._boxZoomStarted = false;
 		},
 
 		disable: function () {
-			var mapContainer = this._map ? this._map.getContainer() : null,
-			    stop = L.DomEvent.stopPropagation;
+			var mapContainer = this._map ? this._map.getContainer() : null;
 
-			L.DomEvent.off(this._map, 'mouseup', stop);
 			L.DomUtil.removeClass(this._container, CLASS_ENABLED);
 			L.DomUtil.removeClass(mapContainer, CLASS_LOCATION);
 
