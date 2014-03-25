@@ -98,12 +98,8 @@ define([
 			// Add Point Control
 			if (this.options.includePointControl) {
 				this._map.addControl(this.PointControl);
-				this._pointControl = this.PointControl._container;
 				this.PointControl.on('location', this.setLocation, this);
-				this._pointControl.innerHTML = '<span>Drop Pin</span>';
-
-				L.DomEvent.addListener(this._pointControl, 'click',
-						function () { this._onClick('point'); }, this);
+				this.PointControl.on('enabled', this._onControlEnabled, this);
 			}
 
 			// Create Information Control (i) button
@@ -222,6 +218,13 @@ define([
 			} else {
 				// hide information panel
 				L.DomUtil.addClass(this._informationPanel, 'hide');
+			}
+		},
+
+		_onControlEnabled: function (e) {
+			var target = e.target;
+			// TODO: disable every control that isn't "target"
+			if (target === null) {
 			}
 		},
 
