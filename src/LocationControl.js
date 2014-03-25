@@ -351,7 +351,7 @@ define([
 			);
 
 			if (!(options && options.silent)){
-				this.fire('location', this._location);
+				this.fire('location', location);
 			}
 		},
 
