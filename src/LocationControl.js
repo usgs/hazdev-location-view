@@ -76,13 +76,8 @@ define([
 			// Add Coordinate Control
 			if (this.options.includeCoordinateControl) {
 				this._map.addControl(this.CoordinateControl);
-				this._coordinateControl = this.CoordinateControl._container.
-						querySelector('.leaflet-coordinate-control-toggle');
 				this.CoordinateControl.on('location', this.setLocation, this);
-				this._coordinateControl.innerHTML = '<span>Enter Coordinates</span>';
-				
-				L.DomEvent.addListener(this._coordinateControl, 'click',
-						function () { this._onClick('coordinate'); }, this);
+				this.CoordinateControl.on('enabled', this._onControlEnabled, this);
 			}
 
 			// Add Point Control
