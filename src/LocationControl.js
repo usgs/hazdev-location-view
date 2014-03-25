@@ -62,6 +62,7 @@ define([
 				this._map.addControl(this.GeolocationControl);
 				this._geolocationControl = this.GeolocationControl._container;
 				this.GeolocationControl.on('location', this.setLocation, this);
+				this.GeolocationControl.on('locationError', this._onLocationError, this);
 				this._geolocationControl.innerHTML =
 						'<span>Use Current Location</span>';
 
@@ -75,6 +76,7 @@ define([
 				this._geocodeControl = this.GeocodeControl._container.
 						querySelector('.geocode-control-toggle');
 				this.GeocodeControl.on('location', this.setLocation, this);
+				this.GeocodeControl.on('locationError', this._onLocationError, this);
 				this._geocodeControl.innerHTML = '<span>Search for Address</span>';
 
 				L.DomEvent.addListener(this._geocodeControl, 'click',
@@ -361,6 +363,11 @@ define([
 
 		getLocation: function () {
 			return this._location;
+		},
+
+		_onLocationError: function (error) {
+			// TODO, make this better
+			window.alert(error.message);
 		}
 
 	});

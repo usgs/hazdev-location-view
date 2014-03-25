@@ -120,7 +120,10 @@ define([
 
 		_geocodeError: function (statusCode, statusMessage) {
 			this._setLoading(false);
-			this.fire('locationError', statusCode, statusMessage);
+			this.fire('locationError', {
+				code: statusCode,
+				message: statusMessage
+			});
 		},
 
 		_setLoading: function (loading) {
