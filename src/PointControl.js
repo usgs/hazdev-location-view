@@ -111,7 +111,7 @@ define([
 			}
 
 			L.DomEvent.removeListener(toggle, 'click', this.toggle);
-			L.DomEvent.off(container, 'dblclick', stop);
+			L.DomEvent.removeListener(container, 'dblclick', stop);
 			this._marker.off('dragend', this._onDragEnd, this);
 
 			this._map.removeLayer(this._marker);
