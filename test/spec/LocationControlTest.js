@@ -54,7 +54,7 @@ define([
 
 			it('Can add the CoordinateControl', function () {
 				var coordinateControl = controls.querySelector(
-						'.leaflet-coordinate-control-wrapper');
+						'.leaflet-coordinate-control');
 				/* jshint -W030 */
 				expect(coordinateControl).to.not.be.null;
 				/* jshint +W030 */
