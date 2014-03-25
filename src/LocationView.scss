@@ -29,7 +29,7 @@
 		position:absolute;
 		top:43px;
 		right:0px;
-		bottom:34px;
+		bottom:43px;
 		left:0px;
 		margin:0;
 		padding:0;
@@ -49,7 +49,32 @@
 		right:0;
 		margin:0;
 		text-align:right;
-		padding-right:8px;
+		padding:5px;
+		font-size:12px;
+
+		> .location-button {
+			font-size:12px;
+			padding:8px 12px;
+			border:none;
+		}
+
+		> .location-button-enabled {
+			background:#2EA96A;
+			border-radius:2px;
+			color:#fff;
+			text-shadow:0 0 1px rgba(0,0,0,0.6);
+			cursor:pointer;
+
+			&:hover {
+				background-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%,
+						rgba(0,0,0,0.2) 100%);
+			}
+		}
+
+		> .location-button-disabled {
+			background:#ddd;
+			color:#333;
+		}
 	}
 
 	.leaflet-control {

@@ -159,9 +159,13 @@ define([
 		if (location) {
 			button.disabled = false;
 			button.innerHTML = 'Use this Location';
+			Util.addClass(button, 'location-button-enabled');
+			Util.removeClass(button, 'location-button-disabled');
 		} else {
 			button.disabled = true;
 			button.innerHTML = 'No Location Selected';
+			Util.addClass(button, 'location-button-disabled');
+			Util.removeClass(button, 'location-button-enabled');
 		}
 
 	};
