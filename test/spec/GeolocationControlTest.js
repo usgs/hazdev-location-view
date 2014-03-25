@@ -60,6 +60,7 @@ define([
 			var clickHandler = sinon.spy(glc, 'doGeolocate');
 
 			var c = glc.onAdd(L.map(document.createElement('div')));
+			c = c.querySelector('a');
 
 			var getClickEvent = function () {
 				var clickEvent = document.createEvent('MouseEvents');
