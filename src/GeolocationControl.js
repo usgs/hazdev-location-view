@@ -12,9 +12,13 @@ define([
 ) {
 	'use strict';
 
+	var CLASS_NAME = 'leaflet-geolocation-control';
+
 	var DEFAULTS = {
 		'geolocation': navigator.geolocation,
-		'position': 'topleft'
+		'position': 'topleft',
+		'iconClass': 'leaflet-geolocation-control-icon',
+		'helpText': 'Use Current Location'
 	};
 
 	var METHOD = 'geolocation';
@@ -34,19 +38,42 @@ define([
 		},
 
 		onAdd: function (map) {
-			var container = L.DomUtil.create('a', 'leaflet-geolocation-control'),
-			    stop = L.DomEvent.stopPropagation;
+			var options = this.options,
+			    stop = L.DomEvent.stopPropagation,
+			    container,
+			    toggle;
 
-			this._container = container;
+			container = document.createElement('div');
+			container.classList.add(CLASS_NAME);
+			container.innerHTML = [
+				'<a class="', options.iconClass, '"></a>',
+				'<span class="help">', options.helpText, '</span>'
+			].join('');
+
+			toggle = container.querySelector('a');
+
 			this._map = map;
+			this._container = container;
+			this._toggle = toggle;
 
-			container.title = 'Use Current Location';
-
-			L.DomEvent.addListener(container, 'click', this.doGeolocate, this);
+			L.DomEvent.addListener(toggle, 'click', this.toggle, this);
 			// stops map from zooming on double click
-			L.DomEvent.on(container, 'dblclick', stop);
+			L.DomEvent.addListener(container, 'dblclick', stop);
 
 			return container;
+		},
+
+		onRemove: function () {
+			var stop = L.DomEvent.stopPropagation,
+			    container = this._container,
+			    toggle = this._toggle;
+
+			L.DomEvent.removeListener(toggle, 'click', this.toggle);
+			L.DomEvent.removeListener(container, 'dblclick', stop);
+
+			this._container = null;
+			this._toggle = null;
+			this._map = null;
 		},
 
 		doGeolocate: function () {
@@ -60,6 +87,8 @@ define([
 					message: 'Geolocation not supported'
 				});
 			}
+
+			this.fire('enabled');
 		},
 
 		_geolocateSuccess: function (position) {
@@ -75,6 +104,19 @@ define([
 
 		_geolocateError: function (error) {
 			this.fire('locationError', error);
+		},
+
+		toggle: function (clickEvent) {
+			this.enable();
+			L.DomEvent.stop(clickEvent);
+		},
+
+		enable: function () {
+			this.doGeolocate();
+		},
+
+		disable: function () {
+			// API method, this control has nothing to do
 		}
 
 	});
