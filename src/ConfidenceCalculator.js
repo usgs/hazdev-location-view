@@ -100,7 +100,7 @@ define([
 		 */
 		computeZoomFromConfidence: function (confidence) {
 			if (confidence === ConfidenceCalculator.HIGH_CONFIDENCE) {
-				return 17;
+				return 16;
 			} else if( confidence === ConfidenceCalculator.ABOVE_AVERAGE_CONFIDENCE) {
 				return 13;
 			} else if( confidence === ConfidenceCalculator.AVERAGE_CONFIDENCE) {

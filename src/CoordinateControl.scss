@@ -1,26 +1,25 @@
 .leaflet-coordinate-control-wrapper {
-	height:26px;
+	background-color: #fff;
+	display: block;
+	height: 26px;
+	box-shadow: 0 1px 1px rgba(0,0,0,1);
+	position: relative;
+	border-radius: 4px;
 
 	> .leaflet-coordinate-control-toggle {
-		display:inline-block;
-		width:26px;
-		height:26px;
-		background:#fff;
+		height: 26px;
+		width: 26px;
+		cursor: pointer;
+		display: block;
 		background-image: url('location-view-icons.png');
 		background-size: 400% 200%;
 		background-position: 0 0;
-		border-radius:4px;
-		box-shadow: 0 1px 1px rgb(0,0,0);
-
-		&:hover {
-			cursor:pointer;
-			border-radius:4px;
-		}
 	}
 
 	> .leaflet-coordinate-control-input {
 		display:none;
 		position:absolute;
+		top:0;
 		left:26px;
 		width:260px;
 
@@ -56,10 +55,10 @@
 
 
 /** Styles for when the input is expanded **/
-.enabled {
+.leaflet-coordinate-control-wrapper.enabled {
+	width:286px;
 
 	> .leaflet-coordinate-control-toggle {
-		background-color:#eee;
 		background-position: 0 26px;
 		border-radius:4px 0 0 4px;
 
@@ -73,7 +72,6 @@
 		border-radius:0;
 		display:inline-block;
 		border-radius:0 4px 4px 0;
-		box-shadow:1px 1px 1px rgb(0,0,0);
 	}
 }
 
