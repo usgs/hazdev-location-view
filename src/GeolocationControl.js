@@ -92,7 +92,7 @@ define([
 		},
 
 		_geolocateSuccess: function (position) {
-			this.fire('location', {
+			this.setLocation({
 					place: null,
 					latitude: position.coords.latitude,
 					longitude: position.coords.longitude,
@@ -104,6 +104,13 @@ define([
 
 		_geolocateError: function (error) {
 			this.fire('locationError', error);
+		},
+
+		setLocation: function (location, options) {
+			// API method, this control has nothing to do
+			if (!(options && options.silent)) {
+				this.fire('location', location);
+			}
 		},
 
 		toggle: function (clickEvent) {
