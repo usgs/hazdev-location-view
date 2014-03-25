@@ -170,7 +170,7 @@ define([
 			it('house (High Confidence)', function () {
 				expect(ConfidenceCalculator.computeZoomFromGeocode(
 						GeocodeObjectHouse)).to.equal(
-						17);
+						16);
 			});
 			it('city (Average Confidence)', function () {
 				expect(ConfidenceCalculator.computeZoomFromGeocode(
