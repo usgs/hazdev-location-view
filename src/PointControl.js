@@ -17,7 +17,9 @@ define([
 	var DEFAULT_OPTIONS = {
 		position: 'topleft',
 		defaultLocation: null,
-		defaultEnabled: false
+		defaultEnabled: false,
+		iconClass: 'location-point-control-icon',
+		helpText: 'Drop Pin'
 	};
 
 	var PointControl = L.Control.extend({
@@ -67,10 +69,23 @@ define([
 		},
 
 		onAdd: function (map) {
-			var container = this._container = L.DomUtil.create('a', CLASS_NAME),
-			    stop = L.DomEvent.stopPropagation;
+			var options = this.options,
+			    stop = L.DomEvent.stopPropagation,
+			    container,
+			    toggle;
+
+			container = document.createElement('div');
+			container.classList.add(CLASS_NAME);
+			container.innerHTML = [
+				'<a class="', options.iconClass, '"></a>',
+				'<span class="help">', options.helpText, '</span>'
+			].join('');
+
+			toggle = container.querySelector('a');
 
 			this._map = map;
+			this._container = container;
+			this._toggle = toggle;
 
 			// If enabled, bind map click handlers
 			if (this.options.defaultEnabled) {
@@ -78,27 +93,31 @@ define([
 			}
 
 			// Enable/disable control if user clicks on it
-			L.DomEvent.addListener(container, 'click', this.toggle, this);
-			this._marker.on('dragend', this._onDragEnd, this);
+			L.DomEvent.addListener(toggle, 'click', this.toggle, this);
 			// stops map from zooming on double click
-			L.DomEvent.on(container, 'dblclick', stop);
+			L.DomEvent.addListener(container, 'dblclick', stop);
+			this._marker.on('dragend', this._onDragEnd, this);
 
 			return container;
 		},
 
 		onRemove: function () {
-			var stop = L.DomEvent.stopPropagation;
+			var stop = L.DomEvent.stopPropagation,
+			    container = this._container,
+			    toggle = this._toggle;
 
 			if (this._isEnabled) {
 				this.disable();
 			}
 
-			L.DomEvent.removeListener(this._container, 'click', this.toggle);
+			L.DomEvent.removeListener(toggle, 'click', this.toggle);
+			L.DomEvent.off(container, 'dblclick', stop);
 			this._marker.off('dragend', this._onDragEnd, this);
-			L.DomEvent.off(this._container, 'dblclick', stop);
+
 			this._map.removeLayer(this._marker);
 			this._map = null;
 			this._container = null;
+			this._toggle = null;
 		},
 
 		_bindMapEventHandlers: function () {
@@ -166,6 +185,8 @@ define([
 			this._bindMapEventHandlers();
 			this._isEnabled = true;
 			this._boxZoomStarted = false;
+
+			this.fire('enabled');
 		},
 
 		disable: function () {
@@ -176,6 +197,8 @@ define([
 
 			this._unbindMapEventHandlers();
 			this._isEnabled = false;
+
+			this.fire('disabled');
 		},
 
 		_formatLocation: function (loc) {
