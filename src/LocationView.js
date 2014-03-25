@@ -139,11 +139,11 @@ define([
 				}
 			]
 		});
-		this._locationControl.on('location', this._toggle, this);
+		this._locationControl.on('location', this._onLocation, this);
 		/* Called initially to disable the button if you enter the location view
 		 * with no location information, or enable it if location information exists
 		 */
-		this._toggle();
+		this._onLocation();
 	};
 
 
@@ -153,9 +153,8 @@ define([
 	 * to be disabled when the location is null and enabled otherwise.
 	 *
 	 */
-	LocationView.prototype._toggle = function () {
-		var button = this._modal.el.querySelector('.location-button'),
-		    location = this._locationControl.getLocation();
+	LocationView.prototype._onLocation = function (location) {
+		var button = this._modal.el.querySelector('.location-button');
 
 		if (location) {
 			button.disabled = false;
