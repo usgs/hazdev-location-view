@@ -55,27 +55,18 @@ define([
 			// create overlay with control information
 			this._createInformationMenu();
 
-			// Add Point Control
-			if (this.options.includePointControl) {
-				this._map.addControl(this.PointControl);
-				this._pointControl = this.PointControl._container;
-				this.PointControl.on('location', this.setLocation, this);
-				this._pointControl.innerHTML = '<span>Drop Pin</span>';
 
-				L.DomEvent.addListener(this._pointControl, 'click',
-						function () { this._onClick('point'); }, this);
-			}
+			// Add Geolocate Control
+			if (navigator && navigator.hasOwnProperty('geolocation') &&
+						this.options.includeGeolocationControl) {
+				this._map.addControl(this.GeolocationControl);
+				this._geolocationControl = this.GeolocationControl._container;
+				this.GeolocationControl.on('location', this.setLocation, this);
+				this._geolocationControl.innerHTML =
+						'<span>Use Current Location</span>';
 
-			// Add Coordinate Control
-			if (this.options.includeCoordinateControl) {
-				this._map.addControl(this.CoordinateControl);
-				this._coordinateControl = this.CoordinateControl._container.
-						querySelector('.leaflet-coordinate-control-toggle');
-				this.CoordinateControl.on('location', this.setLocation, this);
-				this._coordinateControl.innerHTML = '<span>Enter Coordinates</span>';
-				
-				L.DomEvent.addListener(this._coordinateControl, 'click',
-						function () { this._onClick('coordinate'); }, this);
+				L.DomEvent.addListener(this._geolocationControl, 'click',
+						function () { this._onClick('geolocation'); }, this);
 			}
 
 			// Add Geocode Control
@@ -90,16 +81,27 @@ define([
 						function () { this._onClick('geocode'); }, this);
 			}
 
-			// Add Geolocate Control
-			if (this.options.includeGeolocationControl) {
-				this._map.addControl(this.GeolocationControl);
-				this._geolocationControl = this.GeolocationControl._container;
-				this.GeolocationControl.on('location', this.setLocation, this);
-				this._geolocationControl.innerHTML =
-						'<span>Use Current Location</span>';
+			// Add Coordinate Control
+			if (this.options.includeCoordinateControl) {
+				this._map.addControl(this.CoordinateControl);
+				this._coordinateControl = this.CoordinateControl._container.
+						querySelector('.leaflet-coordinate-control-toggle');
+				this.CoordinateControl.on('location', this.setLocation, this);
+				this._coordinateControl.innerHTML = '<span>Enter Coordinates</span>';
+				
+				L.DomEvent.addListener(this._coordinateControl, 'click',
+						function () { this._onClick('coordinate'); }, this);
+			}
 
-				L.DomEvent.addListener(this._geolocationControl, 'click',
-						function () { this._onClick('geolocation'); }, this);
+			// Add Point Control
+			if (this.options.includePointControl) {
+				this._map.addControl(this.PointControl);
+				this._pointControl = this.PointControl._container;
+				this.PointControl.on('location', this.setLocation, this);
+				this._pointControl.innerHTML = '<span>Drop Pin</span>';
+
+				L.DomEvent.addListener(this._pointControl, 'click',
+						function () { this._onClick('point'); }, this);
 			}
 
 			// Create Information Control (i) button
@@ -126,33 +128,20 @@ define([
 			    geocodeControlInfo,
 			    geolocationControlInfo;
 
-			if (this.options.includePointControl) {
-				pointControlInfo = L.DomUtil.create('li',
-						'information-list-point-control');
-				pointControlInfo.innerHTML = [
+
+			if (navigator && navigator.hasOwnProperty('geolocation') &&
+						this.options.includeGeolocationControl) {
+				geolocationControlInfo = L.DomUtil.create('li',
+						'information-list-geolocate-control');
+				geolocationControlInfo.innerHTML = [
 					'<span class="icon"></span>',
-					'<p><b>Drop pin</b> on the map to specify a location.</p>'
+					'<p>Attempt to automatically locate my <b>current location</b>.</p>'
 				].join('');
-				informationList.appendChild(pointControlInfo);
+				informationList.appendChild(geolocationControlInfo);
 
-				// enable point control on click
-				L.DomEvent.addListener(pointControlInfo, 'click', function () {
-						this._selectControl('point');
-					}, this);
-			}
-
-			if (this.options.includeCoordinateControl) {
-				coordinateControlInfo = L.DomUtil.create('li',
-						'information-list-coordinate-control');
-				coordinateControlInfo.innerHTML = [
-					'<span class="icon"></span>',
-					'<p><b>Enter coordinates</b>, latitude and longitude.</p>'
-				].join('');
-				informationList.appendChild(coordinateControlInfo);
-
-				// enable coordinate control on click
-				L.DomEvent.addListener(coordinateControlInfo, 'click', function () {
-						this._selectControl('coordinate');
+				// enable geolocate control onclick
+				L.DomEvent.addListener(geolocationControlInfo, 'click', function () {
+						this._selectControl('geolocation');
 					}, this);
 			}
 
@@ -171,18 +160,33 @@ define([
 					}, this);
 			}
 
-			if (this.options.includeGeolocationControl) {
-				geolocationControlInfo = L.DomUtil.create('li',
-						'information-list-geolocate-control');
-				geolocationControlInfo.innerHTML = [
+			if (this.options.includeCoordinateControl) {
+				coordinateControlInfo = L.DomUtil.create('li',
+						'information-list-coordinate-control');
+				coordinateControlInfo.innerHTML = [
 					'<span class="icon"></span>',
-					'<p>Attempt to automatically locate my <b>current location</b>.</p>'
+					'<p><b>Enter coordinates</b>, latitude and longitude.</p>'
 				].join('');
-				informationList.appendChild(geolocationControlInfo);
+				informationList.appendChild(coordinateControlInfo);
 
-				// enable geolocate control onclick
-				L.DomEvent.addListener(geolocationControlInfo, 'click', function () {
-						this._selectControl('geolocation');
+				// enable coordinate control on click
+				L.DomEvent.addListener(coordinateControlInfo, 'click', function () {
+						this._selectControl('coordinate');
+					}, this);
+			}
+
+			if (this.options.includePointControl) {
+				pointControlInfo = L.DomUtil.create('li',
+						'information-list-point-control');
+				pointControlInfo.innerHTML = [
+					'<span class="icon"></span>',
+					'<p><b>Drop pin</b> on the map to specify a location.</p>'
+				].join('');
+				informationList.appendChild(pointControlInfo);
+
+				// enable point control on click
+				L.DomEvent.addListener(pointControlInfo, 'click', function () {
+						this._selectControl('point');
 					}, this);
 			}
 
