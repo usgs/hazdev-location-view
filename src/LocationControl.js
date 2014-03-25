@@ -319,11 +319,8 @@ define([
 
 		setLocation: function (location, options) {
 			var zoomLevel;
-			this._location = Util.extend({}, location, {type:null,target:null});
-
-			// TODO :: Is this necessary?
-			delete this._location.type;
-			delete this._location.target;
+			location = this._location =
+					Util.extend({}, location, {type:null,target:null});
 
 			// update all controls
 			if (this.PointControl && this.PointControl.setLocation) {
