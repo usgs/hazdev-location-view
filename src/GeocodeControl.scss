@@ -1,4 +1,4 @@
-.GeocodeControl {
+.leaflet-geocode-control {
 	background-color: #fff;
 	display: block;
 	height: 26px;
@@ -7,7 +7,7 @@
 	border-radius: 4px;
 }
 
-.geocode-control-toggle {
+.leaflet-geocode-control-icon {
 	height: 26px;
 	width: 26px;
 	cursor: pointer;
@@ -18,7 +18,7 @@
 	background-size: 104px 52px;
 }
 
-.geocode-control-input {
+.leaflet-geocode-control-input {
 	top: 0px;
 	left: 26px;
 	bottom: 0px;
@@ -32,7 +32,7 @@
 	padding-right: 10px;
 }
 
-.geocode-control-submit {
+.leaflet-geocode-control-submit {
 	background-color: #ddd;
 	width: 60px;
 	text-align: center;
@@ -53,24 +53,24 @@
 	}
 }
 
-.geocode-control-input,
-.geocode-control-submit {
+.leaflet-geocode-control-input,
+.leaflet-geocode-control-submit {
 	display: none;
 }
 
-.geocode-control-expanded {
+.leaflet-geocode-control-enabled {
 	width: 286px;
 
-	> .geocode-control-toggle {
+	> .leaflet-geocode-control-toggle {
 		background-position: -26px -26px;
 	}
 
-	> .geocode-control-input,
-	> .geocode-control-submit {
+	> .leaflet-geocode-control-input,
+	> .leaflet-geocode-control-submit {
 		display: block;
 	}
 }
 
-.loading > .geocode-control-submit {
+.loading > .leaflet-geocode-control-submit {
 	cursor: default;
 }
