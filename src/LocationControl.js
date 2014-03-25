@@ -60,14 +60,9 @@ define([
 			if (navigator && navigator.hasOwnProperty('geolocation') &&
 						this.options.includeGeolocationControl) {
 				this._map.addControl(this.GeolocationControl);
-				this._geolocationControl = this.GeolocationControl._container;
 				this.GeolocationControl.on('location', this.setLocation, this);
 				this.GeolocationControl.on('locationError', this._onLocationError, this);
-				this._geolocationControl.innerHTML =
-						'<span>Use Current Location</span>';
-
-				L.DomEvent.addListener(this._geolocationControl, 'click',
-						function () { this._onClick('geolocation'); }, this);
+				this.GeolocationControl.on('enabled', this._onControlEnabled, this);
 			}
 
 			// Add Geocode Control
