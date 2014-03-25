@@ -17,7 +17,7 @@ define([
 	    lc = new LocationControl({
 				includePointControl: true,
 				includeCoordinateControl: true,
-				includeGeocodeControl: false
+				includeGeocodeControl: true
 			}),
 	    loc = {
 				accuracy: null,

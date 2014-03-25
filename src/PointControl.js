@@ -67,8 +67,8 @@ define([
 		},
 
 		onAdd: function (map) {
-			var container = this._container = L.DomUtil.create('a',
-					CLASS_NAME);
+			var container = this._container = L.DomUtil.create('a', CLASS_NAME),
+			    stop = L.DomEvent.stopPropagation;
 
 			this._map = map;
 
@@ -80,17 +80,22 @@ define([
 			// Enable/disable control if user clicks on it
 			L.DomEvent.addListener(container, 'click', this.toggle, this);
 			this._marker.on('dragend', this._onDragEnd, this);
+			// stops map from zooming on double click
+			L.DomEvent.on(container, 'dblclick', stop);
 
 			return container;
 		},
 
 		onRemove: function () {
+			var stop = L.DomEvent.stopPropagation;
+
 			if (this._isEnabled) {
 				this.disable();
 			}
 
 			L.DomEvent.removeListener(this._container, 'click', this.toggle);
 			this._marker.off('dragend', this._onDragEnd, this);
+			L.DomEvent.off(this._container, 'dblclick', stop);
 			this._map.removeLayer(this._marker);
 			this._map = null;
 			this._container = null;
@@ -143,8 +148,10 @@ define([
 		},
 
 		enable: function () {
-			var mapContainer = this._map.getContainer();
+			var mapContainer = this._map.getContainer(),
+			    stop = L.DomEvent.stopPropagation;
 
+			L.DomEvent.on(this._map, 'mouseup', stop);
 			L.DomUtil.addClass(this._container, CLASS_ENABLED);
 			L.DomUtil.addClass(mapContainer, CLASS_LOCATION);
 
@@ -153,8 +160,10 @@ define([
 		},
 
 		disable: function () {
-			var mapContainer = this._map ? this._map.getContainer() : null;
+			var mapContainer = this._map ? this._map.getContainer() : null,
+			    stop = L.DomEvent.stopPropagation;
 
+			L.DomEvent.off(this._map, 'mouseup', stop);
 			L.DomUtil.removeClass(this._container, CLASS_ENABLED);
 			L.DomUtil.removeClass(mapContainer, CLASS_LOCATION);
 
