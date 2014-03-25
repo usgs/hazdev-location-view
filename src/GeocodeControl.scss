@@ -74,3 +74,24 @@
 .loading > .leaflet-geocode-control-submit {
 	cursor: default;
 }
+
+
+.leaflet-geocode-control-icon + span.help {
+	display: none;
+}
+
+
+.leaflet-geocode-control-icon:hover + span.help {
+	display: block;
+	position: absolute;
+	border-radius: 4px;
+	background: rgba(255,255,255,0.75);
+	box-shadow: 0 1px 1px rgba(0,0,0,0.65);
+	left: 36px;
+	top: 0;
+	width:147px;
+	padding:0px 10px;
+	text-align: center;
+	color:#000;
+	line-height:26px;
+}
