@@ -91,6 +91,7 @@ define([
 				control.on('locationError', this._onLocationError, this);
 				control.on('enabled', this._onControlEnabled, this);
 			}.bind(this));
+			this.on('enabled', this._onControlEnabled, this);
 
 			// Create Information Control (i) button
 			container = document.createElement('div');
@@ -126,6 +127,7 @@ define([
 				control.off('locationError', this._onLocationError, this);
 				control.off('enabled', this._onControlEnabled, this);
 			}.bind(this));
+			this.off('enabled', this._onControlEnabled, this);
 
 			L.DomEvent.removeListener(this._toggle, 'click', this.toggle);
 			L.DomEvent.removeListener(this._details, 'click', stop);
