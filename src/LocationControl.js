@@ -287,7 +287,8 @@ define([
 					zoomLevel
 				);
 			} else {
-				// TODO: zoom to world?
+				// zoom to world
+				this._map.fitBounds([[70.0, -170.0], [-50.0, 170.0]]);
 			}
 
 			if (!(options && options.silent)) {
