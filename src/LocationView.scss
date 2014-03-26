@@ -81,6 +81,10 @@
 		box-shadow:0 1px 1px #000;
 	}
 
+	.leaflet-location-control {
+		box-shadow:none;
+	}
+
 	.leaflet-control-zoom {
 		display:none;
 	}
