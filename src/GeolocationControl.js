@@ -58,8 +58,12 @@ define([
 			this._toggle = toggle;
 
 			L.DomEvent.addListener(toggle, 'click', this.toggle, this);
-			// stops map from zooming on double click
+			L.DomEvent.addListener(container, 'click', stop);
 			L.DomEvent.addListener(container, 'dblclick', stop);
+			L.DomEvent.addListener(container, 'keydown', stop);
+			L.DomEvent.addListener(container, 'keyup', stop);
+			L.DomEvent.addListener(container, 'keypress', stop);
+			L.DomEvent.addListener(container, 'mousedown', stop);
 
 			return container;
 		},
@@ -70,8 +74,12 @@ define([
 			    toggle = this._toggle;
 
 			L.DomEvent.removeListener(toggle, 'click', this.toggle);
+			L.DomEvent.removeListener(container, 'click', stop);
 			L.DomEvent.removeListener(container, 'dblclick', stop);
-
+			L.DomEvent.removeListener(container, 'keydown', stop);
+			L.DomEvent.removeListener(container, 'keyup', stop);
+			L.DomEvent.removeListener(container, 'keypress', stop);
+			L.DomEvent.removeListener(container, 'mousedown', stop);
 			this._container = null;
 			this._toggle = null;
 			this._map = null;

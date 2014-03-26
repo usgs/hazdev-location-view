@@ -95,8 +95,12 @@ define([
 
 			// Enable/disable control if user clicks on it
 			L.DomEvent.addListener(toggle, 'click', this.toggle, this);
-			// stops map from zooming on double click
+			L.DomEvent.addListener(container, 'click', stop);
 			L.DomEvent.addListener(container, 'dblclick', stop);
+			L.DomEvent.addListener(container, 'keydown', stop);
+			L.DomEvent.addListener(container, 'keyup', stop);
+			L.DomEvent.addListener(container, 'keypress', stop);
+			L.DomEvent.addListener(container, 'mousedown', stop);
 			this._marker.on('dragend', this._onDragEnd, this);
 
 			return container;
@@ -112,7 +116,12 @@ define([
 			}
 
 			L.DomEvent.removeListener(toggle, 'click', this.toggle);
+			L.DomEvent.removeListener(container, 'click', stop);
 			L.DomEvent.removeListener(container, 'dblclick', stop);
+			L.DomEvent.removeListener(container, 'keydown', stop);
+			L.DomEvent.removeListener(container, 'keyup', stop);
+			L.DomEvent.removeListener(container, 'keypress', stop);
+			L.DomEvent.removeListener(container, 'mousedown', stop);
 			this._marker.off('dragend', this._onDragEnd, this);
 
 			this._map.removeLayer(this._marker);

@@ -80,7 +80,8 @@ define([
 			var options = this.options,
 			    stop = L.DomEvent.stopPropagation,
 			    container,
-			    toggle;
+			    toggle,
+			    details;
 
 			this._map = map;
 			this._enabled = null;
@@ -107,19 +108,32 @@ define([
 
 			// create overlay with control information
 			this._createInformationMenu();
-			this._el.appendChild(this._details);
+			details = this._details;
+			this._el.appendChild(details);
 
 
 			L.DomEvent.addListener(toggle, 'click', this.toggle, this);
-			L.DomEvent.addListener(this._details, 'click', stop);
+			L.DomEvent.addListener(details, 'click', stop);
+			L.DomEvent.addListener(details, 'dblclick', stop);
+			L.DomEvent.addListener(details, 'keydown', stop);
+			L.DomEvent.addListener(details, 'keyup', stop);
+			L.DomEvent.addListener(details, 'keypress', stop);
+			L.DomEvent.addListener(details, 'mousedown', stop);
 			L.DomEvent.addListener(container, 'click', stop);
 			L.DomEvent.addListener(container, 'dblclick', stop);
+			L.DomEvent.addListener(container, 'keydown', stop);
+			L.DomEvent.addListener(container, 'keyup', stop);
+			L.DomEvent.addListener(container, 'keypress', stop);
+			L.DomEvent.addListener(container, 'mousedown', stop);
 
 			return container;
 		},
 
 		onRemove: function () {
-			var stop = L.DomEvent.stopPropagation;
+			var stop = L.DomEvent.stopPropagation,
+			    container = this._container,
+			    toggle = this._toggle,
+			    details = this._details;
 
 			this._eachControl(function (control) {
 				this.map.removeControl(control);
@@ -129,12 +143,21 @@ define([
 			}.bind(this));
 			this.off('enabled', this._onControlEnabled, this);
 
-			L.DomEvent.removeListener(this._toggle, 'click', this.toggle);
-			L.DomEvent.removeListener(this._details, 'click', stop);
-			L.DomEvent.removeListener(this._container, 'click', stop);
-			L.DomEvent.removeListener(this._container, 'dblclick', stop);
+			L.DomEvent.removeListener(toggle, 'click', this.toggle);
+			L.DomEvent.removeListener(details, 'click', stop);
+			L.DomEvent.removeListener(details, 'dblclick', stop);
+			L.DomEvent.removeListener(details, 'keydown', stop);
+			L.DomEvent.removeListener(details, 'keyup', stop);
+			L.DomEvent.removeListener(details, 'keypress', stop);
+			L.DomEvent.removeListener(details, 'mousedown', stop);
+			L.DomEvent.removeListener(container, 'click', stop);
+			L.DomEvent.removeListener(container, 'dblclick', stop);
+			L.DomEvent.removeListener(container, 'keydown', stop);
+			L.DomEvent.removeListener(container, 'keyup', stop);
+			L.DomEvent.removeListener(container, 'keypress', stop);
+			L.DomEvent.removeListener(container, 'mousedown', stop);
 
-			this._el.removeChild(this._details);
+			this._el.removeChild(details);
 			this._details = null;
 			this._container = null;
 			this._toggle = null;

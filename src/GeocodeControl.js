@@ -81,13 +81,12 @@ define([
 			L.DomEvent.addListener(textInput, 'keyup', this._onKeyUp, this);
 			L.DomEvent.addListener(searchButton, 'click', this._onSearchClick, this);
 			L.DomEvent.addListener(toggle, 'click', this.toggle, this);
+			L.DomEvent.addListener(container, 'click', stop);
+			L.DomEvent.addListener(container, 'dblclick', stop);
 			L.DomEvent.addListener(container, 'keydown', stop);
 			L.DomEvent.addListener(container, 'keyup', stop);
 			L.DomEvent.addListener(container, 'keypress', stop);
 			L.DomEvent.addListener(container, 'mousedown', stop);
-			L.DomEvent.addListener(container, 'mouseup', stop);
-			L.DomEvent.addListener(container, 'click', stop);
-			L.DomEvent.addListener(container, 'dblclick', stop);
 
 			return container;
 		},
@@ -102,13 +101,12 @@ define([
 			L.DomEvent.removeListener(textInput, 'keyup', this._onKeyUp);
 			L.DomEvent.removeListener(searchButton, 'click', this._onSearchClick);
 			L.DomEvent.removeListener(toggle, 'click', this.toggle);
+			L.DomEvent.removeListener(container, 'click', stop);
+			L.DomEvent.removeListener(container, 'dblclick', stop);
 			L.DomEvent.removeListener(container, 'keydown', stop);
 			L.DomEvent.removeListener(container, 'keyup', stop);
 			L.DomEvent.removeListener(container, 'keypress', stop);
 			L.DomEvent.removeListener(container, 'mousedown', stop);
-			L.DomEvent.removeListener(container, 'mouseup', stop);
-			L.DomEvent.removeListener(container, 'click', stop);
-			L.DomEvent.removeListener(container, 'dblclick', stop);
 		},
 
 		_doGeocode: function (textAddress) {

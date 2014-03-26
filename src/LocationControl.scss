@@ -102,6 +102,12 @@
 	line-height: 26px;
 	font-size: 18px;
 	border-radius:13px;
+
+	-ms-user-select:none;
+	-moz-user-select:none;
+	-webkit-user-select:none;
+	-webkit-touch-callout:none;
+	user-select:none;
 }
 
 

@@ -71,10 +71,12 @@ define([
 			// Bind event for the "enter" key
 			L.DomEvent.addListener(control, 'keypress', this._onKeyPress, this);
 			// stops map from zooming on double click
+			L.DomEvent.addListener(container, 'click', stop);
 			L.DomEvent.addListener(container, 'dblclick', stop);
+			L.DomEvent.addListener(container, 'keydown', stop);
+			L.DomEvent.addListener(container, 'keyup', stop);
+			L.DomEvent.addListener(container, 'keypress', stop);
 			L.DomEvent.addListener(container, 'mousedown', stop);
-			L.DomEvent.addListener(container, 'mousemove', stop);
-			L.DomEvent.addListener(container, 'mouseup', stop);
 
 			return container;
 		},
@@ -110,10 +112,12 @@ define([
 			L.DomEvent.removeListener(toggle, 'click', this.toggle);
 			L.DomEvent.removeListener(this._submit, 'click', this._onSubmit);
 			L.DomEvent.removeListener(control, 'keypress', this._onKeyPress);
+			L.DomEvent.removeListener(container, 'click', stop);
 			L.DomEvent.removeListener(container, 'dblclick', stop);
+			L.DomEvent.removeListener(container, 'keydown', stop);
+			L.DomEvent.removeListener(container, 'keyup', stop);
+			L.DomEvent.removeListener(container, 'keypress', stop);
 			L.DomEvent.removeListener(container, 'mousedown', stop);
-			L.DomEvent.removeListener(container, 'mousemove', stop);
-			L.DomEvent.removeListener(container, 'mouseup', stop);
 
 			this._map = null;
 			this._control = null;
