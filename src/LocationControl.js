@@ -37,6 +37,14 @@ define([
 		'helpText': 'Show Location Options'
 	};
 
+	var LOCATION_DEFAULTS = {
+		'place': null,
+		'latitude': 0,
+		'longitude': 0,
+		'method': 'unspecified',
+		'confidence': ConfidenceCalculator.NOT_COMPUTED
+	};
+
 	var LocationControl = L.Control.extend({
 		includes: L.Mixin.Events,
 
@@ -251,11 +259,11 @@ define([
 
 			if (location) {
 				location = {
-					place: location.place,
-					latitude: location.latitude,
-					longitude: location.longitude,
-					confidence: location.confidence,
-					method: location.method
+					place: location.place || LOCATION_DEFAULTS.place,
+					latitude: location.latitude || LOCATION_DEFAULTS.latitude,
+					longitude: location.longitude || LOCATION_DEFAULTS.longitude,
+					confidence: location.confidence || LOCATION_DEFAULTS.confidence,
+					method: location.method || LOCATION_DEFAULTS.method
 				};
 			}
 

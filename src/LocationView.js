@@ -222,22 +222,14 @@ define([
 	 */
 	LocationView.prototype._updateMap = function (options) {
 		options = options || {};
-
 		this._map.invalidateSize();
+
+		if (options.hasOwnProperty('location')) {
+			this._locationControl.setLocation(options.location);
+		}
 
 		if (options.hasOwnProperty('extent')) {
 			this._map.fitBounds(options.extent);
-		}
-
-		if (options.hasOwnProperty('location') &&
-				options.location.hasOwnProperty('latitude') &&
-				options.location.hasOwnProperty('longitude') &&
-				options.location.hasOwnProperty('place') &&
-				options.location.hasOwnProperty('method') &&
-				options.location.hasOwnProperty('confidence') &&
-				options.location.hasOwnProperty('accuracy')) {
-			// location specified and is a location object
-			this._locationControl.setLocation(options.location);
 		}
 	};
 

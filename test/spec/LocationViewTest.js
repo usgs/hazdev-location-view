@@ -88,51 +88,43 @@ define([
 				    usaExtent = [[50.0, -125.0], [24.6, -65.0]];
 
 				l._updateMap();
-				expect(fitBoundsSpy.callCount).to.equal(1);
-				/* jshint -W030 */
-				expect(fitBoundsSpy.firstCall.calledWithExactly(
-						[[70.0, -170.0], [-50.0, 170.0]])).to.be.true;
-				/* jshint +W030 */
+				expect(fitBoundsSpy.callCount).to.equal(0);
 
 				l._updateMap({extent: usaExtent});
-				expect(fitBoundsSpy.callCount).to.equal(2);
+				expect(fitBoundsSpy.callCount).to.equal(1);
 				/* jshint -W030 */
-				expect(fitBoundsSpy.secondCall.calledWithExactly(usaExtent)).to.be.true;
+				expect(fitBoundsSpy.firstCall.calledWithExactly(usaExtent)).to.be.true;
 				/* jshint +W030 */
 
 				fitBoundsSpy.restore();
 			});
 
-			it('Honors the initialLocation property.', function () {
+			it('Honors the location property.', function () {
 				var setLocSpy = sinon.spy(l._locationControl, 'setLocation');
 
 				l._updateMap();
 				expect(setLocSpy.callCount).to.equal(0);
 
-				l._updateMap({initialLocation: {}});
-				expect(setLocSpy.callCount).to.equal(0);
-
-				l._updateMap({initialLocation: {latitude: 0}});
-				expect(setLocSpy.callCount).to.equal(0);
-
-				l._updateMap({initialLocation: {latitude:0, longitude:0}});
-				expect(setLocSpy.callCount).to.equal(0);
-
-				l._updateMap({initialLocation: {latitude:0, longitude:0,
-						place:null}});
-				expect(setLocSpy.callCount).to.equal(0);
-
-				l._updateMap({initialLocation: {latitude:0, longitude:0,
-						place:null, method:null}});
-				expect(setLocSpy.callCount).to.equal(0);
-
-				l._updateMap({initialLocation: {latitude:0, longitude:0,
-						place:null, method:null, confidence:null}});
-				expect(setLocSpy.callCount).to.equal(0);
-
-				l._updateMap({initialLocation: {latitude:0, longitude:0,
-						place:null, method:null, confidence:null, accuracy:null}});
+				l._updateMap({location: {}});
 				expect(setLocSpy.callCount).to.equal(1);
+
+				l._updateMap({location: {latitude: 0}});
+				expect(setLocSpy.callCount).to.equal(2);
+
+				l._updateMap({location: {latitude:0, longitude:0}});
+				expect(setLocSpy.callCount).to.equal(3);
+
+				l._updateMap({location: {latitude:0, longitude:0,
+						place:null}});
+				expect(setLocSpy.callCount).to.equal(4);
+
+				l._updateMap({location: {latitude:0, longitude:0,
+						place:null, method:null}});
+				expect(setLocSpy.callCount).to.equal(5);
+
+				l._updateMap({location: {latitude:0, longitude:0,
+						place:null, method:null, confidence:null}});
+				expect(setLocSpy.callCount).to.equal(6);
 
 				setLocSpy.restore();
 			});
