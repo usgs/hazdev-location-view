@@ -18,7 +18,8 @@ define([
 		defaultLocation: null,
 		defaultEnabled: false,
 		iconClass: CLASS_NAME + '-icon',
-		helpText: 'Search for Address'
+		helpText: 'Search for Address',
+		infoText: '<b>Search</b> for a location using an <b>address</b>.'
 	};
 
 	var GeocodeControl = L.Control.extend({

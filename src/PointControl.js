@@ -19,7 +19,8 @@ define([
 		defaultLocation: null,
 		defaultEnabled: false,
 		iconClass: CLASS_NAME + '-icon',
-		helpText: 'Drop Pin'
+		helpText: 'Drop Pin',
+		infoText: '<b>Drop pin</b> on the map to specify a location.'
 	};
 
 	var PointControl = L.Control.extend({

@@ -18,7 +18,8 @@ define([
 		'position': 'topleft',
 		'defaultEnabled': false,
 		'iconClass': CLASS_NAME + '-icon',
-		'helpText': 'Enter Coordinates'
+		'helpText': 'Enter Coordinates',
+		'infoText': '<b>Enter coordinates</b>, latitude and longitude.'
 	};
 
 	var CoordinateControl =  L.Control.extend({

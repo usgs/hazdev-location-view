@@ -18,7 +18,8 @@ define([
 		'geolocation': navigator.geolocation,
 		'position': 'topleft',
 		'iconClass': 'leaflet-geolocation-control-icon',
-		'helpText': 'Use Current Location'
+		'helpText': 'Use Current Location',
+		'infoText': 'Attempt to automatically locate my <b>current location</b>.'
 	};
 
 	var METHOD = 'geolocation';
