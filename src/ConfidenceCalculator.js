@@ -150,22 +150,19 @@ define([
 		 * @see http://open.mapquestapi.com/nominatim/
 		 */
 		computeFromGeocode: function (result) {
+			var boundingbox = result.boundingbox,
+			    latSpan = boundingbox[1] - boundingbox[0],
+			    lonSpan = boundingbox[3] - boundingbox[2],
+			    maxSpan = Math.max(latSpan, lonSpan),
+			    maxSpanMeters = maxSpan * 111120; // convert to meters
 
-			if (result.type === 'house') {
-				return ConfidenceCalculator.HIGH_CONFIDENCE;
-			}
-			if (result.type === 'city') {
-				return ConfidenceCalculator.AVERAGE_CONFIDENCE;
-			}
+			// Set to average confidence, postal codes return 11m bounding boxes
 			if (result.type === 'postcode') {
 				return ConfidenceCalculator.AVERAGE_CONFIDENCE;
 			}
-			if (result.type === 'administrative') {
-				return ConfidenceCalculator.LOW_CONFIDENCE;
-			}
-			else {
-				return ConfidenceCalculator.NOT_COMPUTED;
-			}
+
+			return this.computeFromGeolocate(maxSpanMeters);
+
 		}
 
 	};
