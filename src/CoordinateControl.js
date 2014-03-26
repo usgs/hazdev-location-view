@@ -72,6 +72,7 @@ define([
 			L.DomEvent.on(control, 'keypress', this._onKeyPress, this);
 			// stops map from zooming on double click
 			L.DomEvent.on(container, 'dblclick', stop);
+			L.DomEvent.on(container, 'drag', stop);
 
 			return container;
 		},
@@ -108,6 +109,7 @@ define([
 			L.DomEvent.removeListener(this._submit, 'click', this._onSubmit);
 			L.DomEvent.removeListener(control, 'keypress', this._onKeyPress);
 			L.DomEvent.removeListener(container, 'dblclick', stop);
+			L.DomEvent.removeListener(container, 'drag', stop);
 
 			this._map = null;
 			this._control = null;
