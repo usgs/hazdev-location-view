@@ -94,6 +94,8 @@ define([
 			attributionControl: false
 		});
 
+		this._map.fitBounds([[70.0, -170.0], [-50.0, 170.0]]);
+
 		layerControl.addBaseLayer(new L.TileLayer(
 				__get_arcgisonline_url('NatGeo_World_Map'))
 				.addTo(this._map), 'Topography');
@@ -194,7 +196,7 @@ define([
 	 *             The second element of this array is an array containing
 	 *             numbers representing the latitude and longitude of the bottom
 	 *             right corner of the extent.
-	 *        initialLocation {Object}
+	 *        location {Object}
 	 *             A location object to use as the starting location. This
 	 *             location will be displayed initially and also returned if the
 	 *             user does not change it. If null, any previously set location
@@ -225,19 +227,17 @@ define([
 
 		if (options.hasOwnProperty('extent')) {
 			this._map.fitBounds(options.extent);
-		} else {
-			this._map.fitBounds([[70.0, -170.0], [-50.0, 170.0]]);
 		}
 
-		if (options.hasOwnProperty('initialLocation') &&
-				options.initialLocation.hasOwnProperty('latitude') &&
-				options.initialLocation.hasOwnProperty('longitude') &&
-				options.initialLocation.hasOwnProperty('place') &&
-				options.initialLocation.hasOwnProperty('method') &&
-				options.initialLocation.hasOwnProperty('confidence') &&
-				options.initialLocation.hasOwnProperty('accuracy')) {
-			// initialLocation specified and is a location object
-			this._locationControl.setLocation(options.initialLocation);
+		if (options.hasOwnProperty('location') &&
+				options.location.hasOwnProperty('latitude') &&
+				options.location.hasOwnProperty('longitude') &&
+				options.location.hasOwnProperty('place') &&
+				options.location.hasOwnProperty('method') &&
+				options.location.hasOwnProperty('confidence') &&
+				options.location.hasOwnProperty('accuracy')) {
+			// location specified and is a location object
+			this._locationControl.setLocation(options.location);
 		}
 	};
 
