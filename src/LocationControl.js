@@ -110,6 +110,7 @@ define([
 
 
 			L.DomEvent.addListener(toggle, 'click', this.toggle, this);
+			L.DomEvent.addListener(this._details, 'click', stop);
 			L.DomEvent.addListener(container, 'click', stop);
 			L.DomEvent.addListener(container, 'dblclick', stop);
 
@@ -127,6 +128,7 @@ define([
 			}.bind(this));
 
 			L.DomEvent.removeListener(this._toggle, 'click', this.toggle);
+			L.DomEvent.removeListener(this._details, 'click', stop);
 			L.DomEvent.removeListener(this._container, 'click', stop);
 			L.DomEvent.removeListener(this._container, 'dblclick', stop);
 
