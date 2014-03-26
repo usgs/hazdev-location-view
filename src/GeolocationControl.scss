@@ -1,20 +1,24 @@
-.leaflet-geolocation-control-icon {
-	background-color: #fff;
-	display: block;
-	width: 26px;
-	height: 26px;
-	text-align: center;
-	line-height: 26px;
-	color: #000;
-	border-radius: 4px;
-	text-decoration:none;
-	cursor:pointer;
-	box-shadow:0 1px 1px rgba(0,0,0,1);
-	background-repeat: no-repeat;
-	background-image: url(location-view-icons.png);
-	background-position: -52px 0px;
-	background-repeat: no-repeat;
-	background-size: 104px 52px;
+.leaflet-geolocation-control {
+
+	> .leaflet-geolocation-control-icon {
+		background-color: #fff;
+		display: block;
+		width: 26px;
+		height: 26px;
+		text-align: center;
+		line-height: 26px;
+		color: #000;
+		border-radius: 4px;
+		text-decoration:none;
+		cursor:pointer;
+		box-shadow:0 1px 1px rgba(0,0,0,1);
+		background-repeat: no-repeat;
+		background-image: url(location-view-icons.png);
+		background-position: -52px 0px;
+		background-repeat: no-repeat;
+		background-size: 104px 52px;
+	}
+
 }
 
 .leaflet-geolocation-control-icon + span.help {
