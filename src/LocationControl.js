@@ -20,102 +20,149 @@ define([
 ) {
 	'use strict';
 
+	var CLASS_NAME = 'leaflet-location-control',
+	    CLASS_ENABLED = CLASS_NAME + '-enabled';
+
+
 	var DEFAULTS = {
-		'includePointControl': false,
-		'includeCoordinateControl': false,
+		'includeGeolocationControl':
+				navigator && navigator.hasOwnProperty('geolocation'),
 		'includeGeocodeControl': false,
-		'includeGeolocationControl': false,
+		'includeCoordinateControl': false,
+		'includePointControl': true,
 		'location': null,
 		'position': 'bottomleft',
-		'el': null
+		'el': null,
+		'iconClass': CLASS_NAME + '-icon',
+		'helpText': 'Show Location Options'
 	};
 
 	var LocationControl = L.Control.extend({
 		includes: L.Mixin.Events,
 
 		initialize: function (options) {
-			L.Util.setOptions(this, L.Util.extend({}, DEFAULTS, options));
+			var controls;
+
+			options = L.Util.extend({}, DEFAULTS, options);
+			L.Util.setOptions(this, options);
 
 			this._el = this.options.el || document.body;
-			this._location = this.options.location || null;
+			this._location = this.options.location;
 
-			this.PointControl = this.options.PointControl || new PointControl();
-			this.CoordinateControl = this.options.CoordinateControl || new CoordinateControl();
-			this.GeocodeControl = this.options.GeocodeControl || new GeocodeControl();
-			this.GeolocationControl = this.options.GeolocationControl || new GeolocationControl();
+			controls = [];
+			if (options.includeGeolocationControl) {
+				controls.push(options.geolocationControl || new GeolocationControl());
+			}
+			if (options.includeGeocodeControl) {
+				controls.push(options.geocodeControl || new GeocodeControl());
+			}
+			if (options.includeCoordinateControl) {
+				controls.push(options.coordinateControl || new CoordinateControl());
+			}
+			if (options.includePointControl) {
+				controls.push(options.pointControl || new PointControl());
+			}
+			this._controls = controls;
+		},
+
+		_eachControl: function (callback) {
+			var controls = this._controls,
+			    control,
+			    i, len;
+
+			for (i = 0, len = controls.length; i < len; i++) {
+				control = controls[i];
+				callback(control, i, controls);
+			}
 		},
 
 		onAdd: function (map) {
-
-			var informationControl;
+			var options = this.options,
+			    stop = L.DomEvent.stopPropagation,
+			    container,
+			    toggle,
+			    details;
 
 			this._map = map;
 			this._enabled = null;
 
-			// create overlay with control information
-			this._createInformationMenu();
-
-
-			// Add Geolocate Control
-			if (navigator && navigator.hasOwnProperty('geolocation') &&
-						this.options.includeGeolocationControl) {
-				this._map.addControl(this.GeolocationControl);
-				this._geolocationControl = this.GeolocationControl._container;
-				this.GeolocationControl.on('location', this.setLocation, this);
-				this.GeolocationControl.on('locationError', this._onLocationError, this);
-				this._geolocationControl.innerHTML =
-						'<span>Use Current Location</span>';
-
-				L.DomEvent.addListener(this._geolocationControl, 'click',
-						function () { this._onClick('geolocation'); }, this);
-			}
-
-			// Add Geocode Control
-			if (this.options.includeGeocodeControl) {
-				this._map.addControl(this.GeocodeControl);
-				this._geocodeControl = this.GeocodeControl._container.
-						querySelector('.geocode-control-toggle');
-				this.GeocodeControl.on('location', this.setLocation, this);
-				this.GeocodeControl.on('locationError', this._onLocationError, this);
-				this._geocodeControl.innerHTML = '<span>Search for Address</span>';
-
-				L.DomEvent.addListener(this._geocodeControl, 'click',
-						function () { this._onClick('geocode'); }, this);
-			}
-
-			// Add Coordinate Control
-			if (this.options.includeCoordinateControl) {
-				this._map.addControl(this.CoordinateControl);
-				this._coordinateControl = this.CoordinateControl._container.
-						querySelector('.leaflet-coordinate-control-toggle');
-				this.CoordinateControl.on('location', this.setLocation, this);
-				this._coordinateControl.innerHTML = '<span>Enter Coordinates</span>';
-				
-				L.DomEvent.addListener(this._coordinateControl, 'click',
-						function () { this._onClick('coordinate'); }, this);
-			}
-
-			// Add Point Control
-			if (this.options.includePointControl) {
-				this._map.addControl(this.PointControl);
-				this._pointControl = this.PointControl._container;
-				this.PointControl.on('location', this.setLocation, this);
-				this._pointControl.innerHTML = '<span>Drop Pin</span>';
-
-				L.DomEvent.addListener(this._pointControl, 'click',
-						function () { this._onClick('point'); }, this);
-			}
+			this._eachControl(function (control) {
+				map.addControl(control);
+				control.on('location', this.setLocation, this);
+				control.on('locationError', this._onLocationError, this);
+				control.on('enabled', this._onControlEnabled, this);
+			}.bind(this));
+			this.on('enabled', this._onControlEnabled, this);
 
 			// Create Information Control (i) button
-			informationControl = L.DomUtil.create('a', 'information-control');
-			informationControl.innerHTML = 'i';
-			L.DomEvent.addListener(informationControl, 'click', function () {
-					this._toggleInformationMenu();
-				}, this);
+			container = document.createElement('div');
+			container.classList.add(CLASS_NAME);
+			container.innerHTML = [
+				'<a class="', options.iconClass, '">i</a>',
+				'<span class="help">', options.helpText, '</span>',
+			].join('');
+			toggle = container.querySelector('a');
 
-			return informationControl;
+			this._container = container;
+			this._toggle = toggle;
+
+			// create overlay with control information
+			this._createInformationMenu();
+			details = this._details;
+			this._el.appendChild(details);
+
+
+			L.DomEvent.addListener(toggle, 'click', this.toggle, this);
+			L.DomEvent.addListener(details, 'click', stop);
+			L.DomEvent.addListener(details, 'dblclick', stop);
+			L.DomEvent.addListener(details, 'keydown', stop);
+			L.DomEvent.addListener(details, 'keyup', stop);
+			L.DomEvent.addListener(details, 'keypress', stop);
+			L.DomEvent.addListener(details, 'mousedown', stop);
+			L.DomEvent.addListener(container, 'click', stop);
+			L.DomEvent.addListener(container, 'dblclick', stop);
+			L.DomEvent.addListener(container, 'keydown', stop);
+			L.DomEvent.addListener(container, 'keyup', stop);
+			L.DomEvent.addListener(container, 'keypress', stop);
+			L.DomEvent.addListener(container, 'mousedown', stop);
+
+			return container;
 		},
 
+		onRemove: function () {
+			var stop = L.DomEvent.stopPropagation,
+			    container = this._container,
+			    toggle = this._toggle,
+			    details = this._details;
+
+			this._eachControl(function (control) {
+				this.map.removeControl(control);
+				control.off('location', this.setLocation, this);
+				control.off('locationError', this._onLocationError, this);
+				control.off('enabled', this._onControlEnabled, this);
+			}.bind(this));
+			this.off('enabled', this._onControlEnabled, this);
+
+			L.DomEvent.removeListener(toggle, 'click', this.toggle);
+			L.DomEvent.removeListener(details, 'click', stop);
+			L.DomEvent.removeListener(details, 'dblclick', stop);
+			L.DomEvent.removeListener(details, 'keydown', stop);
+			L.DomEvent.removeListener(details, 'keyup', stop);
+			L.DomEvent.removeListener(details, 'keypress', stop);
+			L.DomEvent.removeListener(details, 'mousedown', stop);
+			L.DomEvent.removeListener(container, 'click', stop);
+			L.DomEvent.removeListener(container, 'dblclick', stop);
+			L.DomEvent.removeListener(container, 'keydown', stop);
+			L.DomEvent.removeListener(container, 'keyup', stop);
+			L.DomEvent.removeListener(container, 'keypress', stop);
+			L.DomEvent.removeListener(container, 'mousedown', stop);
+
+			this._el.removeChild(details);
+			this._details = null;
+			this._container = null;
+			this._toggle = null;
+			this._map = null;
+		},
 
 		/**
 		 * Create a help/info menu with detailed descriptions of each control
@@ -123,240 +170,119 @@ define([
 		 * @return {[type]} [description]
 		 */
 		_createInformationMenu: function () {
-			var el = this._el,
-			    informationList = L.DomUtil.create('ul', 'information-list'),
-			    pointControlInfo,
-			    coordinateControlInfo,
-			    geocodeControlInfo,
-			    geolocationControlInfo,
-			    stop = L.DomEvent.stopPropagation;
+			var stop = L.DomEvent.stopPropagation,
+			    panel,
+			    list;
 
+			panel = document.createElement('div');
+			panel.classList.add('information-panel');
+			panel.innerHTML = '<ul class="information-list"></ul>';
+			list = panel.querySelector('.information-list');
 
-			if (navigator && navigator.hasOwnProperty('geolocation') &&
-						this.options.includeGeolocationControl) {
-				geolocationControlInfo = L.DomUtil.create('li',
-						'information-list-geolocate-control');
-				geolocationControlInfo.innerHTML = [
-					'<span class="icon"></span>',
-					'<p>Attempt to automatically locate my <b>current location</b>.</p>'
-				].join('');
-				informationList.appendChild(geolocationControlInfo);
+			this._eachControl(function (control, index) {
+				var controlOptions = control.options,
+				    controlEl = control.__infoEl;
 
-				// enable geolocate control onclick
-				L.DomEvent.addListener(geolocationControlInfo, 'click', function () {
-						this._selectControl('geolocation');
-					}, this);
-			}
+				if (!controlEl) {
+					controlEl = document.createElement('li');
+					controlEl.setAttribute('data-index', index);
+					controlEl.innerHTML = [
+						'<span title="', controlOptions.helpText, '"',
+								' class="icon ', controlOptions.iconClass, '"></span>',
+						'<p>', controlOptions.infoText, '</p>'
+					].join('');
+					L.DomEvent.addListener(controlEl, 'click', control.enable, control);
+					control.__infoEl = controlEl;
+				}
 
-			if (this.options.includeGeocodeControl) {
-				geocodeControlInfo = L.DomUtil.create('li',
-						'information-list-geocode-control');
-				geocodeControlInfo.innerHTML = [
-					'<span class="icon"></span>',
-					'<p><b>Search</b> for a location using an <b>address</b>.</p>'
-				].join('');
-				informationList.appendChild(geocodeControlInfo);
-
-				// enable geocode control on click
-				L.DomEvent.addListener(geocodeControlInfo, 'click', function () {
-						this._selectControl('geocode');
-					}, this);
-			}
-
-			if (this.options.includeCoordinateControl) {
-				coordinateControlInfo = L.DomUtil.create('li',
-						'information-list-coordinate-control');
-				coordinateControlInfo.innerHTML = [
-					'<span class="icon"></span>',
-					'<p><b>Enter coordinates</b>, latitude and longitude.</p>'
-				].join('');
-				informationList.appendChild(coordinateControlInfo);
-
-				// enable coordinate control on click
-				L.DomEvent.addListener(coordinateControlInfo, 'click', function () {
-						this._selectControl('coordinate');
-					}, this);
-			}
-
-			if (this.options.includePointControl) {
-				pointControlInfo = L.DomUtil.create('li',
-						'information-list-point-control');
-				pointControlInfo.innerHTML = [
-					'<span class="icon"></span>',
-					'<p><b>Drop pin</b> on the map to specify a location.</p>'
-				].join('');
-				informationList.appendChild(pointControlInfo);
-
-				// enable point control on click
-				L.DomEvent.addListener(pointControlInfo, 'click', function () {
-						this._selectControl('point');
-					}, this);
-			}
+				list.appendChild(controlEl);
+			});
 
 			// create div for information menu
-			this._informationPanel = L.DomUtil.create('div', 'information-panel');
-			this._informationPanel.appendChild(informationList);
-			el.appendChild(this._informationPanel);
-
-			// Hide information menu when any list item is selected.
-			L.DomEvent.addListener(informationList, 'click', function (e) {
-				L.DomUtil.addClass(this._informationPanel, 'hide');
-				L.DomEvent.stop(e);
-			}, this);
+			this._details = panel;
 
 			// stop interaction with map when the information menu is visible
-			L.DomEvent.on(this._informationPanel, 'mousedown', stop);
-			L.DomEvent.on(this._informationPanel, 'dblclick', stop);
-			L.DomEvent.on(this._informationPanel, 'wheel', stop);
+			L.DomEvent.on(panel, 'mousedown', stop);
+			L.DomEvent.on(panel, 'dblclick', stop);
+			L.DomEvent.on(panel, 'wheel', stop);
 		},
 
-		/**
-		 * Toggle the information menu. This is called on an information
-		 * control click.
-		 */
-		_toggleInformationMenu: function () {
-			if(L.DomUtil.hasClass(this._informationPanel, 'hide')) {
-				// close all controls, display information panel
-				this._deselectControl({'all': true});
-				L.DomUtil.removeClass(this._informationPanel, 'hide');
+		toggle: function () {
+			if (!this._el.classList.contains(CLASS_ENABLED)) {
+				this.enable();
 			} else {
-				// hide information panel
-				L.DomUtil.addClass(this._informationPanel, 'hide');
+				this.disable();
 			}
 		},
 
-		/**
-		 * Handle the toggling for the group of controls. There are 3 cases:
-		 *
-		 *   - no active controls,
-		 *     (enable selected control)
-		 *
-		 *   - active control is selected,
-		 *     (disable the selected control)
-		 *
-		 *   - a control is selected that is not the active control,
-		 *     (disable active control, enable selected control)
-		 *
-		 * @param  {string} selected,
-		 *         The control that was just clicked. 
-		 * 
-		 */
-		_onClick: function (selected) {
-			var enabled = this._enabled;
+		enable: function () {
+			this._el.classList.add(CLASS_ENABLED);
 
-			if (enabled === null) {
-				// no controls are enabled, select new control;
-				this._enabled = selected;
-			} else if (enabled === selected) {
-				// the enabled control was selected, and is now toggled off
-				this._enabled = null;
-			} else {
-				// a different control was selected, deselect and select the new one
-				this._deselectControl();
-				this._enabled = selected;
-			}
+			this.fire('enabled');
 		},
 
-		/**
-		 * Enable the control passed in. This is used by the information menu
-		 * which means that all controls will be disabled calling _selectControl
-		 *
-		 * @param  {string} control,
-		 *         the control to enable.
-		 */
-		_selectControl: function (control) {
-			// enable a control
-			if (control === 'point') {
-				this.PointControl.enable();
-			} else if (control === 'coordinate') {
-				this.CoordinateControl.toggle({enabled: true});
-			} else if (control === 'geocode') {
-				this.GeocodeControl.toggle();
-			} else if (control === 'geolocation') {
-				this.GeolocationControl.doGeolocate();
-			}
-			// keep track of the selected control
-			this._enabled = control;
+		disable: function () {
+			this._el.classList.remove(CLASS_ENABLED);
+
+			this.fire('disabled');
 		},
 
-		/**
-		 * Disables a control, or disables all controls.
-		 *
-		 * @param  {object} options,
-		 *         if the 'all' attribute is set to true, all controls are disabled.
-		 */
-		_deselectControl: function (options) {
-			var enabled = this._enabled;
+		_onControlEnabled: function (e) {
+			var target = null;
 
-			// reset all controls
-			if (options && options.hasOwnProperty('all') && options.all === true) {
-				this.PointControl.disable();
-				this.CoordinateControl.toggle({'enabled':false});
-				this.GeocodeControl.disable();
-				this._enabled = null;
-				return;
+			if (e) {
+				target = e.target;
 			}
 
-			if (enabled === 'point') {
-				this.PointControl.disable();
-			} else if (enabled === 'coordinate') {
-				this.CoordinateControl.toggle();
-			} else if (enabled === 'geocode') {
-				this.GeocodeControl.toggle();
-			}
-		},
+			this._eachControl(function (control) {
+				if (control !== target) {
+					control.disable();
+				}
+			});
 
-		onRemove: function () {
-			if (this.options.includePointControl) {
-				PointControl.onRemove();
+			if (target !== this) {
+				// hide details
+				this.disable();
 			}
-			if (this.options.includeCoordinateControl) {
-				CoordinateControl.onRemove();
-			}
-			if (this.options.includeGeocodeControl) {
-				GeocodeControl.onRemove();
-			}
-			if (this.options.includeGeolocateControl) {
-				GeolocationControl.onRemove();
-			}
-			this._map = null;
-			this._locationControl = null;
 		},
 
 		setLocation: function (location, options) {
 			var zoomLevel;
-			location = this._location =
-					Util.extend({}, location, {type:null,target:null});
 
-			// update all controls
-			if (this.PointControl && this.PointControl.setLocation) {
-				this.PointControl.setLocation(location, {'silent':true});
-			}
-			if (this.CoordinateControl && this.CoordinateControl.setLocation) {
-				// trim to confidence number for coordinate control inputs
-				this.CoordinateControl.setLocation(location, {'silent':true});
-			}
-			if (this.GeocodeControl && this.GeocodeControl.setLocation) {
-				this.GeocodeControl.setLocation(location, {'silent':true});
+			if (location) {
+				location = {
+					place: location.place,
+					latitude: location.latitude,
+					longitude: location.longitude,
+					confidence: location.confidence,
+					method: location.method
+				};
 			}
 
-			zoomLevel = ConfidenceCalculator.computeZoomFromConfidence(
-					location.confidence);
+			this._location = location;
+			this._eachControl(function (control) {
+				control.setLocation(location, {'silent': true});
+			});
 
-			// do not zoom the user out
-			if (zoomLevel < this._map._zoom) {
-				zoomLevel = this._map._zoom;
+			if (location) {
+				zoomLevel = ConfidenceCalculator.computeZoomFromConfidence(
+						location.confidence);
+				// do not zoom the user out
+				if (zoomLevel < this._map._zoom) {
+					zoomLevel = this._map._zoom;
+				}
+				//center the map
+				this._map.setView({
+						lon: location.longitude,
+						lat: location.latitude
+					},
+					zoomLevel
+				);
+			} else {
+				// TODO: zoom to world?
 			}
 
-			//center the map
-			this._map.setView({
-					lon: location.longitude,
-					lat: location.latitude
-				},
-				zoomLevel
-			);
-
-			if (!(options && options.silent)){
+			if (!(options && options.silent)) {
 				this.fire('location', location);
 			}
 		},

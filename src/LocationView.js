@@ -21,7 +21,8 @@ define([
 		includePointControl: true,       // Manages location via pin on map
 		includeCoordinateControl: true,  // Manages location via lat/lng input
 		includeGeocodeControl: true,     // Manages location via address input
-		includeGeolocationControl: true, // Manages location via auto-detect (W3C)
+		includeGeolocationControl:       // Manages location via auto-detect (W3C)
+				navigator && navigator.hasOwnProperty('geolocation'),
 		callback: function (/*location*/) {}
 	};
 
@@ -109,7 +110,7 @@ define([
 			includeGeocodeControl: this._options.includeGeocodeControl,
 			includeGeolocationControl: this._options.includeGeolocationControl
 		});
-
+		this._locationControl.enable();
 		this._map.addControl(layerControl);          // Layer switcher
 		this._map.addControl(this._locationControl); // Methods to set locations
 	};

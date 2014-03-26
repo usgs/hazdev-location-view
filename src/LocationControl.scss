@@ -3,8 +3,12 @@
 @import 'GeocodeControl';
 @import 'GeolocationControl';
 
-.information-panel.hide {
+.information-panel {
 	display:none;
+}
+
+.leaflet-location-control-enabled > .information-panel {
+	display:block;
 }
 
 .information-panel {
@@ -54,6 +58,24 @@
 				background-repeat: no-repeat;
 			}
 
+			> .leaflet-coordinate-control-icon {
+				background-position: 0 0;
+			}
+
+			> .leaflet-geocode-control-icon {
+				background-position: -40px 0;
+			}
+
+			> .leaflet-geolocation-control-icon {
+				background-position: -80px 0;
+			}
+
+			> .leaflet-point-control-icon {
+				background-position: -120px 0;
+			}
+
+
+
 			&:hover {
 				background: rgba(250, 250, 202, 0.5);
 			}
@@ -63,27 +85,14 @@
 			}
 		}
 
-		> li.information-list-coordinate-control > span.icon {
-			background-position: 0 0;
-		}
-
-		> li.information-list-geocode-control > span.icon {
-			background-position: -40px 0;
-		}
-
-		> li.information-list-geolocate-control > span.icon {
-			background-position: -80px 0;
-		}
-
-		> li.information-list-point-control > span.icon {
-			background-position: -120px 0;
-		}
 	}
 }
 
-a.information-control {
+
+.leaflet-location-control-icon {
 	cursor:pointer;
 	background:#fff;
+	display:block;
 	height:26px;
 	width:26px;
 	box-shadow:0 1px 1px #000;
@@ -93,20 +102,27 @@ a.information-control {
 	line-height: 26px;
 	font-size: 18px;
 	border-radius:13px;
+
+	-ms-user-select:none;
+	-moz-user-select:none;
+	-webkit-user-select:none;
+	-webkit-touch-callout:none;
+	user-select:none;
 }
 
-.leaflet-control span {
+
+.leaflet-location-control-icon + span.help {
 	display: none;
 }
 
-.leaflet-left a.enabled span,
-.leaflet-left a:hover span {
+.leaflet-location-control-icon:hover + span.help {
 	display: block;
 	position: absolute;
 	border-radius: 4px;
 	background: rgba(255,255,255,0.75);
 	box-shadow: 0 1px 1px rgba(0,0,0,0.65);
 	left: 36px;
+	top: 0;
 	width:147px;
 	padding:0px 10px;
 	text-align: center;
@@ -114,9 +130,6 @@ a.information-control {
 	line-height:26px;
 }
 
-.leaflet-left a.enabled span {
-	background: #fff;
-}
 
 @media screen and (min-width:768px) {
 

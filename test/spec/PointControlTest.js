@@ -135,7 +135,7 @@ define([
 		describe('onAdd()', function () {
 			var p = new PointControl();
 			var clickHandler = sinon.spy(p, 'toggle');
-			var c = p.onAdd(L.map(document.createElement('div')));
+			var c = p.onAdd(L.map(document.createElement('div'))).querySelector('a');
 
 			var getClickEvent = function () {
 				var clickEvent = document.createEvent('MouseEvents');

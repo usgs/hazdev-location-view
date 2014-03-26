@@ -146,7 +146,7 @@ define([
 				    clickSpy = sinon.spy(g, 'toggle');
 
 				g.onAdd(null);
-				g._toggleButton.dispatchEvent(getClickEvent());
+				g._toggle.dispatchEvent(getClickEvent());
 				expect(clickSpy.callCount).to.equal(1);
 				clickSpy.restore();
 			});
@@ -156,14 +156,14 @@ define([
 
 				g.onAdd(null);
 				/* jshint -W030 */
-				expect(g._container.classList.contains('geocode-control-expanded'))
-						.to.be.false;
+				expect(g._container.classList.contains(
+						'leaflet-geocode-control-enabled')).to.be.false;
 				g.toggle();
-				expect(g._container.classList.contains('geocode-control-expanded'))
-						.to.be.true;
+				expect(g._container.classList.contains(
+						'leaflet-geocode-control-enabled')).to.be.true;
 				g.toggle();
-				expect(g._container.classList.contains('geocode-control-expanded'))
-						.to.be.false;
+				expect(g._container.classList.contains(
+						'leaflet-geocode-control-enabled')).to.be.false;
 				/* jshint +W030 */
 			});
 		});
