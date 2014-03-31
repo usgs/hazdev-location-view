@@ -139,7 +139,7 @@ define([
 				control._longitude.value = 44;
 
 				control.on('location', function (loc) {
-					location = loc;
+					location = loc.location;
 				});
 
 				button.dispatchEvent(getClickEvent());

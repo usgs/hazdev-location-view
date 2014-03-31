@@ -90,7 +90,7 @@ define([
 				p.setLocation(testLoc1);
 
 				/* jshint  -W030 */
-				expect(onSetLocation.alwaysCalledWithMatch(testLoc1)).to.be.true;
+				expect(onSetLocation.alwaysCalledWithMatch({'location': testLoc1})).to.be.true;
 				/* jshint +W030 */
 			});
 
