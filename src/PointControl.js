@@ -36,14 +36,14 @@ define([
 			this.setLocation(options.defaultLocation);
 		},
 
-		setLocation: function (loc, options) {
+		setLocation: function (location, options) {
 			var map = this._map,
 			    marker = this._marker;
 
-			if (loc !== null) {
+			if (location !== null) {
 				// update marker
-				marker.setLatLng(new L.LatLng(loc.latitude, loc.longitude));
-				marker.setPopupContent(this._formatLocation(loc));
+				marker.setLatLng(new L.LatLng(location.latitude, location.longitude));
+				marker.setPopupContent(this._formatLocation(location));
 				// add marker
 				if (map && !marker._map) {
 					marker.addTo(map);
@@ -58,7 +58,7 @@ define([
 			}
 
 			if (!(options && options.hasOwnProperty('silent') && options.silent)) {
-				this.fire('location', loc);
+				this.fire('location', {'location': location});
 			}
 		},
 
@@ -211,11 +211,11 @@ define([
 			this.fire('disabled');
 		},
 
-		_formatLocation: function (loc) {
-			var lat = loc.latitude,
-			    lng = loc.longitude,
-			    confidence = loc.confidence,
-			    place = loc.place,
+		_formatLocation: function (location) {
+			var lat = location.latitude,
+			    lng = location.longitude,
+			    confidence = location.confidence,
+			    place = location.place,
 			    latStr = (lat < 0.0) ? '&deg;S' : '&deg;N',
 			    lngStr = (lng < 0.0) ? '&deg;W' : '&deg;E',
 			    buf = [];

@@ -118,7 +118,7 @@ define([
 		setLocation: function (location, options) {
 			// API method, this control has nothing to do
 			if (!(options && options.silent)) {
-				this.fire('location', location);
+				this.fire('location', {'location': location});
 			}
 		},
 

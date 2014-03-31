@@ -254,10 +254,17 @@ define([
 			}
 		},
 
-		setLocation: function (location, options) {
-			var zoomLevel;
+		setLocation: function (e, options) {
+			var zoomLevel,
+			    location = e;
 
-			if (location) {
+			if (e) {
+				if (e.type === 'location') {
+					location = e.location;
+				}
+			}
+
+			if (location !== null) {
 				location = {
 					place: location.place || LOCATION_DEFAULTS.place,
 					latitude: location.latitude || LOCATION_DEFAULTS.latitude,
@@ -287,12 +294,14 @@ define([
 					zoomLevel
 				);
 			} else {
+				// enable the location control
+				this.enable();
 				// zoom to world
 				this._map.fitBounds([[70.0, -170.0], [-50.0, 170.0]]);
 			}
 
 			if (!(options && options.silent)) {
-				this.fire('location', location);
+				this.fire('location', {'location':location});
 			}
 		},
 

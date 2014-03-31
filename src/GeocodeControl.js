@@ -32,22 +32,22 @@ define([
 			this._geocodeError = this._geocodeError.bind(this);
 		},
 
-		setLocation: function (loc, options) {
-			this._loc = loc;
+		setLocation: function (location, options) {
+			this._location = location;
 
-			if (!loc || !loc.hasOwnProperty('place')) {
+			if (!location || !location.hasOwnProperty('place')) {
 				this._textInput.value = '';
 			} else {
-				this._textInput.value = loc.place;
+				this._textInput.value = location.place;
 			}
 
 			if (!(options && options.silent)) {
-				this.fire('location', this._loc);
+				this.fire('location', {'location': location});
 			}
 		},
 
 		getLocation: function () {
-			return this._loc;
+			return this._location;
 		},
 
 		onAdd: function (map) {

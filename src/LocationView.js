@@ -156,8 +156,15 @@ define([
 	 * to be disabled when the location is null and enabled otherwise.
 	 *
 	 */
-	LocationView.prototype._onLocation = function (location) {
-		var button = this._modal.el.querySelector('.location-button');
+	LocationView.prototype._onLocation = function (e) {
+		var button = this._modal.el.querySelector('.location-button'),
+		    location;
+
+		if (e) {
+			if (e.type === 'location') {
+				location = e.location;
+			}
+		}
 
 		if (location) {
 			button.disabled = false;
