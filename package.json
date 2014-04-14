@@ -1,6 +1,6 @@
 {
   "name": "hazdev-location-view",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "homepage": "http://earthquake.usgs.gov/",
   "repository": {
     "type": "git",
@@ -11,8 +11,30 @@
     "name": "Eric Martinez",
     "email": "emartinez@usgs.gov"
   },
-  "contributors": [],
+  "contributors": [
+    {
+      "name": "Eddie Hunter",
+      "email": "ehunter@usgs.gov"
+    },
+    {
+      "name": "Hal Simpson",
+      "email": "hasimpson@usgs.gov"
+    },
+    {
+      "name": "Jeremy Fee",
+      "email": "jmfee@usgs.gov"
+    },
+    {
+      "name": "Jonathan Brown",
+      "email": "jdbrown@usgs.gov"
+    },
+    {
+      "name": "Eddie McWhirter",
+      "email": "emcwhirter@usgs.gov"
+    }
+  ],
   "keywords": [
+    "location",
     "usgs",
     "ehp",
     "hazdev"
