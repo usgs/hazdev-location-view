@@ -61,7 +61,7 @@ define([
 			container = document.createElement('div');
 			container.className = CLASS_NAME;
 			container.innerHTML = [
-				'<a href="#" class="', options.iconClass, '"></a>',
+				'<a class="', options.iconClass, '"></a>',
 				'<span class="help">', options.helpText, '</span>',
 				'<input class="', CLASS_INPUT, '" placeholder="Address"/>',
 				'<button class="', CLASS_SUBMIT, '">Search</button>'
