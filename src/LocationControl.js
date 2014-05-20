@@ -271,13 +271,17 @@ define([
 				if (zoomLevel < this._map._zoom) {
 					zoomLevel = this._map._zoom;
 				}
-				//center the map
-				this._map.setView({
-						lon: location.longitude,
-						lat: location.latitude
-					},
-					zoomLevel
-				);
+
+				// do not center map on point if location is already visible
+				if (this._checkLocation(location, zoomLevel)) {
+					this._map.setView({
+							lon: location.longitude,
+							lat: location.latitude
+						},
+						zoomLevel
+					);
+				}
+
 			} else {
 				// TODO: zoom to world?
 			}
@@ -289,6 +293,37 @@ define([
 
 		getLocation: function () {
 			return this._location;
+		},
+
+		/**
+		 * Check to see if point is currently visible with map bounds.
+		 * If the point is within the map bounds do not pan the map.
+		 * Only center when the new location is not visible or the map
+		 * is being zoomed-in.
+		 *
+		 * @param  {object} location, leaflet location object
+		 * @param  {integer} zoomLevel, current map zoom level
+		 *
+		 * @return {boolean}
+		 *         A boolean that indicates whether the map should be
+		 *         centered on the point. true = center map, false = do nothing.
+		 */
+		_checkLocation: function (location, newZoomLevel) {
+			var centerMap = true,
+			    oldZoomLevel = this._map._zoom,
+			    mapBounds = this._map.getBounds(),
+			    newLocation = L.latLng(location.latitude, location.longitude);
+
+			// if the point is already visible, do not pan map
+			if (mapBounds.contains(newLocation)) {
+				centerMap = false;
+				// always center on marker when zooming in.
+				if (newZoomLevel > oldZoomLevel) {
+					centerMap = true;
+				}
+			}
+
+			return centerMap;
 		},
 
 		_onLocationError: function (error) {
