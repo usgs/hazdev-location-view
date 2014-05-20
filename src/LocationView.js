@@ -5,7 +5,7 @@ define([
 	'util/Util',
 	'mvc/ModalView',
 
-	'LocationControl'
+	'./LocationControl'
 ], function (
 	L,
 

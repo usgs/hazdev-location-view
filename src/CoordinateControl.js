@@ -1,9 +1,11 @@
 /* global define */
 define([
 	'leaflet',
-	'ConfidenceCalculator'
+
+	'./ConfidenceCalculator'
 ], function (
 	L,
+
 	ConfidenceCalculator
 ) {
 	'use strict';

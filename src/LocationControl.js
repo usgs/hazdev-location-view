@@ -1,16 +1,14 @@
 /* global define */
 define([
 	'leaflet',
-	'util/Util',
 
-	'PointControl',
-	'CoordinateControl',
-	'GeocodeControl',
-	'GeolocationControl',
-	'ConfidenceCalculator'
+	'./PointControl',
+	'./CoordinateControl',
+	'./GeocodeControl',
+	'./GeolocationControl',
+	'./ConfidenceCalculator'
 ], function (
 	L,
-	Util,
 
 	PointControl,
 	CoordinateControl,
