@@ -1,6 +1,6 @@
 /* global define */
 define([
-	'ConfidenceCalculator'
+	'./ConfidenceCalculator'
 ], function (
 	ConfidenceCalculator
 ) {

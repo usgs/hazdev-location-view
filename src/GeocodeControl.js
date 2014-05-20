@@ -1,7 +1,8 @@
 /* global define */
 define([
 	'leaflet',
-	'Geocoder'
+
+	'./Geocoder'
 ], function (
 	L,
 	Geocoder
