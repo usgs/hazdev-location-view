@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<title>Location View Example Page</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+	<link rel="stylesheet" href="/libs/hazdev-webutils/webutils.css"/>
+
+	<link rel="stylesheet" href="LocationView.css"/>
+</head>
+<body>
+	<button id="showLocationView">Show Location View</button>
+
+	<script src="/libs/requirejs/require.js"></script>
+	<script src="/libs/hazdev-webutils/webutils.js"></script>
+	<script>
+	require([
+		'LocationView'
+	], function (
+		LocationView
+	) {
+		'use strict';
+
+		window.L.Icon.Default.imagePath = 'images';
+
+		var lv = new LocationView();
+		lv.show();
+
+		document.querySelector('#showLocationView').addEventListener('click',
+				function () { lv.show(); });
+	});
+	</script>
+</body>
+</html>

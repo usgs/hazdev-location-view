@@ -22,6 +22,12 @@ module.exports = function (grunt) {
 		directory: 'bower_components'
 	};
 
+	var requirePaths = {
+		'mvc': '../bower_components/hazdev-webutils/src/mvc',
+		'util': '../bower_components/hazdev-webutils/src/util',
+		'leaflet': '../node_modules/leaflet/dist/leaflet-src'
+	};
+
 	grunt.initConfig({
 		app: appConfig,
 		bower: bowerConfig,
@@ -41,22 +47,11 @@ module.exports = function (grunt) {
 			gruntfile: {
 				files: ['Gruntfile.js'],
 				tasks: ['jshint:gruntfile']
-			},
-			// TODO :: Don't need this once build process is figured out
-			dist: {
-				files: ['Gruntfile.js'],
-				tasks: ['build']
 			}
 		},
 		concurrent: {
 			scripts: ['jshint:scripts', 'mocha_phantomjs'],
 			tests: ['jshint:tests', 'mocha_phantomjs'],
-
-			// Tasks for building distributable
-			dist_copy: [
-				'copy:dist',
-				'copy:dist_index'
-			]
 		},
 		connect: {
 			options: {
@@ -81,7 +76,13 @@ module.exports = function (grunt) {
 			dist: {
 				options: {
 					base: '<%= app.dist %>',
-					port: 8081
+					port: 8081,
+					keepalive: true,
+					middleware: function (connect, options) {
+						return [
+							mountFolder(connect, options.base)
+						];
+					}
 				}
 			}
 		},
@@ -111,38 +112,218 @@ module.exports = function (grunt) {
 				}
 			}
 		},
-		open: {
-			dist: { path: 'http://<%= connect.options.hostname %>:' +
-						'<%= connect.dist.options.port %>/index.html'}
-		},
 		clean: {
 			dev: ['<%= app.tmp %>', '.sass-cache'],
-			dist: ['<%= app.dist %>']
+			build: ['<%= app.dist %>']
 		},
 		copy: {
-			dist: {
+			build: {
 				expand: true,
-				cwd: '.',
-				dest: '<%= app.dist %>/ex_resources',
+				cwd: '<%= app.src %>',
+				dest: '<%= app.dist %>',
 				src: [
-					'node_modules/leaflet/dist/leaflet.css',
-					'<%= app.test %>/css/LocationViewUITest.css'
-				],
-				rename: function (dest, src) {
-					return dest + '/' + require('path').basename(src);
+					'location-view-icons.png',
+					'cursor.cur'
+				]
+			},
+
+			leaflet: {
+				expand: true,
+				cwd: 'node_modules',
+				src: ['leaflet/*'],
+				dest: '<%=- app.dist %>'
+			},
+			'leaflet-images': {
+				expand: true,
+				cwd: 'node_modules/leaflet/dist',
+				src: ['images/*'],
+				dest: '<%= app.dist %>'
+			},
+			// This task copies leaflet images to the "dist/libs" folder and is
+			// used during the build:webutils target
+			'leaflet-images-webutils': {
+				expand: true,
+				cwd: 'node_modules/leaflet/dist',
+				src: ['images/*'],
+				dest: '<%= app.dist %>/libs/leaflet'
+			},
+
+			requirejs: {
+				expand: true,
+				cwd: 'bower_components',
+				src: ['requirejs/*'],
+				dest: '<%= app.dist %>/libs'
+			},
+
+			index: {
+				expand: true,
+				cwd: 'etc',
+				src: ['index-dist.html'],
+				dest: '<%= app.dist %>',
+				rename: function () { return '<%= app.dist %>/index.html'; }
+			},
+			'index-all': {
+				expand: true,
+				cwd: 'etc',
+				src: ['index-dist-all.html'],
+				dest: '<%= app.dist %>',
+				rename: function () { return '<%= app.dist %>/index.html'; }
+			},
+			'index-leaflet': {
+				expand: true,
+				cwd: 'etc',
+				src: ['index-dist-leaflet.html'],
+				dest: '<%= app.dist %>',
+				rename: function () { return '<%= app.dist %>/index.html'; }
+			},
+			'index-webutils': {
+				expand: true,
+				cwd: 'etc',
+				src: ['index-dist-webutils.html'],
+				dest: '<%= app.dist %>',
+				rename: function () { return '<%= app.dist %>/index.html'; }
+			}
+		},
+		requirejs: {
+			build: {
+				options: {
+					baseUrl: '<%= app.src %>',
+					name: 'LocationView',
+					out: '<%= app.dist %>/LocationView.js',
+					paths: requirePaths,
+					exclude: [
+						'leaflet',
+						'util/Util',
+						'mvc/ModalView'
+					]
 				}
 			},
-			dist_index: {
-				expand: true,
-				cwd: '<%= app.test %>',
-				dest: '<%= app.dist %>',
-				src: ['LocationViewUITest.html'], // Do not expand this. See rename...
-				rename: function (dest, src) {
-					return dest + '/index.html'
+			'build-webutils': {
+				options: {
+					baseUrl: '<%= app.src %>',
+					name: 'LocationView',
+					out: '<%= app.dist %>/LocationView.js',
+					paths: requirePaths,
+					exclude: [
+						'leaflet',
+					]
+				}
+			},
+			'build-leaflet': {
+				options: {
+					baseUrl: '<%= app.src %>',
+					name: 'LocationView',
+					out: '<%= app.dist %>/LocationView.js',
+					paths: requirePaths,
+					exclude: [
+						'util/Util',
+						'mvc/ModalView'
+					]
+				}
+			},
+			'build-all': {
+				options: {
+					baseUrl: '<%= app.src %>',
+					name: 'LocationView',
+					out: '<%= app.dist %>/LocationView.js',
+					paths: requirePaths,
+					shim: {
+						'leaflet': {
+							exports: 'L'
+						}
+					}
+				}
+			},
+
+			webutils: {
+				options: {
+					baseUrl: 'bower_components/hazdev-webutils/src',
+					out: '<%= app.dist %>/libs/hazdev-webutils/webutils.js',
+					name: 'webutils',
+					create: true,
+					include: [
+						'util/Util',
+						'mvc/ModalView'
+					]
+				}
+			},
+			leaflet: {
+				options: {
+					baseUrl: 'node_modules/leaflet/dist',
+					out: '<%= app.dist %>/libs/leaflet/leaflet.js',
+					name: 'leaflet',
+					shim: {
+						leaflet: {
+							exports: 'L'
+						}
+					},
+					paths: {
+						leaflet: 'leaflet-src'
+					},
+					include: 'leaflet-src.js',
+					// This is an exploit of the intended use of "wrap", but it exposes
+					// a requirejs module accessible via "leaflet".
+					wrap: {
+						start: '',
+						end: 'define(\'leaflet\',function(){return L;});'
+					}
 				}
 			}
 		},
-		replace: {
+		cssmin: {
+			build: {
+				expand: true,
+				files: {
+					'<%= app.dist %>/LocationView.css': [
+						'<%= app.tmp %>/LocationView.css'
+					]
+				}
+			},
+			'build-leaflet': {
+				expand: true,
+				files: {
+					'<%= app.dist %>/LocationView.css': [
+						'node_modules/leaflet/dist/leaflet.css',
+						'<%= app.tmp %>/LocationView.css'
+					]
+				}
+			},
+			'build-webutils': {
+				expand: true,
+				files: {
+					'<%= app.dist %>/LocationView.css': [
+						'bower_components/hazdev-webutils/src/mvc/ModalView.css',
+						'<%= app.tmp %>/LocationView.css'
+					]
+				}
+			},
+			'build-all': {
+				expand: true,
+				files: {
+					'<%= app.dist %>/LocationView.css': [
+						'node_modules/leaflet/dist/leaflet.css',
+						'bower_components/hazdev-webutils/src/mvc/ModalView.css',
+						'<%= app.tmp %>/LocationView.css'
+					]
+				}
+			},
+
+			webutils: {
+				expand: true,
+				files: {
+					'<%= app.dist %>/libs/hazdev-webutils/webutils.css': [
+						'bower_components/hazdev-webutils/src/mvc/ModalView.css'
+					]
+				}
+			},
+			leaflet: {
+				expand: true,
+				files: {
+					'<%= app.dist %>/libs/leaflet/leaflet.css': [
+						'node_modules/leaflet/dist/leaflet.css'
+					]
+				}
+			}
 		}
 	});
 
@@ -163,15 +344,78 @@ module.exports = function (grunt) {
 		'watch'
 	]);
 
-	grunt.registerTask('build', [
-		'clean:dist',
-		'concurrent:dist_copy',
+	grunt.registerTask('build', function (target) {
+		// Common tasks
+		var tasks = [
+			'clean:build',
+			'compass',
+			'copy:build',
+
+			'copy:requirejs'
+		];
+
+		if (arguments.length === 0) {
+			// No target specified, build minimal dist
+			Array.prototype.push.apply(tasks, [
+				'cssmin:build',
+				'requirejs:build',
+
+				'requirejs:webutils',
+				'cssmin:webutils',
+
+				'requirejs:leaflet',
+				'cssmin:leaflet',
+				'copy:leaflet-images-webutils',
+
+				'copy:index'
+			]);
+		} else if (target === 'leaflet') {
+			// Leaflet target specified, build leaflet dist
+			Array.prototype.push.apply(tasks, [
+				'cssmin:build-leaflet',
+				'requirejs:build-leaflet',
+				'copy:leaflet-images',
+
+				'requirejs:webutils',
+				'cssmin:webutils',
+
+				'copy:index-leaflet'
+			]);
+		} else if (target === 'webutils') {
+			// Web utils specified, build webutils dist
+			Array.prototype.push.apply(tasks, [
+				'cssmin:build-webutils',
+				'requirejs:build-webutils',
+
+				'requirejs:leaflet',
+				'cssmin:leaflet',
+				'copy:leaflet-images-webutils',
+
+				'copy:index-webutils'
+			]);
+		} else if (target === 'all') {
+			// All specified, build full dist
+			Array.prototype.push.apply(tasks, [
+				'cssmin:build-all',
+				'requirejs:build-all',
+				'copy:leaflet-images',
+
+				'copy:index-all'
+			]);
+		} else {
+			grunt.warn('Invalid build target. Bailing out.');
+			return;
+		}
+
+		// More common tasks
+		// ...
+
+		// Now run the loaded tasks
+		grunt.task.run(tasks);
+	});
+
+	grunt.registerTask('dist', [
+		'connect:dist'
 	]);
 
-	grunt.registerTask('build-debug', [
-		'build',
-		'connect:dist',
-		'open:dist',
-		'watch:dist' // TODO :: Don't need this once build process is figured out
-	]);
 };
