@@ -23,11 +23,6 @@ define([
 
 
 	var DEFAULTS = {
-		'includeGeolocationControl':
-				navigator && navigator.hasOwnProperty('geolocation'),
-		'includeGeocodeControl': false,
-		'includeCoordinateControl': false,
-		'includePointControl': true,
 		'location': null,
 		'position': 'bottomleft',
 		'el': null,
