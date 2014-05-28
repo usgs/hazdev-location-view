@@ -86,7 +86,7 @@ define([
 
 				map.addControl(g);
 				g.setLocation(loc);
-				expect(g._loc).to.equal(loc);
+				expect(g._location).to.equal(loc);
 			});
 		});
 
@@ -95,7 +95,7 @@ define([
 				var loc = {},
 				    g = new GeocodeControl();
 
-				g._loc = loc;
+				g._location = loc;
 				expect(g.getLocation()).to.equal(loc);
 			});
 		});

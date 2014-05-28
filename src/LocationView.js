@@ -94,6 +94,8 @@ define([
 			attributionControl: false
 		});
 
+		this._map.fitBounds([[70.0, -170.0], [-50.0, 170.0]]);
+
 		layerControl.addBaseLayer(new L.TileLayer(
 				__get_arcgisonline_url('NatGeo_World_Map'))
 				.addTo(this._map), 'Topography');
@@ -154,8 +156,15 @@ define([
 	 * to be disabled when the location is null and enabled otherwise.
 	 *
 	 */
-	LocationView.prototype._onLocation = function (location) {
-		var button = this._modal.el.querySelector('.location-button');
+	LocationView.prototype._onLocation = function (e) {
+		var button = this._modal.el.querySelector('.location-button'),
+		    location;
+
+		if (e) {
+			if (e.type === 'location') {
+				location = e.location;
+			}
+		}
 
 		if (location) {
 			button.disabled = false;
@@ -194,7 +203,7 @@ define([
 	 *             The second element of this array is an array containing
 	 *             numbers representing the latitude and longitude of the bottom
 	 *             right corner of the extent.
-	 *        initialLocation {Object}
+	 *        location {Object}
 	 *             A location object to use as the starting location. This
 	 *             location will be displayed initially and also returned if the
 	 *             user does not change it. If null, any previously set location
@@ -220,24 +229,14 @@ define([
 	 */
 	LocationView.prototype._updateMap = function (options) {
 		options = options || {};
-
 		this._map.invalidateSize();
+
+		if (options.hasOwnProperty('location')) {
+			this._locationControl.setLocation(options.location);
+		}
 
 		if (options.hasOwnProperty('extent')) {
 			this._map.fitBounds(options.extent);
-		} else {
-			this._map.fitBounds([[70.0, -170.0], [-50.0, 170.0]]);
-		}
-
-		if (options.hasOwnProperty('initialLocation') &&
-				options.initialLocation.hasOwnProperty('latitude') &&
-				options.initialLocation.hasOwnProperty('longitude') &&
-				options.initialLocation.hasOwnProperty('place') &&
-				options.initialLocation.hasOwnProperty('method') &&
-				options.initialLocation.hasOwnProperty('confidence') &&
-				options.initialLocation.hasOwnProperty('accuracy')) {
-			// initialLocation specified and is a location object
-			this._locationControl.setLocation(options.initialLocation);
 		}
 	};
 

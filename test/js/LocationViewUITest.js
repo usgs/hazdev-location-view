@@ -21,7 +21,7 @@ require([
 
 	// Open location view when button is clicked
 	_showLocationButton.addEventListener('click', function () {
-		locationView.show();
+		locationView.show({'location':null});
 	});
 
 	locationView.show();

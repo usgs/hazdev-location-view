@@ -143,7 +143,7 @@ define([
 						roundLocation(location.longitude, location.confidence);
 			}
 			if (!(options && options.silent)) {
-				this.fire('location', location);
+				this.fire('location', {'location': location});
 			}
 		},
 

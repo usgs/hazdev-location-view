@@ -35,6 +35,14 @@ define([
 		'helpText': 'Show Location Options'
 	};
 
+	var LOCATION_DEFAULTS = {
+		'place': null,
+		'latitude': 0,
+		'longitude': 0,
+		'method': 'unspecified',
+		'confidence': ConfidenceCalculator.NOT_COMPUTED
+	};
+
 	var LocationControl = L.Control.extend({
 		includes: L.Mixin.Events,
 
@@ -244,16 +252,23 @@ define([
 			}
 		},
 
-		setLocation: function (location, options) {
-			var zoomLevel;
+		setLocation: function (e, options) {
+			var zoomLevel,
+			    location = e;
 
-			if (location) {
+			if (e) {
+				if (e.type === 'location') {
+					location = e.location;
+				}
+			}
+
+			if (location !== null) {
 				location = {
-					place: location.place,
-					latitude: location.latitude,
-					longitude: location.longitude,
-					confidence: location.confidence,
-					method: location.method
+					place: location.place || LOCATION_DEFAULTS.place,
+					latitude: location.latitude || LOCATION_DEFAULTS.latitude,
+					longitude: location.longitude || LOCATION_DEFAULTS.longitude,
+					confidence: location.confidence || LOCATION_DEFAULTS.confidence,
+					method: location.method || LOCATION_DEFAULTS.method
 				};
 			}
 
@@ -274,11 +289,14 @@ define([
 				this._centerMapOnPoint(location, zoomLevel);
 
 			} else {
-				// TODO: zoom to world?
+				// enable the location control
+				this.enable();
+				// zoom to world
+				this._map.fitBounds([[70.0, -170.0], [-50.0, 170.0]]);
 			}
 
 			if (!(options && options.silent)) {
-				this.fire('location', location);
+				this.fire('location', {'location':location});
 			}
 		},
 
