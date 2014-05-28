@@ -44,9 +44,9 @@ define([
 				'<a class="', options.iconClass, '"></a>',
 				'<span class="help">', options.helpText, '</span>',
 				'<div class="', CLASS_INPUT, '">',
-					'<input name="latitude" title="latitude" class="latitude"',
+					'<input name="latitude" title="latitude" class="latitude" ',
 							'placeholder="Latitude" />',
-					'<input name="longitude" title="longitude" class="longitude"',
+					'<input name="longitude" title="longitude" class="longitude" ',
 							'placeholder="Longitude" />',
 					'<button class="coordinate-submit">Search</button>',
 				'</div>'
@@ -67,6 +67,7 @@ define([
 				this.enable();
 			}
 
+
 			L.DomEvent.addListener(toggle, 'click', this.toggle, this);
 			// Bind to a submit button click
 			L.DomEvent.addListener(this._submit, 'click', this._onSubmit, this);
@@ -79,6 +80,8 @@ define([
 			L.DomEvent.addListener(container, 'keyup', stop);
 			L.DomEvent.addListener(container, 'keypress', stop);
 			L.DomEvent.addListener(container, 'mousedown', stop);
+			L.DomEvent.addListener(this._longitude, 'touchstart', stop);
+			L.DomEvent.addListener(this._latitude, 'touchstart', stop);
 
 			return container;
 		},
@@ -95,7 +98,6 @@ define([
 		enable: function () {
 			L.DomUtil.addClass(this._container, CLASS_ENABLED);
 			this._latitude.focus();
-
 			this.fire('enabled');
 		},
 
@@ -120,6 +122,8 @@ define([
 			L.DomEvent.removeListener(container, 'keyup', stop);
 			L.DomEvent.removeListener(container, 'keypress', stop);
 			L.DomEvent.removeListener(container, 'mousedown', stop);
+			L.DomEvent.removeListener(this._longitude, 'touchstart', stop);
+			L.DomEvent.removeListener(this._latitude, 'touchstart', stop);
 
 			this._map = null;
 			this._control = null;

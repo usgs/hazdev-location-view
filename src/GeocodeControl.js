@@ -88,6 +88,7 @@ define([
 			L.DomEvent.addListener(container, 'keyup', stop);
 			L.DomEvent.addListener(container, 'keypress', stop);
 			L.DomEvent.addListener(container, 'mousedown', stop);
+			L.DomEvent.addListener(textInput, 'touchstart', stop);
 
 			return container;
 		},
@@ -108,6 +109,7 @@ define([
 			L.DomEvent.removeListener(container, 'keyup', stop);
 			L.DomEvent.removeListener(container, 'keypress', stop);
 			L.DomEvent.removeListener(container, 'mousedown', stop);
+			L.DomEvent.removeListener(textInput, 'touchstart', stop);
 		},
 
 		_doGeocode: function (textAddress) {

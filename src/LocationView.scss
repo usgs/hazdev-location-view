@@ -4,6 +4,15 @@
 @import 'CoordinateControl';
 @import 'PointControl';
 
+
+/* .leaflet-touch is added to the container when touch is detected */
+.leaflet-touch {
+	.leaflet-control {
+		//border:3px solid rgba(0,0,0,0.3);
+		border:none;
+	}
+}
+
 .location-view {
 	position:absolute;
 	top:8px;
@@ -77,19 +86,7 @@
 		}
 	}
 
-	.leaflet-control {
-		box-shadow:0 1px 1px #000;
-	}
-
-	.leaflet-location-control {
-		box-shadow:none;
-	}
-
-	.leaflet-control-zoom {
-		display:none;
-	}
 }
-
 
 @media screen and (min-width:768px) {
 	.location-view {
@@ -97,9 +94,5 @@
 		right:16px;
 		bottom:16px;
 		left:16px;
-
-		.leaflet-control-zoom {
-			display:block;
-		}
 	}
 }
