@@ -58,7 +58,13 @@
     "mocha": "~1.9.0",
     "leaflet": "~0.6.4",
     "sinon": "~1.7.3",
-    "grunt-contrib-compass": "~0.7.2"
+    "grunt-contrib-compass": "~0.7.2",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-copy": "~0.5.0",
+    "grunt-open": "~0.2.3",
+    "grunt-text-replace": "~0.3.11",
+    "grunt-contrib-requirejs": "~0.4.4",
+    "grunt-contrib-cssmin": "~0.9.0"
   },
   "engines": {
     "node": ">=0.8.0"

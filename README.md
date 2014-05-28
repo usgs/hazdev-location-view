@@ -9,6 +9,25 @@ Web library for getting location information from a user.
 
 TODO
 
+## Building this Project
+
+This project uses grunt for building. There are four different build
+distributions available.
+
+1. build
+    1. Builds a minimal distribution. User must provide webutils and leaflet
+       libraries manually.
+2. build:leaflet
+    1. Builds a distribution that bundles leaflet library, but user must
+       webutils library manually.
+    2. User must specify L.Icon.Default.imagePath
+3. build:webutils
+    1. Builds a distribution that bundles webutils library, but user must
+       provide leaflet library manually.
+4. build:all
+    1. Builds a distribution with both leaflet and webutils libraries available.
+    2. User must specify L.Icon.Default.imagePath
+
 ## License
 
 Unless otherwise noted, This software is in the public domain because it
