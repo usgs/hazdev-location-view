@@ -22,7 +22,7 @@ define([
 		includeCoordinateControl: true,  // Manages location via lat/lng input
 		includeGeocodeControl: true,     // Manages location via address input
 		includeGeolocationControl:       // Manages location via auto-detect (W3C)
-				navigator && navigator.hasOwnProperty('geolocation'),
+				navigator && 'geolocation' in navigator,
 		callback: function (/*location*/) {}
 	};
 
