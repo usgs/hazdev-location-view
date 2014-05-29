@@ -151,8 +151,8 @@ define([
 		 */
 		computeFromGeocode: function (result) {
 			var boundingbox = result.boundingbox,
-			    latSpan = boundingbox[1] - boundingbox[0],
-			    lonSpan = boundingbox[3] - boundingbox[2],
+			    latSpan = Math.abs(boundingbox[1] - boundingbox[0]),
+			    lonSpan = Math.abs(boundingbox[3] - boundingbox[2]),
 			    maxSpan = Math.max(latSpan, lonSpan),
 			    maxSpanMeters = maxSpan * 111120; // convert to meters
 
