@@ -157,7 +157,7 @@ define([
 	 *
 	 */
 	LocationView.prototype._onLocation = function (e) {
-		var button = this._modal.el.querySelector('.location-button'),
+		var button = this._modal._el.querySelector('.location-button'),
 		    location;
 
 		if (e) {
