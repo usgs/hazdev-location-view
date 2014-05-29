@@ -212,6 +212,11 @@ define([
 						dateTimeLineBoundingBox)).to.equal(
 						ConfidenceCalculator.AVERAGE_CONFIDENCE);
 			});
+			it('Mapquest Example', function () {
+				expect(ConfidenceCalculator.computeFromGeocode(
+					GeocodeObjectFull)).to.equal(
+					ConfidenceCalculator.ABOVE_AVERAGE_CONFIDENCE);
+			});
 		});
 
 		describe('computeZoomFromGeocode', function () {
@@ -244,6 +249,11 @@ define([
 				expect(ConfidenceCalculator.computeZoomFromGeocode(
 						dateTimeLineBoundingBox)).to.equal(
 						9);
+			});
+			it('Mapquest Example', function () {
+				expect(ConfidenceCalculator.computeZoomFromGeocode(
+						GeocodeObjectFull)).to.equal(
+						13);
 			});
 		});
 
