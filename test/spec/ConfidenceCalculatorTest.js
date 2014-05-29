@@ -42,6 +42,14 @@ define([
 			}
 		};
 
+	var dateTimeLineBoundingBox = {
+		'boundingbox': [
+			'50',
+			'50',
+			'-179.99',
+			'179.99',
+		]
+	};
 
 	var LowConfidenceBoundingBox = {
 		'boundingbox': [
@@ -199,6 +207,11 @@ define([
 						HighConfidenceBoundingBox)).to.equal(
 						ConfidenceCalculator.HIGH_CONFIDENCE);
 			});
+			it('Crossing Date/Time Line', function () {
+				expect(ConfidenceCalculator.computeFromGeocode(
+						dateTimeLineBoundingBox)).to.equal(
+						ConfidenceCalculator.AVERAGE_CONFIDENCE);
+			});
 		});
 
 		describe('computeZoomFromGeocode', function () {
@@ -226,6 +239,11 @@ define([
 				expect(ConfidenceCalculator.computeZoomFromGeocode(
 						LowConfidenceBoundingBox)).to.equal(
 						1);
+			});
+			it('Crosses Date/Time Line (bounding box)', function () {
+				expect(ConfidenceCalculator.computeZoomFromGeocode(
+						dateTimeLineBoundingBox)).to.equal(
+						9);
 			});
 		});
 

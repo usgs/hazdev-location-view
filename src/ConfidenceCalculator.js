@@ -153,7 +153,8 @@ define([
 			var boundingbox = result.boundingbox,
 			    latSpan = Math.abs(boundingbox[1] - boundingbox[0]),
 			    lonSpan = Math.abs(boundingbox[3] - boundingbox[2]),
-			    maxSpan = Math.max(latSpan, lonSpan),
+			    // handles boundingBox that crosses date/time line
+			    maxSpan = Math.max(latSpan, Math.min(lonSpan, (360 - lonSpan))),
 			    maxSpanMeters = maxSpan * 111120; // convert to meters
 
 			// Set to average confidence, postal codes return 11m bounding boxes
