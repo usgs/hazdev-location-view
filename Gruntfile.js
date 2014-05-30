@@ -17,20 +17,15 @@ module.exports = function (grunt) {
 		dist: 'dist'
 	};
 
-	// TODO :: Read this from .bowerrc
-	var bowerConfig = {
-		directory: 'bower_components'
-	};
 
 	var requirePaths = {
-		'mvc': '../bower_components/hazdev-webutils/src/mvc',
-		'util': '../bower_components/hazdev-webutils/src/util',
+		'mvc': '../node_modules/hazdev-webutils/src/mvc',
+		'util': '../node_modules/hazdev-webutils/src/util',
 		'leaflet': '../node_modules/leaflet/dist/leaflet-src'
 	};
 
 	grunt.initConfig({
 		app: appConfig,
-		bower: bowerConfig,
 		watch: {
 			scripts: {
 				files: ['<%= app.src %>/**/*.js'],
@@ -60,12 +55,10 @@ module.exports = function (grunt) {
 			dev: {
 				options: {
 					base: '<%= app.test %>',
-					components: bowerConfig.directory,
 					port: 8000,
 					middleware: function (connect, options) {
 						return [
 							mountFolder(connect, '.tmp'),
-							mountFolder(connect, 'bower_components'),
 							mountFolder(connect, 'node_modules'),
 							mountFolder(connect, options.base),
 							mountFolder(connect, appConfig.src)
@@ -150,7 +143,7 @@ module.exports = function (grunt) {
 
 			requirejs: {
 				expand: true,
-				cwd: 'bower_components',
+				cwd: 'node_modules',
 				src: ['requirejs/*'],
 				dest: '<%= app.dist %>/libs'
 			},
@@ -237,7 +230,7 @@ module.exports = function (grunt) {
 
 			webutils: {
 				options: {
-					baseUrl: 'bower_components/hazdev-webutils/src',
+					baseUrl: 'node_modules/hazdev-webutils/src',
 					out: '<%= app.dist %>/libs/hazdev-webutils/webutils.js',
 					name: 'webutils',
 					create: true,
@@ -292,7 +285,7 @@ module.exports = function (grunt) {
 				expand: true,
 				files: {
 					'<%= app.dist %>/LocationView.css': [
-						'bower_components/hazdev-webutils/src/mvc/ModalView.css',
+						'node_modules/hazdev-webutils/src/mvc/ModalView.css',
 						'<%= app.tmp %>/LocationView.css'
 					]
 				}
@@ -302,7 +295,7 @@ module.exports = function (grunt) {
 				files: {
 					'<%= app.dist %>/LocationView.css': [
 						'node_modules/leaflet/dist/leaflet.css',
-						'bower_components/hazdev-webutils/src/mvc/ModalView.css',
+						'node_modules/hazdev-webutils/src/mvc/ModalView.css',
 						'<%= app.tmp %>/LocationView.css'
 					]
 				}
@@ -312,7 +305,7 @@ module.exports = function (grunt) {
 				expand: true,
 				files: {
 					'<%= app.dist %>/libs/hazdev-webutils/webutils.css': [
-						'bower_components/hazdev-webutils/src/mvc/ModalView.css'
+						'node_modules/hazdev-webutils/src/mvc/ModalView.css'
 					]
 				}
 			},
