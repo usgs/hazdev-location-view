@@ -84,7 +84,7 @@
 }
 
 
-.location-view {
+.locationview {
 
 	.leaflet-control {
 		background:#fff;
@@ -151,11 +151,7 @@
 
 @media screen and (min-width:768px) {
 
-	.location-view {
-		top:16px;
-		right:16px;
-		bottom:16px;
-		left:16px;
+	.locationview {
 
 		.leaflet-control-zoom {
 			display:block;
