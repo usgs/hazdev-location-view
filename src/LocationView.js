@@ -87,7 +87,7 @@ define([
 		var layerControl = new L.Control.Layers();
 
 		this._mapContainer = document.createElement('div');
-		this._mapContainer.classList.add('location-view-map');
+		this._mapContainer.classList.add('locationview-map');
 
 		this._map = new L.Map(this._mapContainer, {
 			zoomControl: true,
@@ -130,11 +130,11 @@ define([
 
 		this._modal = new ModalView(this._mapContainer, {
 			title: 'Specify a Location',
-			classes: ['location-view'],
+			classes: ['locationview'],
 			buttons: [
 				{
 					text: 'Use this Location',
-					classes: ['location-button'],
+					classes: ['locationview-button'],
 					callback: function () {
 						_this._options.callback(_this._locationControl.getLocation());
 						_this._modal.hide();
@@ -157,7 +157,7 @@ define([
 	 *
 	 */
 	LocationView.prototype._onLocation = function (e) {
-		var button = this._modal._el.querySelector('.location-button'),
+		var button = this._modal._el.querySelector('.locationview-button'),
 		    location;
 
 		if (e) {
@@ -169,13 +169,13 @@ define([
 		if (location) {
 			button.disabled = false;
 			button.innerHTML = 'Use this Location';
-			Util.addClass(button, 'location-button-enabled');
-			Util.removeClass(button, 'location-button-disabled');
+			Util.addClass(button, 'locationview-button-enabled');
+			Util.removeClass(button, 'locationview-button-disabled');
 		} else {
 			button.disabled = true;
 			button.innerHTML = 'No Location Selected';
-			Util.addClass(button, 'location-button-disabled');
-			Util.removeClass(button, 'location-button-enabled');
+			Util.addClass(button, 'locationview-button-disabled');
+			Util.removeClass(button, 'locationview-button-enabled');
 		}
 
 	};

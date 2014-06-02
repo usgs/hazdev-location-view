@@ -64,7 +64,9 @@
     "grunt-open": "~0.2.3",
     "grunt-text-replace": "~0.3.11",
     "grunt-contrib-requirejs": "~0.4.4",
-    "grunt-contrib-cssmin": "~0.9.0"
+    "grunt-contrib-cssmin": "~0.9.0",
+    "hazdev-webutils": "0.0.13",
+    "requirejs": "2.1.12"
   },
   "engines": {
     "node": ">=0.8.0"

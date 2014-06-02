@@ -13,86 +13,43 @@
 	}
 }
 
-.location-view {
-	position:absolute;
-	top:8px;
-	right:8px;
-	bottom:8px;
-	left:8px;
-	width:auto;
-	max-width:640px;
-	max-height:557px; // 480 + 43 + 34
-
-	> .modal-header {
-		height:43px;
-	}
-
-	> .modal-header, > .modal-footer {
-		position:relative;
-		z-index:10;
-		box-shadow:0 0 7px rgba(0, 0, 0, 0.4);
-		background-color:#FAFAFA;
-	}
-
+.locationview {
 	> .modal-content {
-		position:absolute;
-		top:43px;
-		right:0px;
-		bottom:43px;
-		left:0px;
 		margin:0;
 		padding:0;
-		max-height:none;
-
-		> .location-view-map {
-			display:block;
-			width:100%;
-			height:100%;
-		}
 	}
 
 	> .modal-footer {
-		position:absolute;
-		bottom:0;
-		left:0;
-		right:0;
-		margin:0;
-		text-align:right;
-		padding:5px;
-		font-size:12px;
-
-		> .location-button {
-			font-size:12px;
-			padding:8px 12px;
-			border:none;
-		}
-
-		> .location-button-enabled {
-			background:#2EA96A;
-			border-radius:2px;
-			color:#fff;
-			text-shadow:0 0 1px rgba(0,0,0,0.6);
-			cursor:pointer;
-
-			&:hover {
-				background-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%,
-						rgba(0,0,0,0.2) 100%);
-			}
-		}
-
-		> .location-button-disabled {
-			background:#ddd;
-			color:#333;
-		}
+		padding:0;
 	}
-
 }
 
-@media screen and (min-width:768px) {
-	.location-view {
-		top:16px;
-		right:16px;
-		bottom:16px;
-		left:16px;
+.locationview-map {
+	display:block;
+	width:100%;
+	height:100%;
+}
+
+.locationview-button {
+	font-size:12px;
+	padding:8px 12px;
+	border:none;
+}
+
+.locationview-button-enabled {
+	background:#2EA96A;
+	border-radius:2px;
+	color:#fff;
+	text-shadow:0 0 1px rgba(0,0,0,0.6);
+	cursor:pointer;
+
+	&:hover {
+		background-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%,
+				rgba(0,0,0,0.2) 100%);
 	}
+}
+
+.locationview-button-disabled {
+	background:#ddd;
+	color:#333;
 }
