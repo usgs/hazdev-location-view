@@ -42,11 +42,59 @@ define([
 			}
 		};
 
-	var GeocodeObjectHouse = {'type':'house'};
-	var GeocodeObjectCity = {'type':'city'};
-	var GeocodeObjectAdministrative = {'type':'administrative'};
-	var GeocodeObjectPostCode = {'type':'postcode'};
+	var dateTimeLineBoundingBox = {
+		'boundingbox': [
+			'50',
+			'50',
+			'-179.99',
+			'179.99',
+		]
+	};
 
+	var LowConfidenceBoundingBox = {
+		'boundingbox': [
+			'50',
+			'50',
+			'0',
+			'1'
+		]
+	};
+
+	var BelowAverageConfidenceBoundingBox = {
+		'boundingbox': [
+			'50',
+			'50',
+			'0',
+			'0.5'
+		]
+	};
+
+	var AverageConfidenceBoundingBox = {
+		'boundingbox': [
+			'50',
+			'50',
+			'0',
+			'0.05'
+		]
+	};
+
+	var AboveAverageConfidenceBoundingBox = {
+		'boundingbox': [
+			'50',
+			'50',
+			'0',
+			'0.005'
+		]
+	};
+
+	var HighConfidenceBoundingBox = {
+		'boundingbox': [
+			'50',
+			'50',
+			'0',
+			'0.0005'
+		]
+	};
 
 	describe('ConfidenceCalculator test suite', function () {
 
@@ -134,58 +182,78 @@ define([
 		});
 
 		describe('computeFromGeocode', function () {
-			it('Mapquest Example', function () {
+			it('Low Confidence', function () {
 				expect(ConfidenceCalculator.computeFromGeocode(
-						GeocodeObjectFull)).to.equal(
-						ConfidenceCalculator.NOT_COMPUTED);
+						LowConfidenceBoundingBox)).to.equal(
+						ConfidenceCalculator.LOW_CONFIDENCE);
 			});
-			it('house (High Confidence)', function () {
+			it('Below Average Confidence', function () {
 				expect(ConfidenceCalculator.computeFromGeocode(
-						GeocodeObjectHouse)).to.equal(
+						BelowAverageConfidenceBoundingBox)).to.equal(
+						ConfidenceCalculator.BELOW_AVERAGE_CONFIDENCE);
+			});
+			it('Average Confidence', function () {
+				expect(ConfidenceCalculator.computeFromGeocode(
+						AverageConfidenceBoundingBox)).to.equal(
+						ConfidenceCalculator.AVERAGE_CONFIDENCE);
+			});
+			it('Above Average Confidence', function () {
+				expect(ConfidenceCalculator.computeFromGeocode(
+						AboveAverageConfidenceBoundingBox)).to.equal(
+						ConfidenceCalculator.ABOVE_AVERAGE_CONFIDENCE);
+			});
+			it('High Confidence', function () {
+				expect(ConfidenceCalculator.computeFromGeocode(
+						HighConfidenceBoundingBox)).to.equal(
 						ConfidenceCalculator.HIGH_CONFIDENCE);
 			});
-			it('city (Average Confidence)', function () {
+			it('Crossing Date/Time Line', function () {
 				expect(ConfidenceCalculator.computeFromGeocode(
-						GeocodeObjectCity)).to.equal(
+						dateTimeLineBoundingBox)).to.equal(
 						ConfidenceCalculator.AVERAGE_CONFIDENCE);
 			});
-			it('postcode (Average Confidence)', function () {
+			it('Mapquest Example', function () {
 				expect(ConfidenceCalculator.computeFromGeocode(
-						GeocodeObjectPostCode)).to.equal(
-						ConfidenceCalculator.AVERAGE_CONFIDENCE);
-			});
-			it('administrative (Low Confidence)', function () {
-				expect(ConfidenceCalculator.computeFromGeocode(
-						GeocodeObjectAdministrative)).to.equal(
-						ConfidenceCalculator.LOW_CONFIDENCE);
+					GeocodeObjectFull)).to.equal(
+					ConfidenceCalculator.ABOVE_AVERAGE_CONFIDENCE);
 			});
 		});
 
 		describe('computeZoomFromGeocode', function () {
+			it('High Confidence (bounding box)', function () {
+				expect(ConfidenceCalculator.computeZoomFromGeocode(
+						HighConfidenceBoundingBox)).to.equal(
+						16);
+			});
+			it('Above Average Confidence (bounding box)', function () {
+				expect(ConfidenceCalculator.computeZoomFromGeocode(
+						AboveAverageConfidenceBoundingBox)).to.equal(
+						13);
+			});
+			it('Average Confidence (bounding box)', function () {
+				expect(ConfidenceCalculator.computeZoomFromGeocode(
+						AverageConfidenceBoundingBox)).to.equal(
+						9);
+			});
+			it('Below Average Confidence (bounding box)', function () {
+				expect(ConfidenceCalculator.computeZoomFromGeocode(
+						BelowAverageConfidenceBoundingBox)).to.equal(
+						5);
+			});
+			it('Low Confidence (bounding box)', function () {
+				expect(ConfidenceCalculator.computeZoomFromGeocode(
+						LowConfidenceBoundingBox)).to.equal(
+						1);
+			});
+			it('Crosses Date/Time Line (bounding box)', function () {
+				expect(ConfidenceCalculator.computeZoomFromGeocode(
+						dateTimeLineBoundingBox)).to.equal(
+						9);
+			});
 			it('Mapquest Example', function () {
 				expect(ConfidenceCalculator.computeZoomFromGeocode(
 						GeocodeObjectFull)).to.equal(
-						1);
-			});
-			it('house (High Confidence)', function () {
-				expect(ConfidenceCalculator.computeZoomFromGeocode(
-						GeocodeObjectHouse)).to.equal(
-						16);
-			});
-			it('city (Average Confidence)', function () {
-				expect(ConfidenceCalculator.computeZoomFromGeocode(
-						GeocodeObjectCity)).to.equal(
-						9);
-			});
-			it('postcode (Average Confidence)', function () {
-				expect(ConfidenceCalculator.computeZoomFromGeocode(
-						GeocodeObjectPostCode)).to.equal(
-						9);
-			});
-			it('administrative (Low Confidence)', function () {
-				expect(ConfidenceCalculator.computeZoomFromGeocode(
-						GeocodeObjectAdministrative)).to.equal(
-						1);
+						13);
 			});
 		});
 
