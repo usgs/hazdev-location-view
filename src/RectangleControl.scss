@@ -1,0 +1,51 @@
+.leaflet-rectangle-control-active {
+  cursor:crosshair;
+
+  .leaflet-rectangle-control > .leaflet-rectangle-control-icon {
+    background-color: #fafafa;
+      box-shadow:inset 1px 1px 3px #333;
+  }
+}
+
+.leaflet-rectangle-control {
+  position:relative;
+
+  > .leaflet-rectangle-control-icon {
+    display:block;
+    width:30px;
+    height:30px;
+    background-color:#FFF;
+    cursor:pointer;
+    border-radius:2px;
+    box-shadow:1px 1px 3px #333;
+
+
+    color:#222;
+    font-weight:bold;
+    text-align:center;
+    line-height:30px;
+
+    &:active {
+    }
+  }
+
+  > .help {
+    position:absolute;
+    display:none;
+    left: 40px;
+    top:0;
+    padding:0 4px;
+    border-radius:2px;
+    line-height:30px;
+    text-align:center;
+    font-size:12px;
+    color:#000;
+    background:rgba(255, 255, 255, 0.8);
+    box-shadow:0 1px 1px rgba(0,0,0,0.3);
+    white-space:nowrap;
+  }
+
+  &:hover > .help {
+    display:block;
+  }
+}
