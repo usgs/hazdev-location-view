@@ -19,9 +19,9 @@ define([
     var _this,
         _initialize;
 
-    options = Util.extend({}, DEFAULTS, options || {});
+    options = Util.extend({}, DEFAULTS, options);
 
-    _this = Object.create(new Model());
+    _this = Object.create(new Model(options));
 
     _initialize = function () {
     };
