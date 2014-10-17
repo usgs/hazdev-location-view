@@ -4,13 +4,13 @@ define([
   'leaflet',
 
   'RectangleModel',
-  'RectangleView'
+  'RectangleOverlayView'
 ], function (
   Util,
   L,
 
   RectangleModel,
-  RectangleView
+  RectangleOverlayView
 ) {
   'use strict';
 
@@ -37,10 +37,29 @@ define([
       L.setOptions(this, Util.extend({}, DEFAULTS, options||{}));
 
       this._model = this.options.model || RectangleModel();
-      this._view = this.options.view || new RectangleView({
+      this._view = this.options.view || new RectangleOverlayView({
         model: this._model,
         rectangleOptions: this.options.rectangleOptions
       });
+
+      this._model.on('change', this._onModelChange, this);
+    },
+
+    reset: function () {
+      var map = this._map;
+
+      if (!map) {
+        return;
+      }
+
+      try {
+        map.off('click', this._onClick, this);
+      } catch (e) { /* Ignore */ }
+      try {
+        map.off('mousemove', this._onMouseMove, this);
+      } catch (e) { /* Ignore */ }
+
+      map.getContainer().classList.remove(ACTIVE_CLASS_NAME);
     },
 
     onAdd: function (map) {
@@ -66,6 +85,11 @@ define([
       L.DomEvent.addListener(container, 'keyup', stop);
       L.DomEvent.addListener(container, 'keypress', stop);
       L.DomEvent.addListener(container, 'mousedown', stop);
+
+      if (this._model.get('north') || this._model.get('south') ||
+          this._model.get('east') || this._model.get('west')) {
+        this._map.addLayer(this._view);
+      }
 
       return container;
     },
@@ -101,6 +125,7 @@ define([
       } catch (e) { /* Ignore */ }
 
       this._vertices = [];
+      this._model.set({north:null,south:null,east:null,west:null});
 
       if (map.hasLayer(this._view)) {
         map.removeLayer(this._view);
@@ -109,6 +134,26 @@ define([
       mapContainer.classList.add(ACTIVE_CLASS_NAME);
 
       map.on('click', this._onClick, this);
+    },
+
+    _onModelChange: function () {
+      var map = this._map,
+          model = this._model,
+          view = this._view,
+          north = model.get('north'),
+          south = model.get('south'),
+          east = model.get('east'),
+          west = model.get('west');
+
+      if (map) {
+        if (map.hasLayer(view) && north === null && south === null &&
+            east === null && west === null) {
+          map.removeLayer(view);
+        } else if (!map.hasLayer(view) && (north !== null || south !== null ||
+            east !== null || west !== null)) {
+          map.addLayer(view);
+        }
+      }
     },
 
     _onMouseMove: function (evt) {
