@@ -23,31 +23,27 @@ define([
     },
     topGripper: {
       icon: L.divIcon({
-        iconSize: [11, 11],
-        iconAnchor: [21, 21],
+        iconSize: [46, 46],
         className: CLASS_ICON_NAME + ' ' + CLASS_ICON_TOP_NAME
       })
     },
     bottomGripper: {
       icon: L.divIcon({
-        iconSize: [11, 11],
-        iconAnchor: [21, 21],
+        iconSize: [46, 46],
         className: CLASS_ICON_NAME + ' ' + CLASS_ICON_BOTTOM_NAME
       })
 
     },
     rightGripper: {
       icon: L.divIcon({
-        iconSize: [11, 11],
-        iconAnchor: [21, 21],
+        iconSize: [46, 46],
         className: CLASS_ICON_NAME + ' ' + CLASS_ICON_RIGHT_NAME
       })
 
     },
     leftGripper: {
       icon: L.divIcon({
-        iconSize: [11, 11],
-        iconAnchor: [21, 21],
+        iconSize: [46, 46],
         className: CLASS_ICON_NAME + ' ' + CLASS_ICON_LEFT_NAME
       })
 
@@ -61,13 +57,9 @@ define([
     }
   };
 
-  var RectangleView = L.LayerGroup.extend({
+  var RectangleOverlayView = L.LayerGroup.extend({
 
     initialize: function (options) {
-      var north,
-          south,
-          east,
-          west;
 
       L.Util.setOptions(this, Util.extend({}, DEFAULTS, options));
 
@@ -212,5 +204,5 @@ define([
     }
   });
 
-  return RectangleView;
+  return RectangleOverlayView;
 });
