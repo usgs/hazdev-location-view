@@ -1,0 +1,22 @@
+.rectangle-coordinate-view {
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow:1px 1px 3px #000;
+  width:10em;
+  height:5em;
+  padding:4px;
+
+  > span {
+    display:inline-block;
+    width:100%;
+    margin:0 auto;
+    text-align:center;
+    font-size:.9em;
+
+    &.rectangle-coordinate-view-east,
+    &.rectangle-coordinate-view-west {
+      width: 50%;
+    }
+
+  }
+}
