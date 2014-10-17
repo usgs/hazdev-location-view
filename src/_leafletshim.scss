@@ -1,0 +1,88 @@
+$border-radius: 2px;
+$button-size: 30px;
+
+@mixin basic-control () {
+  background-color:#fff;
+  border-radius:$border-radius;
+  box-shadow:1px 1px 3px #333;
+}
+
+@mixin basic-control-button ($size) {
+  display: block;
+  width: $size;
+  height: $size;
+  cursor: pointer;
+  color: #222;
+  font-weight: bold;
+  text-align: center;
+  line-height: $size;
+  border-radius: $border-radius;
+
+  &:hover {
+    width: $size;
+    height: $size;
+    line-height: $size;
+    border-radius: $border-radius;
+    color: #000;
+  }
+}
+
+@mixin basic-control-button-sunken () {
+  background-color: #fafafa;
+  box-shadow: inset 1px 1px 3px #333;
+}
+
+@mixin basic-control-tooltip () {
+  position: absolute;
+  display: none;
+  left: $button-size + 10px;
+  top: 0;
+  padding: 0 4px;
+  border-radius: 2px;
+  line-height: $button-size;
+  text-align: center;
+  font-size: 12px;
+  color: #000;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 1px 1px rgba(0,0,0,0.3);
+  white-space: nowrap;
+}
+
+@mixin basic-control-tooltip-hover () {
+  display:block;
+}
+
+.leaflet-control {
+  @include basic-control();
+
+  > a {
+    @include basic-control-button($button-size);
+  }
+
+  > .help {
+    @include basic-control-tooltip();
+  }
+
+  &:hover .help {
+    @include basic-control-tooltip-hover();
+  }
+}
+
+.leaflet-control-scale {
+  padding: 4px 6px;
+
+  > div {
+    background-color: transparent;
+    box-shadow: none !important;
+  }
+}
+
+.leaflet-left .leaflet-control-scale {
+  margin-left:10px;
+}
+.leaflet-bottom .leaflet-control-scale {
+  margin-bottom:10px;
+}
+.leaflet-right .leaflet-control-scale {
+  margin-right:10px;
+}
