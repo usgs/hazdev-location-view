@@ -10,8 +10,10 @@ define([
 	'use strict';
 
 	var CLASS_NAME = 'leaflet-geolocation-control';
+	var METHOD = 'geolocation';
 
 	var DEFAULTS = {
+		'method': METHOD,
 		'geolocation': navigator.geolocation,
 		'position': 'topleft',
 		'iconClass': 'leaflet-control-icon',
@@ -19,7 +21,6 @@ define([
 		'infoText': 'Attempt to automatically locate my <b>current location</b>.'
 	};
 
-	var METHOD = 'geolocation';
 
 
 	/**

@@ -189,7 +189,7 @@ define([
 					controlEl.setAttribute('data-index', index);
 					controlEl.innerHTML = [
 						'<span title="', controlOptions.helpText, '"',
-								' class="icon ', controlOptions.iconClass, '"></span>',
+								' class="icon ', controlOptions.iconClass, '-', controlOptions.method, '"></span>',
 						'<p>', controlOptions.infoText, '</p>'
 					].join('');
 					L.DomEvent.addListener(controlEl, 'click', control.enable, control);

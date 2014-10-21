@@ -18,6 +18,7 @@ define([
 	var METHOD = 'coordinate';
 
 	var DEFAULTS = {
+		'method': METHOD,
 		'position': 'topleft',
 		'defaultEnabled': false,
 		'iconClass': 'leaflet-control-icon',

@@ -14,7 +14,10 @@ define([
 	    CLASS_INPUT = 'leaflet-control-input',
 	    CLASS_SUBMIT = 'leaflet-control-submit';
 
+	var METHOD = 'geocode';
+
 	var DEFAULT_OPTIONS = {
+		method: METHOD,
 		position: 'topleft',
 		defaultLocation: null,
 		defaultEnabled: false,
