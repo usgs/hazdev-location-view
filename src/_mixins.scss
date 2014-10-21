@@ -87,7 +87,7 @@
     display:inline-block;
     top:0;
     right:0;
-    left:224px;
+    left:220px;
 
     &:active {
       background-color:#999
@@ -96,7 +96,7 @@
 }
 
 @mixin expandable-leaflet-control-enabled ($x, $y) {
-  width: 284px;
+  width: 280px;
 
   > .leaflet-control-icon {
     background-position: $x $y;
