@@ -2,20 +2,20 @@
 
 .leaflet-geocode-control {
 
-	> .leaflet-control-icon {
-		@include basic-control-button-background(-24px, 2px);
-	}
+  > .leaflet-control-icon {
+    @include basic-control-button-background(-24px, 2px);
+  }
 
-	.leaflet-control-input {
-		@include expandable-leaflet-control();
+  > .leaflet-control-input {
+    @include expandable-leaflet-control();
 
-		> .address {
-			width:199px;
-			left: 30px;
-		}
-	}
+    > .address {
+      width:199px;
+      left: 30px;
+    }
+  }
 }
 
 .leaflet-geocode-control-enabled {
-	@include expandable-leaflet-control-enabled(-24px, -24px);
+  @include expandable-leaflet-control-enabled(-24px, -24px);
 }

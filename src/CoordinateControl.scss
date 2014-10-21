@@ -2,28 +2,27 @@
 
 .leaflet-coordinate-control {
 
-	> .leaflet-control-icon {
-		@include basic-control-button-background(2px, 2px);
-	}
+  > .leaflet-control-icon {
+    @include basic-control-button-background(2px, 2px);
+  }
 
-	> .leaflet-control-input {
-		@include expandable-leaflet-control();
+  > .leaflet-control-input {
+    @include expandable-leaflet-control();
 
-		> input {
-			width:99px;
+    > input {
+      width:99px;
 
-			&.latitude {
-				left:30px;
-			}
-			&.longitude {
-				left:126px
-			}
-		}
-	}
+      &.latitude {
+        left:30px;
+      }
+      &.longitude {
+        left:126px
+      }
+    }
+  }
 }
-
 
 /** Styles for when the input is expanded **/
 .leaflet-coordinate-control-enabled {
-	@include expandable-leaflet-control-enabled(2px, -24px);
+  @include expandable-leaflet-control-enabled(2px, -24px);
 }
