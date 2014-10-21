@@ -1,6 +1,5 @@
 @import 'RectangleOverlayView';
-@import '_leafletshim';
-
+@import '_mixins';
 
 .leaflet-rectangle-control-active {
   cursor:crosshair;

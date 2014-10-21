@@ -1,25 +1,21 @@
+@import '_mixins';
+
 // class added to map container to show custom cursor
 .leaflet-point-control-location {
-	cursor:crosshair;
-	cursor:url(cursor.cur) 16 32, auto;
-
+  cursor:crosshair;
+  cursor:url(cursor.cur) 16 32, auto;
 }
 
 // icon for point control
 .leaflet-point-control {
 
-	> .leaflet-point-control-icon {
-		background-image: url(location-view-icons.png);
-		background-size: 104px 52px;
-		background-repeat: no-repeat;
-		background-position: -76px 2px;
-	}
+  > .leaflet-point-control-icon {
+    @extend .leaflet-location-icon;
+    background-position: -76px 2px;
+  }
 }
 
 // icon for point control, when enabled
-.leaflet-point-control-enabled {
-
-	> .leaflet-point-control-icon {
-		background-position: -76px -24px;
-	}
+.leaflet-point-control-enabled > .leaflet-point-control-icon {
+  background-position: -76px -24px;
 }

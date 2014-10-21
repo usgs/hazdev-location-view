@@ -1,0 +1,47 @@
+@import '_mixins';
+
+$border-radius: 2px;
+$button-size: 30px;
+
+* {
+  box-sizing: border-box;
+}
+
+.leaflet-control {
+  @include basic-control();
+
+  > a {
+    @include basic-control-button($button-size);
+  }
+
+  > .help {
+    @include basic-control-tooltip();
+  }
+
+  &:hover .help {
+    @include basic-control-tooltip-hover();
+  }
+}
+
+.leaflet-control-scale {
+  padding: 4px 6px;
+
+  > div {
+    background-color: transparent;
+    box-shadow: none !important;
+  }
+}
+
+.leaflet-left .leaflet-control-scale {
+  margin-left:10px;
+}
+.leaflet-bottom .leaflet-control-scale {
+  margin-bottom:10px;
+}
+.leaflet-right .leaflet-control-scale {
+  margin-right:10px;
+}
+
+.leaflet-touch .leaflet-control-zoom {
+  display:none;
+}
