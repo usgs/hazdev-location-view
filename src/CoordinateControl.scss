@@ -3,8 +3,8 @@
 .leaflet-coordinate-control {
 
 	> .leaflet-coordinate-control-icon {
-    @extend .leaflet-location-icon;
-    background-position: 2px 2px;
+		@extend .leaflet-location-icon;
+		background-position: 2px 2px;
 	}
 
 	> .leaflet-coordinate-control-input {

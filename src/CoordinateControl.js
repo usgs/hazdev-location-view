@@ -48,7 +48,7 @@ define([
 							'placeholder="Latitude" />',
 					'<input name="longitude" title="longitude" class="longitude" ',
 							'placeholder="Longitude" />',
-					'<button class="coordinate-submit">Search</button>',
+					'<button type="search" class="coordinate-submit">Search</button>',
 				'</div>'
 			].join('');
 

@@ -54,33 +54,40 @@ define([
 		onAdd: function (map) {
 			var options = this.options,
 			    container,
+			    control,
 			    toggle,
-			    textInput,
-			    searchButton,
+			    address,
+			    submit,
 			    stop;
 
 			container = document.createElement('div');
-			container.className = CLASS_NAME;
+			container.classList.add(CLASS_NAME);
 			container.innerHTML = [
 				'<a class="', options.iconClass, '"></a>',
 				'<span class="help">', options.helpText, '</span>',
-				'<input class="', CLASS_INPUT, '" placeholder="Address"/>',
-				'<button class="', CLASS_SUBMIT, '">Search</button>'
+				'<div class="', CLASS_INPUT, '">',
+					'<input name="address" title="address" class="address" ',
+							'placeholder="Address"/>',
+					'<button type="search" class="', CLASS_SUBMIT, '">Search</button>',
+				'</div>'
 			].join('');
 
+
 			toggle = container.querySelector('a');
-			textInput = container.querySelector('.' + CLASS_INPUT);
-			searchButton = container.querySelector('.' + CLASS_SUBMIT);
+			control = container.querySelector('.' + CLASS_INPUT);
+			address = control.querySelector('.address');
+			submit = container.querySelector('.' + CLASS_SUBMIT);
 			stop = L.DomEvent.stopPropagation;
 
 			this._container = container;
 			this._toggle = toggle;
-			this._textInput = textInput;
-			this._searchButton = searchButton;
+			this._control = control;
+			this._address = address;
+			this._submit = submit;
 			this._map = map;
 
-			L.DomEvent.addListener(textInput, 'keyup', this._onKeyUp, this);
-			L.DomEvent.addListener(searchButton, 'click', this._onSearchClick, this);
+			L.DomEvent.addListener(address, 'keyup', this._onKeyUp, this);
+			L.DomEvent.addListener(submit, 'click', this._onSearchClick, this);
 			L.DomEvent.addListener(toggle, 'click', this.toggle, this);
 			L.DomEvent.addListener(container, 'click', stop);
 			L.DomEvent.addListener(container, 'dblclick', stop);
@@ -88,7 +95,7 @@ define([
 			L.DomEvent.addListener(container, 'keyup', stop);
 			L.DomEvent.addListener(container, 'keypress', stop);
 			L.DomEvent.addListener(container, 'mousedown', stop);
-			L.DomEvent.addListener(textInput, 'touchstart', stop);
+			L.DomEvent.addListener(address, 'touchstart', stop);
 
 			return container;
 		},
@@ -97,11 +104,11 @@ define([
 			var stop = L.DomEvent.stopPropagation,
 			    container = this._container,
 			    toggle = this._toggle,
-			    textInput = this._textInput,
-			    searchButton = this._searchButton;
+			    address = this._address,
+			    submit = this._submit;
 
-			L.DomEvent.removeListener(textInput, 'keyup', this._onKeyUp);
-			L.DomEvent.removeListener(searchButton, 'click', this._onSearchClick);
+			L.DomEvent.removeListener(address, 'keyup', this._onKeyUp);
+			L.DomEvent.removeListener(submit, 'click', this._onSearchClick);
 			L.DomEvent.removeListener(toggle, 'click', this.toggle);
 			L.DomEvent.removeListener(container, 'click', stop);
 			L.DomEvent.removeListener(container, 'dblclick', stop);
@@ -109,7 +116,7 @@ define([
 			L.DomEvent.removeListener(container, 'keyup', stop);
 			L.DomEvent.removeListener(container, 'keypress', stop);
 			L.DomEvent.removeListener(container, 'mousedown', stop);
-			L.DomEvent.removeListener(textInput, 'touchstart', stop);
+			L.DomEvent.removeListener(address, 'touchstart', stop);
 		},
 
 		_doGeocode: function (textAddress) {
@@ -120,13 +127,13 @@ define([
 
 		_onKeyUp: function (keyEvent) {
 			if (keyEvent.keyCode === 13 && this._textInput.value !== '') {
-				this._doGeocode(this._textInput.value);
+				this._doGeocode(this._address.value);
 			}
 		},
 
 		_onSearchClick: function (/*clickEvent*/) {
-			if (this._textInput.value !== '') {
-				this._doGeocode(this._textInput.value);
+			if (this._address.value !== '') {
+				this._doGeocode(this._address.value);
 			}
 		},
 
@@ -140,7 +147,7 @@ define([
 
 		enable: function () {
 			L.DomUtil.addClass(this._container, CLASS_ENABLED);
-			this._textInput.focus();
+			this._address.focus();
 
 			this.fire('enabled');
 		},
@@ -167,13 +174,13 @@ define([
 		_setLoading: function (loading) {
 			if (loading) {
 				L.DomUtil.addClass(this._container, 'loading');
-				this._textInput.disabled = true;
-				this._searchButton.disabled = true;
+				this._address.disabled = true;
+				this._submit.disabled = true;
 			} else {
 				L.DomUtil.removeClass(this._container, 'loading');
-				this._textInput.disabled = false;
-				this._searchButton.disabled = false;
-				this._textInput.focus();
+				this._address.disabled = false;
+				this._submit.disabled = false;
+				this._address.focus();
 			}
 		}
 	});
