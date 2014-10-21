@@ -24,6 +24,13 @@
   }
 }
 
+@mixin basic-control-button-background ($x, $y) {
+  background-image: url(location-view-icons.png);
+  background-position: $x $y;
+  background-repeat: no-repeat;
+  background-size: 104px 52px;
+}
+
 @mixin basic-control-button-sunken () {
   background-color: #fafafa;
   box-shadow: inset 1px 1px 3px #333;
@@ -49,10 +56,62 @@
   display:block;
 }
 
+@mixin expandable-leaflet-control () {
+  display:none;
+  position:absolute;
+  top:0;
+  left:0;
 
-// extended by different controls
-.leaflet-location-icon {
-  background-image: url(location-view-icons.png);
-  background-repeat: no-repeat;
-  background-size: 104px 52px;
+  > input,
+  > button {
+    margin:0;
+    padding:0;
+    height:30px;
+    outline:none;
+    border:none
+  }
+
+  > input {
+    padding: 0 10px;
+    border-left:1px solid #ccc;
+    position:absolute;
+  }
+
+  > button {
+    width:60px;
+    border:1px solid #fff;
+    border-radius: 0 2px 2px 0;
+    background-color:#ddd;
+    cursor:pointer;
+    position:absolute;
+    display:inline-block;
+    top:0;
+    right:0;
+    left:224px;
+
+    &:active {
+      background-color:#999
+    }
+  }
 }
+
+@mixin expandable-leaflet-control-enabled ($x, $y) {
+  width: 284px;
+
+  > .leaflet-control-icon {
+    background-position: $x $y;
+    border-radius:4px 0 0 4px;
+
+    &:hover {
+      cursor:pointer;
+      border-radius:4px 0 0 4px;
+    }
+  }
+
+  > .leaflet-control-input {
+    border-radius:0;
+    display:inline-block;
+    border-radius:0 4px 4px 0;
+  }
+}
+

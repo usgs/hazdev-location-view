@@ -19,7 +19,7 @@ define([
 		position: 'topleft',
 		defaultLocation: null,
 		defaultEnabled: false,
-		iconClass: CLASS_NAME + '-icon',
+		iconClass: 'leaflet-control-icon',
 		helpText: 'Drop Pin',
 		infoText: '<b>Drop pin</b> on the map to specify a location.'
 	};

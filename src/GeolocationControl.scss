@@ -2,8 +2,7 @@
 
 .leaflet-geolocation-control {
 
-  > .leaflet-geolocation-control-icon {
-    @extend .leaflet-location-icon;
-    background-position: -50px 2px;
+  > .leaflet-control-icon {
+    @include basic-control-button-background(-50px, 2px);
   }
 }

@@ -11,14 +11,14 @@ define([
 
 	var CLASS_NAME = 'leaflet-geocode-control',
 	    CLASS_ENABLED = CLASS_NAME + '-enabled',
-	    CLASS_INPUT = CLASS_NAME + '-input',
-	    CLASS_SUBMIT = CLASS_NAME + '-submit';
+	    CLASS_INPUT = 'leaflet-control-input',
+	    CLASS_SUBMIT = 'leaflet-control-submit';
 
 	var DEFAULT_OPTIONS = {
 		position: 'topleft',
 		defaultLocation: null,
 		defaultEnabled: false,
-		iconClass: CLASS_NAME + '-icon',
+		iconClass: 'leaflet-control-icon',
 		helpText: 'Search for Address',
 		infoText: '<b>Search</b> for a location using an <b>address</b>.'
 	};
@@ -37,9 +37,9 @@ define([
 			this._location = location;
 
 			if (!location || !location.hasOwnProperty('place')) {
-				this._textInput.value = '';
+				this._address.value = '';
 			} else {
-				this._textInput.value = location.place;
+				this._address.value = location.place;
 			}
 
 			if (!(options && options.silent)) {
@@ -53,12 +53,10 @@ define([
 
 		onAdd: function (map) {
 			var options = this.options,
+			    stop = L.DomEvent.stopPropagation,
 			    container,
 			    control,
-			    toggle,
-			    address,
-			    submit,
-			    stop;
+			    toggle;
 
 			container = document.createElement('div');
 			container.classList.add(CLASS_NAME);
@@ -72,22 +70,18 @@ define([
 				'</div>'
 			].join('');
 
-
 			toggle = container.querySelector('a');
 			control = container.querySelector('.' + CLASS_INPUT);
-			address = control.querySelector('.address');
-			submit = container.querySelector('.' + CLASS_SUBMIT);
-			stop = L.DomEvent.stopPropagation;
 
 			this._container = container;
 			this._toggle = toggle;
 			this._control = control;
-			this._address = address;
-			this._submit = submit;
+			this._address = control.querySelector('.address');
+			this._submit = container.querySelector('.' + CLASS_SUBMIT);
 			this._map = map;
 
-			L.DomEvent.addListener(address, 'keyup', this._onKeyUp, this);
-			L.DomEvent.addListener(submit, 'click', this._onSearchClick, this);
+			L.DomEvent.addListener(this._address, 'keyup', this._onKeyUp, this);
+			L.DomEvent.addListener(this._submit, 'click', this._onSearchClick, this);
 			L.DomEvent.addListener(toggle, 'click', this.toggle, this);
 			L.DomEvent.addListener(container, 'click', stop);
 			L.DomEvent.addListener(container, 'dblclick', stop);
@@ -95,7 +89,7 @@ define([
 			L.DomEvent.addListener(container, 'keyup', stop);
 			L.DomEvent.addListener(container, 'keypress', stop);
 			L.DomEvent.addListener(container, 'mousedown', stop);
-			L.DomEvent.addListener(address, 'touchstart', stop);
+			L.DomEvent.addListener(this._address, 'touchstart', stop);
 
 			return container;
 		},
@@ -103,12 +97,10 @@ define([
 		onRemove: function () {
 			var stop = L.DomEvent.stopPropagation,
 			    container = this._container,
-			    toggle = this._toggle,
-			    address = this._address,
-			    submit = this._submit;
+			    toggle = this._toggle;
 
-			L.DomEvent.removeListener(address, 'keyup', this._onKeyUp);
-			L.DomEvent.removeListener(submit, 'click', this._onSearchClick);
+			L.DomEvent.removeListener(this._address, 'keyup', this._onKeyUp);
+			L.DomEvent.removeListener(this._submit, 'click', this._onSearchClick);
 			L.DomEvent.removeListener(toggle, 'click', this.toggle);
 			L.DomEvent.removeListener(container, 'click', stop);
 			L.DomEvent.removeListener(container, 'dblclick', stop);
@@ -116,7 +108,7 @@ define([
 			L.DomEvent.removeListener(container, 'keyup', stop);
 			L.DomEvent.removeListener(container, 'keypress', stop);
 			L.DomEvent.removeListener(container, 'mousedown', stop);
-			L.DomEvent.removeListener(address, 'touchstart', stop);
+			L.DomEvent.removeListener(this._address, 'touchstart', stop);
 		},
 
 		_doGeocode: function (textAddress) {
@@ -126,7 +118,7 @@ define([
 		},
 
 		_onKeyUp: function (keyEvent) {
-			if (keyEvent.keyCode === 13 && this._textInput.value !== '') {
+			if (keyEvent.keyCode === 13 && this._address.value !== '') {
 				this._doGeocode(this._address.value);
 			}
 		},

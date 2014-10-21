@@ -2,73 +2,20 @@
 
 .leaflet-geocode-control {
 
-	> .leaflet-geocode-control-icon {
-		@extend .leaflet-location-icon;
-		background-position: -24px 2px;
+	> .leaflet-control-icon {
+		@include basic-control-button-background(-24px, 2px);
 	}
 
-	.leaflet-geocode-control-input {
-		display:none;
-		position:absolute;
-		top:0;
-		left:0;
+	.leaflet-control-input {
+		@include expandable-leaflet-control();
 
-		> input,
-		> button {
-			margin:0;
-			padding:0;
-			height:30px;
-			outline:none;
-			border:none
-		}
-
-		> input {
-			padding: 0 10px;
+		> .address {
 			width:199px;
-			border-left:1px solid #ccc;
-			position:absolute;
-
-			&.address {
-				left: 30px;
-			}
-		}
-
-		> button {
-			width:60px;
-			border:1px solid #fff;
-			border-radius: 0 2px 2px 0;
-			background-color:#ddd;
-			cursor:pointer;
-			position:absolute;
-			display:inline-block;
-			top:0;
-			right:0;
-			left:224px;
-
-			&:active {
-				background-color:#999
-			}
+			left: 30px;
 		}
 	}
 }
 
-
 .leaflet-geocode-control-enabled {
-	width: 284px;
-
-	> .leaflet-geocode-control-icon {
-		background-position: -24px -24px;
-		border-radius:4px 0 0 4px;
-
-		&:hover {
-			cursor:pointer;
-			border-radius:4px 0 0 4px;
-		}
-	}
-
-	> .leaflet-geocode-control-input {
-		border-radius:0;
-		display:inline-block;
-		border-radius:0 4px 4px 0;
-	}
+	@include expandable-leaflet-control-enabled(-24px, -24px);
 }
