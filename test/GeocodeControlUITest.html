@@ -55,7 +55,11 @@
 			map.addControl(gc);
 
 			gc.on('location', function (loc) {
-				marker.setLatLng(new L.LatLng(loc.latitude, loc.longitude));
+				var location;
+				if (loc.location) {
+					location = loc.location;
+				}
+				marker.setLatLng(new L.LatLng(location.latitude, location.longitude));
 				if (! marker._map) {
 					map.addLayer(marker);
 				}
