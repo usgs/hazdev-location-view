@@ -176,7 +176,7 @@ define([
 			    list;
 
 			panel = document.createElement('div');
-			panel.classList.add('information-panel');
+			panel.classList.add('information-list-mask');
 			panel.innerHTML = '<ul class="information-list"></ul>';
 			list = panel.querySelector('.information-list');
 
