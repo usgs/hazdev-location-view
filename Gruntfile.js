@@ -177,8 +177,9 @@ module.exports = function (grunt) {
 				rename: function () { return '<%= app.dist %>/index.html'; }
 			}
 		},
+
 		requirejs: {
-			build: {
+			'build-location-view': {
 				options: {
 					baseUrl: '<%= app.src %>',
 					name: 'LocationView',
@@ -191,7 +192,20 @@ module.exports = function (grunt) {
 					]
 				}
 			},
-			'build-webutils': {
+			'build-region-view': {
+				options: {
+					baseUrl: '<%= app.src %>',
+					name: 'RegionView',
+					out: '<%= app.dist %>/RegionView.js',
+					paths: requirePaths,
+					exclude: [
+						'leaflet',
+						'util/Util',
+						'mvc/ModalView'
+					]
+				}
+			},
+			'build-webutils-location-view': {
 				options: {
 					baseUrl: '<%= app.src %>',
 					name: 'LocationView',
@@ -202,7 +216,18 @@ module.exports = function (grunt) {
 					]
 				}
 			},
-			'build-leaflet': {
+			'build-webutils-region-view': {
+				options: {
+					baseUrl: '<%= app.src %>',
+					name: 'RegionView',
+					out: '<%= app.dist %>/RegionView.js',
+					paths: requirePaths,
+					exclude: [
+						'leaflet',
+					]
+				}
+			},
+			'build-leaflet-location-view': {
 				options: {
 					baseUrl: '<%= app.src %>',
 					name: 'LocationView',
@@ -214,7 +239,19 @@ module.exports = function (grunt) {
 					]
 				}
 			},
-			'build-all': {
+			'build-leaflet-region-view': {
+				options: {
+					baseUrl: '<%= app.src %>',
+					name: 'RegionView',
+					out: '<%= app.dist %>/RegionView.js',
+					paths: requirePaths,
+					exclude: [
+						'util/Util',
+						'mvc/ModalView'
+					]
+				}
+			},
+			'build-all-location-view': {
 				options: {
 					baseUrl: '<%= app.src %>',
 					name: 'LocationView',
@@ -227,7 +264,19 @@ module.exports = function (grunt) {
 					}
 				}
 			},
-
+			'build-all-region-view': {
+				options: {
+					baseUrl: '<%= app.src %>',
+					name: 'RegionView',
+					out: '<%= app.dist %>/RegionView.js',
+					paths: requirePaths,
+					shim: {
+						'leaflet': {
+							exports: 'L'
+						}
+					}
+				}
+			},
 			webutils: {
 				options: {
 					baseUrl: 'node_modules/hazdev-webutils/src',
@@ -269,6 +318,9 @@ module.exports = function (grunt) {
 				files: {
 					'<%= app.dist %>/LocationView.css': [
 						'<%= app.tmp %>/LocationView.css'
+					],
+					'<%= app.dist %>/RegionView.css': [
+						'<%= app.tmp %>/RegionView.css'
 					]
 				}
 			},
@@ -278,6 +330,10 @@ module.exports = function (grunt) {
 					'<%= app.dist %>/LocationView.css': [
 						'node_modules/leaflet/dist/leaflet.css',
 						'<%= app.tmp %>/LocationView.css'
+					],
+					'<%= app.dist %>/RegionView.css': [
+						'node_modules/leaflet/dist/leaflet.css',
+						'<%= app.tmp %>/RegionView.css'
 					]
 				}
 			},
@@ -287,6 +343,10 @@ module.exports = function (grunt) {
 					'<%= app.dist %>/LocationView.css': [
 						'node_modules/hazdev-webutils/src/mvc/ModalView.css',
 						'<%= app.tmp %>/LocationView.css'
+					],
+					'<%= app.dist %>/RegionView.css': [
+						'node_modules/hazdev-webutils/src/mvc/ModalView.css',
+						'<%= app.tmp %>/RegionView.css'
 					]
 				}
 			},
@@ -297,6 +357,11 @@ module.exports = function (grunt) {
 						'node_modules/leaflet/dist/leaflet.css',
 						'node_modules/hazdev-webutils/src/mvc/ModalView.css',
 						'<%= app.tmp %>/LocationView.css'
+					],
+					'<%= app.dist %>/RegionView.css': [
+						'node_modules/leaflet/dist/leaflet.css',
+						'node_modules/hazdev-webutils/src/mvc/ModalView.css',
+						'<%= app.tmp %>/RegionView.css'
 					]
 				}
 			},
@@ -351,7 +416,8 @@ module.exports = function (grunt) {
 			// No target specified, build minimal dist
 			Array.prototype.push.apply(tasks, [
 				'cssmin:build',
-				'requirejs:build',
+				'requirejs:build-location-view',
+				'requirejs:build-region-view',
 
 				'requirejs:webutils',
 				'cssmin:webutils',
@@ -366,7 +432,8 @@ module.exports = function (grunt) {
 			// Leaflet target specified, build leaflet dist
 			Array.prototype.push.apply(tasks, [
 				'cssmin:build-leaflet',
-				'requirejs:build-leaflet',
+				'requirejs:build-leaflet-location-view',
+				'requirejs:build-leaflet-region-view',
 				'copy:leaflet-images',
 
 				'requirejs:webutils',
@@ -378,7 +445,8 @@ module.exports = function (grunt) {
 			// Web utils specified, build webutils dist
 			Array.prototype.push.apply(tasks, [
 				'cssmin:build-webutils',
-				'requirejs:build-webutils',
+				'requirejs:build-webutils-location-view',
+				'requirejs:build-webutils-region-view',
 
 				'requirejs:leaflet',
 				'cssmin:leaflet',
@@ -390,7 +458,8 @@ module.exports = function (grunt) {
 			// All specified, build full dist
 			Array.prototype.push.apply(tasks, [
 				'cssmin:build-all',
-				'requirejs:build-all',
+				'requirejs:build-all-location-view',
+				'requirejs:build-all-region-view',
 				'copy:leaflet-images',
 
 				'copy:index-all'
