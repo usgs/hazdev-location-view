@@ -99,6 +99,33 @@ define([
           [this._top, this._bottom, this._left, this._right, this._rectangle]);
     },
 
+    destroy: function () {
+      // remove bindings
+      this._model.off('change', this.render, this);
+
+      this._top.off('dragstart', this._onDragStart, this);
+      this._bottom.off('dragstart', this._onDragStart, this);
+      this._right.off('dragstart', this._onDragStart, this);
+      this._left.off('dragstart', this._onDragStart, this);
+
+      this._top.off('drag', this._onDrag, this);
+      this._bottom.off('drag', this._onDrag, this);
+      this._right.off('drag', this._onDrag, this);
+      this._left.off('drag', this._onDrag, this);
+
+      this._top.off('dragend', this._onDragEnd, this);
+      this._bottom.off('dragend', this._onDragEnd, this);
+      this._right.off('dragend', this._onDragEnd, this);
+      this._left.off('dragend', this._onDragEnd, this);
+
+      // clean up variables
+      this._top = null;
+      this._bottom = null;
+      this._right = null;
+      this._left = null;
+      this._rectangle = null;
+    },
+
     onAdd: function (map) {
       //this._model.on('change', this.render, this);
       L.LayerGroup.prototype.onAdd.call(this, map);

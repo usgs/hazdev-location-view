@@ -45,6 +45,15 @@ define([
       this._model.on('change', this._onModelChange, this);
     },
 
+    destroy: function () {
+      this.onRemove();
+      // clean up additional bindings
+      this._map.off('click', this._onClick, this);
+      this._map.off('click', this.displayInstruction, this);
+      this._map.off('mousemove', this._onMouseMove, this);
+      this._model.off('change', this._onModelChange, this);
+    },
+
     onAdd: function (map) {
       var container = document.createElement('div'),
           button = container.appendChild(document.createElement('a')),
