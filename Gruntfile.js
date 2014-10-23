@@ -365,7 +365,6 @@ module.exports = function (grunt) {
           ]
         }
       },
-
       webutils: {
         expand: true,
         files: {
@@ -461,7 +460,6 @@ module.exports = function (grunt) {
         'requirejs:build-all-location-view',
         'requirejs:build-all-region-view',
         'copy:leaflet-images',
-
         'copy:index-all'
       ]);
     } else {
@@ -477,6 +475,7 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('dist', [
+    'build',
     'connect:dist'
   ]);
 
