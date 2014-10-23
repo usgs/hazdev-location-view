@@ -45,23 +45,6 @@ define([
       this._model.on('change', this._onModelChange, this);
     },
 
-    reset: function () {
-      var map = this._map;
-
-      if (!map) {
-        return;
-      }
-
-      try {
-        map.off('click', this._onClick, this);
-      } catch (e) { /* Ignore */ }
-      try {
-        map.off('mousemove', this._onMouseMove, this);
-      } catch (e) { /* Ignore */ }
-
-      map.getContainer().classList.remove(ACTIVE_CLASS_NAME);
-    },
-
     onAdd: function (map) {
       var container = document.createElement('div'),
           button = container.appendChild(document.createElement('a')),
@@ -74,11 +57,11 @@ define([
 
       // TODO :: Use icon instead
       button.innerHTML = 'R';
-      tooltip.innerHTML = 'Draw Rectangle on Map';
 
       this._map = map;
+      this._tooltip = tooltip;
 
-      L.DomEvent.addListener(button, 'click', this._initRectangle, this);
+      L.DomEvent.addListener(button, 'click', this.toggle, this);
       L.DomEvent.addListener(container, 'click', stop);
       L.DomEvent.addListener(container, 'dblclick', stop);
       L.DomEvent.addListener(container, 'keydown', stop);
@@ -99,7 +82,7 @@ define([
           button = container.querySelector('a'),
           stop = L.DomEvent.stopPropagation;
 
-      L.DomEvent.removeListener(button, 'click', this._initRectangle, this);
+      L.DomEvent.removeListener(button, 'click', this.toggle, this);
       L.DomEvent.removeListener(container, 'click', stop);
       L.DomEvent.removeListener(container, 'dblclick', stop);
       L.DomEvent.removeListener(container, 'keydown', stop);
@@ -109,12 +92,13 @@ define([
 
       this._map = null;
       this._container = null;
+      this._tooltip = null;
     },
 
-
-    _initRectangle: function () {
+    toggle: function (/*clickEvent*/) {
       var map = this._map,
-          mapContainer = map.getContainer();
+          mapContainer = map.getContainer(),
+          active = mapContainer.classList.contains(ACTIVE_CLASS_NAME);
 
       try {
         map.off('click', this._onClick, this);
@@ -125,15 +109,42 @@ define([
       } catch (e) { /* Ignore */ }
 
       this._vertices = [];
+
+      if (active) {
+        this.disable();
+      } else {
+        this.enable();
+      }
+
+      // update informational text
+      this._nextStep();
+    },
+
+    enable: function () {
+      var map = this._map;
+
+      map.on('click', this._onClick, this);
+      map.on('click', this._nextStep, this);
+
+      this._tooltip.innerHTML = 'Remove Rectangle from Map';
+      map.getContainer().classList.add(ACTIVE_CLASS_NAME);
+    },
+
+    disable: function () {
+      var map = this._map;
+
+      if (!map) {
+        return;
+      }
+
       this._model.set({north:null,south:null,east:null,west:null});
 
       if (map.hasLayer(this._view)) {
         map.removeLayer(this._view);
       }
 
-      mapContainer.classList.add(ACTIVE_CLASS_NAME);
-
-      map.on('click', this._onClick, this);
+      this._tooltip.innerHTML = 'Draw Rectangle on Map';
+      map.getContainer().classList.remove(ACTIVE_CLASS_NAME);
     },
 
     _onModelChange: function () {
@@ -174,8 +185,6 @@ define([
         map.removeLayer(this._preview);
         map.addLayer(this._view);
 
-        map.getContainer().classList.remove(ACTIVE_CLASS_NAME);
-
         this._updateModel();
       } else if (vertices.length === 1) {
         this._preview = L.rectangle([vertices[0], vertices[0]],
@@ -196,6 +205,41 @@ define([
         east: ne.lng,
         west: sw.lng
       });
+    },
+
+    _nextStep: function () {
+      var container = this._map._container,
+          nextStep = container.querySelector('.steps'),
+          vertices = this._vertices,
+          message,
+          active;
+
+      active = container.classList.contains(ACTIVE_CLASS_NAME);
+
+      if (!active && vertices.length === 0) {
+        container.removeChild(nextStep);
+        nextStep = null;
+        return;
+      }
+
+      if (!nextStep) {
+        nextStep = document.createElement('p');
+        nextStep.classList.add('alert', 'info', 'steps');
+        container.appendChild(nextStep);
+      }
+
+      if (vertices.length === 0) {
+        message = 'Click to select the starting corner for the rectangle.';
+      } else if (vertices.length === 1) {
+        message = 'Click again to select the final corner of the rectangle.';
+      } else if (vertices.length === 2) {
+        message = 'Resize the rectangle using its anchors, or reset the rectangle by clicking the button again.';
+        this._map.off('click', this._nextStep, this);
+      }
+
+      // update the next step helper
+      nextStep.innerHTML = message;
+
     }
 
   });

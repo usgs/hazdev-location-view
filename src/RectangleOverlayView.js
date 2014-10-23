@@ -64,6 +64,7 @@ define([
       L.Util.setOptions(this, Util.extend({}, DEFAULTS, options));
 
       this._model = options.model || RectangleModel();
+      this._model.on('change', this.render, this);
 
       this._top = L.marker([0.0, 0.0], Util.extend({},
           this.options.gripOptions, this.options.topGripper));
@@ -99,14 +100,14 @@ define([
     },
 
     onAdd: function (map) {
-      this._model.on('change', this.render, this);
+      //this._model.on('change', this.render, this);
       L.LayerGroup.prototype.onAdd.call(this, map);
 
       this.render();
     },
 
     onRemove: function (map) {
-      this._model.off('change', this.render, this);
+      //this._model.off('change', this.render, this);
       L.LayerGroup.prototype.onRemove.call(this, map);
     },
 

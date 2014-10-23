@@ -46,6 +46,10 @@ $button-size: 30px;
 
   .leaflet-control {
     border:none;
+
+    &:hover .help {
+      display:none;
+    }
   }
 
   .leaflet-control-zoom {

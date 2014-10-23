@@ -1,9 +1,5 @@
 @import url('../RegionView.css');
 
-* {
-  box-sizing:border-box;
-}
-
 .region-result {
   display:inline-block;
   margin-top:1em;
