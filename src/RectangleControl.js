@@ -117,14 +117,14 @@ define([
       }
 
       // update informational text
-      this._nextStep();
+      this.displayInstruction();
     },
 
     enable: function () {
       var map = this._map;
 
       map.on('click', this._onClick, this);
-      map.on('click', this._nextStep, this);
+      map.on('click', this.displayInstruction, this);
 
       this._tooltip.innerHTML = 'Remove Rectangle from Map';
       map.getContainer().classList.add(ACTIVE_CLASS_NAME);
@@ -137,6 +137,7 @@ define([
         return;
       }
 
+      map.off('click', this.displayInstruction, this);
       this._model.set({north:null,south:null,east:null,west:null});
 
       if (map.hasLayer(this._view)) {
@@ -207,39 +208,76 @@ define([
       });
     },
 
-    _nextStep: function () {
-      var container = this._map._container,
-          nextStep = container.querySelector('.steps'),
-          vertices = this._vertices,
-          message,
-          active;
 
-      active = container.classList.contains(ACTIVE_CLASS_NAME);
+    /**
+     * Display instructions that explain how to use the currently
+     * selected location control.
+     *
+     * Cleans up after itself once the control is toggled off. 
+     */
+    displayInstruction: function () {
+      var mapContainer = this._map.getContainer(),
+          instructionEl = mapContainer.querySelector('.instruction'),
+          active,
+          step;
 
-      if (!active && vertices.length === 0) {
-        container.removeChild(nextStep);
-        nextStep = null;
+      // check whether control is active
+      active = mapContainer.classList.contains(ACTIVE_CLASS_NAME);
+
+      if (!active) {
+        mapContainer.removeChild(instructionEl);
+        instructionEl = null;
         return;
       }
 
-      if (!nextStep) {
-        nextStep = document.createElement('p');
-        nextStep.classList.add('alert', 'info', 'steps');
-        container.appendChild(nextStep);
+      if (!instructionEl) {
+        instructionEl = document.createElement('p');
+        instructionEl.classList.add('alert', 'info', 'instruction');
+        mapContainer.appendChild(instructionEl);
       }
 
-      if (vertices.length === 0) {
+      // get current step count
+      step = this._getStepCount();
+      // update instruction element with next message
+      instructionEl.innerHTML = this._getMessage(step);
+    },
+
+
+    /**
+     * Determine which step is being performed in the rectangle control process,
+     * so that displayInstruction() can return the correct instruction message.
+     *
+     * @return {integer}
+     *         step count (zero-based numbering)
+     */
+    _getStepCount: function () {
+      var vertices = this._vertices;
+      return vertices.length;
+    },
+
+
+    /**
+     * Return an instructional message based on the current step in the
+     * process of drawing a rectangle on a map.
+     *
+     * @param  {Integer} step, step count (zero-based numbering)
+     *
+     * @return {String}
+     *         help messsage.
+     */
+    _getMessage: function (step) {
+      var message = '';
+
+      if (step === 0) {
         message = 'Click to select the starting corner for the rectangle.';
-      } else if (vertices.length === 1) {
+      } else if (step === 1) {
         message = 'Click again to select the final corner of the rectangle.';
-      } else if (vertices.length === 2) {
-        message = 'Resize the rectangle using its anchors, or reset the rectangle by clicking the button again.';
-        this._map.off('click', this._nextStep, this);
+      } else if (step === 2) {
+        message = 'Resize the rectangle using its anchors, or reset the ' +
+            'rectangle by clicking the button again.';
       }
 
-      // update the next step helper
-      nextStep.innerHTML = message;
-
+      return message;
     }
 
   });
