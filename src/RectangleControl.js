@@ -195,7 +195,7 @@ define([
     },
 
     _updateModel: function () {
-      var bounds = this._preview.getBounds(),
+      var bounds = L.latLngBounds(this._vertices),
           ne = bounds.getNorthEast(),
           sw = bounds.getSouthWest();
 
