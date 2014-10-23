@@ -4,6 +4,7 @@
 	<title>Location View Example Page</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
 	<link rel="stylesheet" href="LocationView.css"/>
+	<link rel="stylesheet" href="RegionView.css"/>
 	<style>
 		* {
 			-moz-box-sizing: border-box;
@@ -14,13 +15,16 @@
 </head>
 <body>
 	<button id="showLocationView">Show Location View</button>
+	<button id="showRegionView">Show Region View</button>
 
 	<script src="/libs/requirejs/require.js"></script>
 	<script>
 	require([
-		'LocationView'
+		'LocationView',
+		'RegionView'
 	], function (
-		LocationView
+		LocationView,
+		RegionView
 	) {
 		'use strict';
 
@@ -28,9 +32,14 @@
 
 		var lv = new LocationView();
 		lv.show();
+		var rv = new RegionView();
+		rv.show();
 
 		document.querySelector('#showLocationView').addEventListener('click',
 				function () { lv.show(); });
+
+		document.querySelector('#showRegionView').addEventListener('click',
+				function () { rv.show(); });
 	});
 	</script>
 </body>
