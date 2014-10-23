@@ -15,7 +15,7 @@ define([
   'use strict';
 
   var CLASS_NAME = 'leaflet-rectangle-control',
-      ICON_CLASS_NAME = 'leaflet-rectangle-control-icon',
+      ICON_CLASS_NAME = 'leaflet-control-icon',
       ACTIVE_CLASS_NAME = 'leaflet-rectangle-control-active';
 
   var DEFAULTS = {

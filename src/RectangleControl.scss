@@ -5,22 +5,13 @@
   cursor:crosshair;
 
   .leaflet-rectangle-control {
-    @include basic-control-button-sunken();
+    @include basic-control-button-active();
   }
 }
 
 .leaflet-rectangle-control:active {
-  @include basic-control-button-sunken();
+  @include basic-control-button-active();
 }
-
-
-// .leaflet-rectangle-control {
-
-//   &:hover .help {
-//     display:none;
-//   }
-// }
-
 
 .alert {
   // default alert styles
