@@ -183,7 +183,8 @@ define([
 
     _onClick: function (evt) {
       var vertices = this._vertices,
-          map = this._map;
+          map = this._map,
+          icon = L.divIcon({className: 'first-marker'});
 
       vertices.push(evt.latlng);
 
@@ -192,6 +193,7 @@ define([
         map.off('click', this._onClick, this);
         map.off('mousemove', this._onMouseMove, this);
 
+        map.removeLayer(this._firstClickMarker);
         map.removeLayer(this._preview);
         map.addLayer(this._view);
 
@@ -201,6 +203,10 @@ define([
             this.options.rectangleOptions);
         this._preview.addTo(map);
         map.on('mousemove', this._onMouseMove, this);
+
+        // mark first click (helpful on mobile)
+        this._firstClickMarker = L.marker(evt.latlng, { icon: icon});
+        this._firstClickMarker.addTo(map);
       }
     },
 
