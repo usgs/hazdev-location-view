@@ -9,17 +9,18 @@ define([
 ) {
 	'use strict';
 
-	var POINT_CONTROL_INPUT_METHOD = 'point';
 
 	var CLASS_NAME = 'leaflet-point-control';
 	var CLASS_ENABLED = CLASS_NAME + '-enabled';
 	var CLASS_LOCATION = CLASS_NAME + '-location';
+	var METHOD = 'point';
 
 	var DEFAULT_OPTIONS = {
+		method: METHOD,
 		position: 'topleft',
 		defaultLocation: null,
 		defaultEnabled: false,
-		iconClass: CLASS_NAME + '-icon',
+		iconClass: 'leaflet-control-icon',
 		helpText: 'Drop Pin',
 		infoText: '<b>Drop pin</b> on the map to specify a location.'
 	};
@@ -169,7 +170,7 @@ define([
 				place: null,
 				latitude: latlng.lat,
 				longitude: latlng.lng,
-				method: POINT_CONTROL_INPUT_METHOD,
+				method: METHOD,
 				confidence: this._computeConfidence()
 			};
 		},

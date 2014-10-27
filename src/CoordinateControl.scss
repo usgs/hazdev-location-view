@@ -1,78 +1,28 @@
+@import '_mixins';
+
 .leaflet-coordinate-control {
 
-	> .leaflet-coordinate-control-icon {
-		background-image: url('location-view-icons.png');
-		background-size: 104px 52px;
-		background-repeat: no-repeat;
-		background-position: 2px 2px;
-	}
+  > .leaflet-control-icon {
+    @include basic-control-button-background(2px, 2px);
+  }
 
-	> .leaflet-coordinate-control-input {
-		display:none;
-		position:absolute;
-		top:0;
-		left:0;
+  > .leaflet-control-input {
+    @include expandable-leaflet-control();
 
-		> input,
-		> button {
-			margin:0;
-			padding:0;
-			height:30px;
-			outline:none;
-			border:none
-		}
+    > input {
+      width:99px;
 
-		> input {
-			padding: 0 10px;
-			width:99px;
-			border-left:1px solid #ccc;
-			position:absolute;
-
-			&.latitude {
-				left:30px;
-			}
-			&.longitude {
-				left:126px
-			}
-		}
-
-		> button {
-			width:60px;
-			border:1px solid #fff;
-			border-radius: 0 2px 2px 0;
-			background-color:#ddd;
-			cursor:pointer;
-			position:absolute;
-			display:inline-block;
-			top:0;
-			right:0;
-			left:224px;
-
-			&:active {
-				background-color:#999;
-			}
-		}
-	}
+      &.latitude {
+        left:30px;
+      }
+      &.longitude {
+        left:126px
+      }
+    }
+  }
 }
-
 
 /** Styles for when the input is expanded **/
 .leaflet-coordinate-control-enabled {
-	width:284px;
-
-	> .leaflet-coordinate-control-icon {
-		background-position: 2px -24px;
-		border-radius:4px 0 0 4px;
-
-		&:hover {
-			cursor:pointer;
-			border-radius:4px 0 0 4px;
-		}
-	}
-
-	> .leaflet-coordinate-control-input {
-		border-radius:0;
-		display:inline-block;
-		border-radius:0 4px 4px 0;
-	}
+  @include expandable-leaflet-control-enabled(2px, -24px);
 }

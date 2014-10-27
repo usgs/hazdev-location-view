@@ -11,15 +11,17 @@ define([
 	'use strict';
 
 	var CLASS_NAME = 'leaflet-coordinate-control',
-	    CLASS_INPUT = CLASS_NAME + '-input',
-	    CLASS_ENABLED = CLASS_NAME + '-enabled';
+	    CLASS_ENABLED = CLASS_NAME + '-enabled',
+	    CLASS_INPUT = 'leaflet-control-input',
+	    CLASS_SUBMIT = 'leaflet-control-submit';
 
 	var METHOD = 'coordinate';
 
 	var DEFAULTS = {
+		'method': METHOD,
 		'position': 'topleft',
 		'defaultEnabled': false,
-		'iconClass': CLASS_NAME + '-icon',
+		'iconClass': 'leaflet-control-icon',
 		'helpText': 'Enter Coordinates',
 		'infoText': '<b>Enter coordinates</b>, latitude and longitude.'
 	};
@@ -48,7 +50,7 @@ define([
 							'placeholder="Latitude" />',
 					'<input name="longitude" title="longitude" class="longitude" ',
 							'placeholder="Longitude" />',
-					'<button class="coordinate-submit">Search</button>',
+					'<button type="search" class="', CLASS_SUBMIT, '">Search</button>',
 				'</div>'
 			].join('');
 
@@ -60,7 +62,7 @@ define([
 			this._control = control;
 			this._latitude = control.querySelector('.latitude');
 			this._longitude = control.querySelector('.longitude');
-			this._submit = control.querySelector('.coordinate-submit');
+			this._submit = container.querySelector('.' + CLASS_SUBMIT);
 			this._map = map;
 
 			if (this.options.defaultEnabled) {

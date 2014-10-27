@@ -117,7 +117,7 @@ define([
 				var clickSpy = sinon.spy(g, '_onSearchClick');
 
 				g.onAdd(null);
-				g._searchButton.dispatchEvent(getClickEvent());
+				g._submit.dispatchEvent(getClickEvent());
 				expect(clickSpy.callCount).to.equal(1);
 				clickSpy.restore();
 			});
@@ -133,7 +133,7 @@ define([
 			it('Does call _doGeocode when value is not empty', function () {
 				var geocodeSpy = sinon.spy(g, '_doGeocode');
 
-				g._textInput.value = 'Colorado';
+				g._address.value = 'Colorado';
 				g._onSearchClick();
 				expect(geocodeSpy.callCount).to.equal(1);
 				geocodeSpy.restore();
@@ -187,26 +187,26 @@ define([
 
 				// rebind spy version of onKeyUp
 				g.onAdd(null);
-				g._textInput.dispatchEvent(getKeyboardEvent('keyup', 13));
+				g._address.dispatchEvent(getKeyboardEvent('keyup', 13));
 				expect(keyUpSpy.called).to.equal(true);
 				keyUpSpy.restore();
 			});
 
 			it('Does not call _doGeocode when value is empty', function () {
-				g._textInput.value = '';
+				g._address.value = '';
 				g._onKeyUp({keyCode:13});
 				expect(doGeocodeSpy.called).to.equal(false);
 			});
 
 			it('Does not call _doGeocode when keyCode is not 13', function () {
-				g._textInput.value = 'test';
+				g._address.value = 'test';
 				g._onKeyUp({keyCode:14});
 				expect(doGeocodeSpy.called).to.equal(false);
 			});
 
 			it('Calls _doGeocode when keyCode is 13 and value is not empty',
 					function () {
-				g._textInput.value = 'test';
+				g._address.value = 'test';
 				g._onKeyUp({keyCode:14});
 				expect(doGeocodeSpy.called).to.equal(false);
 			});

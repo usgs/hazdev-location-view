@@ -176,7 +176,7 @@ define([
 			    list;
 
 			panel = document.createElement('div');
-			panel.classList.add('information-panel');
+			panel.classList.add('information-list-mask');
 			panel.innerHTML = '<ul class="information-list"></ul>';
 			list = panel.querySelector('.information-list');
 
@@ -189,7 +189,7 @@ define([
 					controlEl.setAttribute('data-index', index);
 					controlEl.innerHTML = [
 						'<span title="', controlOptions.helpText, '"',
-								' class="icon ', controlOptions.iconClass, '"></span>',
+								' class="icon ', controlOptions.iconClass, '-', controlOptions.method, '"></span>',
 						'<p>', controlOptions.infoText, '</p>'
 					].join('');
 					L.DomEvent.addListener(controlEl, 'click', control.enable, control);

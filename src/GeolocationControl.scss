@@ -1,9 +1,8 @@
+@import '_mixins';
+
 .leaflet-geolocation-control {
 
-	> .leaflet-geolocation-control-icon {
-		background-image: url(location-view-icons.png);
-		background-position: -50px 2px;
-		background-repeat: no-repeat;
-		background-size: 104px 52px;
-	}
+  > .leaflet-control-icon {
+    @include basic-control-button-background(-50px, 2px);
+  }
 }

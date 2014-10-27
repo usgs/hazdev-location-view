@@ -1,29 +1,22 @@
+@import 'LeafletShim';
 @import 'PointControl';
 @import 'CoordinateControl';
 @import 'GeocodeControl';
 @import 'GeolocationControl';
 
-.information-panel {
+.information-list-mask {
 	display:none;
-}
-
-.leaflet-location-control-enabled > .information-panel {
-	display:block;
-}
-
-.information-panel {
 	position: absolute;
 	top: 0;
 	bottom: 0;
 	left: 0;
 	right: 0;
-	background: rgba(0,0,0,0.5);
+	background: rgba(0,0,0,0.75);
 	z-index: 10002;
 
-	> ul.information-list {
+	> .information-list {
 		position:absolute;
 		background: #fff;
-		box-shadow:0 1px 2px rgb(0,0,0);
 		width:90%;
 		margin:5%;
 		padding:0;
@@ -33,162 +26,74 @@
 		max-height:80%;
 
 		> li {
-			padding:0;
+			padding:5px 0 0 0;
 			margin:0;
-			border-top:1px solid #ccc;
+			border-top:1px solid #ddd;
 			position: relative;
-			min-height:40px;
+			min-height:50px;
 
-			> p {
-				display:inline-block;
-				font-size:12px;
-				padding:0 10px 0 60px;
-				line-height:1em;
-			}
-
-			> span.icon {
-				position:absolute;
-				height:40px;
-				width:40px;
-				margin:0 10px;
-				background-image: url('location-view-icons.png');
-				background-size: 160px 80px;
-				background-repeat: no-repeat;
-			}
-
-			> .leaflet-coordinate-control-icon {
-				background-position: 0 0;
-			}
-
-			> .leaflet-geocode-control-icon {
-				background-position: -40px 0;
-			}
-
-			> .leaflet-geolocation-control-icon {
-				background-position: -80px 0;
-			}
-
-			> .leaflet-point-control-icon {
-				background-position: -120px 0;
+			&:first-child {
+				border-top:none;
 			}
 
 			&:hover {
 				background: rgba(250, 250, 202, 0.5);
 			}
 
-			&:first-child {
-				border-top:none;
-			}
-		}
-	}
-}
-
-
-.locationview {
-
-	.leaflet-control {
-		background:#fff;
-		cursor:pointer;
-		box-shadow:0 1px 1px #000;
-		border-radius:2px;
-
-		-ms-user-select:none;
-		-moz-user-select:none;
-		-webkit-user-select:none;
-		-webkit-touch-callout:none;
-		user-select:none;
-
-		> a {
-			cursor: pointer;
-			display: block;
-			height:30px;
-			width:30px;
-		}
-
-		> span.help {
-			display: none;
-		}
-
-		> .leaflet-location-control-icon {
-			font-size:18px;
-			line-height:30px;
-			font-weight: bold;
-			font-family:"Times New Roman", Times, serif;
-			text-align: center;
-		}
-	}
-
-	.leaflet-top {
-		> .leaflet-bar {
-			height:60px;
-
-			> a:hover {
-				height:30px;
-				width:30px;
-				line-height:30px;
-				border-radius:2px;
-			}
-		}
-	}
-
-	.leaflet-control-layers > .leaflet-control-layers-toggle {
-		width: 36px;
-		height: 36px;
-	}
-
-	// hide layer switcher icon on expanded state
-	.leaflet-control-layers-expanded > .leaflet-control-layers-toggle {
-		width: 0;
-		height: 0;
-	}
-
-	.leaflet-control-zoom {
-		display:none;
-	}
-
-}
-
-
-@media screen and (min-width:768px) {
-
-	.locationview {
-
-		.leaflet-control-zoom {
-			display:block;
-		}
-
-		.leaflet-control:hover > span.help {
-			display: block;
-			position: absolute;
-			border-radius: 2px;
-			background: rgba(255,255,255,0.8);
-			box-shadow: 0 1px 1px rgba(0,0,0,0.3);
-			left: 40px;
-			top: 0;
-			width:147px;
-			padding:0px 10px;
-			text-align: center;
-			color:#000;
-			line-height:30px;
-			font-size:12px;
-		}
-	}
-
-	.information-panel > ul.information-list {
-		width:80%;
-		margin:10%;
-
-		> li {
-
 			> p {
-				font-size:13px;
-				padding: 14px 0;
-				padding-left: 65px;
+				display:inline-block;
+				font-size:12px;
+				padding: 0 2em 0 5.5em;
+				line-height:1em;
 			}
 
-			> span.icon {
-				top: 13px;
+			> .icon {
+				position:absolute;
+				height:40px;
+				width:40px;
+				margin:0 1em;
+				background-image: url('location-view-icons.png');
+				background-size: 160px 80px;
+				background-repeat: no-repeat;
 			}
+
+			> .leaflet-control-icon-coordinate {
+				background-position: 0 0;
+			}
+
+			> .leaflet-control-icon-geocode {
+				background-position: -40px 0;
+			}
+
+			> .leaflet-control-icon-geolocation {
+				background-position: -80px 0;
+			}
+
+			> .leaflet-control-icon-point {
+				background-position: -120px 0;
+			}
+		}
+	}
+}
+
+.leaflet-location-control-enabled > .information-list-mask {
+	display:block;
+}
+
+
+@media screen and (min-width:560px) {
+
+	.information-list-mask > .information-list > li {
+		padding:0;
+
+		> p {
+			font-size:13px;
+			padding: 1em 2em 1em 7em;
+		}
+
+		> span.icon {
+			top: 13px;
+			margin:0 2em;
 		}
 	}
 }

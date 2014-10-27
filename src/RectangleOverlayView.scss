@@ -1,0 +1,32 @@
+.rectangle-view-icon {
+  display: block;
+  background-color: rgba(255, 255, 255, 1);
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  border-radius: 30px;
+  border: 15px solid transparent;
+  background-clip: content-box;
+  box-shadow:inset 0 -1px 1px #000;
+
+  &:hover {
+    border-color: rgba(0,0,0, 0.25);
+  }
+}
+
+.rectangle-view-icon-top,
+.rectangle-view-icon-bottom {
+  cursor: ns-resize;
+}
+.rectangle-view-icon-left,
+.rectangle-view-icon-right {
+  cursor: ew-resize;
+}
+
+// used to mark the first click on the map after enabling the rectangle control
+.first-marker {
+  width: 0.5em;
+  height: 0.5em;
+  background: rgba(153, 0, 0, 0.4);
+  border-radius: 0.5em;
+}

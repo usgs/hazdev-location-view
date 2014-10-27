@@ -1,0 +1,117 @@
+@mixin basic-control () {
+  background-color:#fff;
+  border-radius:$border-radius;
+  box-shadow: 0 1px 1px #333;
+}
+
+@mixin basic-control-button ($size) {
+  display: block;
+  width: $size;
+  height: $size;
+  cursor: pointer;
+  color: #222;
+  font-weight: bold;
+  text-align: center;
+  line-height: $size;
+  border-radius: $border-radius;
+
+  &:hover {
+    width: $size;
+    height: $size;
+    line-height: $size;
+    border-radius: $border-radius;
+    color: #000;
+  }
+}
+
+@mixin basic-control-button-background ($x, $y) {
+  background-image: url(location-view-icons.png);
+  background-position: $x $y;
+  background-repeat: no-repeat;
+  background-size: 104px 52px;
+}
+
+@mixin basic-control-button-active () {
+  background-color: #ccc;
+  text-shadow: 1px 1px 1px rgba(255,255,255,0.6);
+}
+
+@mixin basic-control-tooltip () {
+  position: absolute;
+  display: none;
+  left: $button-size + 10px;
+  top: 0;
+  padding: 0 1em;
+  border-radius: 2px;
+  line-height: $button-size;
+  text-align: center;
+  font-size: 12px;
+  color: #000;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 1px 1px #333;
+  white-space: nowrap;
+}
+
+@mixin basic-control-tooltip-hover () {
+  display:block;
+}
+
+@mixin expandable-leaflet-control () {
+  display:none;
+  position:absolute;
+  top:0;
+  left:0;
+
+  > input,
+  > button {
+    margin:0;
+    padding:0;
+    height:30px;
+    outline:none;
+    border:none
+  }
+
+  > input {
+    padding: 0 10px;
+    border-left:1px solid #ccc;
+    position:absolute;
+  }
+
+  > button {
+    width:60px;
+    border:1px solid #fff;
+    border-radius: 0 2px 2px 0;
+    background-color:#ddd;
+    cursor:pointer;
+    position:absolute;
+    display:inline-block;
+    top:0;
+    right:0;
+    left:220px;
+
+    &:active {
+      background-color:#999
+    }
+  }
+}
+
+@mixin expandable-leaflet-control-enabled ($x, $y) {
+  width: 280px;
+
+  > .leaflet-control-icon {
+    background-position: $x $y;
+    border-radius:2px 0 0 2px;
+
+    &:hover {
+      cursor:pointer;
+      border-radius:2px 0 0 2px;
+    }
+  }
+
+  > .leaflet-control-input {
+    border-radius:0;
+    display:inline-block;
+    border-radius:0 2px 2px 0;
+  }
+}
+
