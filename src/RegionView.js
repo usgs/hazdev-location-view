@@ -183,7 +183,7 @@ define([
         ];
       }
 
-      _rectangleControl.reset();
+      _rectangleControl.destroy();
       _map.fitBounds(extent);
     };
 
