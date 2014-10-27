@@ -23,6 +23,4 @@ require([
 	_showLocationButton.addEventListener('click', function () {
 		locationView.show({'location':null});
 	});
-
-	locationView.show();
 });
