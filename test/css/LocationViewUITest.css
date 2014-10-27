@@ -1,3 +1,5 @@
+@import url('../LocationView.css');
+
 .location-result {
 	display:block;
 	margin-top:16px;
