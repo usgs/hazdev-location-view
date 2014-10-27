@@ -11,12 +11,34 @@
 
 	<!-- Stylesheets go here -->
 	<link rel="stylesheet" href="mocha/mocha.css"/>
+	<link rel="stylesheet" href="/leaflet/dist/leaflet.css"/>
+  <link rel="stylesheet" href="/hazdev-webutils/src/mvc/ModalView.css"/>
+
+  <link rel="stylesheet" href="/css/LocationViewUITest.css"/>
+  <link rel="stylesheet" href="LocationView.css"/>
+  <link rel="stylesheet" href="/css/RegionViewUITest.css"/>
+  <style>
+  	body.leaflet-location-control-enabled > .information-panel {
+  		display: none;
+  	}
+  </style>
+
 </head>
 <body>
+	<h1>Location / Region View</h1>
+
+	<button id="showLocationView">Show Location View</button>
+	<button id="showRegionView">Show Region View</button>
+
 	<h1>Test Suite</h1>
 	<div id="mocha"></div>
 
 	<!-- Javascripts go here -->
 	<script src="requirejs/require.js" data-main="index.js"></script>
+	<script src="js/config.js"></script>
+
+	<script src="js/LocationViewUITest.js"></script>
+	<script src="js/RegionViewUITest.js"></script>
+
 </body>
 </html>
