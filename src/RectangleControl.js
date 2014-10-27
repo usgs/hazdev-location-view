@@ -46,12 +46,11 @@ define([
     },
 
     destroy: function () {
-      this.onRemove();
-      // clean up additional bindings
       this._map.off('click', this._onClick, this);
       this._map.off('click', this.displayInstruction, this);
       this._map.off('mousemove', this._onMouseMove, this);
       this._model.off('change', this._onModelChange, this);
+      this.onRemove();
     },
 
     onAdd: function (map) {
@@ -68,6 +67,7 @@ define([
       button.innerHTML = 'R';
 
       this._map = map;
+      this._container = container;
       this._tooltip = tooltip;
 
       L.DomEvent.addListener(button, 'click', this.toggle, this);
