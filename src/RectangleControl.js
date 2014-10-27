@@ -228,7 +228,7 @@ define([
      * Display instructions that explain how to use the currently
      * selected location control.
      *
-     * Cleans up after itself once the control is toggled off. 
+     * Cleans up after itself once the control is toggled off.
      */
     displayInstruction: function () {
       var mapContainer = this._map.getContainer(),
