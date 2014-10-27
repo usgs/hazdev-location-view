@@ -251,23 +251,8 @@ define([
         mapContainer.appendChild(instructionEl);
       }
 
-      // get current step count
-      step = this._getStepCount();
       // update instruction element with next message
       instructionEl.innerHTML = this._getMessage(step);
-    },
-
-
-    /**
-     * Determine which step is being performed in the rectangle control process,
-     * so that displayInstruction() can return the correct instruction message.
-     *
-     * @return {integer}
-     *         step count (zero-based numbering)
-     */
-    _getStepCount: function () {
-      var vertices = this._vertices;
-      return vertices.length;
     },
 
 
@@ -275,13 +260,12 @@ define([
      * Return an instructional message based on the current step in the
      * process of drawing a rectangle on a map.
      *
-     * @param  {Integer} step, step count (zero-based numbering)
-     *
      * @return {String}
      *         help messsage.
      */
-    _getMessage: function (step) {
-      var message = '';
+    _getMessage: function () {
+      var step = this._vertices.length,
+          message = '';
 
       if (step === 0) {
         message = 'Click to select the starting corner for the rectangle.';
