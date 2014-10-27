@@ -28,6 +28,4 @@ require([
 
     _regionView.show({region: region});
   });
-
-  _regionView.show();
 });
