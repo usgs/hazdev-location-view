@@ -1,3 +1,7 @@
+$border-radius: 2px !default;
+$button-size: 30px !default;
+$size: 30px !default;
+
 @mixin basic-control () {
   background-color:#fff;
   border-radius:$border-radius;
