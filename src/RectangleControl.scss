@@ -2,16 +2,12 @@
 @import '_mixins';
 
 // updates cursor once user is done drawing rectangle
-.leaflet-rectangle-control-active.resize {
-  cursor: pointer;
+.drawing-rectangle {
+  cursor: crosshair;
 }
 
-.leaflet-rectangle-control-active {
-  cursor:crosshair;
-
-  .leaflet-rectangle-control {
-    @include basic-control-button-active();
-  }
+.leaflet-rectangle-control-active .leaflet-rectangle-control {
+  @include basic-control-button-active();
 }
 
 .leaflet-rectangle-control:active {

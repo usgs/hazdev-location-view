@@ -127,13 +127,14 @@ define([
     },
 
     enable: function () {
-      var map = this._map;
+      var map = this._map,
+          mapContainer = map.getContainer();
 
       map.on('click', this._onClick, this);
       map.on('click', this.displayInstruction, this);
 
       this._tooltip.innerHTML = 'Remove Rectangle from Map';
-      map.getContainer().classList.add(ACTIVE_CLASS_NAME);
+      mapContainer.classList.add(ACTIVE_CLASS_NAME, 'drawing-rectangle');
 
       // update informational text
       this.displayInstruction();
@@ -160,7 +161,6 @@ define([
         instructionEl = null;
       }
 
-      mapContainer.classList.remove('resize');
       this._tooltip.innerHTML = 'Draw Rectangle on Map';
       map.getContainer().classList.remove(ACTIVE_CLASS_NAME);
     },
@@ -207,7 +207,7 @@ define([
         map.addLayer(this._view);
 
         // updates cursor once user is done drawing rectangle
-        mapContainer.classList.add('resize');
+        mapContainer.classList.remove('drawing-rectangle');
 
         this._updateModel();
       } else if (vertices.length === 1) {
