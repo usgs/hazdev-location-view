@@ -183,7 +183,6 @@ define([
         ];
       }
 
-      _rectangleControl.disable();
       _map.fitBounds(extent);
     };
 
