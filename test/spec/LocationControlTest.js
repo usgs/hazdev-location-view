@@ -81,10 +81,10 @@ define([
 			it('Updates location when control location changes', function () {
 				lc._eachControl(function (control) {
 					// clear location
-					lc.setLocation(null);
+					lc.setLocation({});
 					control.setLocation(loc);
 
-					// Check if location control was updated with location.
+					// // Check if location control was updated with location.
 					expect(lc.getLocation().latitude).to.equal(loc.latitude);
 					expect(lc.getLocation().longitude).to.equal(loc.longitude);
 				});
