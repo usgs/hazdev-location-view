@@ -1,6 +1,11 @@
 @import 'RectangleOverlayView';
 @import '_mixins';
 
+// updates cursor once user is done drawing rectangle
+.leaflet-rectangle-control-active.resize {
+  cursor: pointer;
+}
+
 .leaflet-rectangle-control-active {
   cursor:crosshair;
 
@@ -12,6 +17,7 @@
 .leaflet-rectangle-control:active {
   @include basic-control-button-active();
 }
+
 
 .alert {
   // default alert styles

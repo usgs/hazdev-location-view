@@ -160,6 +160,7 @@ define([
         instructionEl = null;
       }
 
+      mapContainer.classList.remove('resize');
       this._tooltip.innerHTML = 'Draw Rectangle on Map';
       map.getContainer().classList.remove(ACTIVE_CLASS_NAME);
     },
@@ -191,6 +192,7 @@ define([
     _onClick: function (evt) {
       var vertices = this._vertices,
           map = this._map,
+          mapContainer = map.getContainer(),
           icon = L.divIcon({className: 'first-marker'});
 
       vertices.push(evt.latlng);
@@ -203,6 +205,9 @@ define([
         map.removeLayer(this._firstClickMarker);
         map.removeLayer(this._preview);
         map.addLayer(this._view);
+
+        // updates cursor once user is done drawing rectangle
+        mapContainer.classList.add('resize');
 
         this._updateModel();
       } else if (vertices.length === 1) {
