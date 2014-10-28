@@ -124,9 +124,6 @@ define([
       } else {
         this.enable();
       }
-
-      // update informational text
-      this.displayInstruction();
     },
 
     enable: function () {
@@ -137,10 +134,15 @@ define([
 
       this._tooltip.innerHTML = 'Remove Rectangle from Map';
       map.getContainer().classList.add(ACTIVE_CLASS_NAME);
+
+      // update informational text
+      this.displayInstruction();
     },
 
     disable: function () {
-      var map = this._map;
+      var map = this._map,
+          mapContainer = map.getContainer(),
+          instructionEl = mapContainer.querySelector('.instruction');
 
       if (!map) {
         return;
@@ -151,6 +153,11 @@ define([
 
       if (map.hasLayer(this._view)) {
         map.removeLayer(this._view);
+      }
+
+      if (instructionEl) {
+        mapContainer.removeChild(instructionEl);
+        instructionEl = null;
       }
 
       this._tooltip.innerHTML = 'Draw Rectangle on Map';
@@ -232,18 +239,7 @@ define([
      */
     displayInstruction: function () {
       var mapContainer = this._map.getContainer(),
-          instructionEl = mapContainer.querySelector('.instruction'),
-          active,
-          step;
-
-      // check whether control is active
-      active = mapContainer.classList.contains(ACTIVE_CLASS_NAME);
-
-      if (!active) {
-        mapContainer.removeChild(instructionEl);
-        instructionEl = null;
-        return;
-      }
+          instructionEl = mapContainer.querySelector('.instruction');
 
       if (!instructionEl) {
         instructionEl = document.createElement('p');
@@ -252,7 +248,7 @@ define([
       }
 
       // update instruction element with next message
-      instructionEl.innerHTML = this._getMessage(step);
+      instructionEl.innerHTML = this._getMessage();
     },
 
 
