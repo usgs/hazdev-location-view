@@ -165,6 +165,8 @@ define([
           east: null,
           west: null
           }, {force: true});
+          // toggle rectangle control off
+          _rectangleControl.disable();
         }
       }
 
