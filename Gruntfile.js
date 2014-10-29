@@ -148,34 +148,69 @@ module.exports = function (grunt) {
         dest: '<%= app.dist %>/libs'
       },
 
-      index: {
+      'index': {
         expand: true,
         cwd: 'etc',
         src: ['index-dist.html'],
         dest: '<%= app.dist %>',
         rename: function () { return '<%= app.dist %>/index.html'; }
       },
-      'index-all': {
+      'location-view': {
         expand: true,
         cwd: 'etc',
-        src: ['index-dist-all.html'],
+        src: ['location-view-dist.html'],
         dest: '<%= app.dist %>',
-        rename: function () { return '<%= app.dist %>/index.html'; }
+        rename: function () { return '<%= app.dist %>/location-view.html'; }
       },
-      'index-leaflet': {
+      'region-view': {
         expand: true,
         cwd: 'etc',
-        src: ['index-dist-leaflet.html'],
+        src: ['region-view-dist.html'],
         dest: '<%= app.dist %>',
-        rename: function () { return '<%= app.dist %>/index.html'; }
+        rename: function () { return '<%= app.dist %>/region-view.html'; }
       },
-      'index-webutils': {
+      'location-view-all': {
         expand: true,
         cwd: 'etc',
-        src: ['index-dist-webutils.html'],
+        src: ['location-view-all.html'],
         dest: '<%= app.dist %>',
-        rename: function () { return '<%= app.dist %>/index.html'; }
-      }
+        rename: function () { return '<%= app.dist %>/location-view.html'; }
+      },
+      'region-view-all': {
+        expand: true,
+        cwd: 'etc',
+        src: ['region-view-all.html'],
+        dest: '<%= app.dist %>',
+        rename: function () { return '<%= app.dist %>/region-view.html'; }
+      },
+      'location-view-leaflet': {
+        expand: true,
+        cwd: 'etc',
+        src: ['location-view-leaflet.html'],
+        dest: '<%= app.dist %>',
+        rename: function () { return '<%= app.dist %>/location-view.html'; }
+      },
+      'region-view-leaflet': {
+        expand: true,
+        cwd: 'etc',
+        src: ['region-view-leaflet.html'],
+        dest: '<%= app.dist %>',
+        rename: function () { return '<%= app.dist %>/region-view.html'; }
+      },
+      'location-view-webutils': {
+        expand: true,
+        cwd: 'etc',
+        src: ['location-view-webutils.html'],
+        dest: '<%= app.dist %>',
+        rename: function () { return '<%= app.dist %>/location-view.html'; }
+      },
+      'region-view-webutils': {
+        expand: true,
+        cwd: 'etc',
+        src: ['region-view-webutils.html'],
+        dest: '<%= app.dist %>',
+        rename: function () { return '<%= app.dist %>/region-view.html'; }
+      },
     },
 
     requirejs: {
@@ -315,6 +350,9 @@ module.exports = function (grunt) {
     cssmin: {
       build: {
         expand: true,
+        options: {
+          keepBreaks: true
+        },
         files: {
           '<%= app.dist %>/LocationView.css': [
             '<%= app.tmp %>/LocationView.css'
@@ -425,7 +463,9 @@ module.exports = function (grunt) {
         'cssmin:leaflet',
         'copy:leaflet-images-webutils',
 
-        'copy:index'
+        'copy:index',
+        'copy:location-view',
+        'copy:region-view'
       ]);
     } else if (target === 'leaflet') {
       // Leaflet target specified, build leaflet dist
@@ -438,7 +478,9 @@ module.exports = function (grunt) {
         'requirejs:webutils',
         'cssmin:webutils',
 
-        'copy:index-leaflet'
+        'copy:index',
+        'copy:location-view-leaflet',
+        'copy:region-view-leaflet'
       ]);
     } else if (target === 'webutils') {
       // Web utils specified, build webutils dist
@@ -451,16 +493,22 @@ module.exports = function (grunt) {
         'cssmin:leaflet',
         'copy:leaflet-images-webutils',
 
-        'copy:index-webutils'
+        'copy:index',
+        'copy:location-view-webutils',
+        'copy:region-view-webutils'
       ]);
     } else if (target === 'all') {
       // All specified, build full dist
       Array.prototype.push.apply(tasks, [
         'cssmin:build-all',
+
         'requirejs:build-all-location-view',
         'requirejs:build-all-region-view',
+
         'copy:leaflet-images',
-        'copy:index-all'
+        'copy:index',
+        'copy:location-view-all',
+        'copy:region-view-all'
       ]);
     } else {
       grunt.warn('Invalid build target. Bailing out.');
