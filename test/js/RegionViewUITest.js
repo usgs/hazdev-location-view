@@ -65,9 +65,7 @@ require([
     _south.value = '';
     _east.value = '';
     _west.value = '';
-
-    // why do i need this????
-    _onInputChange();
+    _clearRegionButton.disabled = true;
   });
 
   _showRegionButton.addEventListener('click', function () {
