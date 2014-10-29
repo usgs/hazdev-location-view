@@ -165,6 +165,8 @@ define([
           east: null,
           west: null
           }, {force: true});
+          // toggle rectangle control off
+          _rectangleControl.disable();
         }
       }
 
@@ -183,7 +185,6 @@ define([
         ];
       }
 
-      _rectangleControl.disable();
       _map.fitBounds(extent);
     };
 

@@ -124,23 +124,26 @@ define([
       } else {
         this.enable();
       }
-
-      // update informational text
-      this.displayInstruction();
     },
 
     enable: function () {
-      var map = this._map;
+      var map = this._map,
+          mapContainer = map.getContainer();
 
       map.on('click', this._onClick, this);
       map.on('click', this.displayInstruction, this);
 
       this._tooltip.innerHTML = 'Remove Rectangle from Map';
-      map.getContainer().classList.add(ACTIVE_CLASS_NAME);
+      mapContainer.classList.add(ACTIVE_CLASS_NAME, 'drawing-rectangle');
+
+      // update informational text
+      this.displayInstruction();
     },
 
     disable: function () {
-      var map = this._map;
+      var map = this._map,
+          mapContainer = map.getContainer(),
+          instructionEl = mapContainer.querySelector('.instruction');
 
       if (!map) {
         return;
@@ -151,6 +154,11 @@ define([
 
       if (map.hasLayer(this._view)) {
         map.removeLayer(this._view);
+      }
+
+      if (instructionEl) {
+        mapContainer.removeChild(instructionEl);
+        instructionEl = null;
       }
 
       this._tooltip.innerHTML = 'Draw Rectangle on Map';
@@ -184,6 +192,7 @@ define([
     _onClick: function (evt) {
       var vertices = this._vertices,
           map = this._map,
+          mapContainer = map.getContainer(),
           icon = L.divIcon({className: 'first-marker'});
 
       vertices.push(evt.latlng);
@@ -196,6 +205,9 @@ define([
         map.removeLayer(this._firstClickMarker);
         map.removeLayer(this._preview);
         map.addLayer(this._view);
+
+        // updates cursor once user is done drawing rectangle
+        mapContainer.classList.remove('drawing-rectangle');
 
         this._updateModel();
       } else if (vertices.length === 1) {
@@ -232,18 +244,7 @@ define([
      */
     displayInstruction: function () {
       var mapContainer = this._map.getContainer(),
-          instructionEl = mapContainer.querySelector('.instruction'),
-          active,
-          step;
-
-      // check whether control is active
-      active = mapContainer.classList.contains(ACTIVE_CLASS_NAME);
-
-      if (!active) {
-        mapContainer.removeChild(instructionEl);
-        instructionEl = null;
-        return;
-      }
+          instructionEl = mapContainer.querySelector('.instruction');
 
       if (!instructionEl) {
         instructionEl = document.createElement('p');
@@ -252,7 +253,7 @@ define([
       }
 
       // update instruction element with next message
-      instructionEl.innerHTML = this._getMessage(step);
+      instructionEl.innerHTML = this._getMessage();
     },
 
 

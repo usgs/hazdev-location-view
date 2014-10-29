@@ -1,17 +1,19 @@
 @import 'RectangleOverlayView';
 @import '_mixins';
 
-.leaflet-rectangle-control-active {
-  cursor:crosshair;
+// updates cursor once user is done drawing rectangle
+.drawing-rectangle {
+  cursor: crosshair;
+}
 
-  .leaflet-rectangle-control {
-    @include basic-control-button-active();
-  }
+.leaflet-rectangle-control-active .leaflet-rectangle-control {
+  @include basic-control-button-active();
 }
 
 .leaflet-rectangle-control:active {
   @include basic-control-button-active();
 }
+
 
 .alert {
   // default alert styles
