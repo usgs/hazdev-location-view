@@ -146,6 +146,10 @@ define([
           updateTopBottom = true,
           updateRightLeft = true;
 
+      if (!this._map) {
+        return;
+      }
+
       north = this._model.get('north') || 90.0;
       south = this._model.get('south') || -90.0;
       east = this._model.get('east') || 180.0;

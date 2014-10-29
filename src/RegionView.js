@@ -158,6 +158,8 @@ define([
       if (options.hasOwnProperty('region')) {
         if (options.region) {
           _region.set(options.region);
+          // toggle rectangle control on
+          _rectangleControl.enable();
         } else {
           _region.set({
           north: null,

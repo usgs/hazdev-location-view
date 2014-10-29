@@ -69,6 +69,7 @@ define([
       this._map = map;
       this._container = container;
       this._tooltip = tooltip;
+      this._vertices = [];
 
       L.DomEvent.addListener(button, 'click', this.toggle, this);
       L.DomEvent.addListener(container, 'click', stop);
@@ -102,6 +103,7 @@ define([
       this._map = null;
       this._container = null;
       this._tooltip = null;
+      this._vertices = null;
     },
 
     toggle: function (/*clickEvent*/) {
@@ -117,8 +119,6 @@ define([
         map.off('mousemove', this._onMouseMove, this);
       } catch (e) { /* Ignore */ }
 
-      this._vertices = [];
-
       if (active) {
         this.disable();
       } else {
@@ -128,16 +128,28 @@ define([
 
     enable: function () {
       var map = this._map,
-          mapContainer = map.getContainer();
+          mapContainer = map.getContainer(),
+          active = mapContainer.classList.contains(ACTIVE_CLASS_NAME);
 
-      map.on('click', this._onClick, this);
-      map.on('click', this.displayInstruction, this);
+      // Skips if control was previously made active
+      if (active) {
+        return;
+      }
 
+      // rectangle has been drawn
+      if (map.hasLayer(this._view)){
+        mapContainer.classList.add(ACTIVE_CLASS_NAME);
+      } else {
+        map.on('click', this._onClick, this);
+        map.on('click', this.displayInstruction, this);
+        mapContainer.classList.add(ACTIVE_CLASS_NAME, 'drawing-rectangle');
+      }
+
+      // update tooltip
       this._tooltip.innerHTML = 'Remove Rectangle from Map';
-      mapContainer.classList.add(ACTIVE_CLASS_NAME, 'drawing-rectangle');
-
       // update informational text
       this.displayInstruction();
+
     },
 
     disable: function () {
@@ -161,6 +173,7 @@ define([
         instructionEl = null;
       }
 
+      this._vertices = [];
       this._tooltip.innerHTML = 'Draw Rectangle on Map';
       map.getContainer().classList.remove(ACTIVE_CLASS_NAME);
     },
@@ -198,7 +211,6 @@ define([
       vertices.push(evt.latlng);
 
       if (vertices.length === 2) {
-        // Done. Update model
         map.off('click', this._onClick, this);
         map.off('mousemove', this._onMouseMove, this);
 
@@ -209,6 +221,7 @@ define([
         // updates cursor once user is done drawing rectangle
         mapContainer.classList.remove('drawing-rectangle');
 
+        // Done. Update model
         this._updateModel();
       } else if (vertices.length === 1) {
         this._preview = L.rectangle([vertices[0], vertices[0]],
@@ -267,6 +280,10 @@ define([
     _getMessage: function () {
       var step = this._vertices.length,
           message = '';
+
+      if (this._map.hasLayer(this._view)) {
+        step = 2;
+      }
 
       if (step === 0) {
         message = 'Click to select the starting corner for the rectangle.';
