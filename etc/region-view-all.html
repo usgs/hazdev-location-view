@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Region View Example Page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+  <link rel="stylesheet" href="RegionView.css"/>
+  <style>
+    * {
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+<body>
+  <button id="showRegionView">Show Region View</button>
+
+  <div id="regionResult" class="result"></div>
+
+  <script src="/libs/requirejs/require.js"></script>
+  <script>
+    require([
+      'RegionView'
+    ], function (
+      RegionView
+    ) {
+      'use strict';
+
+      var _regionResult = document.querySelector('#regionResult'),
+          _onRegionCallback;
+
+      window.L.Icon.Default.imagePath = 'images';
+
+      _onRegionCallback = function (region) {
+        _regionResult.innerHTML = JSON.stringify(region, null, 2);
+      };
+
+      var rv = new RegionView({onRegionCallback: _onRegionCallback});
+
+      document.querySelector('#showRegionView').addEventListener('click',
+        function () { rv.show(); });
+    });
+  </script>
+</body>
+</html>
