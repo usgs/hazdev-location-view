@@ -3,8 +3,8 @@ define([
   'util/Util',
   'leaflet',
 
-  'RectangleModel',
-  'RectangleOverlayView'
+  './RectangleModel',
+  './RectangleOverlayView'
 ], function (
   Util,
   L,

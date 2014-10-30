@@ -2,7 +2,7 @@
 define([
   'leaflet',
   'util/Util',
-  'RectangleModel'
+  './RectangleModel'
 ], function (
   L,
   Util,

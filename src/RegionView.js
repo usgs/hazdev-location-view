@@ -5,9 +5,9 @@ define([
   'util/Util',
   'mvc/ModalView',
 
-  'RectangleControl',
-  'RectangleCoordinateView',
-  'RectangleModel'
+  './RectangleControl',
+  './RectangleCoordinateView',
+  './RectangleModel'
 ], function (
   L,
 

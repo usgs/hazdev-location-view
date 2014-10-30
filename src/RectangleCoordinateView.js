@@ -4,7 +4,7 @@ define([
 
   'util/Util',
 
-  'RectangleModel'
+  './RectangleModel'
 ], function (
   L,
 
