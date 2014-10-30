@@ -13,8 +13,26 @@
   <h1>Region View UI Test</h1>
 
   <button id="showRegionView">Show Region View</button>
+  <button id="clearRegionView" disabled>Clear Region View</button>
   <br/>
-  <span id="regionResult" class="region-result">Results Shown Here</span>
+
+
+  <h2>Rectangle Coordinates</h2>
+  <label for="north">North
+    <input type="text" id="north" value="52"/>
+  </label>
+
+  <label for="south">South
+    <input type="text" id="south" value="23"/>
+  </label>
+
+  <label for="east">East
+    <input type="text" id="east" value="-62"/>
+  </label>
+
+  <label for="west">West
+    <input type="text" id="west" value="-130"/>
+  </label>
 
   <script src="/requirejs/require.js"></script>
   <script src="js/config.js"></script>
