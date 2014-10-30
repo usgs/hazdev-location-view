@@ -15,6 +15,7 @@ define([
 				zoom: 3
 			}),
 	    lc = new LocationControl({
+				el: document.createElement('div'),
 				includePointControl: true,
 				includeCoordinateControl: true,
 				includeGeocodeControl: true
