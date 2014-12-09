@@ -1,76 +1,87 @@
-/* global define */
-define([
-  'leaflet',
-
-  'util/Util',
-  'mvc/ModalView',
-
-  './LocationControl'
-], function (
-  L,
-
-  Util,
-  ModalView,
-
-  LocationControl
-) {
-  'use strict';
-
-  var DEFAULTS = {
-    autoOpen: false,
-    includePointControl: true,       // Manages location via pin on map
-    includeCoordinateControl: true,  // Manages location via lat/lng input
-    includeGeocodeControl: true,     // Manages location via address input
-    includeGeolocationControl:       // Manages location via auto-detect (W3C)
-        navigator && 'geolocation' in navigator,
-    callback: function (/*location*/) {}
-  };
+'use strict';
 
 
-  // ----------------------------------------------------------------------
-  // Static Methods
-  // ----------------------------------------------------------------------
+var L = require('leaflet'),
+    LocationControl = require('LocationControl'),
+    ModalView = require('ModalView'),
+    Util = require('util/Util');
 
 
-  /**
-   * Helper method to get URLs for any ArcGIS Online map tiles.
-   *
-   * @param serviceName {String}
-   *        The name of the map tile service for which to return a URL template.
-   *
-   * @return {String}
-   *         The service URL template for use in an L.TileLayer.
-   */
-  var __get_arcgisonline_url = function (serviceName) {
-    var urlPrefix = '//server.arcgisonline.com/ArcGIS/rest/services/',
-        urlSuffix = '/MapServer/tile/{z}/{y}/{x}';
-
-    return urlPrefix + serviceName + urlSuffix;
-  };
+var DEFAULTS = {
+  autoOpen: false,
+  includePointControl: true,       // Manages location via pin on map
+  includeCoordinateControl: true,  // Manages location via lat/lng input
+  includeGeocodeControl: true,     // Manages location via address input
+  includeGeolocationControl:       // Manages location via auto-detect (W3C)
+      navigator && 'geolocation' in navigator,
+  callback: function (/*location*/) {}
+};
 
 
-  // ----------------------------------------------------------------------
-  // Initialization Methods
-  // ----------------------------------------------------------------------
+/**
+ * Helper method to get URLs for any ArcGIS Online map tiles.
+ *
+ * @param serviceName {String}
+ *        The name of the map tile service for which to return a URL template.
+ *
+ * @return {String}
+ *         The service URL template for use in an L.TileLayer.
+ */
+var __get_arcgisonline_url = function (serviceName) {
+  var urlPrefix = '//server.arcgisonline.com/ArcGIS/rest/services/',
+      urlSuffix = '/MapServer/tile/{z}/{y}/{x}';
+
+  return urlPrefix + serviceName + urlSuffix;
+};
 
 
-  /**
-   * @constructor
-   * Creates a new LocationView.
-   *
-   * @param options {Object}
-   *        An object containing configuration options. See DEFAULTS for
-   *        detailed documentation on what can be specified.
-   */
-  var LocationView = function (options) {
-    this._options = Util.extend({}, DEFAULTS, options || {});
+/**
+ * @constructor
+ * Creates a new LocationView.
+ *
+ * @param params {Object}
+ *        An object containing configuration params. See DEFAULTS for
+ *        detailed documentation on what can be specified.
+ */
+var LocationView = function (params) {
+  var _this,
+      _initialize,
 
-    this._createMap();   // Defines this._map as a Leaflet map
-    this._createModal(); // Defines this._modal as a ModalView
+      _callback,
+      _includeCoordinateControl,
+      _includeGeocodeControl,
+      _includeGeolocationControl,
+      _includePointControl,
+      _locationControl,
+      _map,
+      _mapContainer,
+      _modal,
 
-    if (this._options.autoOpen) {
-      this.show();
+      _createMap,
+      _createModal,
+      _onLocation,
+      _updateMap;
+
+
+  _this = {};
+
+  _initialize = function () {
+    params = Util.extend({}, DEFAULTS, params || {});
+
+    _callback = params.callback;
+    _includePointControl = params.includePointControl;
+    _includeGeolocationControl = params.includeGeolocationControl;
+    _includeGeocodeControl = params.includeGeocodeControl;
+    _includeCoordinateControl = params.includeCoordinateControl;
+
+    _createMap();   // Defines this._map as a Leaflet map
+    _createModal(); // Defines this._modal as a ModalView
+
+    if (params.autoOpen) {
+      _this.show();
     }
+
+    params = null;
   };
 
   /**
@@ -78,43 +89,43 @@ define([
    * Called during construction. Creates and initializes the map component.
    *
    * Defines:
-   *      this._map {L.Map}
-   *      this._mapContainer {DomElement}
-   *      this._locationControl {LocationControl}
+   *      _map {L.Map}
+   *      _mapContainer {DomElement}
+   *      _locationControl {LocationControl}
    *
    */
-  LocationView.prototype._createMap = function () {
+  _createMap = function () {
     var layerControl = new L.Control.Layers();
 
-    this._mapContainer = document.createElement('div');
-    this._mapContainer.classList.add('locationview-map');
+    _mapContainer = document.createElement('div');
+    _mapContainer.classList.add('locationview-map');
 
-    this._map = new L.Map(this._mapContainer, {
+    _map = new L.Map(_mapContainer, {
       zoomControl: true,
       attributionControl: false
     });
 
-    this._map.fitBounds([[70.0, -170.0], [-50.0, 170.0]]);
+    _map.fitBounds([[70.0, -170.0], [-50.0, 170.0]]);
 
     layerControl.addBaseLayer(new L.TileLayer(
         __get_arcgisonline_url('NatGeo_World_Map'))
-        .addTo(this._map), 'Topography');
+        .addTo(_map), 'Topography');
     layerControl.addBaseLayer(new L.TileLayer(
         __get_arcgisonline_url('Canvas/World_Light_Gray_Base')), 'Grayscale');
     layerControl.addBaseLayer(new L.TileLayer(
         __get_arcgisonline_url('World_Imagery')), 'Satellite');
 
     // TODO :: Use a real location control
-    this._locationControl = new LocationControl({
-      el: this._mapContainer,
-      includePointControl: this._options.includePointControl,
-      includeCoordinateControl: this._options.includeCoordinateControl,
-      includeGeocodeControl: this._options.includeGeocodeControl,
-      includeGeolocationControl: this._options.includeGeolocationControl
+    _locationControl = new LocationControl({
+      el: _mapContainer,
+      includePointControl: _includePointControl,
+      includeCoordinateControl: _includeCoordinateControl,
+      includeGeocodeControl: _includeGeocodeControl,
+      includeGeolocationControl: _includeGeolocationControl
     });
-    this._locationControl.enable();
-    this._map.addControl(layerControl);          // Layer switcher
-    this._map.addControl(this._locationControl); // Methods to set locations
+    _locationControl.enable();
+    _map.addControl(layerControl);          // Layer switcher
+    _map.addControl(_locationControl); // Methods to set locations
   };
 
   /**
@@ -125,10 +136,8 @@ define([
    *      this._modal {ModalView}
    *
    */
-  LocationView.prototype._createModal = function () {
-    var _this = this;
-
-    this._modal = new ModalView(this._mapContainer, {
+  _createModal = function () {
+    _modal = new ModalView(_mapContainer, {
       title: 'Specify a Location',
       classes: ['locationview'],
       buttons: [
@@ -136,17 +145,17 @@ define([
           text: 'Use this Location',
           classes: ['locationview-button'],
           callback: function () {
-            _this._options.callback(_this._locationControl.getLocation());
-            _this._modal.hide();
+            _callback(_locationControl.getLocation());
+            _modal.hide();
           }
         }
       ]
     });
-    this._locationControl.on('location', this._onLocation, this);
+    _locationControl.on('location', _onLocation);
     /* Called initially to disable the button if you enter the location view
      * with no location information, or enable it if location information exists
      */
-    this._onLocation();
+    _onLocation();
   };
 
 
@@ -156,8 +165,8 @@ define([
    * to be disabled when the location is null and enabled otherwise.
    *
    */
-  LocationView.prototype._onLocation = function (e) {
-    var button = this._modal._el.querySelector('.locationview-button'),
+  _onLocation = function (e) {
+    var button = _modal._el.querySelector('.locationview-button'),
         location;
 
     if (e) {
@@ -169,21 +178,36 @@ define([
     if (location) {
       button.disabled = false;
       button.innerHTML = 'Use this Location';
-      Util.addClass(button, 'locationview-button-enabled');
-      Util.removeClass(button, 'locationview-button-disabled');
+      button.classList.add('locationview-button-enabled');
+      button.classList.remove('locationview-button-disabled');
     } else {
       button.disabled = true;
       button.innerHTML = 'No Location Selected';
-      Util.addClass(button, 'locationview-button-disabled');
-      Util.removeClass(button, 'locationview-button-enabled');
+      button.classList.add('locationview-button-disabled');
+      button.classList.remove('locationview-button-enabled');
     }
 
   };
 
+  /**
+   * Sets initial map display when showing the map.
+   *
+   * @param options {Object}
+   *        Options for setting initial map display properties when showing
+   *        the location view. See LocationView.show for more details.
+   */
+  _updateMap = function (options) {
+    options = options || {};
+    _map.invalidateSize();
 
-  // ----------------------------------------------------------------------
-  // Public Methods
-  // ----------------------------------------------------------------------
+    if (options.hasOwnProperty('location')) {
+      _locationControl.setLocation(options.location);
+    }
+
+    if (options.hasOwnProperty('extent')) {
+      _map.fitBounds(options.extent);
+    }
+  };
 
 
   /**
@@ -209,37 +233,14 @@ define([
    *             user does not change it. If null, any previously set location
    *             is cleared.
    */
-  LocationView.prototype.show = function (options) {
-    this._modal.show();
-    this._updateMap(options);
+  _this.show = function (options) {
+    _modal.show();
+    _updateMap(options);
   };
 
 
-  // ----------------------------------------------------------------------
-  // Private Methods
-  // ----------------------------------------------------------------------
+  _initialize();
+};
 
 
-  /**
-   * Sets initial map display when showing the map.
-   *
-   * @param options {Object}
-   *        Options for setting initial map display properties when showing
-   *        the location view. See LocationView.show for more details.
-   */
-  LocationView.prototype._updateMap = function (options) {
-    options = options || {};
-    this._map.invalidateSize();
-
-    if (options.hasOwnProperty('location')) {
-      this._locationControl.setLocation(options.location);
-    }
-
-    if (options.hasOwnProperty('extent')) {
-      this._map.fitBounds(options.extent);
-    }
-  };
-
-
-  return LocationView;
-});
+module.exports = LocationView;

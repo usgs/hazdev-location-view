@@ -1,77 +1,104 @@
-/* global define */
-define([
-  './ConfidenceCalculator'
-], function (
-  ConfidenceCalculator
-) {
-  'use strict';
+'use strict';
 
-  // Static incrementor for uniqueness
-  var GEOCODE_REQUEST_ID = 0;
-  // Webservice URL for forward geocode requests
-  var FORWARD_URL = 'http://open.mapquestapi.com/nominatim/v1/search.php';
-  // Webservice URL for reverse geocode requests
-  var REVERSE_URL = 'http://open.mapquestapi.com/nominatim/v1/reverse.php';
-  var METHOD_GEOCODE = 'geocode';
+
+var ConfidenceCalculator = require('ConfidenceCalculator'),
+    Util = require('util/Util');
+
+
+// Static incrementor for uniqueness
+var GEOCODE_REQUEST_ID = 0;
+var METHOD_GEOCODE = 'geocode';
+
+var DEFAULTS = {
+  forwardUrl: 'http://open.mapquestapi.com/nominatim/v1/search.php',
+  reverseUrl: 'http://open.mapquestapi.com/nominatim/v1/reverse.php'
+};
+
+
+/**
+ * Creates a new geocoder object.
+ *
+ * @param options {Object}
+ *      Configuration options. Must specify {apiKey}. May specify
+ *      {forwardUrl} and/or {reverseUrl}.
+ */
+var Geocoder = function (params) {
+  var _this,
+      _initialize,
+
+      _forwardUrl,
+      _reverseUrl,
+
+      _buildLocationResult,
+      _getCallbackName,
+      _submitRequest;
+
+
+  _this = {};
+
+  _initialize = function () {
+    params = Util.extend({}, DEFAULTS, params);
+
+    _forwardUrl = params.forwardUrl;
+    _reverseUrl = params.reverseUrl;
+
+    params = null;
+  };
+
 
   /**
-   * Creates a new geocoder object.
+   * Private static method.
    *
-   * @param options {Object}
-   *      Configuration options. Must specify {apiKey}. May specify
-   *      {forwardUrl} and/or {reverseUrl}.
+   * Creates a {location} object from the given {geocodeResponse} and {originalRequest}.
+   *
+   * @param geocodeResponse {Object}
+   *      The first location object returned by the JSONP request.
+   * @param originalRequest {Object}
+   *      The parameters used to create the original JSONP request.
+   *
+   * @return {Object}
+   *      A location object for use with LocationView and LocationControl
+   *      components.
    */
-  var Geocoder = function (options) {
-    options = options || {};
-    this._forwardUrl = options.forwardUrl || FORWARD_URL;
-    this._reverseUrl = options.reverseUrl || REVERSE_URL;
+  _buildLocationResult = function (geocodeResponse, originalRequest) {
+    var location = {};
+
+    if (originalRequest.hasOwnProperty('q')) {
+      // forward lookup
+      location.place = originalRequest.q;
+      location.latitude = Number(geocodeResponse.lat);
+      location.longitude = Number(geocodeResponse.lon);
+      location.method = METHOD_GEOCODE;
+      location.confidence = ConfidenceCalculator.computeFromGeocode(
+          geocodeResponse);
+    } else {
+      // reverse lookup
+      location.place = geocodeResponse.display_name;
+      location.latitude = originalRequest.lat;
+      location.longitude = originalRequest.lon;
+      location.method = METHOD_GEOCODE;
+      location.confidence = ConfidenceCalculator.computeFromCoordinates(
+          originalRequest.latitude, originalRequest.longitude);
+    }
+
+    return location;
   };
 
   /**
-   * Performs asynchronous forward geocode requests.
+   * Private static method.
    *
-   * @param addressString {String}
-   *      The address string to geocode.
-   * @param successCallback {Function}
-   *      The callback method to execute on success. This callback should expect
-   *      a {location} object as its singal parameter.
-   * @param errorCallback {Function}
-   *      The callback method to execute on error. This callback should expect
-   *      {statusCode} and {statusMessage} parameters.
-   */
-  Geocoder.prototype.forward = function (addressString, successCallback,
-      errorCallback) {
-    var request = {
-      q: addressString
-    };
-
-    this._submitRequest(request, this._forwardUrl, successCallback,
-        errorCallback);
-  };
-
-    /**
-   * Performs asynchronous reverse geocode requests.
+   * Computes a unique string suitable for use in creating a new global
+   * callback method.
    *
-   * @param latitude {String}
-   *      The latitude of the coordinate to reverse geocode.
-   * @param longitude {String}
-   *      The longitude of the coordinate to reverse geocode.
-   * @param successCallback {Function}
-   *      The callback method to execute on success. This callback should expect
-   *      a {location} object as its singal parameter.
-   * @param errorCallback {Function}
-   *      The callback method to execute on error. This callback should expect
-   *      {statusCode} and {statusMessage} parameters.
+   * @return {String}
+   *      A unique string.
    */
-  Geocoder.prototype.reverse = function (latitude, longitude, successCallback,
-      errorCallback) {
-    var request = {
-      lat: latitude,
-      lon: longitude
-    };
+  _getCallbackName = function () {
+    var callback = 'geocode_' + (new Date()).getTime() + '_' +
+        GEOCODE_REQUEST_ID;
 
-    this._submitRequest(request, this._reverseUrl, successCallback,
-        errorCallback);
+    GEOCODE_REQUEST_ID += 1;
+    return callback;
   };
 
   /**
@@ -91,8 +118,7 @@ define([
    *      The callback method to execute on error. This callback should expect
    *      {statusCode} and {statusMessage} parameters.
    */
-  Geocoder.prototype._submitRequest = function (params, url, successCallback,
-      errorCallback) {
+  _submitRequest = function (params, url, successCallback, errorCallback) {
 
     var script = document.createElement('script'),
         insertAt = document.querySelector('script'),
@@ -147,64 +173,55 @@ define([
     insertAt.parentNode.insertBefore(script, insertAt);
   };
 
+
   /**
-   * Private static method.
+   * Performs asynchronous forward geocode requests.
    *
-   * Creates a {location} object from the given {geocodeResponse} and {originalRequest}.
-   *
-   * @param geocodeResponse {Object}
-   *      The first location object returned by the JSONP request.
-   * @param originalRequest {Object}
-   *      The parameters used to create the original JSONP request.
-   *
-   * @return {Object}
-   *      A location object for use with LocationView and LocationControl
-   *      components.
+   * @param addressString {String}
+   *      The address string to geocode.
+   * @param successCallback {Function}
+   *      The callback method to execute on success. This callback should expect
+   *      a {location} object as its singal parameter.
+   * @param errorCallback {Function}
+   *      The callback method to execute on error. This callback should expect
+   *      {statusCode} and {statusMessage} parameters.
    */
-  var _buildLocationResult = function (geocodeResponse, originalRequest) {
-    var location = {};
+  _this.forward = _this.geocode = function (addressString, successCallback,
+      errorCallback) {
+    var request = {
+      q: addressString
+    };
 
-    if (originalRequest.hasOwnProperty('q')) {
-      // forward lookup
-      location.place = originalRequest.q;
-      location.latitude = Number(geocodeResponse.lat);
-      location.longitude = Number(geocodeResponse.lon);
-      location.method = METHOD_GEOCODE;
-      location.confidence = ConfidenceCalculator.computeFromGeocode(
-          geocodeResponse);
-    } else {
-      // reverse lookup
-      location.place = geocodeResponse.display_name;
-      location.latitude = originalRequest.lat;
-      location.longitude = originalRequest.lon;
-      location.method = METHOD_GEOCODE;
-      location.confidence = ConfidenceCalculator.computeFromCoordinates(
-          originalRequest.latitude, originalRequest.longitude);
-    }
-
-    return location;
+    this._submitRequest(request, _forwardUrl, successCallback, errorCallback);
   };
 
   /**
-   * Private static method.
+   * Performs asynchronous reverse geocode requests.
    *
-   * Computes a unique string suitable for use in creating a new global
-   * callback method.
-   *
-   * @return {String}
-   *      A unique string.
+   * @param latitude {String}
+   *      The latitude of the coordinate to reverse geocode.
+   * @param longitude {String}
+   *      The longitude of the coordinate to reverse geocode.
+   * @param successCallback {Function}
+   *      The callback method to execute on success. This callback should expect
+   *      a {location} object as its singal parameter.
+   * @param errorCallback {Function}
+   *      The callback method to execute on error. This callback should expect
+   *      {statusCode} and {statusMessage} parameters.
    */
-  var _getCallbackName = function () {
-    var callback = 'geocode_' + (new Date()).getTime() + '_' +
-        GEOCODE_REQUEST_ID;
+  _this.reverse = _this.reverseGeocode = function (latitude, longitude,
+      successCallback, errorCallback) {
+    var request = {
+      lat: latitude,
+      lon: longitude
+    };
 
-    GEOCODE_REQUEST_ID += 1;
-    return callback;
+    _submitRequest(request, _reverseUrl, successCallback, errorCallback);
   };
 
-  // -- Canonical helpers to expose a more human-readible API -- //
-  Geocoder.prototype.geocode = Geocoder.prototype.forward;
-  Geocoder.prototype.reverseGeocode = Geocoder.prototype.reverse;
 
-  return Geocoder;
-});
+  _initialize();
+};
+
+
+module.exports = Geocoder;
