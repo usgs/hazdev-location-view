@@ -15,7 +15,7 @@
 }
 
 
-.alert {
+.regionview-map > .alert {
   // default alert styles
   display:block;
   padding: 0.75em 1em;
@@ -35,7 +35,7 @@
   box-shadow: 0 1px 3px rgba(0,0,0,0.3);
 }
 
-.info {
+.regionview-map > .info {
   color: #2d7091;
   background-color: #ebf7fd;
   border-color: rgba(45,112,145,1);
