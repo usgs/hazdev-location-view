@@ -142,7 +142,8 @@ define([
       } else {
         map.on('click', this._onClick, this);
         map.on('click', this.displayInstruction, this);
-        mapContainer.classList.add(ACTIVE_CLASS_NAME, 'drawing-rectangle');
+        mapContainer.classList.add(ACTIVE_CLASS_NAME);
+        mapContainer.classList.add('drawing-rectangle');
       }
 
       // update tooltip
@@ -261,7 +262,10 @@ define([
 
       if (!instructionEl) {
         instructionEl = document.createElement('p');
-        instructionEl.classList.add('alert', 'info', 'instruction');
+        // IE 11 bug - doesn't support multiple tokens passed to add function
+        instructionEl.classList.add('alert');
+        instructionEl.classList.add('info');
+        instructionEl.classList.add('instruction');
         mapContainer.appendChild(instructionEl);
       }
 
