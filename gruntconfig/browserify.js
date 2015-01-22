@@ -5,9 +5,6 @@ var config = require('./config'),
 
 browserify.options = {
   browserifyOptions: {
-    debug: true,
-    deps: true,
-    list: true,
     paths: [
       process.cwd() + '/' + config.src,
       process.cwd() + '/node_modules/hazdev-webutils/src'
