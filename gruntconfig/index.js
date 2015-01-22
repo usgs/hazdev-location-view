@@ -3,6 +3,7 @@
 module.exports = (function () {
   var config = {
     browserify: require('./browserify'),
+    compass: require('./compass'),
     connect: require('./connect'),
     jshint: require('./jshint'),
     mocha_phantomjs: require('./mocha_phantomjs'),
@@ -10,6 +11,7 @@ module.exports = (function () {
 
     tasks: [
       'grunt-browserify',
+      'grunt-contrib-compass',
       'grunt-contrib-connect',
       'grunt-contrib-jshint',
       'grunt-mocha-phantomjs',

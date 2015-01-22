@@ -3,6 +3,10 @@
 var config = require('./config');
 
 module.exports = {
+  compass: {
+    files: [config.src + '/**/*.scss'],
+    tasks: ['compass:dev']
+  },
   scripts: {
     files: [config.src + '/**/*.js'],
     tasks: ['jshint:scripts', 'browserify', 'mocha_phantomjs']

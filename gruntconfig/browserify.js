@@ -21,6 +21,5 @@ browserify.options = {
   browserify[bundle] = {files: {}};
   browserify[bundle].files[targetFile] = [sourceFile];
 });
-console.log(browserify);
 
 module.exports = browserify;
