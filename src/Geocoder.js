@@ -101,6 +101,52 @@ var Geocoder = function (params) {
     return callback;
   };
 
+
+  /**
+   * Performs asynchronous forward geocode requests.
+   *
+   * @param addressString {String}
+   *      The address string to geocode.
+   * @param successCallback {Function}
+   *      The callback method to execute on success. This callback should expect
+   *      a {location} object as its singal parameter.
+   * @param errorCallback {Function}
+   *      The callback method to execute on error. This callback should expect
+   *      {statusCode} and {statusMessage} parameters.
+   */
+  _this.forward = _this.geocode = function (addressString, successCallback,
+      errorCallback) {
+    var request = {
+      q: addressString
+    };
+
+    _this.submitRequest(request, _forwardUrl, successCallback, errorCallback);
+  };
+
+  /**
+   * Performs asynchronous reverse geocode requests.
+   *
+   * @param latitude {String}
+   *      The latitude of the coordinate to reverse geocode.
+   * @param longitude {String}
+   *      The longitude of the coordinate to reverse geocode.
+   * @param successCallback {Function}
+   *      The callback method to execute on success. This callback should expect
+   *      a {location} object as its singal parameter.
+   * @param errorCallback {Function}
+   *      The callback method to execute on error. This callback should expect
+   *      {statusCode} and {statusMessage} parameters.
+   */
+  _this.reverse = _this.reverseGeocode = function (latitude, longitude,
+      successCallback, errorCallback) {
+    var request = {
+      lat: latitude,
+      lon: longitude
+    };
+
+    _this.submitRequest(request, _reverseUrl, successCallback, errorCallback);
+  };
+
   /**
    * Private method.
    *
@@ -118,7 +164,7 @@ var Geocoder = function (params) {
    *      The callback method to execute on error. This callback should expect
    *      {statusCode} and {statusMessage} parameters.
    */
-  _submitRequest = function (params, url, successCallback, errorCallback) {
+  _this.submitRequest = function (params, url, successCallback, errorCallback) {
 
     var script = document.createElement('script'),
         insertAt = document.querySelector('script'),
@@ -174,53 +220,8 @@ var Geocoder = function (params) {
   };
 
 
-  /**
-   * Performs asynchronous forward geocode requests.
-   *
-   * @param addressString {String}
-   *      The address string to geocode.
-   * @param successCallback {Function}
-   *      The callback method to execute on success. This callback should expect
-   *      a {location} object as its singal parameter.
-   * @param errorCallback {Function}
-   *      The callback method to execute on error. This callback should expect
-   *      {statusCode} and {statusMessage} parameters.
-   */
-  _this.forward = _this.geocode = function (addressString, successCallback,
-      errorCallback) {
-    var request = {
-      q: addressString
-    };
-
-    this._submitRequest(request, _forwardUrl, successCallback, errorCallback);
-  };
-
-  /**
-   * Performs asynchronous reverse geocode requests.
-   *
-   * @param latitude {String}
-   *      The latitude of the coordinate to reverse geocode.
-   * @param longitude {String}
-   *      The longitude of the coordinate to reverse geocode.
-   * @param successCallback {Function}
-   *      The callback method to execute on success. This callback should expect
-   *      a {location} object as its singal parameter.
-   * @param errorCallback {Function}
-   *      The callback method to execute on error. This callback should expect
-   *      {statusCode} and {statusMessage} parameters.
-   */
-  _this.reverse = _this.reverseGeocode = function (latitude, longitude,
-      successCallback, errorCallback) {
-    var request = {
-      lat: latitude,
-      lon: longitude
-    };
-
-    _submitRequest(request, _reverseUrl, successCallback, errorCallback);
-  };
-
-
   _initialize();
+  return _this;
 };
 
 

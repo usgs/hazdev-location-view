@@ -1,176 +1,168 @@
-/* global define, describe, it, before, after */
-define([
-	'chai',
-	'PointControl',
-	'leaflet',
-	'sinon'
-], function (
-	chai,
-	PointControl,
-	L,
-	sinon
-) {
-	'use strict';
-	var expect = chai.expect;
+/* global describe, it, before, after */
+'use strict';
 
-	var testLoc1 = {
-		place: null,
-		latitude: 35.0,
-		longitude: -118.0,
-		method: 'point',
-		confidence: 1
-	};
+var expect = require('chai').expect,
+    PointControl = require('PointControl'),
+    L = require('leaflet'),
+    sinon = require('sinon');
 
-	var testLoc2 = {
-		place: null,
-		latitude: 40.0,
-		longitude: -105.0,
-		method: 'point',
-		confidence: 1
-	};
+var testLoc1 = {
+  place: null,
+  latitude: 35.0,
+  longitude: -118.0,
+  method: 'point',
+  confidence: 1
+};
 
-	describe('PointControl test suite', function () {
+var testLoc2 = {
+  place: null,
+  latitude: 40.0,
+  longitude: -105.0,
+  method: 'point',
+  confidence: 1
+};
 
-		describe('Class Definition', function () {
-			it('Can be required', function () {
-				/* jshint -W030 */
-				expect(PointControl).not.to.be.null;
-				/* jshint +W030 */
-			});
-		});
+describe('PointControl test suite', function () {
 
-		describe('initialize()', function () {
-			var p = new PointControl();
+  describe('Class Definition', function () {
+    it('Can be required', function () {
+      /* jshint -W030 */
+      expect(PointControl).not.to.be.null;
+      /* jshint +W030 */
+    });
+  });
 
-			it('Can be instantiated', function () {
-				expect(p).to.be.an.instanceof(PointControl);
-			});
+  describe('initialize()', function () {
+    var p = new PointControl();
 
-			it('Inherits from L.Control', function () {
-				expect(p).to.be.an.instanceof(L.Control);
-			});
+    it('Can be instantiated', function () {
+      expect(p).to.be.an.instanceof(PointControl);
+    });
 
-			it('sets options on itself', function () {
-				expect(p.options).to.be.an.instanceof(Object);
-			});
+    it('Inherits from L.Control', function () {
+      expect(p).to.be.an.instanceof(L.Control);
+    });
 
-			it('has proper default attributes', function () {
-				/* jshint -W030 */
-				expect(p._marker).to.not.be.null;
-				expect(p._isEnabled).to.be.false;
-				/* jshint +W030 */
-			});
-		});
+    it('sets options on itself', function () {
+      expect(p.options).to.be.an.instanceof(Object);
+    });
 
-		describe('setLocation()', function () {
-			var p = new PointControl();
+    it('has proper default attributes', function () {
+      /* jshint -W030 */
+      expect(p._marker).to.not.be.null;
+      expect(p._isEnabled).to.be.false;
+      /* jshint +W030 */
+    });
+  });
 
-			it('notifies listeners by default', function () {
-				var onSetLocation = sinon.spy();
+  describe('setLocation()', function () {
+    var p = new PointControl();
 
-				p.on('location', onSetLocation);
-				p.setLocation(testLoc1);
+    it('notifies listeners by default', function () {
+      var onSetLocation = sinon.spy();
 
-				expect(onSetLocation.callCount).to.equal(1);
-			});
+      p.on('location', onSetLocation);
+      p.setLocation(testLoc1);
 
-			it('suppresses notifications with silent option', function () {
-				var onSetLocation = sinon.spy();
+      expect(onSetLocation.callCount).to.equal(1);
+    });
 
-				p.on('location', onSetLocation);
-				p.setLocation(testLoc1, {silent: true});
+    it('suppresses notifications with silent option', function () {
+      var onSetLocation = sinon.spy();
 
-				expect(onSetLocation.callCount).to.equal(0);
-			});
+      p.on('location', onSetLocation);
+      p.setLocation(testLoc1, {silent: true});
 
-			it('passes correct location data to listeners', function () {
-				var onSetLocation = sinon.spy();
+      expect(onSetLocation.callCount).to.equal(0);
+    });
 
-				p.on('location', onSetLocation);
-				p.setLocation(testLoc1);
+    it('passes correct location data to listeners', function () {
+      var onSetLocation = sinon.spy();
 
-				/* jshint  -W030 */
-				expect(onSetLocation.alwaysCalledWithMatch({'location': testLoc1})).to.be.true;
-				/* jshint +W030 */
-			});
+      p.on('location', onSetLocation);
+      p.setLocation(testLoc1);
 
-		});
+      /* jshint  -W030 */
+      expect(onSetLocation.alwaysCalledWithMatch({'location': testLoc1})).to.be.true;
+      /* jshint +W030 */
+    });
 
-		describe('getLocation()', function () {
-			var p = new PointControl({defaultLocation: testLoc1});
+  });
 
-			before(function () {
-				p._map = {getZoom: function () { return 3; }};
-				p._marker._map = p._map;
-			});
+  describe('getLocation()', function () {
+    var p = new PointControl({defaultLocation: testLoc1});
 
-			after(function () {
-				p._map = null;
-				p._marker._map = null;
-			});
+    before(function () {
+      p._map = {getZoom: function () { return 3; }};
+      p._marker._map = p._map;
+    });
 
-			it('returns null by default', function () {
-				var p = new PointControl();
-				var loc = p.getLocation();
+    after(function () {
+      p._map = null;
+      p._marker._map = null;
+    });
 
-				/* jshint -W030 */
-				expect(loc).to.be.null;
-				/* jshint +W030 */
-			});
+    it('returns null by default', function () {
+      var p = new PointControl();
+      var loc = p.getLocation();
 
-			it('returns the default location when specified', function () {
-				var loc = p.getLocation();
-				expect(loc.latitude).to.equal(testLoc1.latitude);
-				expect(loc.longitude).to.equal(testLoc1.longitude);
-			});
+      /* jshint -W030 */
+      expect(loc).to.be.null;
+      /* jshint +W030 */
+    });
 
-			it('returns the most recently set location', function () {
-				expect(p.getLocation()).to.deep.equal(testLoc1);
+    it('returns the default location when specified', function () {
+      var loc = p.getLocation();
+      expect(loc.latitude).to.equal(testLoc1.latitude);
+      expect(loc.longitude).to.equal(testLoc1.longitude);
+    });
 
-				p.setLocation(testLoc2);
-				expect(p.getLocation()).to.deep.equal(testLoc2);
-			});
-		});
+    it('returns the most recently set location', function () {
+      expect(p.getLocation()).to.deep.equal(testLoc1);
 
-		describe('onAdd()', function () {
-			var p = new PointControl();
-			var clickHandler = sinon.spy(p, 'toggle');
-			var c = p.onAdd(L.map(document.createElement('div'))).querySelector('a');
+      p.setLocation(testLoc2);
+      expect(p.getLocation()).to.deep.equal(testLoc2);
+    });
+  });
 
-			var getClickEvent = function () {
-				var clickEvent = document.createEvent('MouseEvents');
-				clickEvent.initMouseEvent('click', true, true, window, 1, 0, 0);
-				return clickEvent;
-			};
+  describe('onAdd()', function () {
+    var p = new PointControl();
+    var clickHandler = sinon.spy(p, 'toggle');
+    var c = p.onAdd(L.map(document.createElement('div'))).querySelector('a');
 
-			it('register a click handler in onAdd method', function () {
-				expect(clickHandler.callCount).to.equal(0);
+    var getClickEvent = function () {
+      var clickEvent = document.createEvent('MouseEvents');
+      clickEvent.initMouseEvent('click', true, true, window, 1, 0, 0);
+      return clickEvent;
+    };
 
-				c.dispatchEvent(getClickEvent());
-				expect(clickHandler.callCount).to.equal(1);
+    it('register a click handler in onAdd method', function () {
+      expect(clickHandler.callCount).to.equal(0);
 
-				c.dispatchEvent(getClickEvent());
-				expect(clickHandler.callCount).to.equal(2);
-			});
+      c.dispatchEvent(getClickEvent());
+      expect(clickHandler.callCount).to.equal(1);
 
-			it('has a map after adding', function () {
-				expect(p._map).to.be.an.instanceof(L.Map);
-			});
-		});
+      c.dispatchEvent(getClickEvent());
+      expect(clickHandler.callCount).to.equal(2);
+    });
 
-		describe('onRemove()', function () {
-			var p = new PointControl(),
-			    m = new L.Map(document.createElement('div'));
+    it('has a map after adding', function () {
+      expect(p._map).to.be.an.instanceof(L.Map);
+    });
+  });
 
-			p.onAdd(m);
-			p.onRemove(m);
+  describe('onRemove()', function () {
+    var p = new PointControl(),
+        m = new L.Map(document.createElement('div'));
 
-			it('should not have a map after removal', function () {
-				/* jshint -W030 */
-				expect(p._map).to.be.null;
-				/* jshint +W030 */
-			});
-		});
+    p.onAdd(m);
+    p.onRemove(m);
 
-	});
+    it('should not have a map after removal', function () {
+      /* jshint -W030 */
+      expect(p._map).to.be.null;
+      /* jshint +W030 */
+    });
+  });
+
 });

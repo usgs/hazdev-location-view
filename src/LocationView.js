@@ -3,7 +3,7 @@
 
 var L = require('leaflet'),
     LocationControl = require('LocationControl'),
-    ModalView = require('ModalView'),
+    ModalView = require('mvc/ModalView'),
     Util = require('util/Util');
 
 
@@ -59,8 +59,7 @@ var LocationView = function (params) {
 
       _createMap,
       _createModal,
-      _onLocation,
-      _updateMap;
+      _onLocation;
 
 
   _this = {};
@@ -166,7 +165,7 @@ var LocationView = function (params) {
    *
    */
   _onLocation = function (e) {
-    var button = _modal._el.querySelector('.locationview-button'),
+    var button = _modal.el.querySelector('.locationview-button'),
         location;
 
     if (e) {
@@ -189,26 +188,15 @@ var LocationView = function (params) {
 
   };
 
+
   /**
-   * Sets initial map display when showing the map.
+   * @APIMethod
+   * Hides the LocationView.
    *
-   * @param options {Object}
-   *        Options for setting initial map display properties when showing
-   *        the location view. See LocationView.show for more details.
    */
-  _updateMap = function (options) {
-    options = options || {};
-    _map.invalidateSize();
-
-    if (options.hasOwnProperty('location')) {
-      _locationControl.setLocation(options.location);
-    }
-
-    if (options.hasOwnProperty('extent')) {
-      _map.fitBounds(options.extent);
-    }
+  _this.hide = function () {
+    _modal.hide();
   };
-
 
   /**
    * @APIMethod
@@ -235,11 +223,33 @@ var LocationView = function (params) {
    */
   _this.show = function (options) {
     _modal.show();
-    _updateMap(options);
+    _this.updateMap(options);
+  };
+
+  /**
+   * @APIMethod
+   * Sets initial map display when showing the map.
+   *
+   * @param options {Object}
+   *        Options for setting initial map display properties when showing
+   *        the location view. See LocationView.show for more details.
+   */
+  _this.updateMap = function (options) {
+    options = options || {};
+    _map.invalidateSize();
+
+    if (options.hasOwnProperty('location')) {
+      _locationControl.setLocation(options.location);
+    }
+
+    if (options.hasOwnProperty('extent')) {
+      _map.fitBounds(options.extent);
+    }
   };
 
 
   _initialize();
+  return _this;
 };
 
 
