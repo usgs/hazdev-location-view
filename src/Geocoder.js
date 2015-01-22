@@ -30,8 +30,7 @@ var Geocoder = function (params) {
       _reverseUrl,
 
       _buildLocationResult,
-      _getCallbackName,
-      _submitRequest;
+      _getCallbackName;
 
 
   _this = {};
