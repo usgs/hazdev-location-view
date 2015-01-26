@@ -3,7 +3,7 @@
 
 var expect = require('chai').expect,
     GeocodeControl = require('GeocodeControl'),
-    L = require('leaflet'),
+    L = require('LeafletShim'),
     sinon = require('sinon');
 
 var getClickEvent = function () {

@@ -3,7 +3,7 @@
 
 var expect = require('chai').expect,
     CoordinateControl = require('CoordinateControl'),
-    L = require('leaflet'),
+    L = require('LeafletShim'),
     sinon = require('sinon');
 
 var boulderCO = {

@@ -1,7 +1,5 @@
 /* global mocha */
 
-var L = require('leaflet');
-
 // PhantomJS is missing native bind support,
 //     https://github.com/ariya/phantomjs/issues/10522
 // Polyfill from:
@@ -34,33 +32,6 @@ if (!Function.prototype.bind) {
 }
 
 
-// require.config({
-// 	baseUrl: '..',
-// 	paths: {
-// 		mocha: 'mocha/mocha',
-// 		chai: 'chai/chai',
-// 		mvc: '/hazdev-webutils/src/mvc',
-// 		util: '/hazdev-webutils/src/util',
-// 		leaflet: '/leaflet/dist/leaflet-src',
-// 		sinon: '/sinon/pkg/sinon'
-// 	},
-// 	shim: {
-// 		mocha: {
-// 			exports: 'mocha'
-// 		},
-// 		chai: {
-// 			deps: ['mocha'],
-// 			exports: 'chai'
-// 		},
-// 		leaflet: {
-// 			exports: 'L'
-// 		},
-// 		sinon: {
-// 			exports: 'sinon'
-// 		}
-// 	}
-// });
-
 (function () {
 	'use strict';
 
@@ -83,11 +54,3 @@ if (!Function.prototype.bind) {
 		mocha.run();
 	}
 })(this);
-
-// Hack to get tests passing. Not an actual image location.
-(function () {
-	'use strict';
-	if (!L.Icon.Default.imagePath) {
-		L.Icon.Default.imagePath = '/images/';
-	}
-})();

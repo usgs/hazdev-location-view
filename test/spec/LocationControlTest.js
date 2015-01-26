@@ -3,7 +3,7 @@
 
 var expect = require('chai').expect,
     LocationControl = require('LocationControl'),
-    L = require('leaflet');
+    L = require('LeafletShim');
 
 var map = new L.Map(L.DomUtil.create('div', 'map'), {
       center: new L.LatLng(40.0, -105.0),

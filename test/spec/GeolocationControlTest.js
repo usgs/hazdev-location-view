@@ -3,7 +3,7 @@
 
 var expect = require('chai').expect,
     sinon = require('sinon'),
-    L = require('leaflet'),
+    L = require('LeafletShim'),
     GeolocationControl = require('GeolocationControl');
 
 describe('GeolocationControl test suite', function () {

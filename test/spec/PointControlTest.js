@@ -3,7 +3,7 @@
 
 var expect = require('chai').expect,
     PointControl = require('PointControl'),
-    L = require('leaflet'),
+    L = require('LeafletShim'),
     sinon = require('sinon');
 
 var testLoc1 = {
