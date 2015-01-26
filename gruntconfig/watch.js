@@ -12,8 +12,16 @@ module.exports = {
     tasks: ['jshint:scripts', 'browserify', 'mocha_phantomjs']
   },
   tests: {
-    files: [config.test + '/*.html', config.test + '/**/*.js'],
+    files: [config.test + '/**/*.js'],
     tasks: ['jshint:tests', 'browserify', 'mocha_phantomjs']
+  },
+  images: {
+    files: [config.src + '/*.cur', config.src + '/*.png'],
+    tasks: ['copy:src']
+  },
+  html: {
+    files: [config.test + '/**/*.html', config.test + '/**/*.css'],
+    tasks: ['copy:test']
   },
   gruntfile: {
     files: ['Gruntfile.js'],
