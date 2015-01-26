@@ -8,8 +8,10 @@ module.exports = function (grunt) {
 
   grunt.registerTask('test', [
     'browserify',
-    'connect:dev'//,
-    // 'mocha_phantomjs'
+    'compass',
+    'copy',
+    'connect:dev',
+    'mocha_phantomjs'
   ]);
 
   grunt.registerTask('default', [
