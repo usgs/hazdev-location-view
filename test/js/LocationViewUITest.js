@@ -1,26 +1,21 @@
-/* global require */
-require([
-  'LocationView'
-], function (
-  LocationView
-) {
-  'use strict';
+'use strict';
 
-  var _showLocationButton = document.querySelector('#showLocationView'),
-      _locationResult = document.querySelector('#locationResult'),
-      _onLocationCallback,
-      locationView;
+var LocationView = require('LocationView');
 
-  _onLocationCallback = function (loc) {
-    _locationResult.innerHTML = JSON.stringify(loc, null, 2);
-  };
+var _showLocationButton = document.querySelector('#showLocationView'),
+    _locationResult = document.querySelector('#locationResult'),
+    _onLocationCallback,
+    locationView;
 
-  locationView = new LocationView({
-    callback: _onLocationCallback
-  });
+_onLocationCallback = function (loc) {
+  _locationResult.innerHTML = JSON.stringify(loc, null, 2);
+};
 
-  // Open location view when button is clicked
-  _showLocationButton.addEventListener('click', function () {
-    locationView.show({'location':null});
-  });
+locationView = new LocationView({
+  callback: _onLocationCallback
+});
+
+// Open location view when button is clicked
+_showLocationButton.addEventListener('click', function () {
+  locationView.show({'location':null});
 });

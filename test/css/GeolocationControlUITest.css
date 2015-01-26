@@ -1,0 +1,11 @@
+@import url('/leaflet/leaflet.css');
+@import url('/LeafletShim.css');
+@import url('/GeoLocationControl.css');
+
+html, body, .map {
+  display:block;
+  width:100%;
+  height:100%;
+  margin:0;
+  padding:0;
+}

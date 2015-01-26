@@ -1,4 +1,6 @@
-@import url('../RegionView.css');
+@import url('/RegionView.css');
+@import url('/leaflet/leaflet.css');
+@import url('/mvc/ModalView.css');
 
 .region-result {
   display:inline-block;

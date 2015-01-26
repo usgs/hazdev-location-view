@@ -4,67 +4,11 @@
 	<title>UI Test for Location Control</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
 
-	<link rel="stylesheet" href="/leaflet/dist/leaflet.css"/>
-	<link rel="stylesheet" href="LocationControl.css"/>
-	<style>
-		html, body, .map {
-			display:block;
-			width:100%;
-			height:100%;
-			margin:0;
-			padding:0;
-		}
-	</style>
-
+	<link rel="stylesheet" href="css/LocationControlUITest.css"/>
 </head>
 <body>
 	<div class="map"></div>
 
-	<script src="requirejs/require.js"></script>
-	<script>
-		require.config({
-			baseUrl: '.',
-			paths: {
-				leaflet: '/leaflet/dist/leaflet-src',
-				util: '/hazdev-webutils/src/util',
-				mvc: '/hazdev-webutils/src/mvc'
-			},
-			shim: {
-				leaflet: {
-					exports: 'L'
-				}
-			}
-		});
-
-		require([
-			'leaflet',
-			'LocationControl'
-		], function (
-			L,
-			LocationControl
-		) {
-			var map = new L.Map(document.querySelector('.map'), {
-				center: new L.LatLng(40.0, -105.0),
-				zoom: 3
-			});
-			var lc = new LocationControl({
-				includePointControl: true,
-				includeCoordinateControl: true,
-				includeGeocodeControl: true,
-				includeGeolocationControl: true,
-				el: document.querySelector('.map')
-			});
-			var natgeo = new L.TileLayer('http://server.arcgisonline.com' +
-					'/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}');
-
-			lc.on('location', function(loc) {
-				console.log(this.getLocation());
-			});
-
-			map.addLayer(natgeo);
-			map.addControl(lc);
-
-		});
-	</script>
+	<script src="js/LocationControlUITest.js"></script>
 </body>
 </html>
