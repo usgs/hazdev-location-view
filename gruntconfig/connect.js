@@ -11,10 +11,7 @@ module.exports = {
       port: 8000,
       base: [
         config.build + '/' + config.test,
-        config.build + '/' + config.src,
-        config.test,
-        config.src,
-        'node_modules'
+        config.build + '/' + config.src
       ]
     }
   }
