@@ -6,7 +6,7 @@ module.exports = {
   dev: {
     options: {
       sassDir: config.src,
-      cssDir: config.build,
+      cssDir: config.build + '/' + config.src,
       environment: 'development'
     }
   }
