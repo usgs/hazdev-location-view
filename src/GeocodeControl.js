@@ -1,6 +1,6 @@
 'use strict';
 
-var L = require('leaflet'),
+var L = require('LeafletShim'),
     Geocoder = require('Geocoder');
 
 

@@ -1,6 +1,6 @@
 'use strict';
 
-var L = require('leaflet'),
+var L = require('LeafletShim'),
     ModalView = require('mvc/ModalView'),
     RectangleControl = require('RectangleControl'),
     RectangleCoordinateView = require('RectangleCoordinateView'),
@@ -125,7 +125,7 @@ var RegionView = function (params) {
 
   _this.render = function () {
     var extent = _region.get(),
-        button = _modal._el.querySelector('.regionview-button');
+        button = _modal.el.querySelector('.regionview-button');
 
     if (extent.north === null && extent.south === null &&
         extent.east === null && extent.west === null) {

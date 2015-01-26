@@ -5,7 +5,7 @@ var ConfidenceCalculator = require('ConfidenceCalculator'),
     CoordinateControl = require('CoordinateControl'),
     GeocodeControl = require('GeocodeControl'),
     GeolocationControl = require('GeolocationControl'),
-    L = require('leaflet'),
+    L = require('LeafletShim'),
     PointControl = require('PointControl');
 
 

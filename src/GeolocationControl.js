@@ -2,7 +2,7 @@
 
 
 var ConfidenceCalculator = require('ConfidenceCalculator'),
-    L = require('leaflet');
+    L = require('LeafletShim');
 
 
 var CLASS_NAME = 'leaflet-geolocation-control';

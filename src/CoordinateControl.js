@@ -1,6 +1,6 @@
 'use strict';
 
-var L = require('leaflet'),
+var L = require('LeafletShim'),
     ConfidenceCalculator = require('ConfidenceCalculator');
 
 
