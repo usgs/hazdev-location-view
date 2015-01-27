@@ -1,15 +1,16 @@
 'use strict';
 
-var config = require('./config'),
-    browserify = {};
+var config = require('./config');
 
-browserify.options = {
-  browserifyOptions: {
-    debug: true,
-    paths: [
-      process.cwd() + '/' + config.src,
-      process.cwd() + '/node_modules/hazdev-webutils/src'
-    ]
+var browserify = {
+  options: {
+    browserifyOptions: {
+      debug: true,
+      paths: [
+        process.cwd() + '/' + config.src,
+        process.cwd() + '/node_modules/hazdev-webutils/src'
+      ]
+    }
   }
 };
 
