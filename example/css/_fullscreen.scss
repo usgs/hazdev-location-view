@@ -1,5 +1,6 @@
-@import url('/leaflet/leaflet.css');
-@import url('/LocationControl.css');
+* {
+  box-sizing: border-box;
+}
 
 html, body, .map {
   display:block;

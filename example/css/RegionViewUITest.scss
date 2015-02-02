@@ -1,6 +1,6 @@
-@import url('/RegionView.css');
-@import url('/leaflet/leaflet.css');
-@import url('/mvc/ModalView.css');
+@import '/leaflet/leaflet.css';
+@import '/mvc/ModalView.css';
+@import '/RegionView.css';
 
 .region-result {
   display:inline-block;

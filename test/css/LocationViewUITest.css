@@ -1,9 +1,0 @@
-@import url('/LocationView.css');
-@import url('/leaflet/leaflet.css');
-@import url('/mvc/ModalView.css');
-
-.location-result {
-	display:block;
-	margin-top:16px;
-	white-space:pre;
-}
