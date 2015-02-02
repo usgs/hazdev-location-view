@@ -13,7 +13,7 @@ var copy = {
   test: {
     expand: true,
     cwd: config.test,
-    src: ['**/*.html', '**/*.css'],
+    src: ['**/*.html'],
     dest: config.build + '/' + config.test
   },
   leaflet: {

@@ -6,17 +6,34 @@ module.exports = function (grunt) {
   gruntConfig.tasks.forEach(grunt.loadNpmTasks);
   grunt.initConfig(gruntConfig);
 
-  grunt.registerTask('test', [
-    'browserify',
-    'compass',
-    'copy',
-    'connect:dev',
-    'mocha_phantomjs'
+  grunt.registerTask('build', [
+    'dev',
+    'cssmin',
+    'uglify',
+    'htmlmin'
   ]);
 
   grunt.registerTask('default', [
+    'dev',
     'test',
     'watch'
+  ]);
+
+  grunt.registerTask('dev', [
+    'browserify',
+    'compass',
+    'copy',
+  ]);
+
+  grunt.registerTask('dist', [
+    'build',
+    'connect:dist'
+  ]);
+
+  grunt.registerTask('test', [
+    'dev',
+    'connect:test',
+    'mocha_phantomjs'
   ]);
 };
 
