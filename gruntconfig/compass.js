@@ -18,7 +18,10 @@ module.exports = {
     options: {
       cssDir: config.build + '/' + config.example + '/css',
       environment: 'development',
-      importPath: [config.src, process.cwd() + '/node_modules/leaflet/dist'],
+      importPath: [
+        config.src,
+        process.cwd() + '/node_modules/leaflet/dist'
+      ],
       sassDir: config.example + '/css'
     }
   }
