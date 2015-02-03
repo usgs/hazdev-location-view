@@ -20,7 +20,7 @@ var copy = {
   leaflet: {
     expand: true,
     cwd: process.cwd() + '/node_modules/leaflet/dist',
-    src: ['images/*'],
+    src: ['leaflet.css', 'images/*'],
     dest: config.build + '/' + config.src
   }
 };

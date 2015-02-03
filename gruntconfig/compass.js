@@ -10,6 +10,9 @@ module.exports = {
       sassDir: config.src,
       specify: [
         config.src + '/hazdev-location-view.scss'
+      ],
+      importPath: [
+        'node_modules/hazdev-webutils/src'
       ]
     }
   }
