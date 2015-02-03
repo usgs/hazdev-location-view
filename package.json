@@ -64,7 +64,7 @@
     "grunt-mocha-phantomjs": "~0.2.8",
     "grunt-open": "~0.2.3",
     "grunt-text-replace": "~0.3.11",
-    "hazdev-webutils": "0.0.15",
+    "hazdev-webutils": "usgs/hazdev-webutils",
     "leaflet": "~0.6.4",
     "matchdep": "~0.1.2",
     "mocha": "~1.9.0",
