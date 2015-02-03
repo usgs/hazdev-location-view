@@ -9,6 +9,7 @@ var EXPORTS = [
   'GeocodeControl',
   'Geocoder',
   'GeolocationControl',
+  'LeafletShim',
   'LocationControl',
   'LocationView',
   'PointControl',
