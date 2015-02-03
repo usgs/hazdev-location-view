@@ -16,6 +16,7 @@ module.exports = function (grunt) {
   grunt.registerTask('default', [
     'dev',
     'test',
+    'connect:dev',
     'watch'
   ]);
 
