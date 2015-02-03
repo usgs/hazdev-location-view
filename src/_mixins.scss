@@ -28,7 +28,7 @@ $button-size: 30px !default;
 }
 
 @mixin basic-control-button-background ($x, $y) {
-  background-image: url(location-view-icons.png);
+  background-image: url('images/location-view-icons.png');
   background-position: $x $y;
   background-repeat: no-repeat;
   background-size: 104px 52px;

@@ -3,7 +3,7 @@
 // class added to map container to show custom cursor
 .leaflet-point-control-location {
   cursor:crosshair;
-  cursor:url(cursor.cur) 16 32, auto;
+  cursor:url('images/cursor.cur') 16 32, auto;
 }
 
 // icon for point control

@@ -6,7 +6,7 @@ var copy = {
   src: {
     expand: true,
     cwd: config.src,
-    src: ['*.cur', '*.png'],
+    src: ['images/*'],
     dest: config.build + '/' + config.src
   },
   test: {
