@@ -9,20 +9,8 @@ module.exports = {
       environment: 'development',
       sassDir: config.src,
       specify: [
-        config.src + '/LocationView.scss',
-        config.src + '/RegionView.scss'
+        config.src + '/hazdev-location-view.scss'
       ]
-    }
-  },
-  example: {
-    options: {
-      cssDir: config.build + '/' + config.example + '/css',
-      environment: 'development',
-      importPath: [
-        config.src,
-        process.cwd() + '/node_modules/leaflet/dist'
-      ],
-      sassDir: config.example + '/css'
     }
   }
 };
