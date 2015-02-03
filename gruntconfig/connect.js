@@ -10,7 +10,8 @@ module.exports = {
     options: {
       port: 8000,
       base: [
-        config.build + '/' + config.example
+        config.example,
+        config.build + '/' + config.src
       ]
     }
   },
@@ -19,7 +20,8 @@ module.exports = {
       port: 8001,
       base: [
         config.build + '/' + config.test,
-        config.build + '/' + config.src
+        config.build + '/' + config.src,
+        'node_modules'
       ]
     }
   },
@@ -27,6 +29,7 @@ module.exports = {
     port: 8002,
     keepalive: true,
     base: [
+      config.example,
       config.dist
     ]
   }
