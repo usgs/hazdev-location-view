@@ -1,7 +1,7 @@
 'use strict';
 
-var L = require('./LeafletShim'),
-    ConfidenceCalculator = require('./ConfidenceCalculator');
+var L = require('locationview/LeafletShim'),
+    ConfidenceCalculator = require('locationview/ConfidenceCalculator');
 
 
 var CLASS_NAME = 'leaflet-coordinate-control',

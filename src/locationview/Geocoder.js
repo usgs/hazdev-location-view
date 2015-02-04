@@ -1,7 +1,7 @@
 'use strict';
 
 
-var ConfidenceCalculator = require('./ConfidenceCalculator'),
+var ConfidenceCalculator = require('locationview/ConfidenceCalculator'),
     Util = require('util/Util');
 
 

@@ -39,8 +39,7 @@ var browserify = {
     dest: config.build + '/' + config.src + '/hazdev-location-view.js',
     options: {
       alias: EXPORTS.map(function (path) {
-        return './' + config.src + '/' + path +
-            '.js:/' + path;
+        return './' + config.src + '/' + path + '.js:' + path;
       })
     }
   },

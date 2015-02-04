@@ -1,10 +1,10 @@
 'use strict';
 
-var L = require('./LeafletShim'),
+var L = require('locationview/LeafletShim'),
     ModalView = require('mvc/ModalView'),
-    RectangleControl = require('./RectangleControl'),
-    RectangleCoordinateView = require('./RectangleCoordinateView'),
-    RectangleModel = require('./RectangleModel'),
+    RectangleControl = require('locationview/RectangleControl'),
+    RectangleCoordinateView = require('locationview/RectangleCoordinateView'),
+    RectangleModel = require('locationview/RectangleModel'),
     Util = require('util/Util');
 
 var DEFAULTS = {

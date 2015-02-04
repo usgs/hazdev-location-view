@@ -1,9 +1,9 @@
 'use strict';
 
 
-var L = require('./LeafletShim'),
-    RectangleModel = require('./RectangleModel'),
-    RectangleOverlayView = require('./RectangleOverlayView'),
+var L = require('locationview/LeafletShim'),
+    RectangleModel = require('locationview/RectangleModel'),
+    RectangleOverlayView = require('locationview/RectangleOverlayView'),
     Util = require('util/Util');
 
 
