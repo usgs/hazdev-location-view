@@ -135,7 +135,8 @@ var RectangleControl = L.Control.extend({
     } else {
       map.on('click', this._onClick, this);
       map.on('click', this.displayInstruction, this);
-      mapContainer.classList.add(ACTIVE_CLASS_NAME, 'drawing-rectangle');
+      mapContainer.classList.add(ACTIVE_CLASS_NAME);
+      mapContainer.classList.add('drawing-rectangle');
     }
 
     // update tooltip
@@ -254,7 +255,9 @@ var RectangleControl = L.Control.extend({
 
     if (!instructionEl) {
       instructionEl = document.createElement('p');
-      instructionEl.classList.add('alert', 'info', 'instruction');
+      instructionEl.classList.add('alert');
+      instructionEl.classList.add('info');
+      instructionEl.classList.add('instruction');
       mapContainer.appendChild(instructionEl);
     }
 
