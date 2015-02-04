@@ -12,7 +12,8 @@ module.exports = {
       base: [
         config.example,
         config.build + '/' + config.src
-      ]
+      ],
+      open: 'http://localhost:8000/example.html'
     }
   },
   test: {
@@ -22,7 +23,8 @@ module.exports = {
         config.build + '/' + config.test,
         config.build + '/' + config.src,
         'node_modules'
-      ]
+      ],
+      open: 'http://localhost:8001/test.html'
     }
   },
   dist: {
@@ -32,7 +34,8 @@ module.exports = {
       base: [
         config.example,
         config.dist
-      ]
+      ],
+      open: 'http://localhost:8002/example.html'
     }
   }
 };
