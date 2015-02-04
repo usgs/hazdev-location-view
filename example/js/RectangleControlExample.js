@@ -1,8 +1,8 @@
 'use strict';
 
-var L = require('LeafletShim'),
-    RectangleControl = require('RectangleControl'),
-    RectangleModel = require('RectangleModel');
+var L = require('locationview/LeafletShim'),
+    RectangleControl = require('locationview/RectangleControl'),
+    RectangleModel = require('locationview/RectangleModel');
 
 var model = RectangleModel();
 var map = L.map(document.querySelector('.map'), {

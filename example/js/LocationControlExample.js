@@ -1,7 +1,7 @@
 'use strict';
 
-var L = require('LeafletShim'),
-    LocationControl = require('LocationControl');
+var L = require('locationview/LeafletShim'),
+    LocationControl = require('locationview/LocationControl');
 
 var map = new L.Map(document.querySelector('.map'), {
   center: new L.LatLng(40.0, -105.0),

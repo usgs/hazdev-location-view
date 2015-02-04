@@ -1,6 +1,6 @@
 'use strict';
 
-var RegionView = require('RegionView');
+var RegionView = require('locationview/RegionView');
 
 var _showRegionButton = document.querySelector('#showRegionView'),
     _clearRegionButton = document.querySelector('#clearRegionView'),

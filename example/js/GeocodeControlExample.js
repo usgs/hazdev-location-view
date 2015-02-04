@@ -1,7 +1,7 @@
 'use strict';
 
-var GeocodeControl = require('GeocodeControl'),
-    L = require('LeafletShim');
+var GeocodeControl = require('locationview/GeocodeControl'),
+    L = require('locationview/LeafletShim');
 
 var map = new L.Map(document.querySelector('.map'), {
   center: new L.LatLng(40.0, -105.0),

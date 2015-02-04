@@ -1,6 +1,6 @@
 'use strict';
 
-var LocationView = require('LocationView');
+var LocationView = require('locationview/LocationView');
 
 var _showLocationButton = document.querySelector('#showLocationView'),
     _locationResult = document.querySelector('#locationResult'),

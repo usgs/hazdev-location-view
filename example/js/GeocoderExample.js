@@ -1,7 +1,7 @@
 /* global alert */
 'use strict';
 
-var Geocoder = require('Geocoder');
+var Geocoder = require('locationview/Geocoder');
 
 var g = new Geocoder(),
     a = document.querySelector('#address'),
