@@ -26,11 +26,13 @@ module.exports = {
     }
   },
   dist: {
-    port: 8002,
-    keepalive: true,
-    base: [
-      config.example,
-      config.dist
-    ]
+    options: {
+      port: 8002,
+      keepalive: true,
+      base: [
+        config.example,
+        config.dist
+      ]
+    }
   }
 };

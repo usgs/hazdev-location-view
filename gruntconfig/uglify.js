@@ -3,22 +3,12 @@
 var config = require('./config');
 
 var uglify = {
-  build: {
-    files: {
-    }
+  options: {
+  },
+  dist: {
+    src: config.build + '/' + config.src + '/hazdev-location-view.js',
+    dest: config.dist + '/hazdev-location-view.js'
   }
 };
-
-[
-  'LocationView',
-  'RegionView',
-  'index'
-].forEach(function (target) {
-  uglify.build.files[config.dist + '/' + target + '.js'] = [
-    config.build + '/' +
-    config.src + '/' +
-    target + '.js'
-  ];
-});
 
 module.exports = uglify;
