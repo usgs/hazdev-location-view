@@ -5,7 +5,7 @@ var config = require('./config');
 module.exports = {
   dev: {
     options: {
-      cssDir: config.build + '/' + config.src,
+      cssDir: config.build + '/' + config.src + '/locationview',
       environment: 'development',
       sassDir: config.src,
       specify: [

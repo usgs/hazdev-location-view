@@ -5,7 +5,7 @@ var config = require('./config');
 var copy = {
   src: {
     expand: true,
-    cwd: config.src,
+    cwd: config.src + '/locationview',
     src: ['images/*'],
     dest: config.build + '/' + config.src
   },

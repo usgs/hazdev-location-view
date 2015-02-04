@@ -1,12 +1,12 @@
 'use strict';
 
 
-var ConfidenceCalculator = require('ConfidenceCalculator'),
-    CoordinateControl = require('CoordinateControl'),
-    GeocodeControl = require('GeocodeControl'),
-    GeolocationControl = require('GeolocationControl'),
-    L = require('LeafletShim'),
-    PointControl = require('PointControl');
+var ConfidenceCalculator = require('./ConfidenceCalculator'),
+    CoordinateControl = require('./CoordinateControl'),
+    GeocodeControl = require('./GeocodeControl'),
+    GeolocationControl = require('./GeolocationControl'),
+    L = require('./LeafletShim'),
+    PointControl = require('./PointControl');
 
 
 var CLASS_NAME = 'leaflet-location-control',

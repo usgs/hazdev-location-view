@@ -1,7 +1,7 @@
 /* global describe, it */
 'use strict';
 
-  var ConfidenceCalculator = require('ConfidenceCalculator'),
+  var ConfidenceCalculator = require('locationview/ConfidenceCalculator'),
       expect = require('chai').expect;
 
   var GeocodeObjectFull = {

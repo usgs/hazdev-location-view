@@ -3,7 +3,7 @@
 
 var expect = require('chai').expect,
     sinon = require('sinon'),
-    Geocoder = require('Geocoder');
+    Geocoder = require('locationview/Geocoder');
 
 var geocoder = new Geocoder({apiKey: 'foobar'});
 

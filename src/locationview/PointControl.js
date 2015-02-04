@@ -1,7 +1,7 @@
 'use strict';
 
-var ConfidenceCalculator = require('ConfidenceCalculator'),
-    L = require('LeafletShim');
+var ConfidenceCalculator = require('./ConfidenceCalculator'),
+    L = require('./LeafletShim');
 
 
 var CLASS_NAME = 'leaflet-point-control';

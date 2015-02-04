@@ -4,11 +4,11 @@ var config = require('./config');
 
 module.exports = {
   compass: {
-    files: [config.src + '/**/*.scss'],
+    files: [config.src + '/locationview/**/*.scss'],
     tasks: ['compass:dev']
   },
   scripts: {
-    files: [config.src + '/**/*.js'],
+    files: [config.src + '/locationview/**/*.js'],
     tasks: ['jshint:scripts', 'browserify', 'mocha_phantomjs']
   },
   tests: {
@@ -16,7 +16,7 @@ module.exports = {
     tasks: ['jshint:tests', 'browserify', 'mocha_phantomjs']
   },
   images: {
-    files: [config.src + '/*.cur', config.src + '/*.png'],
+    files: [config.src + '/locationview/images/**/*'],
     tasks: ['copy:src']
   },
   html: {

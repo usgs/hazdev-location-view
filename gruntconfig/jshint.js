@@ -7,6 +7,6 @@ var config = require('./config');
     jshintrc: '.jshintrc'
   },
   gruntfile: ['Gruntfile.js'],
-  scripts: [config.src + '/**/*.js'],
+  scripts: [config.src + '/locationview/**/*.js'],
   tests: [config.test + '/**/*.js']
 };

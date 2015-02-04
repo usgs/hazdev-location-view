@@ -2,8 +2,8 @@
 'use strict';
 
 var expect = require('chai').expect,
-    PointControl = require('PointControl'),
-    L = require('LeafletShim'),
+    PointControl = require('locationview/PointControl'),
+    L = require('locationview/LeafletShim'),
     sinon = require('sinon');
 
 var testLoc1 = {

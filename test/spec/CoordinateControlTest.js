@@ -2,8 +2,8 @@
 'use strict';
 
 var expect = require('chai').expect,
-    CoordinateControl = require('CoordinateControl'),
-    L = require('LeafletShim'),
+    CoordinateControl = require('locationview/CoordinateControl'),
+    L = require('locationview/LeafletShim'),
     sinon = require('sinon');
 
 var boulderCO = {

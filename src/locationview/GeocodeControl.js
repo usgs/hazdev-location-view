@@ -1,7 +1,7 @@
 'use strict';
 
-var L = require('LeafletShim'),
-    Geocoder = require('Geocoder');
+var L = require('./LeafletShim'),
+    Geocoder = require('./Geocoder');
 
 
 var CLASS_NAME = 'leaflet-geocode-control',

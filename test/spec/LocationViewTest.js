@@ -2,7 +2,7 @@
 'use strict';
 
 var expect = require('chai').expect,
-    LocationView = require('LocationView');
+    LocationView = require('locationview/LocationView');
 
 describe('LocationView test suite', function () {
 

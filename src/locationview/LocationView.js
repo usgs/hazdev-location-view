@@ -1,8 +1,8 @@
 'use strict';
 
 
-var L = require('LeafletShim'),
-    LocationControl = require('LocationControl'),
+var L = require('./LeafletShim'),
+    LocationControl = require('./LocationControl'),
     ModalView = require('mvc/ModalView'),
     Util = require('util/Util');
 

@@ -4,20 +4,20 @@ var config = require('./config');
 
 // Modules defined by this (hazdev-location-view) package
 var EXPORTS = [
-  'ConfidenceCalculator',
-  'CoordinateControl',
-  'GeocodeControl',
-  'Geocoder',
-  'GeolocationControl',
-  'LeafletShim',
-  'LocationControl',
-  'LocationView',
-  'PointControl',
-  'RectangleControl',
-  'RectangleCoordinateView',
-  'RectangleModel',
-  'RectangleOverlayView',
-  'RegionView'
+  'locationview/ConfidenceCalculator',
+  'locationview/CoordinateControl',
+  'locationview/GeocodeControl',
+  'locationview/Geocoder',
+  'locationview/GeolocationControl',
+  'locationview/LeafletShim',
+  'locationview/LocationControl',
+  'locationview/LocationView',
+  'locationview/PointControl',
+  'locationview/RectangleControl',
+  'locationview/RectangleCoordinateView',
+  'locationview/RectangleModel',
+  'locationview/RectangleOverlayView',
+  'locationview/RegionView'
 ];
 
 
@@ -39,7 +39,8 @@ var browserify = {
     dest: config.build + '/' + config.src + '/hazdev-location-view.js',
     options: {
       alias: EXPORTS.map(function (path) {
-        return './' + config.src + '/' + path + ':' + path;
+        return './' + config.src + '/' + path +
+            '.js:/' + path;
       })
     }
   },

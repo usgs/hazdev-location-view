@@ -2,8 +2,8 @@
 'use strict';
 
 var expect = require('chai').expect,
-    GeocodeControl = require('GeocodeControl'),
-    L = require('LeafletShim'),
+    GeocodeControl = require('locationview/GeocodeControl'),
+    L = require('locationview/LeafletShim'),
     sinon = require('sinon');
 
 var getClickEvent = function () {

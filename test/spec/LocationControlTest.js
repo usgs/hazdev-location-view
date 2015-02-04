@@ -2,8 +2,8 @@
 'use strict';
 
 var expect = require('chai').expect,
-    LocationControl = require('LocationControl'),
-    L = require('LeafletShim');
+    LocationControl = require('locationview/LocationControl'),
+    L = require('locationview/LeafletShim');
 
 var map = new L.Map(L.DomUtil.create('div', 'map'), {
       center: new L.LatLng(40.0, -105.0),
