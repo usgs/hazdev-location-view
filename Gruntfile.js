@@ -40,7 +40,7 @@ module.exports = function (grunt) {
     'dev',
     'cssmin',
     'uglify',
-    'htmlmin'
+    'imagemin'
   ]));
 
   grunt.registerTask('default', taskList([
