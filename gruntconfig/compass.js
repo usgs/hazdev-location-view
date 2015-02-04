@@ -5,11 +5,11 @@ var config = require('./config');
 module.exports = {
   dev: {
     options: {
-      cssDir: config.build + '/' + config.src + '/locationview',
+      cssDir: config.build + '/' + config.src,
       environment: 'development',
-      sassDir: config.src,
+      sassDir: config.src + '/locationview',
       specify: [
-        config.src + '/hazdev-location-view.scss'
+        config.src + '/locationview/hazdev-location-view.scss'
       ],
       importPath: [
         'node_modules/hazdev-webutils/src'
