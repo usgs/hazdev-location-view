@@ -9,11 +9,11 @@ module.exports = {
   },
   scripts: {
     files: [config.src + '/locationview/**/*.js'],
-    tasks: ['jshint:scripts', 'browserify', 'mocha_phantomjs']
+    tasks: ['jshint:scripts', 'browserify:source', 'mocha_phantomjs']
   },
   tests: {
     files: [config.test + '/**/*.js'],
-    tasks: ['jshint:tests', 'browserify', 'mocha_phantomjs']
+    tasks: ['jshint:tests', 'browserify:test', 'mocha_phantomjs']
   },
   images: {
     files: [config.src + '/locationview/images/**/*'],
