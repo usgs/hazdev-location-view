@@ -1,8 +1,7 @@
-/* global describe, it */
+/* global chai, describe, it, sinon */
 'use strict';
 
-var expect = require('chai').expect,
-    sinon = require('sinon'),
+var expect = chai.expect,
     L = require('locationview/LeafletShim'),
     GeolocationControl = require('locationview/GeolocationControl');
 

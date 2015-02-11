@@ -1,10 +1,9 @@
-/* global describe, it, before, after*/
+/* global chai, describe, it, before, after, sinon */
 'use strict';
 
-var expect = require('chai').expect,
+var expect = chai.expect,
     GeocodeControl = require('locationview/GeocodeControl'),
-    L = require('locationview/LeafletShim'),
-    sinon = require('sinon');
+    L = require('locationview/LeafletShim');
 
 var getClickEvent = function () {
   var clickEvent = document.createEvent('MouseEvents');

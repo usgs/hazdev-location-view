@@ -1,7 +1,7 @@
-/* global describe, it, before, after */
+/* global chai, describe, it, before, after */
 'use strict';
 
-var expect = require('chai').expect,
+var expect = chai.expect,
     LocationView = require('locationview/LocationView');
 
 describe('LocationView test suite', function () {

@@ -1,8 +1,8 @@
-/* global describe, it */
+/* global chai, describe, it */
 'use strict';
 
   var ConfidenceCalculator = require('locationview/ConfidenceCalculator'),
-      expect = require('chai').expect;
+      expect = chai.expect;
 
   var GeocodeObjectFull = {
     'place_id': '36099528',

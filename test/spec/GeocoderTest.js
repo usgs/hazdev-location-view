@@ -1,8 +1,7 @@
-/* global describe, it */
+/* global chai, describe, it, sinon */
 'use strict';
 
-var expect = require('chai').expect,
-    sinon = require('sinon'),
+var expect = chai.expect,
     Geocoder = require('locationview/Geocoder');
 
 var geocoder = new Geocoder({apiKey: 'foobar'});

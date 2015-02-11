@@ -1,10 +1,9 @@
-/* global describe, it, beforeEach */
+/* global chai, describe, it, beforeEach, sinon */
 'use strict';
 
-var expect = require('chai').expect,
+var expect = chai.expect,
     CoordinateControl = require('locationview/CoordinateControl'),
-    L = require('locationview/LeafletShim'),
-    sinon = require('sinon');
+    L = require('locationview/LeafletShim');
 
 var boulderCO = {
   'place': null,
