@@ -24,7 +24,7 @@ module.exports = {
     tasks: ['copy:test']
   },
   gruntfile: {
-    files: ['Gruntfile.js'],
+    files: ['Gruntfile.js', 'gruntconfig/**/*.js'],
     tasks: ['jshint:gruntfile']
   }
 };
