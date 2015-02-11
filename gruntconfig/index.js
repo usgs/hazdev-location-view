@@ -5,6 +5,7 @@ module.exports = (function () {
     browserify: require('./browserify'),
     clean: require('./clean'),
     compass: require('./compass'),
+    concurrent: require('./concurrent'),
     connect: require('./connect'),
     copy: require('./copy'),
     cssmin: require('./cssmin'),
@@ -16,6 +17,7 @@ module.exports = (function () {
 
     tasks: [
       'grunt-browserify',
+      'grunt-concurrent',
       'grunt-contrib-clean',
       'grunt-contrib-compass',
       'grunt-contrib-connect',
