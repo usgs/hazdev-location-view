@@ -20,11 +20,17 @@ module.exports = {
     tasks: ['copy:src']
   },
   html: {
-    files: [config.test + '/**/*.html', config.test + '/**/*.css'],
+    files: [
+      config.test + '/**/*.html',
+      config.test + '/**/*.css'
+    ],
     tasks: ['copy:test']
   },
   gruntfile: {
-    files: ['Gruntfile.js', 'gruntconfig/**/*.js'],
+    files: [
+      'Gruntfile.js',
+      'gruntconfig/**/*.js'
+    ],
     tasks: ['jshint:gruntfile']
   }
 };
