@@ -7,9 +7,9 @@ module.exports = {
     options: {
       cssDir: config.build + '/' + config.src,
       environment: 'development',
-      sassDir: config.src + '/locationview',
+      sassDir: config.src,
       specify: [
-        config.src + '/locationview/hazdev-location-view.scss'
+        config.src + '/hazdev-location-view.scss'
       ],
       importPath: [
         'node_modules/hazdev-webutils/src'
