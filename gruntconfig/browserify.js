@@ -4,6 +4,7 @@ var config = require('./config');
 
 // Modules defined by this (hazdev-location-view) package
 var EXPORTS = [
+  'leaflet',
   'locationview/ConfidenceCalculator',
   'locationview/CoordinateControl',
   'locationview/GeocodeControl',
@@ -38,6 +39,10 @@ var browserify = {
     dest: config.build + '/' + config.src + '/hazdev-location-view.js',
     options: {
       alias: EXPORTS.map(function (path) {
+        if (path === 'leaflet') {
+          return process.cwd() +
+              '/node_modules/leaflet/dist/leaflet.js:leaflet';
+        }
         return './' + config.src + '/' + path + '.js:' + path;
       })
     }
