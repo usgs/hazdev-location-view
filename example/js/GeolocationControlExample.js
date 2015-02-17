@@ -3,6 +3,8 @@
 var GeolocationControl = require('locationview/GeolocationControl'),
     L = require('leaflet');
 
+L.Icon.Default.imagePath = 'images';
+
 var map = new L.Map(document.querySelector('.map'), {
   center: new L.LatLng(40.0, -105.0),
   zoom: 3
