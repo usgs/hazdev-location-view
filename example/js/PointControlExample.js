@@ -1,6 +1,6 @@
 'use strict';
 
-var L = require('locationview/LeafletShim'),
+var L = require('leaflet'),
     PointControl = require('locationview/PointControl');
 
 var map = new L.Map(document.querySelector('.map'), {
