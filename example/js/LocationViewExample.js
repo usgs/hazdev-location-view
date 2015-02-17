@@ -1,6 +1,10 @@
 'use strict';
 
-var LocationView = require('locationview/LocationView');
+var LocationView = require('locationview/LocationView'),
+    L = require('leaflet');
+
+
+L.Icon.Default.imagePath = 'images';
 
 var _showLocationButton = document.querySelector('#showLocationView'),
     _locationResult = document.querySelector('#locationResult'),

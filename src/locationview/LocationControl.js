@@ -9,6 +9,8 @@ var ConfidenceCalculator = require('locationview/ConfidenceCalculator'),
     PointControl = require('locationview/PointControl');
 
 
+L.Icon.Default.imagePath = 'images';
+
 var CLASS_NAME = 'leaflet-location-control',
     CLASS_ENABLED = CLASS_NAME + '-enabled';
 
