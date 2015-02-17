@@ -1,6 +1,6 @@
 'use strict';
 
-var L = require('locationview/LeafletShim'),
+var L = require('leaflet'),
     ConfidenceCalculator = require('locationview/ConfidenceCalculator');
 
 

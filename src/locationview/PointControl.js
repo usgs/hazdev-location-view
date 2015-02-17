@@ -1,7 +1,7 @@
 'use strict';
 
 var ConfidenceCalculator = require('locationview/ConfidenceCalculator'),
-    L = require('locationview/LeafletShim');
+    L = require('leaflet');
 
 
 var CLASS_NAME = 'leaflet-point-control';
@@ -19,6 +19,17 @@ var DEFAULT_OPTIONS = {
   infoText: '<b>Drop pin</b> on the map to specify a location.'
 };
 
+var DEFAULT_ICON = L.icon({
+  iconUrl: 'images/marker-icon.png',
+  iconRetinaUrl: 'images/marker-icon-2x.png',
+  iconSize:[25, 41],
+  iconAnchor: [12, 41],
+  shadowUrl: 'images/marker-shadow.png',
+  shadowRetinaUrl: 'images/marker-shadow.png',
+  shadowSize: [41, 41],
+  popupAnchor: [1, -34]
+});
+
 
 var PointControl = L.Control.extend({
   includes: L.Mixin.Events,
@@ -28,7 +39,10 @@ var PointControl = L.Control.extend({
     L.Util.setOptions(this, options);
 
     this._isEnabled = options.defaultEnabled;
-    this._marker = new L.Marker([0, 0], {draggable: true});
+    this._marker = new L.Marker([0, 0], {
+      draggable: true,
+      icon: DEFAULT_ICON
+    });
     this._marker.bindPopup();
     this.setLocation(options.defaultLocation);
   },
