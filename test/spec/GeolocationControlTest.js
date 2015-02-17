@@ -22,10 +22,6 @@ describe('GeolocationControl test suite', function () {
       expect(glc).to.be.an.instanceof(GeolocationControl);
     });
 
-    it('Inherits from L.Control', function () {
-      expect(glc).to.be.an.instanceof(L.Control);
-    });
-
     it('sets options on itself', function () {
       expect(glc.options).to.be.an.instanceof(Object);
     });

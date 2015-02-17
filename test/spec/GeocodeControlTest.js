@@ -61,10 +61,6 @@ describe('GeocodeControl test suite', function () {
       expect(g).to.be.an.instanceof(GeocodeControl);
     });
 
-    it('Inherits from L.Control', function () {
-      expect(g).to.be.an.instanceof(L.Control);
-    });
-
     it('sets options on itself', function () {
       expect(g.options).to.be.an.instanceof(Object);
     });

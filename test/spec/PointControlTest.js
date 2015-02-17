@@ -38,10 +38,6 @@ describe('PointControl test suite', function () {
       expect(p).to.be.an.instanceof(PointControl);
     });
 
-    it('Inherits from L.Control', function () {
-      expect(p).to.be.an.instanceof(L.Control);
-    });
-
     it('sets options on itself', function () {
       expect(p.options).to.be.an.instanceof(Object);
     });

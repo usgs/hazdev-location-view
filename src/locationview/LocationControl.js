@@ -305,7 +305,7 @@ var LocationControl = L.Control.extend({
     var centerMap = false,
         oldZoomLevel = this._map._zoom,
         mapBounds = this._map.getBounds(),
-        newLocation = L.latLng(location.latitude, location.longitude);
+        newLocation = [location.latitude, location.longitude];
 
     if (!mapBounds.contains(newLocation) || newZoomLevel > oldZoomLevel) {
       centerMap = true;
