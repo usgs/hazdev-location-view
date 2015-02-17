@@ -3,7 +3,7 @@
 
 var expect = chai.expect,
     CoordinateControl = require('locationview/CoordinateControl'),
-    L = require('locationview/LeafletShim');
+    L = require('leaflet');
 
 var boulderCO = {
   'place': null,

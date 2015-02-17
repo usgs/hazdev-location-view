@@ -2,7 +2,7 @@
 'use strict';
 
 var expect = chai.expect,
-    L = require('locationview/LeafletShim'),
+    L = require('leaflet'),
     GeolocationControl = require('locationview/GeolocationControl');
 
 describe('GeolocationControl test suite', function () {

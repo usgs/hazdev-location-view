@@ -3,7 +3,7 @@
 
 var expect = chai.expect,
     PointControl = require('locationview/PointControl'),
-    L = require('locationview/LeafletShim');
+    L = require('leaflet');
 
 var testLoc1 = {
   place: null,

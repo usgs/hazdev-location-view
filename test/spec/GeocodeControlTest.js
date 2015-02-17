@@ -3,7 +3,7 @@
 
 var expect = chai.expect,
     GeocodeControl = require('locationview/GeocodeControl'),
-    L = require('locationview/LeafletShim');
+    L = require('leaflet');
 
 var getClickEvent = function () {
   var clickEvent = document.createEvent('MouseEvents');
