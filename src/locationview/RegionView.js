@@ -96,7 +96,7 @@ var RegionView = function (params) {
 
     if (_includeRectangle) {
       _rectangleControl = new RectangleControl(Util.extend({},
-          _rectangleControlOptions, {model: _region}));
+          _rectangleControlOptions, {model: _region, enabled: true}));
 
       _map.addControl(_rectangleControl);
       _map.addControl(new RectangleCoordinateView(Util.extend({},
@@ -146,8 +146,6 @@ var RegionView = function (params) {
     if (options.hasOwnProperty('region')) {
       if (options.region) {
         _region.set(options.region);
-        // toggle rectangle control on
-        _rectangleControl.enable();
       } else {
         _region.set({
         north: null,
@@ -155,8 +153,6 @@ var RegionView = function (params) {
         east: null,
         west: null
         }, {force: true});
-        // toggle rectangle control off
-        _rectangleControl.disable();
       }
     }
 
