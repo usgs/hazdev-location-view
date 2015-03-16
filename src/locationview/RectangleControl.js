@@ -13,6 +13,7 @@ var CLASS_NAME = 'leaflet-rectangle-control',
 
 var DEFAULTS = {
   position: 'topleft',
+  enabled: 'false',
 
   rectangleOptions: {
     weight: 1,
@@ -75,7 +76,9 @@ var RectangleControl = L.Control.extend({
     }
 
     // Turn on by default.
-    this.enable();
+    if (this.options.enabled) {
+      this.enable();
+    }
 
     return container;
   },
