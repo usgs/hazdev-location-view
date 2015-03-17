@@ -96,7 +96,7 @@ var RegionView = function (params) {
 
     if (_includeRectangle) {
       _rectangleControl = new RectangleControl(Util.extend({},
-          _rectangleControlOptions, {model: _region, enabled: true}));
+          _rectangleControlOptions, {model: _region}));
 
       _map.addControl(_rectangleControl);
       _map.addControl(new RectangleCoordinateView(Util.extend({},
@@ -146,6 +146,7 @@ var RegionView = function (params) {
     if (options.hasOwnProperty('region')) {
       if (options.region) {
         _region.set(options.region);
+        _rectangleControl.enable();
       } else {
         _region.set({
         north: null,
@@ -153,6 +154,7 @@ var RegionView = function (params) {
         east: null,
         west: null
         }, {force: true});
+        _rectangleControl.enable();
       }
     }
 
@@ -171,7 +173,8 @@ var RegionView = function (params) {
       ];
     }
 
-    _map.fitBounds(extent);
+    // github.com/Leaflet/Leaflet/issues/2021
+    window.setTimeout(function(){_map.fitBounds(extent);}.bind(this), 20);
   };
 
   _initialize();
