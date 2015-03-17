@@ -22,3 +22,4 @@ model.on('change', function () {
 
 map.addLayer(base);
 map.addControl(rect);
+rect.enable();
