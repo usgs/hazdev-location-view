@@ -13,7 +13,6 @@ var CLASS_NAME = 'leaflet-rectangle-control',
 
 var DEFAULTS = {
   position: 'topleft',
-  enabled: 'false',
 
   rectangleOptions: {
     weight: 1,
@@ -73,11 +72,6 @@ var RectangleControl = L.Control.extend({
     if (this._model.get('north') || this._model.get('south') ||
         this._model.get('east') || this._model.get('west')) {
       this._map.addLayer(this._view);
-    }
-
-    // Turn on by default.
-    if (this.options.enabled) {
-      this.enable();
     }
 
     return container;
