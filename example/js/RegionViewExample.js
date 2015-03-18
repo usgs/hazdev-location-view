@@ -76,7 +76,7 @@ _showRegionButton.addEventListener('click', function () {
   west = (_west.value === '') ? null : parseFloat(_west.value);
 
   if (north === null && south === null && east === null && west === null ) {
-    _regionView.show({region: null});
+    _regionView.show({region: null, enableRectangleControl:true});
   } else {
     region = {
       north: north,
@@ -84,6 +84,7 @@ _showRegionButton.addEventListener('click', function () {
       east:  east,
       west:  west
     };
-    _regionView.show({region: region, type: 'rectangle'});
+    _regionView.show({region: region, type: 'rectangle',
+        enableRectangleControl:true});
   }
 });
