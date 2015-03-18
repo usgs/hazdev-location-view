@@ -139,10 +139,11 @@ var RegionView = function (params) {
 
   _this.show = function (options) {
     var extent = _region.get(),
-        enableRectangleControl = options.enableRectangleControl || false;
+        enableRectangleControl;
     options = options || {};
     _modal.show();
     _map.invalidateSize();
+    enableRectangleControl = options.enableRectangleControl || false;
 
 
     if (options.hasOwnProperty('region')) {
