@@ -139,7 +139,7 @@ var RegionView = function (params) {
 
   _this.show = function (options) {
     var extent = _region.get(),
-    enableRectangleControl = false;
+        enableRectangleControl = options.enableRectangleControl || false;
     options = options || {};
     _modal.show();
     _map.invalidateSize();
@@ -148,6 +148,7 @@ var RegionView = function (params) {
     if (options.hasOwnProperty('region')) {
       if (options.region) {
         _region.set(options.region);
+        enableRectangleControl = true;
       } else {
         _region.set({
         north: null,
@@ -155,9 +156,6 @@ var RegionView = function (params) {
         east: null,
         west: null
         }, {force: true});
-      }
-      if (options.hasOwnProperty('enableRectangleControl')) {
-        enableRectangleControl = options.enableRectangleControl;
       }
     }
 
