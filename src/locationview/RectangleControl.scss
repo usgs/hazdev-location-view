@@ -6,11 +6,17 @@
 }
 
 .leaflet-rectangle-control-active .leaflet-rectangle-control {
-  @include basic-control-button-active();
+  @include rectangle-control-button-background(-24px, -24px);
+  @include basic-control-button-active ()
 }
 
 .leaflet-rectangle-control:active {
-  @include basic-control-button-active();
+  @include rectangle-control-button-background(-24px, -24px);
+  @include basic-control-button-active ()
+}
+
+.leaflet-rectangle-control {
+  @include rectangle-control-button-background(-24px, 2px);
 }
 
 

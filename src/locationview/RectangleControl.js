@@ -56,9 +56,6 @@ var RectangleControl = L.Control.extend({
     button.classList.add(ICON_CLASS_NAME);
     tooltip.classList.add('help');
 
-    // TODO :: Use icon instead
-    button.innerHTML = 'R';
-
     this._map = map;
     this._container = container;
     this._tooltip = tooltip;

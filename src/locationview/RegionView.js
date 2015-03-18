@@ -138,16 +138,18 @@ var RegionView = function (params) {
   };
 
   _this.show = function (options) {
-    var extent = _region.get();
+    var extent = _region.get(),
+        enableRectangleControl;
     options = options || {};
     _modal.show();
     _map.invalidateSize();
+    enableRectangleControl = options.enableRectangleControl || false;
+
 
     if (options.hasOwnProperty('region')) {
       if (options.region) {
         _region.set(options.region);
-        // toggle rectangle control on
-        _rectangleControl.enable();
+        enableRectangleControl = true;
       } else {
         _region.set({
         north: null,
@@ -155,9 +157,11 @@ var RegionView = function (params) {
         east: null,
         west: null
         }, {force: true});
-        // toggle rectangle control off
-        _rectangleControl.disable();
       }
+    }
+
+    if (enableRectangleControl === true) {
+      _rectangleControl.enable();
     }
 
     if (options.extent) {
@@ -175,7 +179,8 @@ var RegionView = function (params) {
       ];
     }
 
-    _map.fitBounds(extent);
+    // github.com/Leaflet/Leaflet/issues/2021
+    window.setTimeout(function(){_map.fitBounds(extent);}, 0);
   };
 
   _initialize();

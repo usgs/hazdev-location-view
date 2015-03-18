@@ -45,11 +45,6 @@ _onInputChange = function () {
 // Update based on intial values
 _onInputChange();
 
-// Initialize RegionView
-_regionView = RegionView({
-  onRegionCallback: _onRegionCallback
-});
-
 // Event Bindings
 _north.addEventListener('input', _onInputChange);
 _south.addEventListener('input', _onInputChange);
@@ -71,12 +66,16 @@ _showRegionButton.addEventListener('click', function () {
       east,
       west;
 
+  _regionView = RegionView({
+    onRegionCallback: _onRegionCallback
+  });
+
   north = (_north.value === '') ? null : parseFloat(_north.value);
   south = (_south.value === '') ? null : parseFloat(_south.value);
   east = (_east.value === '') ? null : parseFloat(_east.value);
   west = (_west.value === '') ? null : parseFloat(_west.value);
 
-  if (north === null &&south === null && east === null && west === null ) {
+  if (north === null && south === null && east === null && west === null ) {
     _regionView.show({region: null});
   } else {
     region = {

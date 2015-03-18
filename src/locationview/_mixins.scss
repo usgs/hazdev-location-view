@@ -34,6 +34,13 @@ $button-size: 30px !default;
   background-size: 104px 52px;
 }
 
+@mixin rectangle-control-button-background ($x, $y) {
+  background-image: url('images/region-controls.png');
+  background-position: $x $y;
+  background-repeat: no-repeat;
+  background-size: 78px 52px;
+}
+
 @mixin basic-control-button-active () {
   background-color: #ccc;
   text-shadow: 1px 1px 1px rgba(255,255,255,0.6);
