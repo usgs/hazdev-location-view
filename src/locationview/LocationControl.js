@@ -19,7 +19,7 @@ var DEFAULTS = {
   'location': null,
   'position': 'bottomleft',
   'el': null,
-  'iconClass': CLASS_NAME + '-icon',
+  'iconClass': CLASS_NAME + '-icon leaflet-control-icon',
   'helpText': 'Show Location Options'
 };
 
