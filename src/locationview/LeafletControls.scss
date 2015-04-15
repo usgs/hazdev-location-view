@@ -3,7 +3,7 @@
 .leaflet-control {
   @include basic-control();
 
-  > a {
+  > .leaflet-control-icon {
     @include basic-control-button($button-size);
   }
 
