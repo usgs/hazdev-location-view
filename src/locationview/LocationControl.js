@@ -131,7 +131,7 @@ var LocationControl = L.Control.extend({
         details = this._details;
 
     this._eachControl(function (control) {
-      this.map.removeControl(control);
+      this._map.removeControl(control);
       control.off('location', this.setLocation, this);
       control.off('locationError', this._onLocationError, this);
       control.off('enabled', this._onControlEnabled, this);
