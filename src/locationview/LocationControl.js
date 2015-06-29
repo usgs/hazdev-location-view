@@ -280,8 +280,6 @@ var LocationControl = L.Control.extend({
     } else {
       // enable the location control
       this.enable();
-      // zoom to world
-      this._map.fitBounds([[70.0, -170.0], [-50.0, 170.0]]);
     }
 
     if (!(options && options.silent)) {
