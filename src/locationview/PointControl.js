@@ -103,7 +103,7 @@ var PointControl = L.Control.extend({
     return container;
   },
 
-  onRemove: function () {
+  onRemove: function (map) {
     var stop = L.DomEvent.stopPropagation,
         container = this._container,
         toggle = this._toggle;
@@ -121,7 +121,8 @@ var PointControl = L.Control.extend({
     L.DomEvent.removeListener(container, 'mousedown', stop);
     this._marker.off('dragend', this._onDragEnd, this);
 
-    this._map.removeLayer(this._marker);
+    map.removeLayer(this._marker);
+
     this._map = null;
     this._container = null;
     this._toggle = null;

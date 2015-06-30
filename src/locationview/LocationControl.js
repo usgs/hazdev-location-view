@@ -124,14 +124,14 @@ var LocationControl = L.Control.extend({
     return container;
   },
 
-  onRemove: function () {
+  onRemove: function (map) {
     var stop = L.DomEvent.stopPropagation,
         container = this._container,
         toggle = this._toggle,
         details = this._details;
 
     this._eachControl(function (control) {
-      this._map.removeControl(control);
+      map.removeControl(control);
       control.off('location', this.setLocation, this);
       control.off('locationError', this._onLocationError, this);
       control.off('enabled', this._onControlEnabled, this);
