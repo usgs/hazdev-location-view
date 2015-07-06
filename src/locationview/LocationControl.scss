@@ -12,19 +12,28 @@
     position:absolute;
     background: #fff;
     width:90%;
-    margin:5%;
+    margin:10% 5%;
     padding:0;
     list-style: none;
     cursor:pointer;
     overflow-y:scroll;
     max-height:80%;
+    border-radius: 2px;
 
     > li {
-      padding:5px 0 0 0;
+      padding:0;
       margin:0;
       border-top:1px solid #ddd;
       position: relative;
-      min-height:50px;
+
+      // vertically align
+      display: -webkit-flex;
+      display: -ms-flex;
+      display: flex;
+
+      -webkit-align-items: center;
+      -ms-align-items: center;
+      align-items: center;
 
       &:first-child {
         border-top:none;
@@ -35,20 +44,21 @@
       }
 
       > p {
+        color:#444;
         display:inline-block;
-        font-size:12px;
-        padding: 0 2em 0 5.5em;
-        line-height:1em;
+        font-size:13px;
+        line-height:1.3em;
+        margin: 1.5em;
       }
 
       > .icon {
-        position:absolute;
         height:40px;
         width:40px;
-        margin:0 1em;
+        min-width:40px;
         background-image: url('images/location-view-icons.png');
         background-size: 160px 80px;
         background-repeat: no-repeat;
+        margin-left: 1.5em;
       }
 
       > .leaflet-control-icon-coordinate {
@@ -72,22 +82,4 @@
 
 .leaflet-location-control-enabled > .information-list-mask {
   display:block;
-}
-
-
-@media screen and (min-width:560px) {
-
-  .information-list-mask > .information-list > li {
-    padding:0;
-
-    > p {
-      font-size:13px;
-      padding: 1em 2em 1em 7em;
-    }
-
-    > span.icon {
-      top: 13px;
-      margin:0 2em;
-    }
-  }
 }
