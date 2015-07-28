@@ -16,6 +16,7 @@ module.exports = function (grunt) {
 
     // Sources
     'dev',             // Build
+    'postcss:build',
     'connect:dev',     // View
 
     // Tests
@@ -32,6 +33,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('dist', [
     'build',
+    'postcss:dist',
     'connect:dist'
   ]);
 

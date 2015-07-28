@@ -13,7 +13,6 @@ var concurrent = {
     'copy:test'
   ],
   build: [
-    'cssmin',
     'uglify',
     'imagemin'
   ]
