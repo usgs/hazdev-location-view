@@ -1,5 +1,13 @@
 @import '_mixins';
 
+.leaflet-bar a,
+.leaflet-bar a:hover {
+  width: $button-size;
+  height: $button-size;
+  line-height: $button-size;
+}
+
+
 .leaflet-control {
   @include basic-control();
 
