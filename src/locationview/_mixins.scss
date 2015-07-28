@@ -8,23 +8,16 @@ $button-size: 30px !default;
 }
 
 @mixin basic-control-button ($size: $button-size, $radius: $border-radius) {
-  display: block;
+  display: flex;
+  flex:none;
+  justify-content: center;
+  align-items: center;
   width: $size;
   height: $size;
   cursor: pointer;
   color: #222;
   font-weight: bold;
-  text-align: center;
-  line-height: $size;
   border-radius: $border-radius;
-
-  &:hover {
-    width: $size;
-    height: $size;
-    line-height: $size;
-    border-radius: $border-radius;
-    color: #000;
-  }
 }
 
 @mixin basic-control-button-background ($x, $y) {
@@ -64,13 +57,11 @@ $button-size: 30px !default;
 
 @mixin basic-control-tooltip-hover () {
   display:block;
+  z-index: 1;
 }
 
 @mixin expandable-leaflet-control ($radius: $border-radius) {
-  display:none;
-  position:absolute;
-  top:0;
-  left:0;
+  display: none;
 
   > input,
   > button {
@@ -78,26 +69,24 @@ $button-size: 30px !default;
     padding:0;
     height:30px;
     outline:none;
-    border:none
+    border:none;
   }
 
   > input {
-    padding: 0 10px;
+    padding: 0 8px;
     border-left:1px solid #ccc;
-    position:absolute;
+    font-size: 13px;
   }
 
   > button {
-    width:60px;
     border:1px solid #fff;
     border-radius: 0 $radius $radius 0;
     background-color:#ddd;
     cursor:pointer;
-    position:absolute;
-    display:inline-block;
-    top:0;
-    right:0;
-    left:220px;
+    padding: 0 12px;
+    flex: none;
+    text-shadow: 0 0 1px #fff;
+    box-shadow: none;
 
     &:active {
       background-color:#999
@@ -106,7 +95,7 @@ $button-size: 30px !default;
 }
 
 @mixin expandable-leaflet-control-enabled ($x, $y, $radius: $border-radius) {
-  width: 280px;
+  display:flex;
 
   > .leaflet-control-icon {
     background-position: $x $y;
@@ -119,9 +108,9 @@ $button-size: 30px !default;
   }
 
   > .leaflet-control-input {
-    border-radius:0;
-    display:inline-block;
     border-radius:0 $radius $radius 0;
+    display:flex;
+    z-index: 2;
   }
 }
 

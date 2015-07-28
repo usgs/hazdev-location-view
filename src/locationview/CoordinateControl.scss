@@ -10,14 +10,7 @@
     @include expandable-leaflet-control();
 
     > input {
-      width:99px;
-
-      &.latitude {
-        left:30px;
-      }
-      &.longitude {
-        left:126px
-      }
+      width: 88px;
     }
   }
 }
