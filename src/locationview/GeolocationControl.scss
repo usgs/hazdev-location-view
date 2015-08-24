@@ -1,8 +1,8 @@
-@import '_mixins';
+@import '_mixins.scss';
 
 .leaflet-geolocation-control {
 
   > .leaflet-control-icon {
-    @include basic-control-button-background(-50px, 2px);
+    @mixin basic-control-button-background -50px,2px;
   }
 }

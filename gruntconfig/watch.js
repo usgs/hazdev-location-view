@@ -3,9 +3,9 @@
 var config = require('./config');
 
 module.exports = {
-  compass: {
+  scss: {
     files: [config.src + '/locationview/**/*.scss'],
-    tasks: ['compass:dev']
+    tasks: ['postcss:build']
   },
   scripts: {
     files: [config.src + '/locationview/**/*.js'],

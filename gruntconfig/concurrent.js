@@ -4,7 +4,7 @@
 var concurrent = {
   dev: [
     'browserify:source',
-    'compass',
+    'postcss:build',
     'copy:src',
     'copy:leaflet'
   ],
@@ -13,7 +13,6 @@ var concurrent = {
     'copy:test'
   ],
   build: [
-    'cssmin',
     'uglify',
     'imagemin'
   ]

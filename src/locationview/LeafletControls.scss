@@ -1,18 +1,26 @@
-@import '_mixins';
+@import '_mixins.scss';
+
+.leaflet-bar a,
+.leaflet-bar a:hover {
+  width: $button-size;
+  height: $button-size;
+  line-height: $button-size;
+}
+
 
 .leaflet-control {
-  @include basic-control();
+  @mixin basic-control;
 
   > .leaflet-control-icon {
-    @include basic-control-button($button-size);
+    @mixin basic-control-button;
   }
 
   > .help {
-    @include basic-control-tooltip();
+    @mixin basic-control-tooltip;
   }
 
   &:hover .help {
-    @include basic-control-tooltip-hover();
+    @mixin basic-control-tooltip-hover;
   }
 }
 
