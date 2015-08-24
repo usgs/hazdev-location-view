@@ -1,15 +1,15 @@
 @import 'leaflet.css';
 
-@import 'locationview/CoordinateControl';
-@import 'locationview/GeocodeControl';
-@import 'locationview/GeolocationControl';
-@import 'locationview/LeafletControls';
-@import 'locationview/LocationControl';
-@import 'locationview/LocationView';
-@import 'locationview/PointControl';
-@import 'locationview/RectangleControl';
-@import 'locationview/RectangleCoordinateView';
-@import 'locationview/RectangleOverlayView';
-@import 'locationview/RegionView';
+@import 'locationview/CoordinateControl.scss';
+@import 'locationview/GeocodeControl.scss';
+@import 'locationview/GeolocationControl.scss';
+@import 'locationview/LeafletControls.scss';
+@import 'locationview/LocationControl.scss';
+@import 'locationview/LocationView.scss';
+@import 'locationview/PointControl.scss';
+@import 'locationview/RectangleControl.scss';
+@import 'locationview/RectangleCoordinateView.scss';
+@import 'locationview/RectangleOverlayView.scss';
+@import 'locationview/RegionView.scss';
 
-@import 'mvc/ModalView';
+@import 'mvc/ModalView.scss';

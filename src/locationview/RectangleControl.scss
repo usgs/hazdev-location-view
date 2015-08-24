@@ -1,27 +1,26 @@
-@import '_mixins';
+@import '_mixins.scss';
 
-// updates cursor once user is done drawing rectangle
 .drawing-rectangle {
   cursor: crosshair;
 }
 
 .leaflet-rectangle-control-active .leaflet-rectangle-control {
-  @include rectangle-control-button-background(-24px, -24px);
-  @include basic-control-button-active ()
+  @mixin rectangle-control-button-background -24px,-24px;
+  @mixin basic-control-button-active;
 }
 
 .leaflet-rectangle-control:active {
-  @include rectangle-control-button-background(-24px, -24px);
-  @include basic-control-button-active ()
+  @mixin rectangle-control-button-background -24px,-24px;
+  @mixin basic-control-button-active;
 }
 
 .leaflet-rectangle-control {
-  @include rectangle-control-button-background(-24px, 2px);
+  @mixin rectangle-control-button-background -24px,2px;
 }
 
 
 .regionview-map > .alert {
-  // default alert styles
+  /* default alert styles */
   display:block;
   padding: 0.75em 1em;
   border-radius: 4px;
@@ -30,7 +29,7 @@
   color: #555;
   border: 1px solid #d8d8d8;
 
-  // custom alert styles
+  /* custom alert styles */
   position:relative;
   margin: auto;
   text-align: center;

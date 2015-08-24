@@ -1,13 +1,14 @@
-$border-radius: 2px !default;
-$button-size: 30px !default;
+/* variables cannot be used for mixin default values wtih precss */
+$border-radius: 2px;
+$button-size: 30px;
 
-@mixin basic-control ($radius: $border-radius) {
+@define-mixin basic-control $radius:2px {
   background-color:#fff;
   border-radius:$radius;
   box-shadow: 0 1px 1px #333;
 }
 
-@mixin basic-control-button ($size: $button-size, $radius: $border-radius) {
+@define-mixin basic-control-button $size:30px,$radius:2px {
   display: flex;
   flex:none;
   justify-content: center;
@@ -17,32 +18,32 @@ $button-size: 30px !default;
   cursor: pointer;
   color: #222;
   font-weight: bold;
-  border-radius: $border-radius;
+  border-radius: $radius;
 }
 
-@mixin basic-control-button-background ($x, $y) {
+@define-mixin basic-control-button-background $x,$y {
   background-image: url('images/location-view-icons.png');
   background-position: $x $y;
   background-repeat: no-repeat;
   background-size: 104px 52px;
 }
 
-@mixin rectangle-control-button-background ($x, $y) {
+@define-mixin rectangle-control-button-background $x,$y {
   background-image: url('images/region-controls.png');
   background-position: $x $y;
   background-repeat: no-repeat;
   background-size: 78px 52px;
 }
 
-@mixin basic-control-button-active () {
+@define-mixin basic-control-button-active {
   background-color: #ccc;
   text-shadow: 1px 1px 1px rgba(255,255,255,0.6);
 }
 
-@mixin basic-control-tooltip ($size: $button-size, $radius: $border-radius) {
+@define-mixin basic-control-tooltip $size:30px,$radius:2px {
   position: absolute;
   display: none;
-  left: $size + 10px;
+  left: 40px; /* $size + 10px */
   top: 0;
   padding: 0 1em;
   border-radius: $radius;
@@ -55,12 +56,12 @@ $button-size: 30px !default;
   white-space: nowrap;
 }
 
-@mixin basic-control-tooltip-hover () {
+@define-mixin basic-control-tooltip-hover {
   display:block;
   z-index: 1;
 }
 
-@mixin expandable-leaflet-control ($radius: $border-radius) {
+@define-mixin expandable-leaflet-control $radius:2px {
   display: none;
 
   > input,
@@ -94,7 +95,7 @@ $button-size: 30px !default;
   }
 }
 
-@mixin expandable-leaflet-control-enabled ($x, $y, $radius: $border-radius) {
+@define-mixin expandable-leaflet-control-enabled $x,$y,$radius:2px {
   display:flex;
 
   > .leaflet-control-icon {

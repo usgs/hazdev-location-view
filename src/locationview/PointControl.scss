@@ -1,20 +1,17 @@
-@import '_mixins';
+@import '_mixins.scss';
 
-// class added to map container to show custom cursor
 .leaflet-point-control-location {
   cursor:crosshair;
   cursor:url('images/cursor.cur') 16 32, auto;
 }
 
-// icon for point control
 .leaflet-point-control {
 
   > .leaflet-control-icon {
-    @include basic-control-button-background(-76px, 2px);
+    @mixin basic-control-button-background -76px,2px;
   }
 }
 
-// icon for point control, when enabled
 .leaflet-point-control-enabled > .leaflet-control-icon {
   background-position: -76px -24px;
 }

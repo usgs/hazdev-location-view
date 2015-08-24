@@ -4,7 +4,6 @@ module.exports = (function () {
   var config = {
     browserify: require('./browserify'),
     clean: require('./clean'),
-    compass: require('./compass'),
     concurrent: require('./concurrent'),
     connect: require('./connect'),
     copy: require('./copy'),
@@ -19,7 +18,6 @@ module.exports = (function () {
       'grunt-browserify',
       'grunt-concurrent',
       'grunt-contrib-clean',
-      'grunt-contrib-compass',
       'grunt-contrib-connect',
       'grunt-contrib-copy',
       'grunt-contrib-imagemin',
