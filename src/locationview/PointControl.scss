@@ -1,6 +1,6 @@
 @import '_mixins.scss';
 
-.leaflet-point-control-location {
+.leaflet-point-control-location > .leaflet-map-pane {
   cursor:crosshair;
   cursor:url('images/cursor.cur') 16 32, auto;
 }
