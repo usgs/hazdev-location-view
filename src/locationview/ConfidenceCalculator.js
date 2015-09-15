@@ -136,27 +136,44 @@ var ConfidenceCalculator = {
   },
 
   /**
-   * Compute Confidence given a geocode result.
+   * Compute Confidence given a geocode result location.
    *
-   * @params result {object}
-   *      result is a mapquest response via the nominatim api.
+   * @params geocodeLocation {object}
+   *      a mapquest response via the open mapquest api
    *
-   * @see http://open.mapquestapi.com/nominatim/
+   * @see http://www.mapquestapi.com/geocoding
    */
-  computeFromGeocode: function (result) {
-    var boundingbox = result.boundingbox,
-        latSpan = Math.abs(boundingbox[1] - boundingbox[0]),
-        lonSpan = Math.abs(boundingbox[3] - boundingbox[2]),
-        // handles boundingBox that crosses date/time line
-        maxSpan = Math.max(latSpan, Math.min(lonSpan, (360 - lonSpan))),
-        maxSpanMeters = maxSpan * 111120; // convert to meters
+  computeFromGeocode: function (geocodeLocation) {
+    var confidence,
+        qualityCode;
 
-    // Set to average confidence, postal codes return 11m bounding boxes
-    if (result.type === 'postcode') {
-      return ConfidenceCalculator.AVERAGE_CONFIDENCE;
+    confidence = ConfidenceCalculator.NOT_COMPUTED;
+
+    try {
+      qualityCode = geocodeLocation.geocodeQualityCode;
+      qualityCode = qualityCode.substring(0, 2).toUpperCase();
+
+      if (qualityCode === 'P1' || qualityCode === 'L1' ||
+          qualityCode === 'I1' || qualityCode === 'Z4') {
+        confidence = ConfidenceCalculator.HIGH_CONFIDENCE;
+      } else if (qualityCode === 'B1' || qualityCode === 'B2' ||
+          qualityCode === 'B3' || qualityCode === 'A6' ||
+          qualityCode === 'Z3') {
+        confidence = ConfidenceCalculator.ABOVE_AVERAGE_CONFIDENCE;
+      } else if (qualityCode === 'A5' || qualityCode === 'Z2') {
+        confidence = ConfidenceCalculator.AVERAGE_CONFIDENCE;
+      } else if (qualityCode === 'A4' || qualityCode === 'Z1') {
+        confidence = ConfidenceCalculator.BELOW_AVERAGE_CONFIDENCE;
+      } else if (qualityCode === 'A3') {
+        confidence = ConfidenceCalculator.LOW_CONFIDENCE;
+      } else { // A2 (if exists), A1, and others
+        confidence = ConfidenceCalculator.NO_CONFIDENCE;
+      }
+    } catch (e) {
+      confidence = ConfidenceCalculator.NOT_COMPUTED;
     }
 
-    return this.computeFromGeolocate(maxSpanMeters);
+    return confidence;
   }
 };
 

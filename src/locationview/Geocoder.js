@@ -10,8 +10,9 @@ var GEOCODE_REQUEST_ID = 0;
 var METHOD_GEOCODE = 'geocode';
 
 var DEFAULTS = {
-  forwardUrl: 'http://open.mapquestapi.com/nominatim/v1/search.php',
-  reverseUrl: 'http://open.mapquestapi.com/nominatim/v1/reverse.php'
+  apiKey: 'Fmjtd|luub2h0rnh,b2=o5-9ut0g6',
+  forwardUrl: 'http://open.mapquestapi.com/geocoding/v1/address',
+  reverseUrl: 'http://open.mapquestapi.com/geocoding/v1/reverse'
 };
 
 
@@ -26,29 +27,31 @@ var Geocoder = function (params) {
   var _this,
       _initialize,
 
+      _apiKey,
       _forwardUrl,
       _reverseUrl,
 
       _buildLocationResult,
+      _buildPlaceName,
       _getCallbackName;
 
 
   _this = {};
 
-  _initialize = function () {
+  _initialize = function (params) {
     params = Util.extend({}, DEFAULTS, params);
 
+    _apiKey = params.apiKey;
     _forwardUrl = params.forwardUrl;
     _reverseUrl = params.reverseUrl;
-
-    params = null;
   };
 
 
   /**
    * Private static method.
    *
-   * Creates a {location} object from the given {geocodeResponse} and {originalRequest}.
+   * Creates a {location} object from the given {geocodeResponse} and
+   * {originalRequest}.
    *
    * @param geocodeResponse {Object}
    *      The first location object returned by the JSONP request.
@@ -59,28 +62,70 @@ var Geocoder = function (params) {
    *      A location object for use with LocationView and LocationControl
    *      components.
    */
-  _buildLocationResult = function (geocodeResponse, originalRequest) {
-    var location = {};
+  _buildLocationResult = function (geocodeResponse) {
+    var location,
+        providedLocation,
+        responseLocation,
+        result;
 
-    if (originalRequest.hasOwnProperty('q')) {
+    location = {};
+
+    // Just use first location for now
+    result = geocodeResponse.results[0];
+    providedLocation = result.providedLocation;
+    responseLocation = result.locations[0];
+
+    location.method = METHOD_GEOCODE;
+
+    if (providedLocation.hasOwnProperty('location')) {
       // forward lookup
-      location.place = originalRequest.q;
-      location.latitude = Number(geocodeResponse.lat);
-      location.longitude = Number(geocodeResponse.lon);
-      location.method = METHOD_GEOCODE;
+      location.place = providedLocation.location;
+      location.latitude = Number(responseLocation.latLng.lat);
+      location.longitude = Number(responseLocation.latLng.lng);
       location.confidence = ConfidenceCalculator.computeFromGeocode(
-          geocodeResponse);
+          responseLocation);
     } else {
       // reverse lookup
-      location.place = geocodeResponse.display_name;
-      location.latitude = originalRequest.lat;
-      location.longitude = originalRequest.lon;
-      location.method = METHOD_GEOCODE;
+      location.place = _buildPlaceName(responseLocation);
+      location.latitude = providedLocation.latLng.lat;
+      location.longitude = providedLocation.latLng.lng;
       location.confidence = ConfidenceCalculator.computeFromCoordinates(
-          originalRequest.latitude, originalRequest.longitude);
+          providedLocation.latLng.lat, providedLocation.latLng.lng);
     }
 
     return location;
+  };
+
+  /**
+   *
+   * @param responseLocation {Object}
+   *      A location object returned from the open mapquest api
+   *
+   * @return {String}
+   *      A placename
+   */
+  _buildPlaceName = function (responseLocation) {
+    var placename;
+
+    placename = [];
+
+    if (responseLocation.street) {
+      placename.push(responseLocation.street);
+    }
+
+    if (responseLocation.adminArea5) {
+      placename.push(responseLocation.adminArea5);
+    }
+
+    if (responseLocation.adminArea3) {
+      placename.push(responseLocation.adminArea3);
+    }
+
+    if (responseLocation.postalCode) {
+      placename.push(responseLocation.postalCode);
+    }
+
+    return placename.join(', ');
   };
 
   /**
@@ -116,7 +161,7 @@ var Geocoder = function (params) {
   _this.forward = _this.geocode = function (addressString, successCallback,
       errorCallback) {
     var request = {
-      q: addressString
+      location: addressString
     };
 
     _this.submitRequest(request, _forwardUrl, successCallback, errorCallback);
@@ -139,8 +184,7 @@ var Geocoder = function (params) {
   _this.reverse = _this.reverseGeocode = function (latitude, longitude,
       successCallback, errorCallback) {
     var request = {
-      lat: latitude,
-      lon: longitude
+      location: '' + latitude + ',' + longitude
     };
 
     _this.submitRequest(request, _reverseUrl, successCallback, errorCallback);
@@ -167,12 +211,13 @@ var Geocoder = function (params) {
 
     var script = document.createElement('script'),
         insertAt = document.querySelector('script'),
-        request = ['format=json', 'addressdetails=1'],
+        request = ['outFormat=json', 'addressdetails=1'],
         callbackName = _getCallbackName(),
         key = null, cleanup = null, cleanedUp = false;
 
 
-    request.push('json_callback=' + callbackName);
+    request.push('callback=' + callbackName);
+    request.push('key=' + _apiKey);
 
     // build up the full request URL based on the input parameters
     for (key in params) {
@@ -197,15 +242,13 @@ var Geocoder = function (params) {
     // JSONP callback method (attached to global window)
     window[callbackName] = function (response) {
 
-      if ((params.hasOwnProperty('q') && response.length === 0) ||
-          (response.hasOwnProperty('error'))) {
+      if (response.info.statuscode !== 0) {
         // Failure
-        errorCallback(404, response.error || 'No location found.');
+        errorCallback(404, response.info.messages.length ?
+            response.info.messages.lenth : 'No location found.');
       } else {
         // Success I guess...
-        successCallback(_buildLocationResult(
-            response.length ? response[0] : response,
-            params));
+        successCallback(_buildLocationResult(response, params));
         cleanup();
       }
 
@@ -219,7 +262,8 @@ var Geocoder = function (params) {
   };
 
 
-  _initialize();
+  _initialize(params);
+  params = null;
   return _this;
 };
 
