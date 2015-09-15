@@ -5,90 +5,54 @@
       expect = chai.expect;
 
   var GeocodeObjectFull = {
-    'place_id': '36099528',
-    'licence': 'Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright',
-    'osm_type': 'way',
-    'osm_id': '23580556',
-    'boundingbox': [
-      '51.4828405',
-      '51.4847466',
-      '-0.6083938',
-      '-0.5999973'
-    ],
-    'lat': '51.48379355',
-    'lon': '-0.60416529240868',
-    'display_name': 'Windsor Castle, Moat Path, Clewer New Town, Eton, Windsor and Maidenhead, South East England, England, SL4 1PB, United Kingdom, European Union',
-    'class': 'historic',
-    'type': 'castle',
-    'importance': 0.60105687743994,
-    'icon': 'http://open.mapquestapi.com/nominatim/v1/images/mapicons/tourist_castle.p.20.png',
-    'address': {
-      'castle': 'Windsor Castle',
-      'path': 'Moat Path',
-      'suburb': 'Clewer New Town',
-      'town': 'Eton',
-      'county': 'Windsor and Maidenhead',
-      'state_district': 'South East England',
-      'state': 'England',
-      'postcode': 'SL4 1PB',
-      'country': 'United Kingdom',
-      'country_code': 'gb',
-      'continent': 'European Union'
-      }
-    };
-
-  var dateTimeLineBoundingBox = {
-    'boundingbox': [
-      '50',
-      '50',
-      '-179.99',
-      '179.99',
-    ]
+    'street': 'County Road 34',
+    'adminArea6': '',
+    'adminArea6Type': 'Neighborhood',
+    'adminArea5': '',
+    'adminArea5Type': 'City',
+    'adminArea4': 'Elbert County',
+    'adminArea4Type': 'County',
+    'adminArea3': 'CO',
+    'adminArea3Type': 'State',
+    'adminArea1': 'US',
+    'adminArea1Type': 'Country',
+    'postalCode': '80832',
+    'geocodeQualityCode': 'B1AAA',
+    'geocodeQuality': 'STREET',
+    'dragPoint': false,
+    'sideOfStreet': 'N',
+    'linkId': '0',
+    'unknownInput': '',
+    'type': 's',
+    'latLng': {
+      'lat': 38.984439,
+      'lng': -104.015478
+    },
+    'displayLatLng': {
+      'lat': 38.984439,
+      'lng': -104.015478
+    },
+    'mapUrl': 'http://open.mapquestapi.com/staticmap/v4/getmap?key=Fmjtd|luub2h0rnh,b2=o5-9ut0g6&type=map&size=225,160&pois=purple-1,38.984439,-104.0154779,0,0,|&center=38.984439,-104.0154779&zoom=15&rand=-672210244'
   };
 
-  var LowConfidenceBoundingBox = {
-    'boundingbox': [
-      '50',
-      '50',
-      '0',
-      '1'
-    ]
+  var LowConfidenceInput = {
+    geocodeQualityCode: 'A3XXX'
   };
 
-  var BelowAverageConfidenceBoundingBox = {
-    'boundingbox': [
-      '50',
-      '50',
-      '0',
-      '0.5'
-    ]
+  var BelowAverageConfidenceInput = {
+    geocodeQualityCode: 'A4XXX'
   };
 
-  var AverageConfidenceBoundingBox = {
-    'boundingbox': [
-      '50',
-      '50',
-      '0',
-      '0.05'
-    ]
+  var AverageConfidenceInput = {
+    geocodeQualityCode: 'A5XXX'
   };
 
-  var AboveAverageConfidenceBoundingBox = {
-    'boundingbox': [
-      '50',
-      '50',
-      '0',
-      '0.005'
-    ]
+  var AboveAverageConfidenceInput = {
+    geocodeQualityCode: 'A6XXX'
   };
 
-  var HighConfidenceBoundingBox = {
-    'boundingbox': [
-      '50',
-      '50',
-      '0',
-      '0.0005'
-    ]
+  var HighConfidenceInput = {
+    geocodeQualityCode: 'P1XXX'
   };
 
   describe('ConfidenceCalculator test suite', function () {
@@ -179,33 +143,28 @@
     describe('computeFromGeocode', function () {
       it('Low Confidence', function () {
         expect(ConfidenceCalculator.computeFromGeocode(
-            LowConfidenceBoundingBox)).to.equal(
+            LowConfidenceInput)).to.equal(
             ConfidenceCalculator.LOW_CONFIDENCE);
       });
       it('Below Average Confidence', function () {
         expect(ConfidenceCalculator.computeFromGeocode(
-            BelowAverageConfidenceBoundingBox)).to.equal(
+            BelowAverageConfidenceInput)).to.equal(
             ConfidenceCalculator.BELOW_AVERAGE_CONFIDENCE);
       });
       it('Average Confidence', function () {
         expect(ConfidenceCalculator.computeFromGeocode(
-            AverageConfidenceBoundingBox)).to.equal(
+            AverageConfidenceInput)).to.equal(
             ConfidenceCalculator.AVERAGE_CONFIDENCE);
       });
       it('Above Average Confidence', function () {
         expect(ConfidenceCalculator.computeFromGeocode(
-            AboveAverageConfidenceBoundingBox)).to.equal(
+            AboveAverageConfidenceInput)).to.equal(
             ConfidenceCalculator.ABOVE_AVERAGE_CONFIDENCE);
       });
       it('High Confidence', function () {
         expect(ConfidenceCalculator.computeFromGeocode(
-            HighConfidenceBoundingBox)).to.equal(
+            HighConfidenceInput)).to.equal(
             ConfidenceCalculator.HIGH_CONFIDENCE);
-      });
-      it('Crossing Date/Time Line', function () {
-        expect(ConfidenceCalculator.computeFromGeocode(
-            dateTimeLineBoundingBox)).to.equal(
-            ConfidenceCalculator.AVERAGE_CONFIDENCE);
       });
       it('Mapquest Example', function () {
         expect(ConfidenceCalculator.computeFromGeocode(
@@ -217,33 +176,28 @@
     describe('computeZoomFromGeocode', function () {
       it('High Confidence (bounding box)', function () {
         expect(ConfidenceCalculator.computeZoomFromGeocode(
-            HighConfidenceBoundingBox)).to.equal(
+            HighConfidenceInput)).to.equal(
             16);
       });
       it('Above Average Confidence (bounding box)', function () {
         expect(ConfidenceCalculator.computeZoomFromGeocode(
-            AboveAverageConfidenceBoundingBox)).to.equal(
+            AboveAverageConfidenceInput)).to.equal(
             13);
       });
       it('Average Confidence (bounding box)', function () {
         expect(ConfidenceCalculator.computeZoomFromGeocode(
-            AverageConfidenceBoundingBox)).to.equal(
+            AverageConfidenceInput)).to.equal(
             9);
       });
       it('Below Average Confidence (bounding box)', function () {
         expect(ConfidenceCalculator.computeZoomFromGeocode(
-            BelowAverageConfidenceBoundingBox)).to.equal(
+            BelowAverageConfidenceInput)).to.equal(
             5);
       });
       it('Low Confidence (bounding box)', function () {
         expect(ConfidenceCalculator.computeZoomFromGeocode(
-            LowConfidenceBoundingBox)).to.equal(
+            LowConfidenceInput)).to.equal(
             1);
-      });
-      it('Crosses Date/Time Line (bounding box)', function () {
-        expect(ConfidenceCalculator.computeZoomFromGeocode(
-            dateTimeLineBoundingBox)).to.equal(
-            9);
       });
       it('Mapquest Example', function () {
         expect(ConfidenceCalculator.computeZoomFromGeocode(
