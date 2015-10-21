@@ -20,6 +20,6 @@ include '_example.inc.php';
   <li><a href="GeocoderExample.php">Geocoder</a></li>
   <li><a href="GeolocationControlExample.php">Geolocation Control</a></li>
   <li><a href="LocationControlExample.php">Location Control</a></li>
-  <li><a href="PointControlExample.html">Point Control</a></li>
+  <li><a href="PointControlExample.php">Point Control</a></li>
   <li><a href="RectangleControlExample.html">Rectangle Control</a></li>
 </ul>
