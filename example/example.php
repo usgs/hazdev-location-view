@@ -21,5 +21,5 @@ include '_example.inc.php';
   <li><a href="GeolocationControlExample.php">Geolocation Control</a></li>
   <li><a href="LocationControlExample.php">Location Control</a></li>
   <li><a href="PointControlExample.php">Point Control</a></li>
-  <li><a href="RectangleControlExample.html">Rectangle Control</a></li>
+  <li><a href="RectangleControlExample.php">Rectangle Control</a></li>
 </ul>
