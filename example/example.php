@@ -9,7 +9,7 @@ include '_example.inc.php';
 
 <h2>Views</h2>
 <ul>
-  <li><a href="LocationViewExample.html">Location View</a></li>
+  <li><a href="LocationViewExample.php">Location View</a></li>
   <li><a href="RegionViewExample.html">Region View</a></li>
 </ul>
 
