@@ -15,7 +15,7 @@ include '_example.inc.php';
 
 <h2>Controls</h2>
 <ul>
-  <li><a href="CoordinateControlExample.html">Coordinate Control</a></li>
+  <li><a href="CoordinateControlExample.php">Coordinate Control</a></li>
   <li><a href="GeocodeControlExample.html">Geocode Control</a></li>
   <li><a href="GeocoderExample.html">Geocoder</a></li>
   <li><a href="GeolocationControlExample.html">Geolocation Control</a></li>
