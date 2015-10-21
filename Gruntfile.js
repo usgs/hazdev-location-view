@@ -17,6 +17,8 @@ module.exports = function (grunt) {
     // Sources
     'dev',             // Build
     'postcss:build',
+    'connect:template',
+    'configureProxies:dev',
     'connect:dev',     // View
 
     // Tests
@@ -34,6 +36,8 @@ module.exports = function (grunt) {
   grunt.registerTask('dist', [
     'build',
     'postcss:dist',
+    'connect:template',
+    'configureProxies:dist',
     'connect:dist'
   ]);
 

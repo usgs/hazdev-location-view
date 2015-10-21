@@ -17,6 +17,8 @@ module.exports = (function () {
     tasks: [
       'grunt-browserify',
       'grunt-concurrent',
+      'grunt-connect-proxy',
+      'grunt-connect-rewrite',
       'grunt-contrib-clean',
       'grunt-contrib-connect',
       'grunt-contrib-copy',
