@@ -18,7 +18,7 @@ include '_example.inc.php';
   <li><a href="CoordinateControlExample.php">Coordinate Control</a></li>
   <li><a href="GeocodeControlExample.php">Geocode Control</a></li>
   <li><a href="GeocoderExample.php">Geocoder</a></li>
-  <li><a href="GeolocationControlExample.html">Geolocation Control</a></li>
+  <li><a href="GeolocationControlExample.php">Geolocation Control</a></li>
   <li><a href="LocationControlExample.html">Location Control</a></li>
   <li><a href="PointControlExample.html">Point Control</a></li>
   <li><a href="RectangleControlExample.html">Rectangle Control</a></li>
