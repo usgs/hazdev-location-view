@@ -145,13 +145,13 @@ describe('GeocodeControl test suite', function () {
       g.onAdd(null);
       /* jshint -W030 */
       expect(g._container.classList.contains(
-          'leaflet-geocode-control-enabled')).to.be.false;
+          'location-control-enabled')).to.be.false;
       g.toggle();
       expect(g._container.classList.contains(
-          'leaflet-geocode-control-enabled')).to.be.true;
+          'location-control-enabled')).to.be.true;
       g.toggle();
       expect(g._container.classList.contains(
-          'leaflet-geocode-control-enabled')).to.be.false;
+          'location-control-enabled')).to.be.false;
       /* jshint +W030 */
     });
   });

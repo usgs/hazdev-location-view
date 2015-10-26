@@ -1,17 +1,16 @@
-@import '_mixins.scss';
 
-.leaflet-point-control-location > .leaflet-map-pane {
-  cursor:crosshair;
-  cursor:url('images/cursor.cur') 16 32, auto;
-}
+.location-point-control {
 
-.leaflet-point-control {
+  > .location-control-icon {
+    background-position: -76px 2px;
+  }
 
-  > .leaflet-control-icon {
-    @mixin basic-control-button-background -76px,2px;
+  &.location-control-enabled > .location-control-icon {
+    background-position: -76px -24px;
   }
 }
 
-.leaflet-point-control-enabled > .leaflet-control-icon {
-  background-position: -76px -24px;
+.location-point-control-active > .leaflet-map-pane {
+  cursor: crosshair;
+  cursor: url('images/point-control-cursor.cur') 16 32, auto;
 }

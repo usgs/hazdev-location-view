@@ -1,5 +1,7 @@
 @import 'leaflet.css';
 
+@import 'locationview/_controls.scss';
+
 @import 'locationview/CoordinateControl.scss';
 @import 'locationview/GeocodeControl.scss';
 @import 'locationview/GeolocationControl.scss';

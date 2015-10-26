@@ -11,7 +11,7 @@ var ConfidenceCalculator = require('locationview/ConfidenceCalculator'),
 
 L.Icon.Default.imagePath = L.Icon.Default.imagePath || 'images';
 
-var CLASS_NAME = 'leaflet-location-control',
+var CLASS_NAME = 'location-location-control',
     CLASS_ENABLED = CLASS_NAME + '-enabled';
 
 
@@ -19,7 +19,7 @@ var DEFAULTS = {
   'location': null,
   'position': 'bottomleft',
   'el': null,
-  'iconClass': CLASS_NAME + '-icon leaflet-control-icon',
+  'iconClass': CLASS_NAME + '-icon location-control-icon',
   'helpText': 'Show Location Options'
 };
 
@@ -91,6 +91,7 @@ var LocationControl = L.Control.extend({
 
     // Create Information Control (i) button
     container = document.createElement('div');
+    container.classList.add('location-control');
     container.classList.add(CLASS_NAME);
     container.innerHTML = [
       '<a class="', options.iconClass, '">i</a>',
@@ -183,7 +184,9 @@ var LocationControl = L.Control.extend({
         controlEl.setAttribute('data-index', index);
         controlEl.innerHTML = [
           '<span title="', controlOptions.helpText, '"',
-              ' class="icon ', controlOptions.iconClass, '-', controlOptions.method, '"></span>',
+              ' class="location-control-icon ',
+              controlOptions.iconClass, '-', controlOptions.method,
+              '"></span>',
           '<p>', controlOptions.infoText, '</p>'
         ].join('');
         L.DomEvent.addListener(controlEl, 'click', control.enable, control);

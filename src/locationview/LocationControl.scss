@@ -15,7 +15,7 @@
     padding:0;
     list-style: none;
     cursor:pointer;
-    overflow-y:scroll;
+    overflow-y: auto;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -40,37 +40,39 @@
         margin: 1em 0;
       }
 
-      > .icon {
+      > .location-control-icon {
         height:40px;
         width:40px;
         margin:0 1em;
-        background-image: url('images/location-view-icons.png');
         background-size: 160px 80px;
-        background-repeat: no-repeat;
         flex: none;
         margin: 0 0 0 1em;
       }
 
-      > .leaflet-control-icon-coordinate {
+      > .location-control-icon-coordinate {
         background-position: 0 0;
       }
 
-      > .leaflet-control-icon-geocode {
+      > .location-control-icon-geocode {
         background-position: -40px 0;
       }
 
-      > .leaflet-control-icon-geolocation {
+      > .location-control-icon-geolocation {
         background-position: -80px 0;
       }
 
-      > .leaflet-control-icon-point {
+      > .location-control-icon-point {
         background-position: -120px 0;
       }
     }
   }
 }
 
-.leaflet-location-control-enabled > .information-list-mask {
+.location-location-control > .location-control-icon {
+  background-image: none;
+}
+
+.location-location-control-enabled > .information-list-mask {
   display: block;
 }
 

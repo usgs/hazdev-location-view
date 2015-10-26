@@ -4,10 +4,10 @@ var L = require('leaflet'),
     ConfidenceCalculator = require('locationview/ConfidenceCalculator');
 
 
-var CLASS_NAME = 'leaflet-coordinate-control',
-    CLASS_ENABLED = CLASS_NAME + '-enabled',
-    CLASS_INPUT = 'leaflet-control-input',
-    CLASS_SUBMIT = 'leaflet-control-submit';
+var CLASS_NAME = 'location-coordinate-control',
+    CLASS_ENABLED = 'location-control-enabled',
+    CLASS_INPUT = 'expandable',
+    CLASS_SUBMIT = 'location-control-submit';
 
 var METHOD = 'coordinate';
 
@@ -15,7 +15,7 @@ var DEFAULTS = {
   'method': METHOD,
   'position': 'topleft',
   'defaultEnabled': false,
-  'iconClass': 'leaflet-control-icon',
+  'iconClass': 'location-control-icon',
   'helpText': 'Enter Coordinates',
   'infoText': '<b>Enter coordinates</b>, latitude and longitude.'
 };
@@ -35,6 +35,7 @@ var CoordinateControl =  L.Control.extend({
         control;
 
     container = document.createElement('div');
+    container.classList.add('location-control');
     container.classList.add(CLASS_NAME);
     container.innerHTML = [
       '<a class="', options.iconClass, '"></a>',

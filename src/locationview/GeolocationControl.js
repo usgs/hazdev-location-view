@@ -5,14 +5,14 @@ var ConfidenceCalculator = require('locationview/ConfidenceCalculator'),
     L = require('leaflet');
 
 
-var CLASS_NAME = 'leaflet-geolocation-control';
+var CLASS_NAME = 'location-geolocation-control';
 var METHOD = 'geolocation';
 
 var DEFAULTS = {
   'method': METHOD,
   'geolocation': navigator.geolocation,
   'position': 'topleft',
-  'iconClass': 'leaflet-control-icon',
+  'iconClass': 'location-control-icon',
   'helpText': 'Use Current Location',
   'infoText': 'Attempt to automatically locate my <b>current location</b>.'
 };
@@ -39,6 +39,7 @@ var GeolocationControl = L.Control.extend({
         toggle;
 
     container = document.createElement('div');
+    container.classList.add('location-control');
     container.classList.add(CLASS_NAME);
     container.innerHTML = [
       '<a class="', options.iconClass, '"></a>',

@@ -16,7 +16,8 @@ if (!isset($TEMPLATE)) {
 // this is only output during the "content" phase of the template
 $nav = array();
 if ($pageUrl !== '/example.php') {
-  $nav[] = navItem('/example.php?template=' . $useTemplate, 'Examples Index');
+  $nav[] = navItem('/example.php?template=' . ($useTemplate ? 'true' : 'false'),
+      'Examples Index');
 }
 if ($useTemplate) {
   $nav[] = navItem($pageUrl . '?template=false', 'View without template');
