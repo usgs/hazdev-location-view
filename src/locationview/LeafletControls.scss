@@ -31,6 +31,14 @@
   position: relative;
 }
 
+.leaflet-control-layers-base,
+.leaflet-control-layers-overlays {
+  > label > input {
+    left: auto;
+    position: static;
+  }
+}
+
 .leaflet-control-scale {
   padding: 4px 6px;
 
