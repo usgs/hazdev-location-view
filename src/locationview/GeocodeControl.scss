@@ -1,20 +1,17 @@
-@import '_mixins.scss';
 
-.leaflet-geocode-control {
+.location-geocode-control {
 
-  > .leaflet-control-icon {
-    @mixin basic-control-button-background -24px,2px;
+  > .expandable > .address {
+    width: 176px;
   }
 
-  > .leaflet-control-input {
-    @mixin expandable-leaflet-control;
-
-    > .address {
-      width: 176px;
-    }
+  > .location-control-icon {
+    background-position: -24px 2px;
   }
-}
 
-.leaflet-geocode-control-enabled {
-  @mixin expandable-leaflet-control-enabled -24px,-24px;
+  > .location-control-icon:active,
+  &.location-control-enabled > .location-control-icon {
+    background-position: -24px -24px;
+  }
+
 }

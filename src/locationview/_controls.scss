@@ -1,0 +1,119 @@
+.location-control,
+.region-control {
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 1px 1px #333;
+
+  > .help {
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 2px;
+    box-shadow: 0 1px 1px #333;
+    color: #000;
+    display: none;
+    font-size: 12px;
+    left: 40px; /* $size + 10px */
+    line-height: 30px;
+    padding: 0 1em;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    white-space: nowrap;
+  }
+
+  &:hover > .help {
+    display: block;
+    z-index: 1;
+  }
+}
+
+.location-control-icon,
+.region-control-icon {
+  align-items: center;
+  border-radius: 2px;
+  color: #222;
+  cursor: pointer;
+  display: flex;
+  flex: none;
+  font-weight: bold;
+  height: 30px;
+  justify-content: center;
+  width: 30px;
+}
+
+.location-control-icon {
+  background-image: url('images/location-control-icons.png');
+  background-repeat: no-repeat;
+  background-size: 104px 52px;
+}
+
+.region-control-icon {
+  background-image: url('images/region-control-icons.png');
+  background-repeat: no-repeat;
+  background-size: 78px 52px;
+}
+
+
+.location-control-enabled > .location-control-icon,
+.region-control-enabled > .region-control-icon {
+  background-color: #ccc;
+  text-shadow: 1px 1px 1px rgba(255,255,255,0.6);
+}
+
+
+.location-control > .expandable {
+  display: none;
+
+  > input,
+  > button {
+    border: none;
+    height: 30px;
+    margin: 0;
+    outline: none;
+    padding: 0;
+  }
+
+  > input {
+    border-left: 1px solid #ccc;
+    font-size: 13px;
+    padding: 0 8px;
+  }
+
+  > button {
+    background-color: #ddd;
+    border: 1px solid #fff;
+    border-radius: 0 2px 2px 0;
+    box-shadow: none;
+    cursor: pointer;
+    flex: none;
+    padding: 0 12px;
+    text-shadow: 0 0 1px #fff;
+
+    &:active {
+      background-color: #999
+    }
+  }
+}
+
+.location-control-enabled {
+  display: flex;
+
+  > .expandable {
+    border-radius: 0 2px 2px 0;
+    display: flex;
+    z-index: 2;
+  }
+
+  > .location-control-icon {
+    border-radius: 2px 0 0 2px;
+  }
+}
+
+.leaflet-touch {
+  .location-control {
+    border: none;
+
+    &:hover > .help {
+      display: none;
+    }
+  }
+}

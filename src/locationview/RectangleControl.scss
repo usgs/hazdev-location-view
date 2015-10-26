@@ -1,47 +1,37 @@
-@import '_mixins.scss';
+
 
 .drawing-rectangle {
   cursor: crosshair;
 }
 
-.leaflet-rectangle-control-active .leaflet-rectangle-control {
-  @mixin rectangle-control-button-background -24px,-24px;
-  @mixin basic-control-button-active;
+.region-rectangle-control {
+  > .region-control-icon {
+    background-position: -24px 2px;
+  }
 }
 
-.leaflet-rectangle-control:active {
-  @mixin rectangle-control-button-background -24px,-24px;
-  @mixin basic-control-button-active;
+.rectangle-control-active .region-rectangle-control,
+.region-rectangle-control:active {
+  > .region-control-icon {
+    background-position: -24px -24px;
+  }
 }
 
-.leaflet-rectangle-control {
-  @mixin rectangle-control-button-background -24px,2px;
-}
 
-
-.regionview-map > .alert {
-  /* default alert styles */
-  display:block;
-  padding: 0.75em 1em;
-  border-radius: 4px;
-  text-shadow: 0 1px 1px #fff;
-  background: #f8f8f8;
-  color: #555;
-  border: 1px solid #d8d8d8;
-
-  /* custom alert styles */
-  position:relative;
-  margin: auto;
-  text-align: center;
-  width: 65%;
-  min-width: 191px;
-  top: 1em;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
-  z-index: 10;
-}
-
-.regionview-map > .info {
-  color: #2d7091;
+.rectangle-control-active > .instruction {
   background-color: #ebf7fd;
-  border-color: rgba(45,112,145,1);
+  border: 1px solid rgba(45,112,145,1);
+  border-radius: 2px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  color: #2d7091;
+  display: block;
+  margin: auto;
+  min-width: 191px;
+  padding: 0.75em 1em;
+  position: relative;
+  text-align: center;
+  text-shadow: 0 1px 1px #fff;
+  top: 1em;
+  width: 65%;
+  z-index: 10;
 }

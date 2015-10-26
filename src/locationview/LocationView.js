@@ -100,7 +100,7 @@ var LocationView = function (params) {
     _mapContainer.classList.add('locationview-map');
 
     _map = new L.Map(_mapContainer, {
-      zoomControl: true,
+      zoomControl: !Util.isMobile(),
       attributionControl: false
     });
 

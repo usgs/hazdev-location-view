@@ -7,9 +7,9 @@ var L = require('leaflet'),
     Util = require('util/Util');
 
 
-var CLASS_NAME = 'leaflet-rectangle-control',
-    ICON_CLASS_NAME = 'leaflet-control-icon',
-    ACTIVE_CLASS_NAME = 'leaflet-rectangle-control-active';
+var CLASS_NAME = 'region-rectangle-control',
+    ICON_CLASS_NAME = 'region-control-icon',
+    ACTIVE_CLASS_NAME = 'rectangle-control-active';
 
 var DEFAULTS = {
   position: 'topleft',
@@ -52,6 +52,7 @@ var RectangleControl = L.Control.extend({
         tooltip = container.appendChild(document.createElement('span')),
         stop = L.DomEvent.stopPropagation;
 
+    container.classList.add('region-control');
     container.classList.add(CLASS_NAME);
     button.classList.add(ICON_CLASS_NAME);
     tooltip.classList.add('help');
@@ -251,7 +252,7 @@ var RectangleControl = L.Control.extend({
 
     if (!instructionEl) {
       instructionEl = document.createElement('p');
-      instructionEl.classList.add('alert', 'info', 'instruction');
+      instructionEl.classList.add('instruction');
       mapContainer.appendChild(instructionEl);
     }
 

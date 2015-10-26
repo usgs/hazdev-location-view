@@ -8,7 +8,8 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'dev',
-    'concurrent:build'
+    'uglify',
+    'imagemin'
   ]);
 
   grunt.registerTask('default', [
@@ -17,10 +18,13 @@ module.exports = function (grunt) {
     // Sources
     'dev',             // Build
     'postcss:build',
+    'connect:template',
+    'configureProxies:dev',
     'connect:dev',     // View
 
     // Tests
-    'concurrent:test', // Build
+    'browserify:test',
+    'copy:test',
     'connect:test',    // View
     'mocha_phantomjs', // Execute
 
@@ -28,19 +32,25 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('dev', [
-    'concurrent:dev'
+    'browserify:source',
+    'postcss:build',
+    'copy:src',
+    'copy:leaflet'
   ]);
 
   grunt.registerTask('dist', [
     'build',
     'postcss:dist',
+    'connect:template',
+    'configureProxies:dist',
     'connect:dist'
   ]);
 
   grunt.registerTask('test', [
     'dev',
 
-    'concurrent:test',
+    'browserify:test',
+    'copy:test',
     'connect:test',
     'mocha_phantomjs'
   ]);

@@ -42,7 +42,7 @@ describe('LocationControl test suite', function () {
     var controls = map._controlCorners.topleft;
 
     it('Can add the PointControl', function () {
-      var pointControl = controls.querySelector('.leaflet-point-control');
+      var pointControl = controls.querySelector('.location-point-control');
       /* jshint -W030 */
       expect(pointControl).to.not.be.null;
       /* jshint +W030 */
@@ -50,7 +50,7 @@ describe('LocationControl test suite', function () {
 
     it('Can add the CoordinateControl', function () {
       var coordinateControl = controls.querySelector(
-          '.leaflet-coordinate-control');
+          '.location-coordinate-control');
       /* jshint -W030 */
       expect(coordinateControl).to.not.be.null;
       /* jshint +W030 */
@@ -58,7 +58,7 @@ describe('LocationControl test suite', function () {
 
     it('Can add the GeocodeControl', function () {
       var geocodeControl = controls.querySelector(
-          '.leaflet-geocode-control');
+          '.location-geocode-control');
       /* jshint -W030 */
       expect(geocodeControl).to.not.be.null;
       /* jshint +W030 */
@@ -66,7 +66,7 @@ describe('LocationControl test suite', function () {
 
     it.skip('Can add the GeolocateControl', function () {
       var geolocateControl = controls.querySelector(
-          '.leaflet-geolocate-control');
+          '.location-geolocate-control');
       /* jshint -W030 */
       expect(geolocateControl).to.not.be.null;
       /* jshint +W030 */

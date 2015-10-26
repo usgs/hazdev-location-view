@@ -4,9 +4,9 @@ var ConfidenceCalculator = require('locationview/ConfidenceCalculator'),
     L = require('leaflet');
 
 
-var CLASS_NAME = 'leaflet-point-control';
-var CLASS_ENABLED = CLASS_NAME + '-enabled';
-var CLASS_LOCATION = CLASS_NAME + '-location';
+var CLASS_NAME = 'location-point-control';
+var CLASS_ENABLED = 'location-control-enabled';
+var CLASS_LOCATION = CLASS_NAME + '-active';
 var METHOD = 'point';
 
 var DEFAULT_OPTIONS = {
@@ -14,7 +14,7 @@ var DEFAULT_OPTIONS = {
   position: 'topleft',
   defaultLocation: null,
   defaultEnabled: false,
-  iconClass: 'leaflet-control-icon',
+  iconClass: 'location-control-icon',
   helpText: 'Drop Pin',
   infoText: '<b>Drop pin</b> on the map to specify a location.'
 };
@@ -73,6 +73,7 @@ var PointControl = L.Control.extend({
         toggle;
 
     container = document.createElement('div');
+    container.classList.add('location-control');
     container.classList.add(CLASS_NAME);
     container.innerHTML = [
       '<a class="', options.iconClass, '"></a>',

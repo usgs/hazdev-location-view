@@ -1,21 +1,17 @@
-@import '_mixins.scss';
 
-.leaflet-coordinate-control {
+.location-coordinate-control {
 
-  > .leaflet-control-icon {
-    @mixin basic-control-button-background 2px,2px;
+  > .expandable > input {
+    width: 88px;
   }
 
-  > .leaflet-control-input {
-    @mixin expandable-leaflet-control;
-
-    > input {
-      width: 88px;
-    }
+  > .location-control-icon {
+    background-position: 2px 2px;
   }
-}
 
-/** Styles for when the input is expanded **/
-.leaflet-coordinate-control-enabled {
-  @mixin expandable-leaflet-control-enabled 2px,-24px;
+  > .location-control-icon:active,
+  &.location-control-enabled > .location-control-icon {
+    background-position: 2px -24px;
+  }
+
 }

@@ -4,10 +4,10 @@ var L = require('leaflet'),
     Geocoder = require('locationview/Geocoder');
 
 
-var CLASS_NAME = 'leaflet-geocode-control',
-    CLASS_ENABLED = CLASS_NAME + '-enabled',
-    CLASS_INPUT = 'leaflet-control-input',
-    CLASS_SUBMIT = 'leaflet-control-submit';
+var CLASS_NAME = 'location-geocode-control',
+    CLASS_ENABLED = 'location-control-enabled',
+    CLASS_INPUT = 'expandable',
+    CLASS_SUBMIT = 'location-control-submit';
 
 var METHOD = 'geocode';
 
@@ -16,7 +16,7 @@ var DEFAULT_OPTIONS = {
   position: 'topleft',
   defaultLocation: null,
   defaultEnabled: false,
-  iconClass: 'leaflet-control-icon',
+  iconClass: 'location-control-icon',
   helpText: 'Search for Address',
   infoText: '<b>Search</b> for a location using an <b>address</b>.'
 };
@@ -57,6 +57,7 @@ var GeocodeControl = L.Control.extend({
         toggle;
 
     container = document.createElement('div');
+    container.classList.add('location-control');
     container.classList.add(CLASS_NAME);
     container.innerHTML = [
       '<a class="', options.iconClass, '"></a>',

@@ -1,26 +1,41 @@
-@import '_mixins.scss';
-
 .leaflet-bar a,
 .leaflet-bar a:hover {
-  width: $button-size;
-  height: $button-size;
-  line-height: $button-size;
+  height: 30px;
+  line-height: 30px;
+  width: 30px;
 }
 
 
 .leaflet-control {
-  @mixin basic-control;
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 1px 1px #333;
 
   > .leaflet-control-icon {
-    @mixin basic-control-button;
+    align-items: center;
+    border-radius: 2px;
+    color: #222;
+    cursor: pointer;
+    display: flex;
+    flex: none;
+    font-weight: bold;
+    height: 30px;
+    justify-content: center;
+    width: 30px;
   }
+}
 
-  > .help {
-    @mixin basic-control-tooltip;
-  }
 
-  &:hover .help {
-    @mixin basic-control-tooltip-hover;
+.leaflet-control-layers-selector {
+  left: 0;
+  position: relative;
+}
+
+.leaflet-control-layers-base,
+.leaflet-control-layers-overlays {
+  > label > input {
+    left: auto;
+    position: static;
   }
 }
 
@@ -31,29 +46,24 @@
     background-color: transparent;
     box-shadow: none !important;
   }
-}
 
-.leaflet-left .leaflet-control-scale {
-  margin-left:10px;
-}
-.leaflet-bottom .leaflet-control-scale {
-  margin-bottom:10px;
-}
-.leaflet-right .leaflet-control-scale {
-  margin-right:10px;
+  .leaflet-left > & {
+    margin-left: 10px;
+  }
+
+  .leaflet-bottom > & {
+    margin-bottom: 10px;
+  }
+
+  .leaflet-right > & {
+    margin-right: 10px;
+  }
 }
 
 .leaflet-touch {
 
   .leaflet-control {
-    border:none;
-
-    &:hover .help {
-      display:none;
-    }
+    border: none;
   }
 
-  .leaflet-control-zoom {
-    display:none;
-  }
 }

@@ -1,19 +1,23 @@
 .regionview > .modal-content {
-  padding:0;
+  padding: 0;
 }
 
 .regionview-map {
-  display:block;
-  height: 500px;
-  width: 600px;
+  display: block;
+  height: 200px;
+  @media screen and (min-height: 500px) {
+    height: 380px;
+  }
+  @media screen and (min-height: 700px) {
+    height: 580px;
+  }
   max-height: 100%;
   max-width: 100%;
-}
-
-
-@media screen and (max-width: 768px) {
-  .regionview-map {
-    height: 400px;
-    width: 500px;
+  width: 300px;
+  @media screen and (min-width: 480px) {
+    width: 380px;
+  }
+  @media screen and (min-width: 680px) {
+    width: 580px;
   }
 }

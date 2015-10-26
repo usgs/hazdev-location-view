@@ -5,14 +5,16 @@ var ConfidenceCalculator = require('locationview/ConfidenceCalculator'),
     L = require('leaflet');
 
 
-var CLASS_NAME = 'leaflet-geolocation-control';
+var CLASS_NAME = 'location-geolocation-control';
 var METHOD = 'geolocation';
+var ENABLED_CLASS = 'location-control-enabled';
+
 
 var DEFAULTS = {
   'method': METHOD,
   'geolocation': navigator.geolocation,
   'position': 'topleft',
-  'iconClass': 'leaflet-control-icon',
+  'iconClass': 'location-control-icon',
   'helpText': 'Use Current Location',
   'infoText': 'Attempt to automatically locate my <b>current location</b>.'
 };
@@ -39,6 +41,7 @@ var GeolocationControl = L.Control.extend({
         toggle;
 
     container = document.createElement('div');
+    container.classList.add('location-control');
     container.classList.add(CLASS_NAME);
     container.innerHTML = [
       '<a class="', options.iconClass, '"></a>',
@@ -81,6 +84,9 @@ var GeolocationControl = L.Control.extend({
 
   doGeolocate: function () {
     var geolocation = this.options.geolocation;
+
+    this._container.classList.add(ENABLED_CLASS);
+
     if (geolocation) {
       geolocation.getCurrentPosition(this._geolocateSuccess,
         this._geolocateError);
@@ -95,6 +101,8 @@ var GeolocationControl = L.Control.extend({
   },
 
   _geolocateSuccess: function (position) {
+    this._container.classList.remove(ENABLED_CLASS);
+
     this.setLocation({
         place: null,
         latitude: position.coords.latitude,
@@ -106,6 +114,8 @@ var GeolocationControl = L.Control.extend({
   },
 
   _geolocateError: function (error) {
+    this._container.classList.remove(ENABLED_CLASS);
+
     this.fire('locationError', error);
   },
 
