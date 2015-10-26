@@ -7,6 +7,8 @@ var ConfidenceCalculator = require('locationview/ConfidenceCalculator'),
 
 var CLASS_NAME = 'location-geolocation-control';
 var METHOD = 'geolocation';
+var ENABLED_CLASS = 'location-control-enabled';
+
 
 var DEFAULTS = {
   'method': METHOD,
@@ -82,6 +84,9 @@ var GeolocationControl = L.Control.extend({
 
   doGeolocate: function () {
     var geolocation = this.options.geolocation;
+
+    this._container.classList.add(ENABLED_CLASS);
+
     if (geolocation) {
       geolocation.getCurrentPosition(this._geolocateSuccess,
         this._geolocateError);
@@ -96,6 +101,8 @@ var GeolocationControl = L.Control.extend({
   },
 
   _geolocateSuccess: function (position) {
+    this._container.classList.remove(ENABLED_CLASS);
+
     this.setLocation({
         place: null,
         latitude: position.coords.latitude,
@@ -107,6 +114,8 @@ var GeolocationControl = L.Control.extend({
   },
 
   _geolocateError: function (error) {
+    this._container.classList.remove(ENABLED_CLASS);
+
     this.fire('locationError', error);
   },
 

@@ -5,4 +5,9 @@
     background-position: -50px 2px;
   }
 
+  &.location-control-enabled > .location-control-icon,
+  > .location-control-icon:active {
+    background-position: -50px -24px;
+  }
+
 }
