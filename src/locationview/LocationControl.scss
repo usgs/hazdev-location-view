@@ -1,33 +1,33 @@
 .information-list-mask {
-  display:none;
-  position:absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
   background: rgba(0,0,0,0.75);
-  z-index: 1002;
+  bottom: 0;
+  display: none;
+  left: 0;
   padding: 16px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 1002;
 
   > .information-list {
     background: #fff;
-    margin:0;
-    padding:0;
-    list-style: none;
-    cursor:pointer;
-    overflow-y: auto;
-    width: 100%;
+    cursor: pointer;
     display: flex;
     flex-direction: column;
+    list-style: none;
+    margin: 0;
+    overflow-y: auto;
+    padding: 0;
+    width: 100%;
 
     > li {
-      border-top:1px solid #ddd;
+      align-items: center;
+      border-top: 1px solid #ddd;
       display: flex;
       flex-direction: row;
-      align-items: center;
 
       &:first-child {
-        border-top:none;
+        border-top: none;
       }
 
       &:hover {
@@ -36,17 +36,22 @@
 
       > p {
         font-size: 13px;
+        margin: 0;
+        @media screen and (min-height: 560px) {
+          margin: 1em 0;
+        }
         padding: 8px 16px;
-        margin: 1em 0;
       }
 
       > .location-control-icon {
-        height:40px;
-        width:40px;
-        margin:0 1em;
         background-size: 160px 80px;
         flex: none;
+        height: 40px;
         margin: 0 0 0 1em;
+        @media screen and (min-width: 560px) {
+          margin: 0 1em 0 2em;
+        }
+        width: 40px;
       }
 
       > .location-control-icon-coordinate {
@@ -74,11 +79,4 @@
 
 .location-location-control-enabled > .information-list-mask {
   display: block;
-}
-
-
-@media screen and (min-width:560px) {
-  .information-list-mask > .information-list > li > .icon {
-    margin: 0 1em 0 2em;
-  }
 }

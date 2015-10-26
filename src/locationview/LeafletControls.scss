@@ -12,23 +12,23 @@
   box-shadow: 0 1px 1px #333;
 
   > .leaflet-control-icon {
-    display: flex;
-    flex:none;
-    justify-content: center;
     align-items: center;
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
-    color: #222;
-    font-weight: bold;
     border-radius: 2px;
+    color: #222;
+    cursor: pointer;
+    display: flex;
+    flex: none;
+    font-weight: bold;
+    height: 30px;
+    justify-content: center;
+    width: 30px;
   }
 }
 
 
 .leaflet-control-layers-selector {
-  position: relative;
   left: 0;
+  position: relative;
 }
 
 .leaflet-control-scale {
@@ -55,10 +55,10 @@
 .leaflet-touch {
 
   .leaflet-control {
-    border:none;
+    border: none;
   }
 
   .leaflet-control-zoom {
-    display:none;
+    display: none;
   }
 }

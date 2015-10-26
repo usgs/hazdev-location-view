@@ -65,58 +65,55 @@
 
   > input,
   > button {
-    margin:0;
-    padding:0;
-    height:30px;
-    outline:none;
-    border:none;
+    border: none;
+    height: 30px;
+    margin: 0;
+    outline: none;
+    padding: 0;
   }
 
   > input {
-    padding: 0 8px;
-    border-left:1px solid #ccc;
+    border-left: 1px solid #ccc;
     font-size: 13px;
+    padding: 0 8px;
   }
 
   > button {
-    border:1px solid #fff;
+    background-color: #ddd;
+    border: 1px solid #fff;
     border-radius: 0 2px 2px 0;
-    background-color:#ddd;
-    cursor:pointer;
-    padding: 0 12px;
-    flex: none;
-    text-shadow: 0 0 1px #fff;
     box-shadow: none;
+    cursor: pointer;
+    flex: none;
+    padding: 0 12px;
+    text-shadow: 0 0 1px #fff;
 
     &:active {
-      background-color:#999
+      background-color: #999
     }
   }
 }
 
 .location-control-enabled {
-  display:flex;
+  display: flex;
+
+  > .expandable {
+    border-radius: 0 2px 2px 0;
+    display: flex;
+    z-index: 2;
+  }
 
   > .location-control-icon {
     border-radius: 2px 0 0 2px;
   }
-
-  > .expandable {
-    border-radius:0 2px 2px 0;
-    display: flex;
-    z-index: 2;
-  }
 }
 
-
 .leaflet-touch {
-
   .location-control {
-    border:none;
+    border: none;
 
     &:hover > .help {
-      display:none;
+      display: none;
     }
   }
-
 }
