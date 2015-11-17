@@ -240,6 +240,7 @@ var LocationView = function (params) {
 
     if (options.hasOwnProperty('location')) {
       _locationControl.setLocation(options.location);
+      _locationControl.disable();
     }
 
     if (options.hasOwnProperty('extent')) {
