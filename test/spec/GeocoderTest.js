@@ -59,7 +59,7 @@ describe('Geocoder test suite', function () {
       expect(stub.callCount).to.equal(1);
 
       args = stub.getCall(0).args;
-      expect(args[0]).to.deep.equal({location: 'Lancaster County'});
+      expect(args[0]).to.deep.equal({text: 'Lancaster County'});
       stub.restore();
     });
 

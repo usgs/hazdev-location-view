@@ -5,54 +5,68 @@
       expect = chai.expect;
 
   var GeocodeObjectFull = {
-    'street': 'County Road 34',
-    'adminArea6': '',
-    'adminArea6Type': 'Neighborhood',
-    'adminArea5': '',
-    'adminArea5Type': 'City',
-    'adminArea4': 'Elbert County',
-    'adminArea4Type': 'County',
-    'adminArea3': 'CO',
-    'adminArea3Type': 'State',
-    'adminArea1': 'US',
-    'adminArea1Type': 'Country',
-    'postalCode': '80832',
-    'geocodeQualityCode': 'B1AAA',
-    'geocodeQuality': 'STREET',
-    'dragPoint': false,
-    'sideOfStreet': 'N',
-    'linkId': '0',
-    'unknownInput': '',
-    'type': 's',
-    'latLng': {
-      'lat': 38.984439,
-      'lng': -104.015478
+    'name': 'Denver, Colorado, United States',
+    'extent': {
+      'xmin': -105.1867,
+      'ymin': 39.537146999999997,
+      'xmax': -104.78270000000001,
+      'ymax': 39.941147000000001
     },
-    'displayLatLng': {
-      'lat': 38.984439,
-      'lng': -104.015478
-    },
-    'mapUrl': 'http://open.mapquestapi.com/staticmap/v4/getmap?key=Fmjtd|luub2h0rnh,b2=o5-9ut0g6&type=map&size=225,160&pois=purple-1,38.984439,-104.0154779,0,0,|&center=38.984439,-104.0154779&zoom=15&rand=-672210244'
+    'feature': {
+      'geometry': {
+        'x': -104.98469944299967,
+        'y': 39.739147434000472
+      },
+      'attributes': {
+        'Score': 100,
+        'Addr_Type': 'POI'
+      }
+    }
   };
 
   var LowConfidenceInput = {
-    geocodeQualityCode: 'A3XXX'
+    feature: {
+      attributes: {
+        Score: 10,
+        Addr_Type: 'PointAddress'
+      }
+    }
   };
 
   var BelowAverageConfidenceInput = {
-    geocodeQualityCode: 'A4XXX'
+    feature: {
+      attributes: {
+        Score: 30,
+        Addr_Type: 'PointAddress'
+      }
+    }
   };
 
   var AverageConfidenceInput = {
-    geocodeQualityCode: 'A5XXX'
+    feature: {
+      attributes: {
+        Score: 50,
+        Addr_Type: 'PointAddress'
+      }
+    }
   };
 
   var AboveAverageConfidenceInput = {
-    geocodeQualityCode: 'A6XXX'
+    feature: {
+      attributes: {
+        Score: 70,
+        Addr_Type: 'PointAddress'
+      }
+    }
   };
 
   var HighConfidenceInput = {
-    geocodeQualityCode: 'P1XXX'
+    feature: {
+      attributes: {
+        Score: 90,
+        Addr_Type: 'PointAddress'
+      }
+    }
   };
 
   describe('ConfidenceCalculator test suite', function () {
@@ -166,7 +180,7 @@
             HighConfidenceInput)).to.equal(
             ConfidenceCalculator.HIGH_CONFIDENCE);
       });
-      it('Mapquest Example', function () {
+      it('ESRI Example', function () {
         expect(ConfidenceCalculator.computeFromGeocode(
           GeocodeObjectFull)).to.equal(
           ConfidenceCalculator.ABOVE_AVERAGE_CONFIDENCE);

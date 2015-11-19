@@ -10,8 +10,8 @@ var GEOCODE_REQUEST_ID = 0;
 var METHOD_GEOCODE = 'geocode';
 
 var DEFAULTS = {
-  apiKey: 'Fmjtd|luub2h0rnh,b2=o5-9ut0g6',
-  forwardUrl: 'http://open.mapquestapi.com/geocoding/v1/address',
+  // Forward and reverse Url should conform to ESRI API
+  forwardUrl: 'http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find',
   reverseUrl: 'http://open.mapquestapi.com/geocoding/v1/reverse'
 };
 
@@ -20,14 +20,13 @@ var DEFAULTS = {
  * Creates a new geocoder object.
  *
  * @param options {Object}
- *      Configuration options. Must specify {apiKey}. May specify
+ *      Configuration options. See DEFAULTS for details.
  *      {forwardUrl} and/or {reverseUrl}.
  */
 var Geocoder = function (params) {
   var _this,
       _initialize,
 
-      _apiKey,
       _forwardUrl,
       _reverseUrl,
 
@@ -41,7 +40,6 @@ var Geocoder = function (params) {
   _initialize = function (params) {
     params = Util.extend({}, DEFAULTS, params);
 
-    _apiKey = params.apiKey;
     _forwardUrl = params.forwardUrl;
     _reverseUrl = params.reverseUrl;
   };
@@ -62,36 +60,45 @@ var Geocoder = function (params) {
    *      A location object for use with LocationView and LocationControl
    *      components.
    */
-  _buildLocationResult = function (geocodeResponse) {
+  _buildLocationResult = function (geocodeResponse/*, originalRequest*/) {
     var location,
-        providedLocation,
-        responseLocation,
+        // providedLocation,
+        // responseLocation,
         result;
 
     location = {};
 
-    // Just use first location for now
-    result = geocodeResponse.results[0];
-    providedLocation = result.providedLocation;
-    responseLocation = result.locations[0];
+    result = geocodeResponse.locations[0];
 
-    location.method = METHOD_GEOCODE;
+    location.METHOD = METHOD_GEOCODE;
+    location.place = result.name;
+    location.latitude = result.feature.geometry.y;
+    location.longitude = result.feature.geometry.x;
+    location.confidence = ConfidenceCalculator.computeFromGeocode(result);
+    // // Just use first location for now
+    // result = geocodeResponse.results[0];
+    // providedLocation = result.providedLocation;
+    // responseLocation = result.locations[0];
 
-    if (providedLocation.hasOwnProperty('location')) {
-      // forward lookup
-      location.place = providedLocation.location;
-      location.latitude = Number(responseLocation.latLng.lat);
-      location.longitude = Number(responseLocation.latLng.lng);
-      location.confidence = ConfidenceCalculator.computeFromGeocode(
-          responseLocation);
-    } else {
-      // reverse lookup
-      location.place = _buildPlaceName(responseLocation);
-      location.latitude = providedLocation.latLng.lat;
-      location.longitude = providedLocation.latLng.lng;
-      location.confidence = ConfidenceCalculator.computeFromCoordinates(
-          providedLocation.latLng.lat, providedLocation.latLng.lng);
-    }
+    // location.method = METHOD_GEOCODE;
+
+    // if (providedLocation.hasOwnProperty('location')) {
+    //   // forward lookup
+    //   location.place = providedLocation.location;
+    //   location.latitude = Number(responseLocation.latLng.lat);
+    //   location.longitude = Number(responseLocation.latLng.lng);
+    //   location.confidence = ConfidenceCalculator.computeFromGeocode(
+    //       responseLocation);
+    // } else {
+    //   // reverse lookup
+    //   location.place = _buildPlaceName(responseLocation);
+    //   location.latitude = providedLocation.latLng.lat;
+    //   location.longitude = providedLocation.latLng.lng;
+    //   location.confidence = ConfidenceCalculator.computeFromCoordinates(
+    //       providedLocation.latLng.lat, providedLocation.latLng.lng);
+    // }
+
+
 
     return location;
   };
@@ -99,7 +106,7 @@ var Geocoder = function (params) {
   /**
    *
    * @param responseLocation {Object}
-   *      A location object returned from the open mapquest api
+   *      A location object returned from the geocoding api
    *
    * @return {String}
    *      A placename
@@ -161,7 +168,7 @@ var Geocoder = function (params) {
   _this.forward = _this.geocode = function (addressString, successCallback,
       errorCallback) {
     var request = {
-      location: addressString
+      text: addressString
     };
 
     _this.submitRequest(request, _forwardUrl, successCallback, errorCallback);
@@ -217,7 +224,7 @@ var Geocoder = function (params) {
 
 
     request.push('callback=' + callbackName);
-    request.push('key=' + _apiKey);
+    request.push('f=pjson');
 
     // build up the full request URL based on the input parameters
     for (key in params) {
@@ -242,10 +249,9 @@ var Geocoder = function (params) {
     // JSONP callback method (attached to global window)
     window[callbackName] = function (response) {
 
-      if (response.info.statuscode !== 0) {
+      if (!response.locations.length) {
         // Failure
-        errorCallback(404, response.info.messages.length ?
-            response.info.messages.lenth : 'No location found.');
+        errorCallback(404, 'No location found.');
       } else {
         // Success I guess...
         successCallback(_buildLocationResult(response, params));

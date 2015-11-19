@@ -144,32 +144,54 @@ var ConfidenceCalculator = {
    * @see http://www.mapquestapi.com/geocoding
    */
   computeFromGeocode: function (geocodeLocation) {
-    var confidence,
-        qualityCode;
+    var attributes,
+        confidence,
+        score,
+        type;
 
-    confidence = ConfidenceCalculator.NOT_COMPUTED;
+    attributes = geocodeLocation.feature.attributes;
+    score = attributes.Score;
+    type = attributes.Addr_Type;
 
-    try {
-      qualityCode = geocodeLocation.geocodeQualityCode;
-      qualityCode = qualityCode.substring(0, 2).toUpperCase();
+    if ([
+          'PointAddress',
+          'BuildingName',
+          'StreetAddress',
+          'StreetInt',
+          'LatLong'
+        ].indexOf(type) !== -1) {
+      // High quality matches, look at score
+      confidence = Math.ceil(score * 0.05);
+    } else if ([
+          'StreetName',
+          'Locality',
+          'PostalLoc',
+          'PostalExt',
+          'Postal',
+          'POI',
+          'Zone'
+        ]) {
+      // Mid quality matches, look at score
+      confidence = Math.ceil(score * 0.04);
+    } else if ([
+          'Admin',
+          'DepAdmin',
+          'SubAdmin',
+          'RoadKM'
+        ]) {
+      // Low quality matches, look at score
+      confidence = Math.ceil(score * 0.02);
+    } else {
+      confidence = ConfidenceCalculator.NO_CONFIDENCE;
+    }
 
-      if (qualityCode === 'P1' || qualityCode === 'L1' ||
-          qualityCode === 'I1' || qualityCode === 'Z4') {
-        confidence = ConfidenceCalculator.HIGH_CONFIDENCE;
-      } else if (qualityCode === 'B1' || qualityCode === 'B2' ||
-          qualityCode === 'B3' || qualityCode === 'A6' ||
-          qualityCode === 'Z3') {
-        confidence = ConfidenceCalculator.ABOVE_AVERAGE_CONFIDENCE;
-      } else if (qualityCode === 'A5' || qualityCode === 'Z2') {
-        confidence = ConfidenceCalculator.AVERAGE_CONFIDENCE;
-      } else if (qualityCode === 'A4' || qualityCode === 'Z1') {
-        confidence = ConfidenceCalculator.BELOW_AVERAGE_CONFIDENCE;
-      } else if (qualityCode === 'A3') {
-        confidence = ConfidenceCalculator.LOW_CONFIDENCE;
-      } else { // A2 (if exists), A1, and others
-        confidence = ConfidenceCalculator.NO_CONFIDENCE;
-      }
-    } catch (e) {
+    if (!(confidence === ConfidenceCalculator.HIGH_CONFIDENCE ||
+        confidence === ConfidenceCalculator.ABOVE_AVERAGE_CONFIDENCE ||
+        confidence === ConfidenceCalculator.AVERAGE_CONFIDENCE ||
+        confidence === ConfidenceCalculator.BELOW_AVERAGE_CONFIDENCE ||
+        confidence === ConfidenceCalculator.LOW_CONFIDENCE ||
+        confidence === ConfidenceCalculator.NO_CONFIDENCE)) {
+      // confidence did not match any value, bail
       confidence = ConfidenceCalculator.NOT_COMPUTED;
     }
 
