@@ -9,10 +9,16 @@ var ConfidenceCalculator = require('locationview/ConfidenceCalculator'),
 var GEOCODE_REQUEST_ID = 0;
 var METHOD_GEOCODE = 'geocode';
 
+// Forward and reverse Url should conform to ESRI API
 var DEFAULTS = {
-  // Forward and reverse Url should conform to ESRI API
+  // API endpoint for forward geocode searches
   forwardUrl: 'http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find',
-  reverseUrl: 'http://open.mapquestapi.com/geocoding/v1/reverse'
+
+   // Radial distance in meters for revserse geocode searches
+  reverseRadius: 5000,
+
+  // API endpoint for reverse geocode searches
+  reverseUrl: 'http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode',
 };
 
 
@@ -28,6 +34,7 @@ var Geocoder = function (params) {
       _initialize,
 
       _forwardUrl,
+      _reverseRadius,
       _reverseUrl,
 
       _buildLocationResult,
@@ -42,6 +49,7 @@ var Geocoder = function (params) {
 
     _forwardUrl = params.forwardUrl;
     _reverseUrl = params.reverseUrl;
+    _reverseRadius = params.reverseRadius;
   };
 
 
@@ -60,45 +68,38 @@ var Geocoder = function (params) {
    *      A location object for use with LocationView and LocationControl
    *      components.
    */
-  _buildLocationResult = function (geocodeResponse/*, originalRequest*/) {
+  _buildLocationResult = function (geocodeResponse, originalRequest) {
     var location,
-        // providedLocation,
-        // responseLocation,
+        providedLocation,
         result;
 
-    location = {};
+    location = {
+      method: METHOD_GEOCODE,
+      place: null,
+      latitude: null,
+      longitude: null,
+      confidence: null
+    };
 
-    result = geocodeResponse.locations[0];
+    if (originalRequest.location) {
+      // reverse lookup
+      result = geocodeResponse.address;
+      providedLocation = originalRequest.location.split(',');
 
-    location.METHOD = METHOD_GEOCODE;
-    location.place = result.name;
-    location.latitude = result.feature.geometry.y;
-    location.longitude = result.feature.geometry.x;
-    location.confidence = ConfidenceCalculator.computeFromGeocode(result);
-    // // Just use first location for now
-    // result = geocodeResponse.results[0];
-    // providedLocation = result.providedLocation;
-    // responseLocation = result.locations[0];
+      location.place = result.Match_addr;
+      location.latitude = geocodeResponse.location.y;
+      location.longitude = geocodeResponse.location.x;
+      location.confidence = ConfidenceCalculator.computeFromCoordinates(
+          providedLocation[1], providedLocation[0]);
+    } else {
+      // forward lookup
+      result = geocodeResponse.locations[0];
 
-    // location.method = METHOD_GEOCODE;
-
-    // if (providedLocation.hasOwnProperty('location')) {
-    //   // forward lookup
-    //   location.place = providedLocation.location;
-    //   location.latitude = Number(responseLocation.latLng.lat);
-    //   location.longitude = Number(responseLocation.latLng.lng);
-    //   location.confidence = ConfidenceCalculator.computeFromGeocode(
-    //       responseLocation);
-    // } else {
-    //   // reverse lookup
-    //   location.place = _buildPlaceName(responseLocation);
-    //   location.latitude = providedLocation.latLng.lat;
-    //   location.longitude = providedLocation.latLng.lng;
-    //   location.confidence = ConfidenceCalculator.computeFromCoordinates(
-    //       providedLocation.latLng.lat, providedLocation.latLng.lng);
-    // }
-
-
+      location.place = originalRequest.text || result.name;
+      location.latitude = result.feature.geometry.y;
+      location.longitude = result.feature.geometry.x;
+      location.confidence = ConfidenceCalculator.computeFromGeocode(result);
+    }
 
     return location;
   };
@@ -191,7 +192,8 @@ var Geocoder = function (params) {
   _this.reverse = _this.reverseGeocode = function (latitude, longitude,
       successCallback, errorCallback) {
     var request = {
-      location: '' + latitude + ',' + longitude
+      location: '' + longitude + ',' + latitude,
+      distance: _reverseRadius
     };
 
     _this.submitRequest(request, _reverseUrl, successCallback, errorCallback);
@@ -218,7 +220,7 @@ var Geocoder = function (params) {
 
     var script = document.createElement('script'),
         insertAt = document.querySelector('script'),
-        request = ['outFormat=json', 'addressdetails=1'],
+        request = ['f=pjson'],
         callbackName = _getCallbackName(),
         key = null, cleanup = null, cleanedUp = false;
 
@@ -248,10 +250,20 @@ var Geocoder = function (params) {
 
     // JSONP callback method (attached to global window)
     window[callbackName] = function (response) {
+      var error;
 
-      if (!response.locations.length) {
+      if (( // failed forward lookup
+            !response.hasOwnProperty('locations') ||
+            response.locations.length === 0
+          ) &&
+          // failed reverse lookup
+          !response.hasOwnProperty('address')) {    // failed reverse lookup
+        error = response.error || {};
+
         // Failure
-        errorCallback(404, 'No location found.');
+        errorCallback(error.code || 404,
+            (error.details && error.details.length) ? error.details[0] :
+                error.message || 'No location found.');
       } else {
         // Success I guess...
         successCallback(_buildLocationResult(response, params));

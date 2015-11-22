@@ -107,7 +107,10 @@ describe('Geocoder test suite', function () {
       expect(stub.callCount).to.equal(1);
 
       args = stub.getCall(0).args;
-      expect(args[0]).to.deep.equal({location: '40.0755,-76.329999'});
+      expect(args[0]).to.deep.equal({
+        location: '-76.329999,40.0755',
+        distance: 5000
+      });
       stub.restore();
     });
 
