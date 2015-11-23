@@ -136,40 +136,48 @@ var ConfidenceCalculator = {
   },
 
   /**
-   * Compute Confidence given a geocode result location.
+   * Compute Confidence given a geocode result location with an extent.
    *
    * @params geocodeLocation {object}
-   *      a mapquest response via the open mapquest api
+   *      an esri response via the ArcGIS REST API
    *
-   * @see http://www.mapquestapi.com/geocoding
+   * @see https://developers.arcgis.com/en/features/geocoding/
    */
   computeFromGeocode: function (geocodeLocation) {
     var confidence,
-        qualityCode;
+        extent,
+        max;
 
-    confidence = ConfidenceCalculator.NOT_COMPUTED;
+    extent = geocodeLocation.extent;
 
-    try {
-      qualityCode = geocodeLocation.geocodeQualityCode;
-      qualityCode = qualityCode.substring(0, 2).toUpperCase();
+    // find the largest dimension of the extent
+    if (extent) {
+      max = Math.max(Math.abs(extent.xmax - extent.xmin),
+          Math.abs(extent.ymax - extent.ymin));
 
-      if (qualityCode === 'P1' || qualityCode === 'L1' ||
-          qualityCode === 'I1' || qualityCode === 'Z4') {
+      // calculate confidence based on the location's extent
+      if (max < 0.001) {
         confidence = ConfidenceCalculator.HIGH_CONFIDENCE;
-      } else if (qualityCode === 'B1' || qualityCode === 'B2' ||
-          qualityCode === 'B3' || qualityCode === 'A6' ||
-          qualityCode === 'Z3') {
+      } else if (max < 0.01) {
         confidence = ConfidenceCalculator.ABOVE_AVERAGE_CONFIDENCE;
-      } else if (qualityCode === 'A5' || qualityCode === 'Z2') {
+      } else if (max < 0.1) {
         confidence = ConfidenceCalculator.AVERAGE_CONFIDENCE;
-      } else if (qualityCode === 'A4' || qualityCode === 'Z1') {
+      } else if (max < 1) {
         confidence = ConfidenceCalculator.BELOW_AVERAGE_CONFIDENCE;
-      } else if (qualityCode === 'A3') {
+      } else if (max < 10) {
         confidence = ConfidenceCalculator.LOW_CONFIDENCE;
-      } else { // A2 (if exists), A1, and others
+      } else if (max >= 10) {
         confidence = ConfidenceCalculator.NO_CONFIDENCE;
       }
-    } catch (e) {
+    }
+
+    if (!(confidence === ConfidenceCalculator.HIGH_CONFIDENCE ||
+        confidence === ConfidenceCalculator.ABOVE_AVERAGE_CONFIDENCE ||
+        confidence === ConfidenceCalculator.AVERAGE_CONFIDENCE ||
+        confidence === ConfidenceCalculator.BELOW_AVERAGE_CONFIDENCE ||
+        confidence === ConfidenceCalculator.LOW_CONFIDENCE ||
+        confidence === ConfidenceCalculator.NO_CONFIDENCE)) {
+      // confidence did not match any value, bail
       confidence = ConfidenceCalculator.NOT_COMPUTED;
     }
 

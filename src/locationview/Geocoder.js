@@ -9,10 +9,16 @@ var ConfidenceCalculator = require('locationview/ConfidenceCalculator'),
 var GEOCODE_REQUEST_ID = 0;
 var METHOD_GEOCODE = 'geocode';
 
+// Forward and reverse Url should conform to ESRI API
 var DEFAULTS = {
-  apiKey: 'Fmjtd|luub2h0rnh,b2=o5-9ut0g6',
-  forwardUrl: 'http://open.mapquestapi.com/geocoding/v1/address',
-  reverseUrl: 'http://open.mapquestapi.com/geocoding/v1/reverse'
+  // API endpoint for forward geocode searches
+  forwardUrl: 'http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find',
+
+   // Radial distance in meters for revserse geocode searches
+  reverseRadius: 5000,
+
+  // API endpoint for reverse geocode searches
+  reverseUrl: 'http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode',
 };
 
 
@@ -20,15 +26,15 @@ var DEFAULTS = {
  * Creates a new geocoder object.
  *
  * @param options {Object}
- *      Configuration options. Must specify {apiKey}. May specify
+ *      Configuration options. See DEFAULTS for details.
  *      {forwardUrl} and/or {reverseUrl}.
  */
 var Geocoder = function (params) {
   var _this,
       _initialize,
 
-      _apiKey,
       _forwardUrl,
+      _reverseRadius,
       _reverseUrl,
 
       _buildLocationResult,
@@ -41,9 +47,9 @@ var Geocoder = function (params) {
   _initialize = function (params) {
     params = Util.extend({}, DEFAULTS, params);
 
-    _apiKey = params.apiKey;
     _forwardUrl = params.forwardUrl;
     _reverseUrl = params.reverseUrl;
+    _reverseRadius = params.reverseRadius;
   };
 
 
@@ -62,35 +68,37 @@ var Geocoder = function (params) {
    *      A location object for use with LocationView and LocationControl
    *      components.
    */
-  _buildLocationResult = function (geocodeResponse) {
+  _buildLocationResult = function (geocodeResponse, originalRequest) {
     var location,
         providedLocation,
-        responseLocation,
         result;
 
-    location = {};
+    location = {
+      method: METHOD_GEOCODE,
+      place: null,
+      latitude: null,
+      longitude: null,
+      confidence: null
+    };
 
-    // Just use first location for now
-    result = geocodeResponse.results[0];
-    providedLocation = result.providedLocation;
-    responseLocation = result.locations[0];
-
-    location.method = METHOD_GEOCODE;
-
-    if (providedLocation.hasOwnProperty('location')) {
-      // forward lookup
-      location.place = providedLocation.location;
-      location.latitude = Number(responseLocation.latLng.lat);
-      location.longitude = Number(responseLocation.latLng.lng);
-      location.confidence = ConfidenceCalculator.computeFromGeocode(
-          responseLocation);
-    } else {
+    if (originalRequest.location) {
       // reverse lookup
-      location.place = _buildPlaceName(responseLocation);
-      location.latitude = providedLocation.latLng.lat;
-      location.longitude = providedLocation.latLng.lng;
+      result = geocodeResponse.address;
+      providedLocation = originalRequest.location.split(',');
+
+      location.place = result.Match_addr;
+      location.latitude = geocodeResponse.location.y;
+      location.longitude = geocodeResponse.location.x;
       location.confidence = ConfidenceCalculator.computeFromCoordinates(
-          providedLocation.latLng.lat, providedLocation.latLng.lng);
+          providedLocation[1], providedLocation[0]);
+    } else {
+      // forward lookup
+      result = geocodeResponse.locations[0];
+
+      location.place = originalRequest.text || result.name;
+      location.latitude = result.feature.geometry.y;
+      location.longitude = result.feature.geometry.x;
+      location.confidence = ConfidenceCalculator.computeFromGeocode(result);
     }
 
     return location;
@@ -99,7 +107,7 @@ var Geocoder = function (params) {
   /**
    *
    * @param responseLocation {Object}
-   *      A location object returned from the open mapquest api
+   *      A location object returned from the geocoding api
    *
    * @return {String}
    *      A placename
@@ -161,7 +169,7 @@ var Geocoder = function (params) {
   _this.forward = _this.geocode = function (addressString, successCallback,
       errorCallback) {
     var request = {
-      location: addressString
+      text: addressString
     };
 
     _this.submitRequest(request, _forwardUrl, successCallback, errorCallback);
@@ -184,7 +192,8 @@ var Geocoder = function (params) {
   _this.reverse = _this.reverseGeocode = function (latitude, longitude,
       successCallback, errorCallback) {
     var request = {
-      location: '' + latitude + ',' + longitude
+      location: '' + longitude + ',' + latitude,
+      distance: _reverseRadius
     };
 
     _this.submitRequest(request, _reverseUrl, successCallback, errorCallback);
@@ -211,13 +220,13 @@ var Geocoder = function (params) {
 
     var script = document.createElement('script'),
         insertAt = document.querySelector('script'),
-        request = ['outFormat=json', 'addressdetails=1'],
+        request = ['f=pjson'],
         callbackName = _getCallbackName(),
         key = null, cleanup = null, cleanedUp = false;
 
 
     request.push('callback=' + callbackName);
-    request.push('key=' + _apiKey);
+    request.push('f=pjson');
 
     // build up the full request URL based on the input parameters
     for (key in params) {
@@ -241,11 +250,20 @@ var Geocoder = function (params) {
 
     // JSONP callback method (attached to global window)
     window[callbackName] = function (response) {
+      var error;
 
-      if (response.info.statuscode !== 0) {
+      if (( // failed forward lookup
+            !response.hasOwnProperty('locations') ||
+            response.locations.length === 0
+          ) &&
+          // failed reverse lookup
+          !response.hasOwnProperty('address')) {    // failed reverse lookup
+        error = response.error || {};
+
         // Failure
-        errorCallback(404, response.info.messages.length ?
-            response.info.messages.lenth : 'No location found.');
+        errorCallback(error.code || 404,
+            (error.details && error.details.length) ? error.details[0] :
+                error.message || 'No location found.');
       } else {
         // Success I guess...
         successCallback(_buildLocationResult(response, params));

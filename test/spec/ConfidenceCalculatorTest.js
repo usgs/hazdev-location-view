@@ -5,54 +5,77 @@
       expect = chai.expect;
 
   var GeocodeObjectFull = {
-    'street': 'County Road 34',
-    'adminArea6': '',
-    'adminArea6Type': 'Neighborhood',
-    'adminArea5': '',
-    'adminArea5Type': 'City',
-    'adminArea4': 'Elbert County',
-    'adminArea4Type': 'County',
-    'adminArea3': 'CO',
-    'adminArea3Type': 'State',
-    'adminArea1': 'US',
-    'adminArea1Type': 'Country',
-    'postalCode': '80832',
-    'geocodeQualityCode': 'B1AAA',
-    'geocodeQuality': 'STREET',
-    'dragPoint': false,
-    'sideOfStreet': 'N',
-    'linkId': '0',
-    'unknownInput': '',
-    'type': 's',
-    'latLng': {
-      'lat': 38.984439,
-      'lng': -104.015478
+    'name': 'Denver, Colorado, United States',
+    'extent': {
+      'xmin': -105.1867,
+      'ymin': 39.537146999999997,
+      'xmax': -104.78270000000001,
+      'ymax': 39.941147000000001
     },
-    'displayLatLng': {
-      'lat': 38.984439,
-      'lng': -104.015478
-    },
-    'mapUrl': 'http://open.mapquestapi.com/staticmap/v4/getmap?key=Fmjtd|luub2h0rnh,b2=o5-9ut0g6&type=map&size=225,160&pois=purple-1,38.984439,-104.0154779,0,0,|&center=38.984439,-104.0154779&zoom=15&rand=-672210244'
+    'feature': {
+      'geometry': {
+        'x': -104.98469944299967,
+        'y': 39.739147434000472
+      },
+      'attributes': {
+        'Score': 100,
+        'Addr_Type': 'POI'
+      }
+    }
+  };
+
+  var NoConfidenceInput = {
+    'extent': {
+      'xmax': 20,
+      'xmin': 10,
+      'ymax': 20,
+      'ymin': 10
+    }
   };
 
   var LowConfidenceInput = {
-    geocodeQualityCode: 'A3XXX'
+    'extent': {
+      'xmax': 20,
+      'xmin': 11,
+      'ymax': 20,
+      'ymin': 11
+    }
   };
 
   var BelowAverageConfidenceInput = {
-    geocodeQualityCode: 'A4XXX'
+    'extent': {
+      'xmax': 2,
+      'xmin': 1.1,
+      'ymax': 2,
+      'ymin': 1.1
+    }
   };
 
   var AverageConfidenceInput = {
-    geocodeQualityCode: 'A5XXX'
+    'extent': {
+      'xmax': 0.2,
+      'xmin': 0.11,
+      'ymax': 0.2,
+      'ymin': 0.11
+    }
   };
 
   var AboveAverageConfidenceInput = {
-    geocodeQualityCode: 'A6XXX'
+    'extent': {
+      'xmax': 0.02,
+      'xmin': 0.011,
+      'ymax': 0.02,
+      'ymin': 0.011
+    }
   };
 
   var HighConfidenceInput = {
-    geocodeQualityCode: 'P1XXX'
+    'extent': {
+      'xmax': 0.002,
+      'xmin': 0.0011,
+      'ymax': 0.002,
+      'ymin': 0.0011
+    }
   };
 
   describe('ConfidenceCalculator test suite', function () {
@@ -141,6 +164,11 @@
     });
 
     describe('computeFromGeocode', function () {
+      it('No Confidence', function () {
+        expect(ConfidenceCalculator.computeFromGeocode(
+            NoConfidenceInput)).to.equal(
+            ConfidenceCalculator.NO_CONFIDENCE);
+      });
       it('Low Confidence', function () {
         expect(ConfidenceCalculator.computeFromGeocode(
             LowConfidenceInput)).to.equal(
@@ -166,10 +194,10 @@
             HighConfidenceInput)).to.equal(
             ConfidenceCalculator.HIGH_CONFIDENCE);
       });
-      it('Mapquest Example', function () {
+      it('ESRI Example', function () {
         expect(ConfidenceCalculator.computeFromGeocode(
           GeocodeObjectFull)).to.equal(
-          ConfidenceCalculator.ABOVE_AVERAGE_CONFIDENCE);
+          ConfidenceCalculator.BELOW_AVERAGE_CONFIDENCE);
       });
     });
 
@@ -199,10 +227,15 @@
             LowConfidenceInput)).to.equal(
             1);
       });
-      it('Mapquest Example', function () {
+      it('No Confidence (bounding box)', function () {
+        expect(ConfidenceCalculator.computeZoomFromGeocode(
+            NoConfidenceInput)).to.equal(
+            1);
+      });
+      it('ESRI Example', function () {
         expect(ConfidenceCalculator.computeZoomFromGeocode(
             GeocodeObjectFull)).to.equal(
-            13);
+            5);
       });
     });
 
