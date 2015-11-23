@@ -136,53 +136,39 @@ var ConfidenceCalculator = {
   },
 
   /**
-   * Compute Confidence given a geocode result location.
+   * Compute Confidence given a geocode result location with an extent.
    *
    * @params geocodeLocation {object}
-   *      a mapquest response via the open mapquest api
+   *      an esri response via the ArcGIS REST API
    *
-   * @see http://www.mapquestapi.com/geocoding
+   * @see https://developers.arcgis.com/en/features/geocoding/
    */
   computeFromGeocode: function (geocodeLocation) {
-    var attributes,
-        confidence,
-        score,
-        type;
+    var confidence,
+        extent,
+        max;
 
-    attributes = geocodeLocation.feature.attributes;
-    score = attributes.Score;
-    type = attributes.Addr_Type;
+    extent = geocodeLocation.extent;
 
-    if ([
-          'PointAddress',
-          'BuildingName',
-          'StreetAddress',
-          'StreetInt',
-          'LatLong'
-        ].indexOf(type) !== -1) {
-      // High quality matches, look at score
-      confidence = Math.ceil(score * 0.05);
-    } else if ([
-          'StreetName',
-          'Locality',
-          'PostalLoc',
-          'PostalExt',
-          'Postal',
-          'POI',
-          'Zone'
-        ]) {
-      // Mid quality matches, look at score
-      confidence = Math.ceil(score * 0.04);
-    } else if ([
-          'Admin',
-          'DepAdmin',
-          'SubAdmin',
-          'RoadKM'
-        ]) {
-      // Low quality matches, look at score
-      confidence = Math.ceil(score * 0.02);
-    } else {
-      confidence = ConfidenceCalculator.NO_CONFIDENCE;
+    // find the largest dimension of the extent
+    if (extent) {
+      max = Math.max(Math.abs(extent.xmax - extent.xmin),
+          Math.abs(extent.ymax - extent.ymin));
+
+      // calculate confidence based on the location's extent
+      if (max < 0.001) {
+        confidence = ConfidenceCalculator.HIGH_CONFIDENCE;
+      } else if (max < 0.01) {
+        confidence = ConfidenceCalculator.ABOVE_AVERAGE_CONFIDENCE;
+      } else if (max < 0.1) {
+        confidence = ConfidenceCalculator.AVERAGE_CONFIDENCE;
+      } else if (max < 1) {
+        confidence = ConfidenceCalculator.BELOW_AVERAGE_CONFIDENCE;
+      } else if (max < 10) {
+        confidence = ConfidenceCalculator.LOW_CONFIDENCE;
+      } else if (max >= 10) {
+        confidence = ConfidenceCalculator.NO_CONFIDENCE;
+      }
     }
 
     if (!(confidence === ConfidenceCalculator.HIGH_CONFIDENCE ||
