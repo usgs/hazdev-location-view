@@ -24,48 +24,57 @@
     }
   };
 
+  var NoConfidenceInput = {
+    'extent': {
+      'xmax': 20,
+      'xmin': 10,
+      'ymax': 20,
+      'ymin': 10
+    }
+  };
+
   var LowConfidenceInput = {
-    feature: {
-      attributes: {
-        Score: 10,
-        Addr_Type: 'PointAddress'
-      }
+    'extent': {
+      'xmax': 20,
+      'xmin': 11,
+      'ymax': 20,
+      'ymin': 11
     }
   };
 
   var BelowAverageConfidenceInput = {
-    feature: {
-      attributes: {
-        Score: 30,
-        Addr_Type: 'PointAddress'
-      }
+    'extent': {
+      'xmax': 2,
+      'xmin': 1.1,
+      'ymax': 2,
+      'ymin': 1.1
     }
   };
 
   var AverageConfidenceInput = {
-    feature: {
-      attributes: {
-        Score: 50,
-        Addr_Type: 'PointAddress'
-      }
+    'extent': {
+      'xmax': 0.2,
+      'xmin': 0.11,
+      'ymax': 0.2,
+      'ymin': 0.11
     }
   };
 
   var AboveAverageConfidenceInput = {
-    feature: {
-      attributes: {
-        Score: 70,
-        Addr_Type: 'PointAddress'
-      }
+    'extent': {
+      'xmax': 0.02,
+      'xmin': 0.011,
+      'ymax': 0.02,
+      'ymin': 0.011
     }
   };
 
   var HighConfidenceInput = {
-    feature: {
-      attributes: {
-        Score: 90,
-        Addr_Type: 'PointAddress'
-      }
+    'extent': {
+      'xmax': 0.002,
+      'xmin': 0.0011,
+      'ymax': 0.002,
+      'ymin': 0.0011
     }
   };
 
@@ -155,6 +164,11 @@
     });
 
     describe('computeFromGeocode', function () {
+      it('No Confidence', function () {
+        expect(ConfidenceCalculator.computeFromGeocode(
+            NoConfidenceInput)).to.equal(
+            ConfidenceCalculator.NO_CONFIDENCE);
+      });
       it('Low Confidence', function () {
         expect(ConfidenceCalculator.computeFromGeocode(
             LowConfidenceInput)).to.equal(
@@ -183,7 +197,7 @@
       it('ESRI Example', function () {
         expect(ConfidenceCalculator.computeFromGeocode(
           GeocodeObjectFull)).to.equal(
-          ConfidenceCalculator.ABOVE_AVERAGE_CONFIDENCE);
+          ConfidenceCalculator.BELOW_AVERAGE_CONFIDENCE);
       });
     });
 
@@ -213,10 +227,15 @@
             LowConfidenceInput)).to.equal(
             1);
       });
-      it('Mapquest Example', function () {
+      it('No Confidence (bounding box)', function () {
+        expect(ConfidenceCalculator.computeZoomFromGeocode(
+            NoConfidenceInput)).to.equal(
+            1);
+      });
+      it('ESRI Example', function () {
         expect(ConfidenceCalculator.computeZoomFromGeocode(
             GeocodeObjectFull)).to.equal(
-            13);
+            5);
       });
     });
 
