@@ -1,10 +1,12 @@
 'use strict';
 
-var autoprefixer = require('autoprefixer-core'),
+var autoprefixer = require('autoprefixer'),
     cssnano = require('cssnano'),
+    postcssImport = require('postcss-import'),
     precss = require('precss');
 
-var config = require('./config');
+var config = require('./config'),
+    CWD = '.';
 
 var postcss = {
 
@@ -12,13 +14,14 @@ var postcss = {
     options: {
       map: true,
       processors: [
-        precss({
+        postcssImport({
           path: [
-            process.cwd() + '/' + config.src,
-            process.cwd() + '/node_modules/leaflet/dist',
-            process.cwd() + '/node_modules/hazdev-webutils/src'
+            CWD + '/' + config.src,
+            CWD + '/node_modules/leaflet/dist',
+            CWD + '/node_modules/hazdev-webutils/src'
           ]
         }),
+        precss(),
         autoprefixer({'browsers': 'last 2 versions'}), // vendor prefix as needed
       ]
     },
