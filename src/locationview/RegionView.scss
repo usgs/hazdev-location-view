@@ -5,19 +5,12 @@
 .regionview-map {
   display: block;
   height: 200px;
+  max-height: 100%;
+
   @media screen and (min-height: 500px) {
     height: 380px;
   }
   @media screen and (min-height: 700px) {
     height: 580px;
-  }
-  max-height: 100%;
-  max-width: 100%;
-  width: 300px;
-  @media screen and (min-width: 480px) {
-    width: 380px;
-  }
-  @media screen and (min-width: 680px) {
-    width: 580px;
   }
 }
