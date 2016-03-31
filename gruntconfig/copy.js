@@ -34,6 +34,17 @@ var copy = {
     src: [
       '**/*'
     ]
+  },
+
+  dist: {
+    expand: true,
+    cwd: config.build + '/' + config.src + '/lib',
+    dest: config.dist + '/lib',
+    src: [
+      '**/*',
+      '!**/*.css',
+      '!**/*.js'
+    ]
   }
 };
 

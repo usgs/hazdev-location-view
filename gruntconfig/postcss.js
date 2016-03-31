@@ -37,6 +37,16 @@ var postcss = {
     },
     src: config.build + '/' + config.src + '/hazdev-location-view.css',
     dest: config.dist + '/hazdev-location-view.css'
+  },
+
+  distleaflet: {
+    options: {
+      processors: [
+        cssnano({zindex: false}) // minify
+      ]
+    },
+    src: config.build + '/' + config.src + '/lib/leaflet-0.7.7/leaflet.css',
+    dest: config.dist + '/lib/leaflet-0.7.7/leaflet.css'
   }
 };
 

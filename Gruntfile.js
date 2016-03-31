@@ -40,7 +40,9 @@ module.exports = function (grunt) {
 
   grunt.registerTask('dist', [
     'build',
+    'copy:dist',
     'postcss:dist',
+    'postcss:distleaflet',
     'connect:template',
     'configureProxies:dist',
     'connect:dist'
