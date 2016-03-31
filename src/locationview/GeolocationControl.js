@@ -1,8 +1,8 @@
+/* global L */
 'use strict';
 
 
-var ConfidenceCalculator = require('locationview/ConfidenceCalculator'),
-    L = require('leaflet');
+var ConfidenceCalculator = require('locationview/ConfidenceCalculator');
 
 
 var CLASS_NAME = 'location-geolocation-control';

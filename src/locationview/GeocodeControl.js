@@ -1,7 +1,7 @@
+/* global L */
 'use strict';
 
-var L = require('leaflet'),
-    Geocoder = require('locationview/Geocoder');
+var Geocoder = require('locationview/Geocoder');
 
 
 var CLASS_NAME = 'location-geocode-control',

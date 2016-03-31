@@ -16,12 +16,35 @@ var copy = {
     dest: config.build + '/' + config.test
   },
 
-  // Need images for markers and some controls
   leaflet: {
     expand: true,
-    cwd: process.cwd() + '/node_modules/leaflet/dist',
-    src: ['leaflet.css', 'images/*'],
-    dest: config.build + '/' + config.src
+    cwd: 'node_modules/leaflet/dist',
+    dest: config.build + '/' + config.src + '/lib/leaflet-0.7.7',
+    rename: function (dest, src) {
+      var newName;
+
+      // swap -src version to be default and add -min to compressed version
+      // this is nice for debugging but allows production to use default
+      // version as compressed
+      newName = src.replace('leaflet.js', 'leaflet-min.js');
+      newName = newName.replace('leaflet-src.js', 'leaflet.js');
+
+      return dest + '/' + newName;
+    },
+    src: [
+      '**/*'
+    ]
+  },
+
+  dist: {
+    expand: true,
+    cwd: config.build + '/' + config.src + '/lib',
+    dest: config.dist + '/lib',
+    src: [
+      '**/*',
+      '!**/*.css',
+      '!**/*.js'
+    ]
   }
 };
 

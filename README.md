@@ -11,22 +11,19 @@ TODO
 
 ## Building this Project
 
-This project uses grunt for building. There are four different build
-distributions available.
+This project uses grunt for building.
 
-1. build
-    1. Builds a minimal distribution. User must provide webutils and leaflet
-       libraries manually.
-2. build:leaflet
-    1. Builds a distribution that bundles leaflet library, but user must
-       webutils library manually.
-    2. User must specify L.Icon.Default.imagePath
-3. build:webutils
-    1. Builds a distribution that bundles webutils library, but user must
-       provide leaflet library manually.
-4. build:all
-    1. Builds a distribution with both leaflet and webutils libraries available.
-    2. User must specify L.Icon.Default.imagePath
+1. "grunt"
+    1. Builds an unoptimized distribution in the ".build/src" folder.
+
+1. "grunt dist"
+    1. Builds an optimized distribution in the "dist" folder.
+
+User must include leaflet library and css manually.  A version of leaflet is
+placed in the "lib/leaflet-0.7.7" folder and can be included by adding a
+link element for the stylesheet to the head before any custom styles,
+and a script element for the javascript to the foot before any dependent scripts.
+
 
 ## License
 

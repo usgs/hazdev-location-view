@@ -1,10 +1,8 @@
+/* global L */
 'use strict';
 
-var CoordinateControl = require('locationview/CoordinateControl'),
-    L = require('leaflet');
+var CoordinateControl = require('locationview/CoordinateControl');
 
-
-L.Icon.Default.imagePath = 'images';
 
 var map = new L.Map(document.querySelector('.map'), {
     center: new L.LatLng(40.0, -105.0),
@@ -28,7 +26,3 @@ cc.on('location', function (loc) {
     map.addLayer(marker);
   }
 });
-
-if (!L.Icon.Default.imagePath) {
-  L.Icon.Default.imagePath = '/leaflet/images';
-}

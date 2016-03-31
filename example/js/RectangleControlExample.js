@@ -1,11 +1,9 @@
+/* global L */
 'use strict';
 
-var L = require('leaflet'),
-    RectangleControl = require('locationview/RectangleControl'),
+var RectangleControl = require('locationview/RectangleControl'),
     RectangleModel = require('locationview/RectangleModel');
 
-
-L.Icon.Default.imagePath = 'images';
 
 var model = RectangleModel();
 var map = L.map(document.querySelector('.map'), {
