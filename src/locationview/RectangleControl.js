@@ -1,8 +1,8 @@
+/* global L */
 'use strict';
 
 
-var L = require('leaflet'),
-    RectangleModel = require('locationview/RectangleModel'),
+var RectangleModel = require('locationview/RectangleModel'),
     RectangleOverlayView = require('locationview/RectangleOverlayView'),
     Util = require('util/Util');
 

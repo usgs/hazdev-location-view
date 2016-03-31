@@ -1,3 +1,4 @@
+/* global L */
 'use strict';
 
 
@@ -5,11 +6,8 @@ var ConfidenceCalculator = require('locationview/ConfidenceCalculator'),
     CoordinateControl = require('locationview/CoordinateControl'),
     GeocodeControl = require('locationview/GeocodeControl'),
     GeolocationControl = require('locationview/GeolocationControl'),
-    L = require('leaflet'),
     PointControl = require('locationview/PointControl');
 
-
-L.Icon.Default.imagePath = L.Icon.Default.imagePath || 'images';
 
 var CLASS_NAME = 'location-location-control',
     CLASS_ENABLED = CLASS_NAME + '-enabled';

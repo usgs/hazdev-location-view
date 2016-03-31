@@ -1,8 +1,8 @@
+/* global L */
 'use strict';
 
 
-var L = require('leaflet'),
-    LocationControl = require('locationview/LocationControl'),
+var LocationControl = require('locationview/LocationControl'),
     ModalView = require('mvc/ModalView'),
     Util = require('util/Util');
 

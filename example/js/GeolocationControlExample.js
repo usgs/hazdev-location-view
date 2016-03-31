@@ -1,9 +1,8 @@
+/* global L */
 'use strict';
 
-var GeolocationControl = require('locationview/GeolocationControl'),
-    L = require('leaflet');
+var GeolocationControl = require('locationview/GeolocationControl');
 
-L.Icon.Default.imagePath = 'images';
 
 var map = new L.Map(document.querySelector('.map'), {
   center: new L.LatLng(40.0, -105.0),
