@@ -47,6 +47,7 @@ if (!Function.prototype.bind) {
   require('./spec/ConfidenceCalculatorTest');
   require('./spec/GeocoderTest');
   require('./spec/GeolocationControlTest');
+  require('./spec/ZoomToControlTest');
 
   if (window.mochaPhantomJS) {
     window.mochaPhantomJS.run();
