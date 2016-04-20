@@ -22,4 +22,5 @@ include '_example.inc.php';
   <li><a href="LocationControlExample.php">Location Control</a></li>
   <li><a href="PointControlExample.php">Point Control</a></li>
   <li><a href="RectangleControlExample.php">Rectangle Control</a></li>
+  <li><a href="ZoomToControlExample.php">ZoomTo Control</a></li>
 </ul>
