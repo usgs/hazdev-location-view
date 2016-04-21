@@ -4,10 +4,7 @@ var Util = require('util/Util');
 
 var CLASS_NAME = 'location-zoomto-control';
 
-var METHOD = 'zoomto';
-
 var DEFAULTS = {
-  'method': METHOD,
   'locations': [
       {
         title:'World',
@@ -25,7 +22,7 @@ var DEFAULTS = {
  * ZoomToControl
  *    A control that zooms to a specific region on the map.
  *
- * params:
+ * @params
  *    options: {object}
  *      locations: array of objects
  *        object:
@@ -42,7 +39,7 @@ var ZoomToControl = L.Control.extend({
   /**
    * onAdd Add the select element and container to the map
    *
-   * params: map {leaflet.map}
+   * @params map {leaflet.map}
    */
   onAdd: function (map) {
     var options = this.options,
@@ -83,20 +80,51 @@ var ZoomToControl = L.Control.extend({
     //Disable propagation for ie11/microsoft touch
     L.DomEvent
       .on(select, 'change', this._setZoom, this)
-      .on(select, 'pointerdown', function (e) {
-        var evt = e ? e : window.event;
-        evt.returnValue = false;
-        evt.cancelBubble = true;
-      });
+      .on(select, 'pointerdown', this._onAddPointerDownEvent, this);
 
     return container;
+  },
+
+  /**
+   * On Add Pointer Down Event
+   *
+   * @params e {event}
+   *
+   * @notes Changed from an inline function, to a seperate function for
+   *    removeListener to work.
+   */
+  _onAddPointerDownEvent: function (e) {
+    var evt = e ? e : window.event;
+        evt.returnValue = false;
+        evt.cancelBubble = true;
+    },
+
+  /**
+   * onRemove
+   *    Removes listeners from dom.
+   */
+  onRemove: function () {
+    var container,
+        map,
+        select;
+
+    container = this._container;
+    map = this._map;
+    select = container.querySelector('.' + CLASS_NAME +'-list');
+
+    L.DomEvent.removeListener(select, 'change', this._setZoom);
+    L.DomEvent.removeListener(select, 'pointerdown',
+        this._onAddPointerDownEvent);
+
+    this._container = null;
+    this._map = null;
   },
 
   /**
    * Set the zoom extents
    *    triggered by a change event.
    *
-   * Params e {event}
+   * @params e {event}
    *    selectedIndex: the index of the selected item
    */
   _setZoom: function(e) {
