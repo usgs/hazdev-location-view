@@ -152,6 +152,7 @@ var GeocodeControl = L.Control.extend({
   _geocodeSuccess: function (loc) {
     this._setLoading(false);
     this.setLocation(loc);
+    this._address.blur();
   },
 
   _geocodeError: function (statusCode, statusMessage) {

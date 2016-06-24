@@ -155,6 +155,8 @@ var CoordinateControl =  L.Control.extend({
 
     // fire a location change
     this.setLocation(location);
+    this._latitude.blur();
+    this._longitude.blur();
   },
 
   _getCoordinateLocation: function (latitude, longitude) {
