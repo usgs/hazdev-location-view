@@ -12,13 +12,13 @@ var METHOD_GEOCODE = 'geocode';
 // Forward and reverse Url should conform to ESRI API
 var DEFAULTS = {
   // API endpoint for forward geocode searches
-  forwardUrl: 'http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find',
+  forwardUrl: 'https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find',
 
    // Radial distance in meters for revserse geocode searches
   reverseRadius: 5000,
 
   // API endpoint for reverse geocode searches
-  reverseUrl: 'http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode',
+  reverseUrl: 'https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode',
 };
 
 

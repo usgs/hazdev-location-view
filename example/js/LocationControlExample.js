@@ -15,7 +15,7 @@ var lc = new LocationControl({
   includeGeolocationControl: true,
   el: document.querySelector('.map')
 });
-var natgeo = new L.TileLayer('http://server.arcgisonline.com' +
+var natgeo = new L.TileLayer('https://server.arcgisonline.com' +
     '/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}');
 
 lc.on('location', function(/*loc*/) {
