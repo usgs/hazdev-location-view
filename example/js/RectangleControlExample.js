@@ -11,7 +11,7 @@ var map = L.map(document.querySelector('.map'), {
   zoom: 3
 });
 var rect = new RectangleControl({model: model});
-var base = L.tileLayer('http://server.arcgisonline.com' +
+var base = L.tileLayer('https://server.arcgisonline.com' +
     '/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}');
 
 model.on('change', function () {

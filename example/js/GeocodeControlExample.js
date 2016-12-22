@@ -11,7 +11,7 @@ var map = new L.Map(document.querySelector('.map'), {
 var marker= new L.Marker(new L.LatLng(0,0));
 var gc = new GeocodeControl();
 
-map.addLayer(new L.TileLayer('http://server.arcgisonline.com' +
+map.addLayer(new L.TileLayer('https://server.arcgisonline.com' +
     '/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}'));
 map.addControl(gc);
 

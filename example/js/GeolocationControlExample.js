@@ -9,7 +9,7 @@ var map = new L.Map(document.querySelector('.map'), {
   zoom: 3
 });
 var glc = new GeolocationControl();
-var natgeo = new L.TileLayer('http://server.arcgisonline.com' +
+var natgeo = new L.TileLayer('https://server.arcgisonline.com' +
     '/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}');
 
 var marker = new L.Marker(new L.LatLng(0, 0), {draggable:true});
