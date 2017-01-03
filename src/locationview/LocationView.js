@@ -2,7 +2,8 @@
 'use strict';
 
 
-var LocationControl = require('locationview/LocationControl'),
+var Events = require('util/Events'),
+    LocationControl = require('locationview/LocationControl'),
     ModalView = require('mvc/ModalView'),
     Util = require('util/Util');
 
@@ -62,7 +63,7 @@ var LocationView = function (params) {
       _onLocation;
 
 
-  _this = {};
+  _this = Events();
 
   _initialize = function () {
     params = Util.extend({}, DEFAULTS, params || {});
@@ -174,6 +175,8 @@ var LocationView = function (params) {
       }
     }
 
+    _this.trigger('location', location);
+
     if (location) {
       button.disabled = false;
       button.innerHTML = 'Use this Location';
@@ -185,7 +188,6 @@ var LocationView = function (params) {
       button.classList.add('locationview-button-disabled');
       button.classList.remove('locationview-button-enabled');
     }
-
   };
 
 
