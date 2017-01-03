@@ -8,8 +8,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'dev',
-    'uglify',
-    'imagemin'
+    'uglify'
   ]);
 
   grunt.registerTask('default', [
