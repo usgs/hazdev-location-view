@@ -16,7 +16,8 @@ var EXPORTS = [
   'locationview/RectangleCoordinateView',
   'locationview/RectangleModel',
   'locationview/RectangleOverlayView',
-  'locationview/RegionView'
+  'locationview/RegionView',
+  'locationview/ZoomToControl'
 ];
 
 
