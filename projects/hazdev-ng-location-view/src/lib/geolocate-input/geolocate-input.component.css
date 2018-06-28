@@ -1,0 +1,11 @@
+.center-spinner {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin: 1em 0;
+}
+
+.header-icon {
+  color: #666;
+  margin: 0 1em 0 0;
+}
