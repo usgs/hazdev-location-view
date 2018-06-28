@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "hazdev-location-view": {
+    "hazdev-location-view-app": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/hazdev-location-view",
+            "outputPath": "dist/hazdev-location-view-app",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -50,18 +50,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "hazdev-location-view:build"
+            "browserTarget": "hazdev-location-view-app:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "hazdev-location-view:build:production"
+              "browserTarget": "hazdev-location-view-app:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "hazdev-location-view:build"
+            "browserTarget": "hazdev-location-view-app:build"
           }
         },
         "test": {
@@ -95,7 +95,7 @@
         }
       }
     },
-    "hazdev-location-view-e2e": {
+    "hazdev-location-view-app-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "architect": {
@@ -103,11 +103,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "hazdev-location-view:serve"
+            "devServerTarget": "hazdev-location-view-app:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "hazdev-location-view:serve:production"
+              "devServerTarget": "hazdev-location-view-app:serve:production"
             }
           }
         },
@@ -163,5 +163,5 @@
       }
     }
   },
-  "defaultProject": "hazdev-location-view"
+  "defaultProject": "hazdev-location-view-app"
 }

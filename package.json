@@ -1,13 +1,14 @@
 {
-  "name": "hazdev-location-view",
+  "name": "hazdev-location-view-app",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build hazdev-ng-location-view",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "publish": "npm run build && cd dist/hazdev-ng-location-view && npm publish"
   },
   "private": true,
   "dependencies": {
