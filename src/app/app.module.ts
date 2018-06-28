@@ -1,3 +1,4 @@
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -10,6 +11,7 @@ import { LocationViewModule } from 'hazdev-ng-location-view';
     AppComponent
   ],
   imports: [
+    BrowserAnimationsModule,
     BrowserModule,
     LocationViewModule.forRoot()
   ],

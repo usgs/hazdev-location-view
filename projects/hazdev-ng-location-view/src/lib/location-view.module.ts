@@ -1,4 +1,3 @@
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
@@ -25,7 +24,6 @@ import { GeocodeService } from './geocode.service';
 
 @NgModule({
   imports: [
-    BrowserAnimationsModule,
     CommonModule,
     FormsModule,
     HttpClientModule,
