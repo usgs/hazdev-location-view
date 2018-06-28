@@ -10,16 +10,6 @@ Install the hazdev-ng-location-view
 npm install hazdev-ng-location-view
 ```
 
-Add leaflet assets if you are using the LocationMapComponent (npm install
-leaflet if you)
-```
-  {
-    "glob": "**/*",
-    "input": "node_modules/leaflet/dist/images",
-    "output": "/leaflet"
-  }
-```
-
 Import the LocationInputModule to use the location input
 ```
 import { LocationInputModule } from 'hazdev-ng-location-view';
@@ -37,6 +27,23 @@ Add the LocationMapComponent to your application
 <location-view-map></location-view-map>
 ```
 
+Add leaflet assets (to angular.json)
+```
+"assets": [
+  {
+    "glob": "**/*",
+    "input": "node_modules/leaflet/dist/images",
+    "output": "/leaflet"
+  }
+]
+```
+
+Add leaflet styles (to angluar.json)
+```
+"styles": [
+  "node_modules/leaflet/dist/leaflet.css"
+]
+```
 
 Subscribe to the `CoordinatesService` to access the selected location
 ```
