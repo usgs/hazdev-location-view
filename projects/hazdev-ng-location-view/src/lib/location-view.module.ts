@@ -1,15 +1,19 @@
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
-import { NgModule, ModuleWithProviders } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import {
+  MatButtonModule,
   MatDialogModule,
   MatExpansionModule,
   MatFormFieldModule,
   MatIconModule,
-  MatProgressBarModule,
   MatInputModule,
-  MatButtonModule
+  MatProgressBarModule
 } from '@angular/material';
+import { MediaMatcher } from '@angular/cdk/layout';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 
 import { CoordinateInputComponent } from './coordinate-input/coordinate-input.component';
 import { LocationDialogComponent } from './location-dialog/location-dialog.component';
@@ -22,16 +26,19 @@ import { GeocodeService } from './geocode.service';
 
 @NgModule({
   imports: [
+    BrowserAnimationsModule,
+    BrowserModule,
     CommonModule,
     FormsModule,
-    ReactiveFormsModule,
+    HttpClientModule,
     MatButtonModule,
     MatDialogModule,
     MatExpansionModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    ReactiveFormsModule
   ],
   entryComponents: [
     LocationDialogComponent
@@ -48,15 +55,15 @@ import { GeocodeService } from './geocode.service';
     GeocodeInputComponent,
     GeolocateInputComponent,
     LocationDialogComponent,
-    LocationMapComponent
+    LocationMapComponent,
   ],
   providers: [
   ]
 })
-export class LocationInputModule {
+export class LocationViewModule {
   static forRoot(): ModuleWithProviders {
     return {
-      ngModule: LocationInputModule,
+      ngModule: LocationViewModule,
       providers: [
         CoordinatesService,
         GeocodeService
