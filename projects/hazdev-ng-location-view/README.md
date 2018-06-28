@@ -3,6 +3,12 @@
 User interface to accept a geolocated, geocoded, or coordinate location to be
 2iew.
 
+## Dependecies
+
+Angular Material (@angular/material)
+BrowserAnimationsModule (@angular/platform-browser/animations)
+BrowserModule (@angular/platform-browser')
+
 ## Using the Location View
 
 Install the hazdev-ng-location-view
