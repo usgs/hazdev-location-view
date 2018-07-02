@@ -5,9 +5,10 @@ User interface to accept a geolocated, geocoded, or coordinate location to be
 
 ## Dependecies
 
-Angular Material (@angular/material)
-BrowserAnimationsModule (@angular/platform-browser/animations)
-BrowserModule (@angular/platform-browser')
+Angular Material `npm install @angular/material`
+BrowserAnimationsModule `npm install @angular/platform-browser/animations`
+BrowserModule `npm install @angular/platform-browser'`
+Leaflet `npm install leaflet`
 
 ## Using the Location View
 

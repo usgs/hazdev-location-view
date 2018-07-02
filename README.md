@@ -1,27 +1,37 @@
-# HazdevLocationView
+Hazdev Angular Location View Library
+=====================
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.8.
+[![Build Status](https://travis-ci.org/usgs/hazdev-location-view.png)](https://travis-ci.org/usgs/hazdev-location-view)
 
-## Development server
+Web library for getting location information from a user.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Getting Started
 
-## Code scaffolding
+The hazdev-ng-location-view angular library can be included in your
+application by following the directions located in the
+[library's README](projects/hazdev-ng-location-view/README.md)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Building this Project
 
-## Build
+This project uses npm and angular for building.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+1. "npm run build"
+    1. Builds a distribution in the "dist/hazdev-ng-location-view" folder.
 
-## Running unit tests
+1. "npm run publish"
+    1. Builds and distributes the npm package 'hazdev-ng-location-view'.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## License
 
-## Running end-to-end tests
+Unless otherwise noted, This software is in the public domain because it
+contains materials that originally came from the United States Geological
+Survey, an agency of the United States Department of Interior. For more
+information, see the official USGS copyright policy at
+http://www.usgs.gov/visual-id/credit_usgs.html#copyright
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+Dependent libraries found are distributed under the open source (or open
+source-like) licenses/agreements. Appropriate license aggrements for each
+library can be found with the library content.
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+### Libraries used at runtime
+ - Requirejs (http://requirejs.org/)
