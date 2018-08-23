@@ -1,10 +1,9 @@
-import { Component, OnDestroy, OnInit, Input } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material';
-
-import { GeocodeService } from '../geocode.service';
-import { CoordinatesService } from '../coordinates.service';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+
+import { CoordinatesService } from '../coordinates.service';
+import { GeocodeService } from '../geocode.service';
 
 @Component({
   selector: 'location-input-geocode',
@@ -16,19 +15,21 @@ export class GeocodeInputComponent implements OnInit, OnDestroy {
   showProgressBar: boolean;
   subscription = new Subscription();
 
+  @Output()
+  location = new EventEmitter();
+
   constructor(
     public coordinatesService: CoordinatesService,
     public geocodeService: GeocodeService,
-    public dialogRef: MatDialogRef<GeocodeInputComponent>,
     public fb: FormBuilder
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.showProgressBar = false;
 
     // subscribe to geocode changes
     this.subscription.add(
-      this.geocodeService.location$.subscribe((location) => {
+      this.geocodeService.location$.subscribe(location => {
         if (location) {
           this.setCoordinates(location);
           this.geocodeService.empty();
@@ -39,7 +40,7 @@ export class GeocodeInputComponent implements OnInit, OnDestroy {
     );
 
     this.addressForm = this.fb.group({
-      'address': ['', Validators.required]
+      address: ['', Validators.required]
     });
   }
 
@@ -47,7 +48,7 @@ export class GeocodeInputComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  doGeocode (value: any): void {
+  doGeocode(value: any): void {
     const address = value.address;
 
     if (this.addressForm.invalid) {
@@ -61,11 +62,8 @@ export class GeocodeInputComponent implements OnInit, OnDestroy {
     this.showProgressBar = true;
   }
 
-  setCoordinates (location: any): void {
-    let confidence,
-        latitude,
-        longitude,
-        zoom;
+  setCoordinates(location: any): void {
+    let confidence, latitude, longitude, zoom;
 
     // compute confidence
     confidence = this.coordinatesService.computeFromGeocode(location);
@@ -74,9 +72,14 @@ export class GeocodeInputComponent implements OnInit, OnDestroy {
     zoom = this.coordinatesService.computeZoomFromConfidence(confidence);
 
     // round latitude and longitude values based on confidence
-    latitude = this.coordinatesService.roundLocation(+location.feature.geometry.y, confidence);
-    longitude = this.coordinatesService.roundLocation(+location.feature.geometry.x, confidence);
-
+    latitude = this.coordinatesService.roundLocation(
+      +location.feature.geometry.y,
+      confidence
+    );
+    longitude = this.coordinatesService.roundLocation(
+      +location.feature.geometry.x,
+      confidence
+    );
 
     // set coordinates
     this.coordinatesService.setCoordinates({
@@ -90,6 +93,6 @@ export class GeocodeInputComponent implements OnInit, OnDestroy {
 
     // close dialog and stop progress spinner
     this.showProgressBar = false;
-    this.dialogRef.close();
+    this.location.emit('setLocation');
   }
 }

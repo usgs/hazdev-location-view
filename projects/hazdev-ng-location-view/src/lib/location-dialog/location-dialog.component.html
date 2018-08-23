@@ -14,7 +14,7 @@
           Find Current Location
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <location-input-geolocate></location-input-geolocate>
+      <location-input-geolocate (location)="dialogRef.close()"></location-input-geolocate>
     </mat-expansion-panel>
 
     <!-- Geocode control panel -->
@@ -25,7 +25,7 @@
           Search for an Address
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <location-input-geocode></location-input-geocode>
+      <location-input-geocode (location)="dialogRef.close()"></location-input-geocode>
     </mat-expansion-panel>
 
     <!-- Coordinate Control panel -->
@@ -36,18 +36,14 @@
           Enter Coordinates
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <location-input-coordinate></location-input-coordinate>
+      <location-input-coordinate (location)="dialogRef.close()"></location-input-coordinate>
     </mat-expansion-panel>
 
   </mat-accordion>
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button
-    mat-raised-button
-    color="primary"
-    (click)="dialogRef.close()"
-  >
+  <button mat-raised-button color="primary" (click)="dialogRef.close()">
     Close
   </button>
 </mat-dialog-actions>

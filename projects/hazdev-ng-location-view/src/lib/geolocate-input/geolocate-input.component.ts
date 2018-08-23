@@ -1,5 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { MatDialogRef } from '@angular/material';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 import { CoordinatesService } from '../coordinates.service';
 
@@ -14,11 +13,10 @@ export class GeolocateInputComponent implements OnInit {
   public showError: boolean;
   public showProgressBar: boolean;
 
+  @Output()
+  location = new EventEmitter();
 
-  constructor(
-    private coordinatesService: CoordinatesService,
-    private dialogRef: MatDialogRef<GeolocateInputComponent>
-  ) { }
+  constructor(private coordinatesService: CoordinatesService) {}
 
   ngOnInit() {
     this.geolocateSuccess = this.geolocateSuccess.bind(this);
@@ -26,15 +24,16 @@ export class GeolocateInputComponent implements OnInit {
     this.showError = false;
   }
 
-
-  doGeolocate (): void {
+  doGeolocate(): void {
     this.geolocation = this.getLocation();
     this.showProgressBar = true;
     this.showError = false;
 
     if (this.geolocation) {
-      this.geolocation.getCurrentPosition(this.geolocateSuccess,
-        this.geolocateError);
+      this.geolocation.getCurrentPosition(
+        this.geolocateSuccess,
+        this.geolocateError
+      );
     } else {
       this.geolocateError({
         code: 0,
@@ -43,17 +42,14 @@ export class GeolocateInputComponent implements OnInit {
     }
   }
 
-  geolocateError (error: any): void {
+  geolocateError(error: any): void {
     this.errorMessage = error.message;
     this.showProgressBar = false;
     this.showError = true;
   }
 
-  geolocateSuccess (position: any): void {
-    let confidence,
-        latitude,
-        longitude,
-        zoom;
+  geolocateSuccess(position: any): void {
+    let confidence, latitude, longitude, zoom;
 
     // get confidence
     confidence = this.coordinatesService.computeFromGeolocate(position);
@@ -62,9 +58,14 @@ export class GeolocateInputComponent implements OnInit {
     zoom = this.coordinatesService.computeZoomFromConfidence(confidence);
 
     // round latitude and longitude values based on confidence
-    latitude = this.coordinatesService.roundLocation(+position.coords.latitude, confidence);
-    longitude = this.coordinatesService.roundLocation(+position.coords.longitude, confidence);
-
+    latitude = this.coordinatesService.roundLocation(
+      +position.coords.latitude,
+      confidence
+    );
+    longitude = this.coordinatesService.roundLocation(
+      +position.coords.longitude,
+      confidence
+    );
 
     this.coordinatesService.setCoordinates({
       confidence: confidence,
@@ -73,10 +74,12 @@ export class GeolocateInputComponent implements OnInit {
       method: 'geolocate',
       zoom: zoom
     });
-    this.dialogRef.close();
+
+    // to close dialog
+    this.location.emit('setLocation');
   }
 
-  getLocation (): any {
+  getLocation(): any {
     return navigator.geolocation;
   }
 }
