@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
 import {
   MatButtonModule,
   MatDialogModule,
@@ -8,19 +9,15 @@ import {
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
-  MatProgressBarModule
+  MatProgressBarModule,
 } from '@angular/material';
-import { MediaMatcher } from '@angular/cdk/layout';
-import { NgModule, ModuleWithProviders } from '@angular/core';
 
 import { CoordinateInputComponent } from './coordinate-input/coordinate-input.component';
-import { LocationDialogComponent } from './location-dialog/location-dialog.component';
-import { LocationMapComponent } from './location-map/location-map.component';
-import { GeolocateInputComponent } from './geolocate-input/geolocate-input.component';
-import { GeocodeInputComponent } from './geocode-input/geocode-input.component';
-
 import { CoordinatesService } from './coordinates.service';
+import { GeocodeInputComponent } from './geocode-input/geocode-input.component';
 import { GeocodeService } from './geocode.service';
+import { GeolocateInputComponent } from './geolocate-input/geolocate-input.component';
+import { LocationDialogComponent } from './location-dialog/location-dialog.component';
 
 @NgModule({
   imports: [
@@ -36,34 +33,26 @@ import { GeocodeService } from './geocode.service';
     MatProgressBarModule,
     ReactiveFormsModule
   ],
-  entryComponents: [
-    LocationDialogComponent
-  ],
+  entryComponents: [LocationDialogComponent],
   declarations: [
     CoordinateInputComponent,
     GeocodeInputComponent,
     GeolocateInputComponent,
-    LocationDialogComponent,
-    LocationMapComponent
+    LocationDialogComponent
   ],
   exports: [
     CoordinateInputComponent,
     GeocodeInputComponent,
     GeolocateInputComponent,
-    LocationDialogComponent,
-    LocationMapComponent,
+    LocationDialogComponent
   ],
-  providers: [
-  ]
+  providers: []
 })
 export class LocationViewModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: LocationViewModule,
-      providers: [
-        CoordinatesService,
-        GeocodeService
-      ]
+      providers: [CoordinatesService, GeocodeService]
     };
   }
 }

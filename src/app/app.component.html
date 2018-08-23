@@ -1,2 +1,9 @@
 <h1>Hazdev Angular Location View</h1>
-<location-input-map></location-input-map>
+<p class="alert info">
+  Click on the
+  <button (click)="openDialog()">BUTTON</button> to set your location.
+</p>
+<div #mapWrapper class="map" (mousemove)="$event.stopPropagation"></div>
+<pre>
+  {{ this.coordinates | json }}
+</pre>

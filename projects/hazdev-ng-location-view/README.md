@@ -1,7 +1,6 @@
 # Hazdev Angular Location View
 
-User interface to accept a geolocated, geocoded, or coordinate location to be
-2iew.
+User interface to accept a geolocated, geocoded, or coordinate location.
 
 ## Dependecies
 
@@ -13,11 +12,13 @@ Leaflet `npm install leaflet`
 ## Using the Location View
 
 Install the hazdev-ng-location-view
+
 ```
 npm install hazdev-ng-location-view
 ```
 
 Import the LocationInputModule to use the location input
+
 ```
 import { LocationInputModule } from 'hazdev-ng-location-view';
 …
@@ -29,34 +30,46 @@ import { LocationInputModule } from 'hazdev-ng-location-view';
 })
 ```
 
-Add the LocationMapComponent to your application
+Add the LocationDialogComponent and MatDialog service to your componnent
+
 ```
-<location-view-map></location-view-map>
+import { MatDialog } from '@angular/material';
+import { LocationDialogComponent } from 'hazdev-ng-location-view';
 ```
 
-Add leaflet assets (to angular.json)
+Pass MatDialog into the constructor
+
 ```
-"assets": [
-  {
-    "glob": "**/*",
-    "input": "node_modules/leaflet/dist/images",
-    "output": "/leaflet"
+constructor(
+  public dialog: MatDialog
+) {}
+```
+
+Call the following method to open the dialog
+
+```
+openDialog() {
+  if (this.dialog && LocationDialogComponent) {
+    this.dialog.open(LocationDialogComponent);
   }
-]
+}
 ```
 
-Add leaflet styles (to angluar.json)
+## Tracking the entered location
+
+Import Coordinate object and Coordinates service to keep track of the
+entered location
+
 ```
-"styles": [
-  "node_modules/leaflet/dist/leaflet.css"
-]
+import { Coordinates, CoordinatesService } from 'hazdev-ng-location-view';
 ```
 
 Subscribe to the `CoordinatesService` to access the selected location
-```
-import { Coordinates, CoordinatesService } from 'hazdev-ng-location-view';
 
-this.coordinatesService.coordinates$.subscribe((coordinates: Coordinates) => {
- console.log(coordinates);
-});
+```
+ngOnInit() {
+  this.coordinatesService.coordinates$.subscribe((coordinates: Coordinates) => {
+    console.log(coordinates);
+  });
+}
 ```
