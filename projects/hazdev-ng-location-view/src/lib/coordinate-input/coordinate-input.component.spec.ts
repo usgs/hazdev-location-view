@@ -1,14 +1,11 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormGroup, FormBuilder, FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MatFormFieldModule, MatInputModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { CoordinateInputComponent } from './coordinate-input.component';
-
-import { Coordinates } from '../coordinates';
 import { CoordinatesService } from '../coordinates.service';
-
+import { CoordinateInputComponent } from './coordinate-input.component';
 
 describe('CoordinateInputComponent', () => {
   let component: CoordinateInputComponent;
@@ -53,9 +50,7 @@ describe('CoordinateInputComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      declarations: [
-        CoordinateInputComponent
-      ],
+      declarations: [CoordinateInputComponent],
       imports: [
         BrowserAnimationsModule,
         HttpClientModule,
@@ -65,11 +60,10 @@ describe('CoordinateInputComponent', () => {
         ReactiveFormsModule
       ],
       providers: [
-        {provide: CoordinatesService, useValue: coordinatesServiceStub},
-        {provide: MatDialogRef, useValue: dialogStub}
+        { provide: CoordinatesService, useValue: coordinatesServiceStub },
+        { provide: MatDialogRef, useValue: dialogStub }
       ]
-    })
-    .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -80,10 +74,14 @@ describe('CoordinateInputComponent', () => {
     // stub services
     coordinatesService = fixture.debugElement.injector.get(CoordinatesService);
     setCoordinatesSpy = spyOn(coordinatesService, 'setCoordinates');
-    computeFromCoordinatesSpy = spyOn(coordinatesService,
-        'computeFromCoordinates').and.returnValue(coordinates.confidence);
-    computeZoomFromConfidenceSpy = spyOn(coordinatesService,
-        'computeZoomFromConfidence').and.returnValue(coordinates.zoom);
+    computeFromCoordinatesSpy = spyOn(
+      coordinatesService,
+      'computeFromCoordinates'
+    ).and.returnValue(coordinates.confidence);
+    computeZoomFromConfidenceSpy = spyOn(
+      coordinatesService,
+      'computeZoomFromConfidence'
+    ).and.returnValue(coordinates.zoom);
     dialog = fixture.debugElement.injector.get(MatDialogRef);
     dialogSpy = spyOn(dialog, 'close');
 
@@ -96,8 +94,7 @@ describe('CoordinateInputComponent', () => {
 
   describe('handleSubmit', () => {
     it('should handle click', () => {
-      let latitudeControl,
-          longitudeControl;
+      let latitudeControl, longitudeControl;
 
       latitudeControl = component.coordinatesForm.controls['latitude'];
       longitudeControl = component.coordinatesForm.controls['longitude'];
@@ -122,12 +119,15 @@ describe('CoordinateInputComponent', () => {
       // expects
       expect(coordinatesService.setCoordinates).toHaveBeenCalled();
       expect(coordinatesService.setCoordinates).toHaveBeenCalledWith(
-          coordinates);
+        coordinates
+      );
       expect(coordinatesService.computeFromCoordinates).toHaveBeenCalledWith(
-          coordinates.latitude, coordinates.longitude);
+        coordinates.latitude,
+        coordinates.longitude
+      );
       expect(coordinatesService.computeZoomFromConfidence).toHaveBeenCalledWith(
-          coordinates.confidence);
-      expect(dialog.close).toHaveBeenCalled();
+        coordinates.confidence
+      );
     });
   });
 });

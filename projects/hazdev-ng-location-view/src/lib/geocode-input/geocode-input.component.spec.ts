@@ -1,14 +1,12 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormGroup, FormBuilder, FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MatFormFieldModule, MatInputModule, MatProgressBarModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { GeocodeService } from '../geocode.service';
 import { CoordinatesService } from '../coordinates.service';
-
+import { GeocodeService } from '../geocode.service';
 import { GeocodeInputComponent } from './geocode-input.component';
-
 
 describe('GeocodeInputComponent', () => {
   let component: GeocodeInputComponent;
@@ -68,9 +66,7 @@ describe('GeocodeInputComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      declarations: [
-        GeocodeInputComponent
-      ],
+      declarations: [GeocodeInputComponent],
       imports: [
         BrowserAnimationsModule,
         HttpClientModule,
@@ -81,13 +77,11 @@ describe('GeocodeInputComponent', () => {
         ReactiveFormsModule
       ],
       providers: [
-        {provide: CoordinatesService, useValue: coordinatesServiceStub},
-        {provide: GeocodeService, useValue: geocodeServiceStub},
-        {provide: MatDialogRef, useValue: dialogStub}
+        { provide: CoordinatesService, useValue: coordinatesServiceStub },
+        { provide: GeocodeService, useValue: geocodeServiceStub },
+        { provide: MatDialogRef, useValue: dialogStub }
       ]
-
-    })
-    .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -98,9 +92,18 @@ describe('GeocodeInputComponent', () => {
     // stub coordinates.service
     coordinatesService = fixture.debugElement.injector.get(CoordinatesService);
     setCoordinatesSpy = spyOn(coordinatesService, 'setCoordinates');
-    computeFromGeocodeSpy = spyOn(coordinatesService, 'computeFromGeocode').and.returnValue(coordinates.confidence);
-    computeZoomFromConfidenceSpy = spyOn(coordinatesService, 'computeZoomFromConfidence').and.returnValue(coordinates.zoom);
-    roundLocationSpy = spyOn(coordinatesService, 'roundLocation').and.returnValue(point);
+    computeFromGeocodeSpy = spyOn(
+      coordinatesService,
+      'computeFromGeocode'
+    ).and.returnValue(coordinates.confidence);
+    computeZoomFromConfidenceSpy = spyOn(
+      coordinatesService,
+      'computeZoomFromConfidence'
+    ).and.returnValue(coordinates.zoom);
+    roundLocationSpy = spyOn(
+      coordinatesService,
+      'roundLocation'
+    ).and.returnValue(point);
 
     // stub geocode.service
     geocodeService = fixture.debugElement.injector.get(GeocodeService);
@@ -119,8 +122,7 @@ describe('GeocodeInputComponent', () => {
 
   describe('doGeocode', () => {
     it('should call getLocation', () => {
-      let address,
-          addressControl;
+      let address, addressControl;
 
       address = 'test';
       addressControl = component.addressForm.controls['address'];
@@ -167,25 +169,26 @@ describe('GeocodeInputComponent', () => {
       // call handleSubmit
       component.setCoordinates(geocodeLocation);
 
-
       // confidence computed from extents
       expect(coordinatesService.computeFromGeocode).toHaveBeenCalled();
-      expect(coordinatesService.computeFromGeocode).toHaveBeenCalledWith(geocodeLocation);
+      expect(coordinatesService.computeFromGeocode).toHaveBeenCalledWith(
+        geocodeLocation
+      );
 
       // zoom calculated from confidence
       expect(coordinatesService.computeZoomFromConfidence).toHaveBeenCalled();
-      expect(coordinatesService.computeZoomFromConfidence).toHaveBeenCalledWith(coordinates.confidence);
+      expect(coordinatesService.computeZoomFromConfidence).toHaveBeenCalledWith(
+        coordinates.confidence
+      );
 
       // coordinates set
       expect(coordinatesService.setCoordinates).toHaveBeenCalled();
-      expect(coordinatesService.setCoordinates).toHaveBeenCalledWith(coordinates);
-
-      // dialog close
-      expect(dialog.close).toHaveBeenCalled();
+      expect(coordinatesService.setCoordinates).toHaveBeenCalledWith(
+        coordinates
+      );
 
       // progress bar off
       expect(component.showProgressBar).toEqual(false);
     });
   });
-
 });

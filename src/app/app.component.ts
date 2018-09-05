@@ -1,17 +1,9 @@
-import { AfterViewInit, Component, Component, ElementRef, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Coordinates, CoordinatesService, LocationDialogComponent } from 'hazdev-ng-location-view';
 import * as L from 'leaflet';
 import { Subscription } from 'rxjs';
 
-@Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
-})
-export class AppComponent {
-  title = 'app';
-}
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
