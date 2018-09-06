@@ -1,0 +1,9 @@
+label,
+input,
+button {
+  display: block;
+}
+
+mat-form-field {
+  margin: 0 0 1em;
+}

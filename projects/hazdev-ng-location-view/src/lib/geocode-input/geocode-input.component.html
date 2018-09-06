@@ -1,0 +1,30 @@
+<div *ngIf="showProgressBar; else search" class="center-spinner">
+  <mat-progress-bar
+    color="primary"
+    mode="indeterminate">
+  </mat-progress-bar>
+</div>
+
+<ng-template #search>
+  <form [formGroup]="addressForm"
+      (submit)="$event.preventDefault(); doGeocode(addressForm.value)">
+    <mat-form-field class="full-width">
+      <input matInput
+          placeholder="Address"
+          [formControl]="addressForm.controls['address']" />
+      <mat-error *ngIf="!addressForm.controls['address'].valid">
+        An address is required
+      </mat-error>
+    </mat-form-field>
+    <button mat-raised-button
+        color="primary"
+        [disabled]="addressForm.touched && !addressForm.valid">
+      Search
+    </button>
+  </form>
+  <div *ngIf="geocodeService.error$ | async; let text">
+    <p class="alert warning">
+      {{ text }}
+    </p>
+  </div>
+</ng-template>

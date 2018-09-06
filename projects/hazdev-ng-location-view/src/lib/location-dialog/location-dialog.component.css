@@ -1,0 +1,18 @@
+/* add space for box-shadow, with overflow: scroll; on container*/
+.location-controls {
+  display: block;
+  margin: 2px 0 3px;
+}
+
+.mat-dialog-container {
+  background: #fafafa;
+}
+
+.header-icon {
+  color: #666;
+  margin: 0 1em 0 0;
+}
+
+.location-controls mat-panel-title {
+  align-items: center;
+}

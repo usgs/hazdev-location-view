@@ -1,0 +1,24 @@
+<form [formGroup]="coordinatesForm"
+    (submit)="$event.preventDefault(); handleSubmit(coordinatesForm.value)">
+  <mat-form-field>
+    <input matInput
+        placeholder="Latitude"
+        [formControl]="coordinatesForm.controls['latitude']" />
+    <mat-error *ngIf="!coordinatesForm.controls['latitude'].valid">
+        A latitude is required
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput
+        placeholder="Longitude"
+        [formControl]="coordinatesForm.controls['longitude']" />
+    <mat-error *ngIf="!coordinatesForm.controls['longitude'].valid">
+        A longitude is required
+    </mat-error>
+  </mat-form-field>
+  <button mat-raised-button
+      color="primary"
+      [disabled]="coordinatesForm.touched && !coordinatesForm.valid">
+    Search
+</button>
+</form>

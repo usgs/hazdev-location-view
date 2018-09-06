@@ -1,4 +1,4 @@
-Location View Library
+Hazdev Angular Location View Library
 =====================
 
 [![Build Status](https://travis-ci.org/usgs/hazdev-location-view.png)](https://travis-ci.org/usgs/hazdev-location-view)
@@ -7,23 +7,19 @@ Web library for getting location information from a user.
 
 ## Getting Started
 
-TODO
+The hazdev-ng-location-view angular library can be included in your
+application by following the directions located in the
+[library's README](projects/hazdev-ng-location-view/README.md)
 
 ## Building this Project
 
-This project uses grunt for building.
+This project uses npm and angular for building.
 
-1. "grunt"
-    1. Builds an unoptimized distribution in the ".build/src" folder.
+1. "npm run build"
+    1. Builds a distribution in the "dist/hazdev-ng-location-view" folder.
 
-1. "grunt dist"
-    1. Builds an optimized distribution in the "dist" folder.
-
-User must include leaflet library and css manually.  A version of leaflet is
-placed in the "lib/leaflet-0.7.7" folder and can be included by adding a
-link element for the stylesheet to the head before any custom styles,
-and a script element for the javascript to the foot before any dependent scripts.
-
+1. "npm run publish"
+    1. Builds and distributes the npm package 'hazdev-ng-location-view'.
 
 ## License
 

@@ -1,15 +1,28 @@
-sudo: false
-language: php
-php:
-  - '5.6'
+sudo: required
+dist: trusty
+language: node_js
+node_js:
+  - "8.9.1"
+
+addons:
+  apt:
+    sources:
+      - google-chrome
+    packages:
+      - google-chrome-stable
+      - google-chrome-beta
+
 before_install:
-  - composer self-update
-  - nvm install stable
-  - nvm use stable
-  - npm install -g grunt-cli
-  - npm --version
-  - node --version
+  - export CHROME_BIN=/usr/bin/google-chrome
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+
 install:
+  - npm install -g angular-cli
   - npm install
+
 script:
-  - npm test
+  - ng lint
+  - ng build --prod hazdev-ng-location-view
+  - ng test hazdev-ng-location-view --watch=false --code-coverage
+  - ng e2e

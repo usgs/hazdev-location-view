@@ -1,0 +1,49 @@
+<h1 mat-dialog-title>Choose a Location</h1>
+<p>
+  Use one of the methods below to add a location to the map.
+</p>
+
+<mat-dialog-content>
+  <mat-accordion class="location-controls">
+
+    <!-- Geolocate control panel -->
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon class="header-icon">my_location</mat-icon>
+          Find Current Location
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <location-input-geolocate (location)="dialogRef.close()"></location-input-geolocate>
+    </mat-expansion-panel>
+
+    <!-- Geocode control panel -->
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon class="header-icon">location_city</mat-icon>
+          Search for an Address
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <location-input-geocode (location)="dialogRef.close()"></location-input-geocode>
+    </mat-expansion-panel>
+
+    <!-- Coordinate Control panel -->
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon class="header-icon">language</mat-icon>
+          Enter Coordinates
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <location-input-coordinate (location)="dialogRef.close()"></location-input-coordinate>
+    </mat-expansion-panel>
+
+  </mat-accordion>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-raised-button color="primary" (click)="dialogRef.close()">
+    Close
+  </button>
+</mat-dialog-actions>
