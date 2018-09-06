@@ -9,20 +9,11 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es5",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2017",
-      "dom"
-    ],
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["es2017", "dom"],
     "paths": {
-      "hazdev-ng-location-view": [
-        "dist/hazdev-ng-location-view"
-      ],
-      "hazdev-ng-location-view/*": [
-        "dist/hazdev-ng-location-view/*"
-      ]
+      "hazdev-ng-location-view": ["dist/hazdev-ng-location-view"],
+      "hazdev-ng-location-view/*": ["dist/hazdev-ng-location-view/*"]
     }
   }
 }
